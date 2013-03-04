@@ -7,7 +7,7 @@
 //
 
 #import "BYAppDelegate.h"
-#import "BYMainViewController.h"
+#import "BYContainerViewController.h"
 
 @implementation BYAppDelegate
 
@@ -15,7 +15,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.viewController = [[BYMainViewController alloc] init];
+    self.viewController = [[BYContainerViewController alloc] init];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;
