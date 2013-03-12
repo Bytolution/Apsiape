@@ -7,6 +7,8 @@
 //
 
 #import "BYMainViewController.h"
+#import "BYCollectionViewCell.h"
+#import "InterfaceConstants.h"
 
 @interface BYMainViewController ()
 
@@ -14,8 +16,6 @@
 
 @end
 
-#define CELL_WIDTH  160
-#define CELL_HEIGHT 120
 
 @implementation BYMainViewController
 
@@ -34,24 +34,23 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 16;
+    return 15;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    #warning use subclass of UICollectionViewCell
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor colorWithRed:1 - (0.05 * indexPath.row) green:0 blue:1 alpha:1];
+    BYCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     return cell;
 }
 
 - (void)viewDidLoad
 {
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
+    [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.view.backgroundColor = [UIColor greenColor];
+    self.view.backgroundColor = [UIColor blueColor];
+    self.collectionView.backgroundColor = [UIColor greenColor];
     [self.view addSubview:self.collectionView];
     
 }
