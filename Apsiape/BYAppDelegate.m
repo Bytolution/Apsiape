@@ -17,6 +17,7 @@
     // Override point for customization after application launch.
     self.viewController = [[BYContainerViewController alloc] init];
     self.window.rootViewController = self.viewController;
+    self.window.backgroundColor = [UIColor redColor];
     [self.window makeKeyAndVisible];
     return YES;
 }

@@ -7,11 +7,14 @@
 //
 
 #import "BYContainerViewController.h"
+#import "InterfaceConstants.h"
 #import "BYMainViewController.h"
+#import "BYHeaderBarViewController.h"
 
 @interface BYContainerViewController ()
 
 @property (nonatomic, strong) BYMainViewController *mainViewController;
+@property (nonatomic, strong) BYHeaderBarViewController *headerBarViewController;
 
 @end
 
@@ -22,14 +25,25 @@
     return _mainViewController; 
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [self addChildViewController:self.mainViewController];
-    self.mainViewController.view.frame = self.view.bounds;
-    [self.view addSubview:self.mainViewController.view];
-    [self.mainViewController didMoveToParentViewController:self];
+- (BYHeaderBarViewController *)headerBarViewController {
+    if (!_headerBarViewController) _headerBarViewController = [[BYHeaderBarViewController alloc]init];
+    return _headerBarViewController;
 }
 
-- (void)displayDetailViewControllerWithSplittingPoint:(CGPoint)splittingPoint tableContentOffset:(CGPoint)offset {
+- (void)viewWillAppear:(BOOL)animated {
+    [self addChildViewController:self.headerBarViewController];
+    self.headerBarViewController.view.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), HEADER_VIEW_HEIGHT);
+    [self.view addSubview:self.headerBarViewController.view];
+    [self.headerBarViewController didMoveToParentViewController:self];
+    
+    [self addChildViewController:self.mainViewController];
+    self.mainViewController.view.frame = CGRectMake(0, HEADER_VIEW_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - HEADER_VIEW_HEIGHT);
+    [self.view addSubview:self.mainViewController.view];
+    [self.mainViewController didMoveToParentViewController:self];
+
+}
+
+- (void)displayDetailViewController:(UIViewController*)detailViewController withAnimationParameters:(NSDictionary*)params {
     
 }
 

@@ -18,6 +18,6 @@
 
 //@property (nonatomic, strong) id <BYContainerViewControllerDelegate> delegate;
 
-- (void)displayDetailViewControllerWithSplitting:(CGPoint)splittingPoint tableContentOffset:(CGPoint)offset;
+- (void)displayDetailViewController:(UIViewController*)detailViewController withAnimationParameters:(NSDictionary*)params;
 
 @end

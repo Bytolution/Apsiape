@@ -8,10 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class Expense;
+@interface BYCollectionViewCell : UIView
 
-@interface BYCollectionViewCell : UICollectionViewCell
-
-- (id)initWithFrame:(CGRect)frame expense:(Expense*)expense;
+- (id)initWithFrame:(CGRect)frame cellAttributes:(NSDictionary*)attributes index:(NSInteger)index;
 
 @end
