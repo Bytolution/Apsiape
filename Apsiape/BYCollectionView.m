@@ -30,15 +30,21 @@
     CGRect rect;
     if (index % 2) {
         rect = CGRectMake(self.contentSize.width/2, [self.dataSource heightForCellsInCollectionView] * (index/2), self.contentSize.width/2, [self.dataSource heightForCellsInCollectionView]);
+        
     } else {
         rect = CGRectMake(0, [self.dataSource heightForCellsInCollectionView] * (index/2), self.contentSize.width/2, [self.dataSource heightForCellsInCollectionView]);
+                
     }
     return rect;
 }
 
-- (void)willMoveToSuperview:(UIView *)newSuperview {
-    self.contentSize = CGSizeMake(self.bounds.size.width, ([self.dataSource numberOfCellsInCollectionView]/2) * [self.dataSource heightForCellsInCollectionView]);
-    if (self.contentSize.height < self.bounds.size.height) self.contentSize = CGSizeMake(self.bounds.size.width, self.bounds.size.height+1);
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    //add CELL_CONTENT_INSET because otherwise our little tweak to align the cells will be visible
+    self.contentSize = CGSizeMake(self.bounds.size.width, ([self.dataSource numberOfCellsInCollectionView]/2) * [self.dataSource heightForCellsInCollectionView] + CELL_CONTENT_INSET);
+    if (self.contentSize.height < self.bounds.size.height) self.contentSize = CGSizeMake(self.bounds.size.width, self.bounds.size.height + CELL_CONTENT_INSET +1);
+    //
+    
     [self loadCollectionView];
 }
 

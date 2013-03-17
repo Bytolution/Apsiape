@@ -29,12 +29,14 @@
 - (CGRect)containerFrame {
     CGRect rect = CGRectMake(CELL_CONTENT_INSET, CELL_CONTENT_INSET, self.bounds.size.width - (2 * CELL_CONTENT_INSET), self.bounds.size.height - (2 * CELL_CONTENT_INSET));
     if (self.index % 2) {
-        // odd
+        rect.origin.y += CELL_CONTENT_INSET/2;
+        rect.size.width -= CELL_CONTENT_INSET/2;
         
     } else {
         // even
-        // rect.origin.x += 5;
-        // rect.origin.y += 5;
+        rect.origin.x += CELL_CONTENT_INSET/2;
+        rect.origin.y += CELL_CONTENT_INSET/2;
+        rect.size.width -= CELL_CONTENT_INSET/2;
     }
     return rect;
 }
@@ -65,12 +67,13 @@
     CGFloat borderWidth = 1;
     CGContextRef context = UIGraphicsGetCurrentContext();
     
+    
     // this draws the rectangle on the outside of our content area. else it would be drawn half inside and half outside the path 
     CGContextAddRect(context, CGRectMake(self.containerFrame.origin.x - (borderWidth/2), self.containerFrame.origin.y - (borderWidth/2), self.containerFrame.size.width + borderWidth, self.containerFrame.size.height + borderWidth));
     CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 3, [[UIColor blackColor] CGColor]);
     [[UIColor blackColor] setStroke];
     CGContextSetLineWidth(context, borderWidth);
-    
+    CGContextAddRect(context, rect);
     CGContextDrawPath(context, kCGPathStroke);
     [super drawRect:rect];
 }
