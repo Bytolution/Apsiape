@@ -22,6 +22,8 @@
 @property (nonatomic) CGRect contentFrame;
 @property (nonatomic) NSInteger index;
 
+- (void)tapDetected;
+
 @end
 
 @implementation BYCollectionViewCell
@@ -58,8 +60,14 @@
         [self.containerView addSubview:titleLabel];
         self.containerView.backgroundColor = [UIColor colorWithWhite:1 alpha: .8];
         [self addSubview:self.containerView];
+        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapDetected)];
+        [self addGestureRecognizer:tgr];
     }
     return self;
+}
+
+- (void)tapDetected {
+    [self.delegate cellDidDetectTapGesture:self withCellIndex:self.index];
 }
 
 - (void)drawRect:(CGRect)rect
@@ -67,13 +75,11 @@
     CGFloat borderWidth = 1;
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    
     // this draws the rectangle on the outside of our content area. else it would be drawn half inside and half outside the path 
     CGContextAddRect(context, CGRectMake(self.containerFrame.origin.x - (borderWidth/2), self.containerFrame.origin.y - (borderWidth/2), self.containerFrame.size.width + borderWidth, self.containerFrame.size.height + borderWidth));
     CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 3, [[UIColor blackColor] CGColor]);
     [[UIColor blackColor] setStroke];
     CGContextSetLineWidth(context, borderWidth);
-    CGContextAddRect(context, rect);
     CGContextDrawPath(context, kCGPathStroke);
     [super drawRect:rect];
 }

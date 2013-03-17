@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BYCollectionViewCell.h"
+
 
 @class BYCollectionView, BYCollectionViewCell;
 
@@ -18,9 +20,16 @@
 
 @end
 
-@interface BYCollectionView : UIScrollView 
+@protocol BYCollectionViewDelegate <NSObject>
 
-@property (nonatomic, strong) id <BYCollectionViewDataSource> dataSource;
+- (void)collectionView:(BYCollectionView*)collectionView cellDidDetectedTapGesture:(BYCollectionViewCell*)cell atIndex:(NSInteger)index;
+
+@end
+
+@interface BYCollectionView : UIScrollView <BYCollectionViewCellDelegate>
+
+@property (nonatomic, strong) id <BYCollectionViewDataSource> collectionViewDataSource;
+@property (nonatomic, strong) id <BYCollectionViewDelegate> collectionViewDelegate;
 
 - (void)loadCollectionView;
 - (CGRect)frameForCellAtIndex:(NSInteger)index;

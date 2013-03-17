@@ -39,7 +39,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor colorWithRed:0.26f green:0.26f blue:0.26f alpha:1.00f];
+        self.backgroundColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.00f];
     }
     return self;
 }

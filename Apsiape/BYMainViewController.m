@@ -9,10 +9,10 @@
 #import "BYMainViewController.h"
 #import "InterfaceConstants.h"
 #import "BYCollectionViewCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface BYMainViewController ()
 
-@property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) BYCollectionView *customCollectionView;
 
 @end
@@ -20,19 +20,11 @@
 
 @implementation BYMainViewController
 
-- (void)viewDidLoad
-{
-    self.view.backgroundColor = [UIColor blackColor];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
-    self.view.backgroundColor = [UIColor greenColor];
-    self.collectionView.frame = self.view.bounds;
     self.customCollectionView = [[BYCollectionView alloc]initWithFrame:self.view.bounds];
-    self.customCollectionView.dataSource = self;
-    self.customCollectionView.backgroundColor = [UIColor greenColor];
+    self.customCollectionView.collectionViewDataSource = self;
+    self.customCollectionView.collectionViewDelegate = self;
     [self.view addSubview:self.customCollectionView];
-    
 }
 
 - (UIView *)collectionView:(BYCollectionView *)collectionView cellAtIndex:(NSInteger)index {
@@ -46,6 +38,11 @@
 
 - (CGFloat)heightForCellsInCollectionView {
     return CELL_HEIGHT;
+}
+
+- (void)collectionView:(BYCollectionView *)collectionView cellDidDetectedTapGesture:(BYCollectionViewCell *)cell atIndex:(NSInteger)index {
+    NSLog(@"cell got tapped at index: %d", index);
+    cell.backgroundColor = [UIColor lightGrayColor];
 }
 
 @end

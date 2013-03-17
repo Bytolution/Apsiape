@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "BYCollectionView.h"
 
-@interface BYMainViewController : UIViewController <UIScrollViewDelegate, BYCollectionViewDataSource>
+@interface BYMainViewController : UIViewController <BYCollectionViewDataSource, BYCollectionViewDelegate>
 
 @end
