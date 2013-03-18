@@ -44,7 +44,10 @@
 }
 
 - (void)displayDetailViewController:(UIViewController*)detailViewController withAnimationParameters:(NSDictionary*)params {
-    
+    [self addChildViewController:detailViewController];
+    detailViewController.view.frame = CGRectMake(0, HEADER_VIEW_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - HEADER_VIEW_HEIGHT);
+    [self.view addSubview:detailViewController.view];
+    [detailViewController didMoveToParentViewController:self];
 }
 
 @end

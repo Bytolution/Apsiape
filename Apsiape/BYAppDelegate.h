@@ -14,6 +14,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) BYContainerViewController *viewController;
+@property (strong, nonatomic) BYContainerViewController *containerViewController;
 
 @end

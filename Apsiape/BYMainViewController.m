@@ -7,6 +7,7 @@
 //
 
 #import "BYMainViewController.h"
+#import "BYAppDelegate.h"
 #import "InterfaceConstants.h"
 #import "BYCollectionViewCell.h"
 #import <QuartzCore/QuartzCore.h>
