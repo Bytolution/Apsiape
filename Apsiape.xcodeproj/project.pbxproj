@@ -20,13 +20,14 @@
 		A310311E16E3E37C00B163DC /* BYMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311C16E3E37C00B163DC /* BYMainViewController.m */; };
 		A337965016E52A4C00C55116 /* BYCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */; };
 		A373763316F62FF400611FC6 /* BYExpenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A373763216F62FF400611FC6 /* BYExpenseViewController.m */; };
-		A373763616F6306300611FC6 /* BYExpenseView.m in Sources */ = {isa = PBXBuildFile; fileRef = A373763516F6306300611FC6 /* BYExpenseView.m */; };
 		A373763A16F6363E00611FC6 /* BYSnapshotView.m in Sources */ = {isa = PBXBuildFile; fileRef = A373763916F6363E00611FC6 /* BYSnapshotView.m */; };
 		A37526DB16F4FD540079C94A /* BYCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A37526DA16F4FD540079C94A /* BYCollectionView.m */; };
 		A3832F0C16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3832F0A16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld */; };
 		A384A4AB16F0F490008FC8DC /* BYHeaderBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A384A4A916F0F490008FC8DC /* BYHeaderBarViewController.m */; };
 		A384A4AF16F0FA11008FC8DC /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A384A4AD16F0FA11008FC8DC /* search@2x.png */; };
 		A384A4B016F0FA11008FC8DC /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A384A4AE16F0FA11008FC8DC /* add@2x.png */; };
+		A38D7F9816F8694F008D0E63 /* BYExpenseKeyboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = A38D7F9716F8694F008D0E63 /* BYExpenseKeyboardView.m */; };
+		A38D7F9A16F86CAF008D0E63 /* KeyBoardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A38D7F9916F86CAE008D0E63 /* KeyBoardView.xib */; };
 		A39C59BE16F6165800A68679 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39C59BD16F6165800A68679 /* QuartzCore.framework */; };
 		A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DAA96416F778CC00C22671 /* BYStorage.m */; };
 		A3E756FD16E295B400AE2AF7 /* Expense.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E756FC16E295B400AE2AF7 /* Expense.m */; };
@@ -57,8 +58,6 @@
 		A35B909916EC15CB0031C704 /* InterfaceConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceConstants.h; sourceTree = "<group>"; };
 		A373763116F62FF400611FC6 /* BYExpenseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseViewController.h; sourceTree = "<group>"; };
 		A373763216F62FF400611FC6 /* BYExpenseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseViewController.m; sourceTree = "<group>"; };
-		A373763416F6306300611FC6 /* BYExpenseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseView.h; sourceTree = "<group>"; };
-		A373763516F6306300611FC6 /* BYExpenseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseView.m; sourceTree = "<group>"; };
 		A373763816F6363E00611FC6 /* BYSnapshotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYSnapshotView.h; sourceTree = "<group>"; };
 		A373763916F6363E00611FC6 /* BYSnapshotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYSnapshotView.m; sourceTree = "<group>"; };
 		A37526D916F4FD530079C94A /* BYCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionView.h; sourceTree = "<group>"; };
@@ -68,6 +67,9 @@
 		A384A4A916F0F490008FC8DC /* BYHeaderBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYHeaderBarViewController.m; sourceTree = "<group>"; };
 		A384A4AD16F0FA11008FC8DC /* search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search@2x.png"; sourceTree = "<group>"; };
 		A384A4AE16F0FA11008FC8DC /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
+		A38D7F9616F8694F008D0E63 /* BYExpenseKeyboardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseKeyboardView.h; sourceTree = "<group>"; };
+		A38D7F9716F8694F008D0E63 /* BYExpenseKeyboardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseKeyboardView.m; sourceTree = "<group>"; };
+		A38D7F9916F86CAE008D0E63 /* KeyBoardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeyBoardView.xib; sourceTree = "<group>"; };
 		A39C59BD16F6165800A68679 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A3DAA96316F778CC00C22671 /* BYStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYStorage.h; sourceTree = "<group>"; };
 		A3DAA96416F778CC00C22671 /* BYStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYStorage.m; sourceTree = "<group>"; };
@@ -167,8 +169,9 @@
 			children = (
 				A373763116F62FF400611FC6 /* BYExpenseViewController.h */,
 				A373763216F62FF400611FC6 /* BYExpenseViewController.m */,
-				A373763416F6306300611FC6 /* BYExpenseView.h */,
-				A373763516F6306300611FC6 /* BYExpenseView.m */,
+				A38D7F9616F8694F008D0E63 /* BYExpenseKeyboardView.h */,
+				A38D7F9716F8694F008D0E63 /* BYExpenseKeyboardView.m */,
+				A38D7F9916F86CAE008D0E63 /* KeyBoardView.xib */,
 				A373763816F6363E00611FC6 /* BYSnapshotView.h */,
 				A373763916F6363E00611FC6 /* BYSnapshotView.m */,
 			);
@@ -255,6 +258,7 @@
 				A307E82916DE8A0D00C9425A /* Default-568h@2x.png in Resources */,
 				A384A4AF16F0FA11008FC8DC /* search@2x.png in Resources */,
 				A384A4B016F0FA11008FC8DC /* add@2x.png in Resources */,
+				A38D7F9A16F86CAF008D0E63 /* KeyBoardView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,9 +280,9 @@
 				A384A4AB16F0F490008FC8DC /* BYHeaderBarViewController.m in Sources */,
 				A37526DB16F4FD540079C94A /* BYCollectionView.m in Sources */,
 				A373763316F62FF400611FC6 /* BYExpenseViewController.m in Sources */,
-				A373763616F6306300611FC6 /* BYExpenseView.m in Sources */,
 				A373763A16F6363E00611FC6 /* BYSnapshotView.m in Sources */,
 				A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */,
+				A38D7F9816F8694F008D0E63 /* BYExpenseKeyboardView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

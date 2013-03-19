@@ -7,13 +7,14 @@
 //
 
 #import "BYExpenseViewController.h"
-#import "BYExpenseView.h"
 #import "Expense.h"
 #import "BYSnapshotView.h"
+#import "BYExpenseKeyboardView.h"
+#import "InterfaceConstants.h"
 
 @interface BYExpenseViewController ()
 
-@property (nonatomic, strong) BYExpenseView *expenseView;
+@property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) Expense *expense;
 @property (nonatomic, strong) BYSnapshotView *snapshotView;
 
@@ -21,18 +22,22 @@
 
 @implementation BYExpenseViewController
 
-- (BYExpenseView *)expenseView {
-    if (!_expenseView) _expenseView = [[BYExpenseView alloc]init];
-    return _expenseView;
+- (UIScrollView *)scrollView {
+    if (!_scrollView) _scrollView = [[UIScrollView alloc]init];
+    return _scrollView;
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    return nil;
 }
 
 - (id)initWithExpense:(Expense *)expense
 {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
-        self.view = self.expenseView;
         self.expense = expense;
-        self.expenseView.contentSize = CGSizeMake(320, 1000);
+        self.scrollView.contentSize = CGSizeMake(320, 1000);
+        self.scrollView.backgroundColor = [UIColor blackColor];
     }
     return self;
 }
@@ -45,7 +50,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self.view addSubview:self.scrollView];
+    self.scrollView.frame = self.view.bounds;
 }
 
 - (void)didReceiveMemoryWarning
