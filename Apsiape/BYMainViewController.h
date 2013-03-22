@@ -11,4 +11,6 @@
 
 @interface BYMainViewController : UIViewController <BYCollectionViewDataSource, BYCollectionViewDelegate>
 
+@property (nonatomic, strong) UIViewController *containerViewController;
+
 @end

@@ -10,4 +10,6 @@
 
 @interface BYHeaderBarViewController : UIViewController
 
+@property (nonatomic, strong) UIViewController *containerViewController;
+
 @end

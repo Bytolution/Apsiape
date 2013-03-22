@@ -75,6 +75,14 @@
     return self;
 }
 
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self becomeFirstResponder];
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
 - (void)viewDidLoad
 {
     self.view.backgroundColor = [UIColor blueColor];

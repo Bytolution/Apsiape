@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A302945516FB554F009BBF6D /* miso-light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A302945416FB554F009BBF6D /* miso-light.ttf */; };
+		A302945716FB56DB009BBF6D /* miso-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A302945616FB56DB009BBF6D /* miso-regular.ttf */; };
 		A307E81316DE8A0D00C9425A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A307E81216DE8A0D00C9425A /* UIKit.framework */; };
 		A307E81516DE8A0D00C9425A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A307E81416DE8A0D00C9425A /* Foundation.framework */; };
 		A307E81716DE8A0D00C9425A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A307E81616DE8A0D00C9425A /* CoreGraphics.framework */; };
@@ -26,16 +28,18 @@
 		A384A4AB16F0F490008FC8DC /* BYHeaderBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A384A4A916F0F490008FC8DC /* BYHeaderBarViewController.m */; };
 		A384A4AF16F0FA11008FC8DC /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A384A4AD16F0FA11008FC8DC /* search@2x.png */; };
 		A384A4B016F0FA11008FC8DC /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A384A4AE16F0FA11008FC8DC /* add@2x.png */; };
-		A38D7F9816F8694F008D0E63 /* BYExpenseKeyboardView.m in Sources */ = {isa = PBXBuildFile; fileRef = A38D7F9716F8694F008D0E63 /* BYExpenseKeyboardView.m */; };
-		A38D7F9A16F86CAF008D0E63 /* KeyBoardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A38D7F9916F86CAE008D0E63 /* KeyBoardView.xib */; };
 		A39C59BE16F6165800A68679 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39C59BD16F6165800A68679 /* QuartzCore.framework */; };
+		A3A24CD916FA1F5D0058493E /* BYExpenseInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3A24CD816FA1F5D0058493E /* BYExpenseInputView.m */; };
 		A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DAA96416F778CC00C22671 /* BYStorage.m */; };
 		A3E756FD16E295B400AE2AF7 /* Expense.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E756FC16E295B400AE2AF7 /* Expense.m */; };
 		A3E7570016E295B400AE2AF7 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E756FF16E295B400AE2AF7 /* Tag.m */; };
 		A3E7570216E295F400AE2AF7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3E7570116E295F400AE2AF7 /* CoreData.framework */; };
+		A3F7FAC716FA36D1002F58AA /* BYExpenseKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F7FAC616FA36D1002F58AA /* BYExpenseKeyboard.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A302945416FB554F009BBF6D /* miso-light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "miso-light.ttf"; sourceTree = "<group>"; };
+		A302945616FB56DB009BBF6D /* miso-regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "miso-regular.ttf"; sourceTree = "<group>"; };
 		A307E80F16DE8A0D00C9425A /* Apsiape.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apsiape.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A307E81216DE8A0D00C9425A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		A307E81416DE8A0D00C9425A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -67,10 +71,9 @@
 		A384A4A916F0F490008FC8DC /* BYHeaderBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYHeaderBarViewController.m; sourceTree = "<group>"; };
 		A384A4AD16F0FA11008FC8DC /* search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search@2x.png"; sourceTree = "<group>"; };
 		A384A4AE16F0FA11008FC8DC /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
-		A38D7F9616F8694F008D0E63 /* BYExpenseKeyboardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseKeyboardView.h; sourceTree = "<group>"; };
-		A38D7F9716F8694F008D0E63 /* BYExpenseKeyboardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseKeyboardView.m; sourceTree = "<group>"; };
-		A38D7F9916F86CAE008D0E63 /* KeyBoardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeyBoardView.xib; sourceTree = "<group>"; };
 		A39C59BD16F6165800A68679 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		A3A24CD716FA1F5D0058493E /* BYExpenseInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseInputView.h; sourceTree = "<group>"; };
+		A3A24CD816FA1F5D0058493E /* BYExpenseInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseInputView.m; sourceTree = "<group>"; };
 		A3DAA96316F778CC00C22671 /* BYStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYStorage.h; sourceTree = "<group>"; };
 		A3DAA96416F778CC00C22671 /* BYStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYStorage.m; sourceTree = "<group>"; };
 		A3E756FB16E295B400AE2AF7 /* Expense.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Expense.h; sourceTree = "<group>"; };
@@ -78,6 +81,8 @@
 		A3E756FE16E295B400AE2AF7 /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
 		A3E756FF16E295B400AE2AF7 /* Tag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tag.m; sourceTree = "<group>"; };
 		A3E7570116E295F400AE2AF7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		A3F7FAC516FA36D1002F58AA /* BYExpenseKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseKeyboard.h; sourceTree = "<group>"; };
+		A3F7FAC616FA36D1002F58AA /* BYExpenseKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseKeyboard.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +152,10 @@
 		A307E81916DE8A0D00C9425A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A302945416FB554F009BBF6D /* miso-light.ttf */,
+				A302945616FB56DB009BBF6D /* miso-regular.ttf */,
+				A3F7FAC516FA36D1002F58AA /* BYExpenseKeyboard.h */,
+				A3F7FAC616FA36D1002F58AA /* BYExpenseKeyboard.m */,
 				A307E82116DE8A0D00C9425A /* BYAppDelegate.h */,
 				A307E82216DE8A0D00C9425A /* BYAppDelegate.m */,
 				A3DAA96316F778CC00C22671 /* BYStorage.h */,
@@ -169,9 +178,8 @@
 			children = (
 				A373763116F62FF400611FC6 /* BYExpenseViewController.h */,
 				A373763216F62FF400611FC6 /* BYExpenseViewController.m */,
-				A38D7F9616F8694F008D0E63 /* BYExpenseKeyboardView.h */,
-				A38D7F9716F8694F008D0E63 /* BYExpenseKeyboardView.m */,
-				A38D7F9916F86CAE008D0E63 /* KeyBoardView.xib */,
+				A3A24CD716FA1F5D0058493E /* BYExpenseInputView.h */,
+				A3A24CD816FA1F5D0058493E /* BYExpenseInputView.m */,
 				A373763816F6363E00611FC6 /* BYSnapshotView.h */,
 				A373763916F6363E00611FC6 /* BYSnapshotView.m */,
 			);
@@ -258,7 +266,8 @@
 				A307E82916DE8A0D00C9425A /* Default-568h@2x.png in Resources */,
 				A384A4AF16F0FA11008FC8DC /* search@2x.png in Resources */,
 				A384A4B016F0FA11008FC8DC /* add@2x.png in Resources */,
-				A38D7F9A16F86CAF008D0E63 /* KeyBoardView.xib in Resources */,
+				A302945516FB554F009BBF6D /* miso-light.ttf in Resources */,
+				A302945716FB56DB009BBF6D /* miso-regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,7 +291,8 @@
 				A373763316F62FF400611FC6 /* BYExpenseViewController.m in Sources */,
 				A373763A16F6363E00611FC6 /* BYSnapshotView.m in Sources */,
 				A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */,
-				A38D7F9816F8694F008D0E63 /* BYExpenseKeyboardView.m in Sources */,
+				A3A24CD916FA1F5D0058493E /* BYExpenseInputView.m in Sources */,
+				A3F7FAC716FA36D1002F58AA /* BYExpenseKeyboard.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

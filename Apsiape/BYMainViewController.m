@@ -10,7 +10,8 @@
 #import "BYAppDelegate.h"
 #import "InterfaceConstants.h"
 #import "BYCollectionViewCell.h"
-#import <QuartzCore/QuartzCore.h>
+#import "BYExpenseViewController.h"
+#import "BYContainerViewController.h"
 
 @interface BYMainViewController ()
 
@@ -34,7 +35,7 @@
 }
 
 - (NSInteger)numberOfCellsInCollectionView {
-    return 10;
+    return 12;
 }
 
 - (CGFloat)heightForCellsInCollectionView {
@@ -44,6 +45,8 @@
 - (void)collectionView:(BYCollectionView *)collectionView cellDidDetectedTapGesture:(BYCollectionViewCell *)cell atIndex:(NSInteger)index {
     NSLog(@"cell got tapped at index: %d", index);
     cell.backgroundColor = [UIColor lightGrayColor];
+    BYContainerViewController *conViewCon = [BYContainerViewController sharedContainerViewController];
+    [conViewCon displayDetailViewController:[[BYExpenseViewController alloc]initWithExpense:nil] withAnimationParameters:nil];
 }
 
 @end

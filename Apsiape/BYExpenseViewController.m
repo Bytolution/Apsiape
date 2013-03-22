@@ -7,9 +7,9 @@
 //
 
 #import "BYExpenseViewController.h"
+#import "BYExpenseInputView.h"
 #import "Expense.h"
 #import "BYSnapshotView.h"
-#import "BYExpenseKeyboardView.h"
 #import "InterfaceConstants.h"
 
 @interface BYExpenseViewController ()
@@ -17,14 +17,21 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) Expense *expense;
 @property (nonatomic, strong) BYSnapshotView *snapshotView;
+@property (nonatomic, strong) BYExpenseInputView *expenseInputView;
 
 @end
 
 @implementation BYExpenseViewController
 
 - (UIScrollView *)scrollView {
-    if (!_scrollView) _scrollView = [[UIScrollView alloc]init];
+    CGFloat scrollViewHeight = self.view.frame.size.height - self.expenseInputView.frame.size.height;
+    if (!_scrollView) _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, self.expenseInputView.frame.size.height, self.view.frame.size.width, scrollViewHeight)];
     return _scrollView;
+}
+
+- (BYExpenseInputView *)expenseInputView {
+    if (!_expenseInputView) _expenseInputView = [[BYExpenseInputView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, EXPENSE_INPUT_VIEW_HEIGHT)];
+    return _expenseInputView;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -36,8 +43,6 @@
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         self.expense = expense;
-        self.scrollView.contentSize = CGSizeMake(320, 1000);
-        self.scrollView.backgroundColor = [UIColor blackColor];
     }
     return self;
 }
@@ -50,9 +55,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    [self.view addSubview:self.expenseInputView];
     [self.view addSubview:self.scrollView];
-    self.scrollView.frame = self.view.bounds;
+    
+    self.scrollView.contentSize = CGSizeMake(320, 1000);
+    self.scrollView.backgroundColor = [UIColor whiteColor];
 }
+
 
 - (void)didReceiveMemoryWarning
 {

@@ -37,12 +37,6 @@
     return self.document.managedObjectContext;
 }
 
-- (BYContainerViewController *)appContainerViewController {
-    BYAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    BYContainerViewController *conViewCon = appDelegate.containerViewController;
-    return conViewCon;
-}
-
 - (id)init
 {
     self = [super init];

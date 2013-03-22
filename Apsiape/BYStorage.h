@@ -15,7 +15,6 @@
 + (BYStorage*)sharedStorage;
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, strong, readonly) BYContainerViewController *appContainerViewController;
 
 - (void)saveDocument;
 

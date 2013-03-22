@@ -55,8 +55,7 @@
 
 - (void)cellDidDetectTapGesture:(BYCollectionViewCell *)cell withCellIndex:(NSInteger)index {
     [self.collectionViewDelegate collectionView:self cellDidDetectedTapGesture:cell atIndex:index];
-     BYContainerViewController *conViewCon = [[BYStorage sharedStorage] appContainerViewController];
-    [conViewCon displayDetailViewController:[[BYExpenseViewController alloc]initWithExpense:nil] withAnimationParameters:nil];
+    
 }
 
 - (void)loadCollectionView

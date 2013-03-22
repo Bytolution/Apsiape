@@ -17,7 +17,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     [BYStorage sharedStorage];
-    self.containerViewController = [[BYContainerViewController alloc] init];
+    self.containerViewController = [BYContainerViewController sharedContainerViewController];
     self.window.rootViewController = self.containerViewController;
     self.window.backgroundColor = [UIColor redColor];
     [self.window makeKeyAndVisible];

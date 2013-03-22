@@ -20,6 +20,17 @@
 
 @implementation BYContainerViewController
 
++ (BYContainerViewController *)sharedContainerViewController {
+    static BYContainerViewController *sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance = [[BYContainerViewController alloc] initWithNibName:nil bundle:nil];
+        NSLog(@"SINGLETON: BYContainerViewController now exists.");
+    });
+    
+    return sharedInstance;
+}
+
 - (BYMainViewController *)mainViewController {
     if (!_mainViewController) _mainViewController = [[BYMainViewController alloc]init];
     return _mainViewController; 
@@ -40,7 +51,6 @@
     self.mainViewController.view.frame = CGRectMake(0, HEADER_VIEW_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - HEADER_VIEW_HEIGHT);
     [self.view addSubview:self.mainViewController.view];
     [self.mainViewController didMoveToParentViewController:self];
-
 }
 
 - (void)displayDetailViewController:(UIViewController*)detailViewController withAnimationParameters:(NSDictionary*)params {
@@ -52,6 +62,14 @@
     [UIView animateWithDuration:.2 animations:^{
         detailViewController.view.alpha = 1;
     }];
+}
+
+- (void)bringUpExpenseKeyboard:(BYExpenseKeyboard *)keyboard {
+    [self.view addSubview:(UIView*)keyboard];
+}
+
+- (void)hideExpenseKeyboard {
+    
 }
 
 @end
