@@ -64,7 +64,6 @@
 - (void)insertText:(NSString *)text {
     NSRange decSeparatorRange = [self.expenseValue rangeOfString:@"."];
     if (decSeparatorRange.location < self.expenseValue.length - 2 && decSeparatorRange.location < 10) return;
-    NSLog(@"%@", NSStringFromRange([self.expenseValue rangeOfString:@"."]));
     [self.expenseValue appendString:text];
     [self setNeedsDisplay];
 }

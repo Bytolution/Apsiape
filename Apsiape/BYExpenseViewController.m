@@ -9,14 +9,14 @@
 #import "BYExpenseViewController.h"
 #import "BYExpenseInputView.h"
 #import "Expense.h"
-#import "BYSnapshotView.h"
 #import "InterfaceConstants.h"
+#import "BYQuickShotView.h"
 
 @interface BYExpenseViewController ()
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) Expense *expense;
-@property (nonatomic, strong) BYSnapshotView *snapshotView;
+@property (nonatomic, strong) BYQuickShotView *quickShotView;
 @property (nonatomic, strong) BYExpenseInputView *expenseInputView;
 
 @end
@@ -34,6 +34,11 @@
     return _expenseInputView;
 }
 
+- (BYQuickShotView *)quickShotView {
+    if (!_quickShotView) _quickShotView = [[BYQuickShotView alloc]init];
+    return _quickShotView;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     return nil;
 }
@@ -43,6 +48,7 @@
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         self.expense = expense;
+        self.view.backgroundColor = [UIColor blackColor];
     }
     return self;
 }
@@ -59,10 +65,17 @@
     [self.view addSubview:self.expenseInputView];
     [self.view addSubview:self.scrollView];
     
+    
+    
     self.scrollView.contentSize = CGSizeMake(320, 1000);
     self.scrollView.backgroundColor = [UIColor whiteColor];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.quickShotView.frame = CGRectMake(5, 5, 310, 310);
+    [self.scrollView addSubview:self.quickShotView];
+}
 
 - (void)didReceiveMemoryWarning
 {
