@@ -8,6 +8,7 @@
 
 #import "BYExpenseViewController.h"
 #import "BYExpenseInputView.h"
+#import "BYExpenseKeyboard.h"
 #import "Expense.h"
 #import "InterfaceConstants.h"
 #import "BYQuickShotView.h"
@@ -24,8 +25,7 @@
 @implementation BYExpenseViewController
 
 - (UIScrollView *)scrollView {
-    CGFloat scrollViewHeight = self.view.frame.size.height - self.expenseInputView.frame.size.height;
-    if (!_scrollView) _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, self.expenseInputView.frame.size.height, self.view.frame.size.width, scrollViewHeight)];
+    if (!_scrollView) _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     return _scrollView;
 }
 
@@ -62,19 +62,23 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.view addSubview:self.expenseInputView];
+//    [self.view addSubview:self.expenseInputView];
     [self.view addSubview:self.scrollView];
     
-    
-    
-    self.scrollView.contentSize = CGSizeMake(320, 1000);
-    self.scrollView.backgroundColor = [UIColor whiteColor];
+    CGSize contentSize = CGSizeMake(self.scrollView.frame.size.width * 4, self.view.frame.size.height);
+    self.scrollView.contentSize = contentSize;
+    self.scrollView.pagingEnabled = YES;
+    self.scrollView.backgroundColor = [UIColor grayColor];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.quickShotView.frame = CGRectMake(5, 5, 310, 310);
-    [self.scrollView addSubview:self.quickShotView];
+//    [self.scrollView addSubview:self.quickShotView];
+    
+    BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, 0, 320, 260)];
+    [self.scrollView addSubview:keyboard];
+    
 }
 
 - (void)didReceiveMemoryWarning

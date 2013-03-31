@@ -35,7 +35,7 @@
 }
 
 - (NSInteger)numberOfCellsInCollectionView {
-    return 12;
+    return 10;
 }
 
 - (CGFloat)heightForCellsInCollectionView {
