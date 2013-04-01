@@ -8,6 +8,7 @@
 
 #import "BYExpenseInputViewController.h"
 #import "BYExpenseKeyboard.h"
+#import "InterfaceConstants.h"
 
 @interface BYExpenseInputViewController ()
 
@@ -15,31 +16,15 @@
 
 @implementation BYExpenseInputViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, 0, 320, 300)];
-    [self.view addSubview:keyboard];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewDidLoad {
+    self.view.backgroundColor = [UIColor blueColor];
+    
     
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewDidAppear:(BOOL)animated {
+    BYExpenseKeyboard *kb = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height - KEYBOARD_HEIGHT, 320, KEYBOARD_HEIGHT)];
+    [self.view addSubview:kb];
 }
 
 @end

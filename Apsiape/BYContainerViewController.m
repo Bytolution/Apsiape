@@ -64,12 +64,4 @@
     }];
 }
 
-- (void)bringUpExpenseKeyboard:(BYExpenseKeyboard *)keyboard {
-    [self.view addSubview:(UIView*)keyboard];
-}
-
-- (void)hideExpenseKeyboard {
-    
-}
-
 @end

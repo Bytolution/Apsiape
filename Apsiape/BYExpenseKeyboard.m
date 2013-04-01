@@ -48,12 +48,11 @@
     
     
     for (int i = 0; i < 12; i++) {
-        
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.titleLabel.font = [UIFont fontWithName:@"Miso" size:30];
         button.backgroundColor = [UIColor blackColor];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         CGPoint buttonOrigin = CGPointMake(32, 13);
-        
         switch (i) {
             case 0:
                 [button setTitle:@"1" forState:UIControlStateNormal];
@@ -92,7 +91,7 @@
                 buttonOrigin = CGPointMake(keyboardSize.width / 1.5, keyboardSize.height / 2);
                 break;
             case 9:
-                [button setTitle:@"," forState:UIControlStateNormal];
+                [button setTitle:@"." forState:UIControlStateNormal];
                 buttonOrigin = CGPointMake(0, keyboardSize.height * 0.75);
                 break;
             case 10:
@@ -115,7 +114,11 @@
 }
 
 - (void)buttonPressed:(UIButton*)sender {
-    NSLog(@"%@", sender);
+    if ([sender.currentTitle isEqualToString:@"Del"]) {
+        [self.delegate deleteKeyTapped];
+    } else {
+        [self.delegate numberKeyTapped:sender.currentTitle];
+    }
 }
 
 @end
