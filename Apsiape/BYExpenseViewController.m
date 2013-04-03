@@ -62,9 +62,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.scrollView.backgroundColor = [UIColor grayColor];
+    self.scrollView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:1];
     self.scrollView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width * 3, self.scrollView.bounds.size.height);
+    self.scrollView.pagingEnabled = YES;
     [self.view addSubview:self.scrollView];
     
     BYExpenseInputViewController *eivc = [[BYExpenseInputViewController alloc]init];

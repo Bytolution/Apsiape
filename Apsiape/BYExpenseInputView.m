@@ -8,20 +8,14 @@
 
 #import "BYExpenseInputView.h"
 #import "InterfaceConstants.h"
+#import "BYExpenseKeyboard.h"
 
-@interface BYExpenseInputView ()
+@interface BYExpenseInputView () 
 
-@property (nonatomic, strong) NSMutableString *expenseValue;
 
 @end
 
 @implementation BYExpenseInputView
-
-- (NSMutableString *)expenseValue
-{
-    if (!_expenseValue) _expenseValue = [[NSMutableString alloc]init];
-    return _expenseValue;
-}
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -33,73 +27,44 @@
 }
 
 - (void)didMoveToSuperview {
-    self.backgroundColor = [UIColor grayColor];
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (![self isFirstResponder]) {
-        [self becomeFirstResponder];
-    } else {
-        [self resignFirstResponder];
-    }
-
-}
-
-- (BOOL)canBecomeFirstResponder {
-    return YES;
-}
-
-- (BOOL)hasText {
-    return YES;
-}
-
-- (UIKeyboardType)keyboardType {
-    return UIKeyboardTypeDecimalPad;
-}
-
-- (UIKeyboardAppearance)keyboardAppearance {
-    return UIKeyboardAppearanceAlert;
-}
-
-- (void)insertText:(NSString *)text {
-    NSRange decSeparatorRange = [self.expenseValue rangeOfString:@"."];
-    if (decSeparatorRange.location < self.expenseValue.length - 2 && decSeparatorRange.location < 10) return;
-    [self.expenseValue appendString:text];
-    [self setNeedsDisplay];
-}
-
-- (void)deleteBackward {
-    if (self.expenseValue.length < 1) {
-        return;
-    } else {
-        NSRange range = NSMakeRange(self.expenseValue.length - 1, 1);
-        [self.expenseValue deleteCharactersInRange:range];
-        [self setNeedsDisplay];
-    }
+    self.backgroundColor = [UIColor colorWithWhite:0.1 alpha:1];
     
 }
 
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
+- (void)setText:(NSString *)text {
+    _text = text;
+    [self setNeedsDisplay];
+}
+
 - (void)drawRect:(CGRect)rect
 {
     CGRect txtRect = rect;
     txtRect.size.width -= 50;
-//    txtRect.origin.y += 5;
     
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 4, [[UIColor blackColor] CGColor]);
-    [[UIColor whiteColor] setFill];
-    [self.expenseValue drawInRect:txtRect withFont:[UIFont fontWithName:@"Miso-Light" size:65] lineBreakMode:NSLineBreakByCharWrapping alignment:NSTextAlignmentRight];
     
-    // this needs to be implemented for all currencies
+    [[UIColor whiteColor] setFill];
+    [[UIColor whiteColor] setStroke];
+
+    CGContextMoveToPoint(context, CGRectGetMinX(rect), CGRectGetMaxY(rect));
+    CGContextAddLineToPoint(context, CGRectGetMaxX(rect), CGRectGetMaxY(rect));
+    CGContextSetLineWidth(context, 4);
+    
+    CGContextDrawPath(context, kCGPathFillStroke);
+    
+    CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 4, [[UIColor whiteColor] CGColor]);
+    [self.text drawInRect:txtRect withFont:[UIFont fontWithName:@"Miso-Light" size:65] lineBreakMode:NSLineBreakByCharWrapping alignment:NSTextAlignmentRight];
+    
+    // TODO: implementation for all currencies
     txtRect = rect;
-    txtRect.origin.x = rect.size.width - 55;
+    txtRect.origin.x = rect.size.width - 60;
     txtRect.size.width = 50;
     
     NSString *currString = @"€";
     [currString drawInRect:txtRect withFont:[UIFont fontWithName:@"Miso-Light" size:65] lineBreakMode:NSLineBreakByCharWrapping alignment:NSTextAlignmentRight];
     //
+        
+    context = UIGraphicsGetCurrentContext();
     
     CGContextDrawPath(context, kCGPathFillStroke);
 }

@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class BYExpenseKeyboard;
-
 //@protocol BYContainerViewControllerDelegate <NSObject>
 //
 //
@@ -23,9 +21,5 @@
 + (BYContainerViewController*)sharedContainerViewController;
 
 - (void)displayDetailViewController:(UIViewController*)detailViewController withAnimationParameters:(NSDictionary*)params;
-
-- (void)bringUpExpenseKeyboard:(BYExpenseKeyboard*)keyboard;
-
-- (void)hideExpenseKeyboard;
 
 @end

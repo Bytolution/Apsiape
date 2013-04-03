@@ -21,7 +21,6 @@
 		A310311416E3AC9E00B163DC /* BYContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311316E3AC9E00B163DC /* BYContainerViewController.m */; };
 		A310311E16E3E37C00B163DC /* BYMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311C16E3E37C00B163DC /* BYMainViewController.m */; };
 		A337965016E52A4C00C55116 /* BYCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */; };
-		A37135511706B34100C386F7 /* BYPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A37135501706B34100C386F7 /* BYPhotoViewController.m */; };
 		A37135541706B4C000C386F7 /* BYExpenseInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A37135531706B4C000C386F7 /* BYExpenseInputViewController.m */; };
 		A373763316F62FF400611FC6 /* BYExpenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A373763216F62FF400611FC6 /* BYExpenseViewController.m */; };
 		A37526DB16F4FD540079C94A /* BYCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A37526DA16F4FD540079C94A /* BYCollectionView.m */; };
@@ -64,8 +63,6 @@
 		A337964E16E52A4C00C55116 /* BYCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionViewCell.h; sourceTree = "<group>"; };
 		A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionViewCell.m; sourceTree = "<group>"; };
 		A35B909916EC15CB0031C704 /* InterfaceConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceConstants.h; sourceTree = "<group>"; };
-		A371354F1706B34100C386F7 /* BYPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYPhotoViewController.h; sourceTree = "<group>"; };
-		A37135501706B34100C386F7 /* BYPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYPhotoViewController.m; sourceTree = "<group>"; };
 		A37135521706B4C000C386F7 /* BYExpenseInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseInputViewController.h; sourceTree = "<group>"; };
 		A37135531706B4C000C386F7 /* BYExpenseInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseInputViewController.m; sourceTree = "<group>"; };
 		A373763116F62FF400611FC6 /* BYExpenseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseViewController.h; sourceTree = "<group>"; };
@@ -185,28 +182,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		A371354D1706B21400C386F7 /* Controller */ = {
+		A371354D1706B21400C386F7 /* Amount */ = {
 			isa = PBXGroup;
 			children = (
-				A373763116F62FF400611FC6 /* BYExpenseViewController.h */,
-				A373763216F62FF400611FC6 /* BYExpenseViewController.m */,
 				A37135521706B4C000C386F7 /* BYExpenseInputViewController.h */,
 				A37135531706B4C000C386F7 /* BYExpenseInputViewController.m */,
-				A371354F1706B34100C386F7 /* BYPhotoViewController.h */,
-				A37135501706B34100C386F7 /* BYPhotoViewController.m */,
+				A3A24CD716FA1F5D0058493E /* BYExpenseInputView.h */,
+				A3A24CD816FA1F5D0058493E /* BYExpenseInputView.m */,
+				A3F7FAC516FA36D1002F58AA /* BYExpenseKeyboard.h */,
+				A3F7FAC616FA36D1002F58AA /* BYExpenseKeyboard.m */,
 			);
-			name = Controller;
+			name = Amount;
 			sourceTree = "<group>";
 		};
 		A371354E1706B23100C386F7 /* Utility Views */ = {
 			isa = PBXGroup;
 			children = (
-				A3A24CD716FA1F5D0058493E /* BYExpenseInputView.h */,
-				A3A24CD816FA1F5D0058493E /* BYExpenseInputView.m */,
 				A39162AF1703667F00B3F9FF /* BYQuickShotView.h */,
 				A39162B01703667F00B3F9FF /* BYQuickShotView.m */,
-				A3F7FAC516FA36D1002F58AA /* BYExpenseKeyboard.h */,
-				A3F7FAC616FA36D1002F58AA /* BYExpenseKeyboard.m */,
 			);
 			name = "Utility Views";
 			sourceTree = "<group>";
@@ -214,7 +207,9 @@
 		A373763716F6306B00611FC6 /* Expense Creation */ = {
 			isa = PBXGroup;
 			children = (
-				A371354D1706B21400C386F7 /* Controller */,
+				A373763116F62FF400611FC6 /* BYExpenseViewController.h */,
+				A373763216F62FF400611FC6 /* BYExpenseViewController.m */,
+				A371354D1706B21400C386F7 /* Amount */,
 				A371354E1706B23100C386F7 /* Utility Views */,
 			);
 			name = "Expense Creation";
@@ -327,7 +322,6 @@
 				A3A24CD916FA1F5D0058493E /* BYExpenseInputView.m in Sources */,
 				A3F7FAC716FA36D1002F58AA /* BYExpenseKeyboard.m in Sources */,
 				A39162B11703667F00B3F9FF /* BYQuickShotView.m in Sources */,
-				A37135511706B34100C386F7 /* BYPhotoViewController.m in Sources */,
 				A37135541706B4C000C386F7 /* BYExpenseInputViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

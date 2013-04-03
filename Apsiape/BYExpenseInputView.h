@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BYExpenseInputView : UIView <UIKeyInput, UITextInputTraits>
+@interface BYExpenseInputView : UIView
+
+@property (nonatomic, strong) NSString *text;
 
 @end

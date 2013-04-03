@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol BYExpenseKeyboard
+@protocol BYExpenseKeyboardDelegate
 
 - (void)numberKeyTapped:(NSString*)numberString;
 - (void)deleteKeyTapped;
@@ -17,6 +17,6 @@
 
 @interface BYExpenseKeyboard : UIView
 
-@property (nonatomic, strong) id <BYExpenseKeyboard> delegate;
+@property (nonatomic, strong) id <BYExpenseKeyboardDelegate> delegate;
 
 @end

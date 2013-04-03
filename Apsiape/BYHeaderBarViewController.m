@@ -39,14 +39,14 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.00f];
+        self.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
     }
     return self;
 }
 
 - (void)layoutSubviews {
-    [self addSubview:self.searchButton];
-    [self addSubview:self.addButton];
+//    [self addSubview:self.searchButton];
+//    [self addSubview:self.addButton];
 }
 
 - (void)drawRect:(CGRect)rect {
