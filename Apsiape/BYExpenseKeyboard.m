@@ -24,7 +24,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor blackColor];
     }
     return self;
 }
@@ -50,7 +50,7 @@
     for (int i = 0; i < 12; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.titleLabel.font = [UIFont fontWithName:@"Miso" size:30];
-        button.backgroundColor = [UIColor blackColor];
+        button.backgroundColor = [UIColor clearColor];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         CGPoint buttonOrigin = CGPointMake(32, 13);
         switch (i) {
@@ -60,47 +60,47 @@
                 break;
             case 1:
                 [button setTitle:@"2" forState:UIControlStateNormal];
-                buttonOrigin = CGPointMake(keyboardSize.width / 3, 0);
+                buttonOrigin = CGPointMake(keyboardSize.width * (1.0f/3.0f), 0);
                 break;
             case 2:
                 [button setTitle:@"3" forState:UIControlStateNormal];
-                buttonOrigin = CGPointMake(keyboardSize.width / 1.5, 0);
+                buttonOrigin = CGPointMake(keyboardSize.width * (2.0f/3.0f), 0);
                 break;
             case 3:
                 [button setTitle:@"4" forState:UIControlStateNormal];
-                buttonOrigin = CGPointMake(0, keyboardSize.height / 4);
+                buttonOrigin = CGPointMake(0, keyboardSize.height * (1.0f/4.0f));
                 break;
             case 4:
                 [button setTitle:@"5" forState:UIControlStateNormal];
-                buttonOrigin = CGPointMake(keyboardSize.width / 3, keyboardSize.height / 4);
+                buttonOrigin = CGPointMake(keyboardSize.width * (1.0f/3.0f), keyboardSize.height * (1.0f/4.0f));
                 break;
             case 5:
                 [button setTitle:@"6" forState:UIControlStateNormal];
-                buttonOrigin = CGPointMake(keyboardSize.width / 1.5, keyboardSize.height / 4);
+                buttonOrigin = CGPointMake(keyboardSize.width * (2.0f/3.0f), keyboardSize.height * (1.0f/4.0f));
                 break;
             case 6:
                 [button setTitle:@"7" forState:UIControlStateNormal];
-                buttonOrigin = CGPointMake(0, keyboardSize.height / 2);
+                buttonOrigin = CGPointMake(0, keyboardSize.height * (2.0f/4.0f));
                 break;
             case 7:
                 [button setTitle:@"8" forState:UIControlStateNormal];
-                buttonOrigin = CGPointMake(keyboardSize.width / 3, keyboardSize.height / 2);
+                buttonOrigin = CGPointMake(keyboardSize.width * (1.0f/3.0f), keyboardSize.height * (2.0f/4.0f));
                 break;
             case 8:
                 [button setTitle:@"9" forState:UIControlStateNormal];
-                buttonOrigin = CGPointMake(keyboardSize.width / 1.5, keyboardSize.height / 2);
+                buttonOrigin = CGPointMake(keyboardSize.width * (2.0f/3.0f), keyboardSize.height * (2.0f/4.0f));
                 break;
             case 9:
                 [button setTitle:@"." forState:UIControlStateNormal];
-                buttonOrigin = CGPointMake(0, keyboardSize.height * 0.75);
+                buttonOrigin = CGPointMake(0, keyboardSize.height * (3.0f/4.0f));
                 break;
             case 10:
                 [button setTitle:@"0" forState:UIControlStateNormal];
-                buttonOrigin = CGPointMake(keyboardSize.width / 3, keyboardSize.height * 0.75);
+                buttonOrigin = CGPointMake(keyboardSize.width * (1.0f/3.0f), keyboardSize.height * (3.0f/4.0f));
                 break;
             case 11:
                 [button setTitle:@"Del" forState:UIControlStateNormal];
-                buttonOrigin = CGPointMake(keyboardSize.width / 1.5, keyboardSize.height * 0.75);
+                buttonOrigin = CGPointMake(keyboardSize.width * (2.0f/3.0f), keyboardSize.height * (3.0f/4.0f));
                 break;
         }
         button.frame = CGRectMake(buttonOrigin.x, buttonOrigin.y, buttonSize.width, buttonSize.height);
@@ -109,8 +109,6 @@
     }
     
     self.buttonArray = [mButtonArray copy];
-    
-    NSLog(@"self.buttonArray: %@", self.buttonArray);
 }
 
 - (void)buttonPressed:(UIButton*)sender {
