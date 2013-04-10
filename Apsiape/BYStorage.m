@@ -10,10 +10,12 @@
 #import "BYAppDelegate.h"
 #import "BYContainerViewController.h"
 #import <CoreData/CoreData.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface BYStorage ()
+@interface BYStorage () <CLLocationManagerDelegate>
 
 @property (strong, nonatomic) UIManagedDocument *document;
+@property (nonatomic, strong) CLLocationManager *locationManager;
 
 - (void)docStateChanged;
 - (void)openDocument;
@@ -37,6 +39,7 @@
     return self.document.managedObjectContext;
 }
 
+
 - (id)init
 {
     self = [super init];
@@ -45,7 +48,7 @@
     }
     return self;
 }
-
+//-----------------------------UIDocument code---------------------------------//
 - (void)openDocument {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(docStateChanged) name:UIDocumentStateChangedNotification object:nil];
     
@@ -59,13 +62,11 @@
                 NSLog(@"File got saved");
                 if (success) [self.document openWithCompletionHandler:^(BOOL success) {
                     NSLog(@"Document opened %s", success ? "successfully":"unsuccessfully");
-//                    if (success) [self checkForUserInfo];
                 }];
             }];
         } else if (self.document.documentState == UIDocumentStateClosed) {
             [self.document openWithCompletionHandler:^(BOOL success) {
                 NSLog(@"Document opened %s", success ? "successfully":"unsuccessfully");
-//                if (success) [self checkForUserInfo];
             }];
         }
     }
@@ -96,7 +97,10 @@
             break;
     }
 }
+//-----------------------------------------------------------------------------//
 
+
+//------------------------------Misc-------------------------------------------//
 + (NSString *)appFontName {
     return @"Helvetica";
 }
@@ -107,5 +111,12 @@
     return [UIFont fontWithName:@"Helvetica" size:18];
 }
 
++ (NSArray *)primaryAppColorScheme {
+    return [Colours generateColorSchemeFromColor:ColorSnow ofType:ColorSchemeAnalagous];
+}
+
++ (NSArray *)secondaryAppColorScheme {
+    return [Colours generateColorSchemeFromColor:ColorCharcoal ofType:ColorSchemeAnalagous];
+}
 
 @end

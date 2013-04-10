@@ -11,6 +11,74 @@
 #import <CoreMedia/CoreMedia.h>
 #import <QuartzCore/QuartzCore.h>
 
+@interface BYQuickShotViewOverlayView : UIView
+
+@end
+
+@implementation BYQuickShotViewOverlayView
+
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.backgroundColor = [UIColor clearColor];
+    }
+    return self;
+}
+
+- (void)drawRect:(CGRect)rect {
+    CGRect bounds = self.bounds;
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    // Create the "visible" path, which will be the shape that gets the inner shadow
+    // In this case it's just a rounded rect, but could be as complex as your want
+    CGMutablePathRef visiblePath = CGPathCreateMutable();
+    CGPathAddRect(visiblePath, NULL, bounds);
+    CGPathCloseSubpath(visiblePath);
+    
+    // Fill this path
+    UIColor *aColor = [UIColor clearColor];
+    [aColor setFill];
+    CGContextAddPath(context, visiblePath);
+    CGContextFillPath(context);
+    
+    // Now create a larger rectangle, which we're going to subtract the visible path from
+    // and apply a shadow
+    CGMutablePathRef path = CGPathCreateMutable();
+    //(when drawing the shadow for a path whichs bounding box is not known pass "CGPathGetPathBoundingBox(visiblePath)" instead of "bounds" in the following line:)
+    CGPathAddRect(path, NULL, CGRectInset(bounds, -10, -10));
+    
+    // Add the visible path (so that it gets subtracted for the shadow)
+    CGPathAddPath(path, NULL, visiblePath);
+    CGPathCloseSubpath(path);
+        
+    // Add the visible paths as the clipping path to the context
+    CGContextAddPath(context, visiblePath);
+    CGContextClip(context);
+    
+    // Now setup the shadow properties on the context
+    aColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f];
+    CGContextSaveGState(context);
+    CGContextSetShadowWithColor(context, CGSizeMake(0.0f, 0.0f), 10.0f, [aColor CGColor]);
+    
+    // Now fill the rectangle, so the shadow gets drawn
+    [aColor setFill];
+    CGContextSaveGState(context);   
+    CGContextAddPath(context, path);
+    CGContextEOFillPath(context);
+    
+    CGContextSetStrokeColorWithColor(context, [[UIColor whiteColor]CGColor]);
+//    CGContextAddRect(context, rect);
+    CGContextSetLineWidth(context, 2);
+    CGContextDrawPath(context, kCGPathStroke);
+    
+    // Release the paths
+    CGPathRelease(path);    
+    CGPathRelease(visiblePath);
+}
+
+@end
+
 @interface BYQuickShotView ()
 
 - (void)prepareSession;
@@ -23,6 +91,7 @@
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (nonatomic, strong) AVCaptureStillImageOutput *stillImageOutput;
 @property (nonatomic, strong) UIImageView *imagePreView;
+@property (nonatomic, strong) BYQuickShotViewOverlayView *overlayView;
 
 @end
 
@@ -36,22 +105,25 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self prepareSession];
         self.backgroundColor = [UIColor clearColor];
     }
     return self;
+}
+
+- (BYQuickShotViewOverlayView *)overlayView {
+    if (!_overlayView) _overlayView = [[BYQuickShotViewOverlayView alloc]initWithFrame:self.bounds];
+    return _overlayView;
 }
 
 - (UIImageView *)imagePreView
 {
     if (!_imagePreView) {
         _imagePreView = [[UIImageView alloc]init];
-        _imagePreView.layer.cornerRadius = PREVIEW_LAYER_EDGE_RADIUS - 1;
+//        _imagePreView.layer.cornerRadius = PREVIEW_LAYER_EDGE_RADIUS - 1;
         _imagePreView.layer.masksToBounds = YES;
         _imagePreView.frame = self.previewLayerFrame;
         _imagePreView.userInteractionEnabled = NO;
         _imagePreView.backgroundColor = [UIColor clearColor];
-        [self addSubview:_imagePreView];
     }
     return _imagePreView;
 }
@@ -59,12 +131,6 @@
 - (CGRect)previewLayerFrame
 {
     CGRect layerFrame = self.bounds;
-    
-    layerFrame.origin.x += PREVIEW_LAYER_INSET;
-    layerFrame.origin.y += PREVIEW_LAYER_INSET;
-    layerFrame.size.width -= PREVIEW_LAYER_INSET * 2;
-    layerFrame.size.height -= PREVIEW_LAYER_INSET * 2;
-    
     return layerFrame;
 }
 
@@ -83,46 +149,39 @@
     return captureDevice;
 }
 
-// if we want to add a shadow without drawing out of bounds we have to slightly resize the AVCaptureVideoPreviewLayer
-// and this method returns trhe frame we need to achieve this
-
-
-
-- (void)prepareSession
-{
-    AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.rearCamera error:nil];
+- (void)willMoveToSuperview:(UIView *)newSuperview {
+    [self addSubview:self.overlayView];
     
+    AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.rearCamera error:nil];
     AVCaptureStillImageOutput *newStillImageOutput = [[AVCaptureStillImageOutput alloc] init];
     NSDictionary *outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                    AVVideoCodecJPEG, AVVideoCodecKey,
-                                    nil];
+                                AVVideoCodecJPEG, AVVideoCodecKey,
+                                nil];
     [newStillImageOutput setOutputSettings:outputSettings];
-    
+
     AVCaptureSession *newCaptureSession = [[AVCaptureSession alloc] init];
-    
+
     if ([newCaptureSession canAddInput:newVideoInput]) {
         [newCaptureSession addInput:newVideoInput];
     }
+    
     if ([newCaptureSession canAddOutput:newStillImageOutput]) {
         [newCaptureSession addOutput:newStillImageOutput];
+        self.stillImageOutput = newStillImageOutput;
+        self.captureSession = newCaptureSession;
     }
-    
-    self.stillImageOutput = newStillImageOutput;
-    self.captureSession = newCaptureSession;
-    
-    [self.captureSession startRunning];
-    
-    NSLog(@"%@", self.captureSession);
-}
-
-- (void)didMoveToSuperview
-{
-    AVCaptureVideoPreviewLayer *prevLayer = [[AVCaptureVideoPreviewLayer alloc]initWithSession:self.captureSession];
-    prevLayer.frame = self.previewLayerFrame;
-    prevLayer.masksToBounds = YES;
-    prevLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    prevLayer.cornerRadius = PREVIEW_LAYER_EDGE_RADIUS;
-    [self.layer insertSublayer:prevLayer atIndex:0];
+    dispatch_queue_t layerQ = dispatch_queue_create("layerQ", NULL);
+    dispatch_async(layerQ, ^{
+        [self.captureSession startRunning];
+        AVCaptureVideoPreviewLayer *prevLayer = [[AVCaptureVideoPreviewLayer alloc]initWithSession:self.captureSession];
+            prevLayer.frame = self.previewLayerFrame;
+            prevLayer.masksToBounds = YES;
+            prevLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.layer insertSublayer:prevLayer atIndex:0];
+            
+        });
+    });
 }
 
 - (void)captureImage
@@ -149,6 +208,9 @@
                                                                capturedImage = [UIImage imageWithData:imgData];
                                                            }
                                                            UIImage *croppedImg = [self cropImage:capturedImage];
+                                                           if (!self.imagePreView.superview) {
+                                                               [self insertSubview:self.imagePreView belowSubview:self.overlayView];
+                                                           }
                                                            self.imagePreView.image = croppedImg;
                                                            [self.delegate didTakeSnapshot:croppedImg];
                                                            [self animateFlash];
@@ -169,7 +231,7 @@
     UIView *flashView = [[UIView alloc]initWithFrame:self.previewLayerFrame];
     flashView.backgroundColor = [UIColor whiteColor];
     flashView.layer.masksToBounds = YES;
-    flashView.layer.cornerRadius = PREVIEW_LAYER_EDGE_RADIUS;
+//    flashView.layer.cornerRadius = PREVIEW_LAYER_EDGE_RADIUS;
     [self addSubview:flashView];
     [UIView animateWithDuration:0.2 delay:0.1 options:kNilOptions animations:^{
         flashView.alpha = 0.0;
@@ -195,22 +257,6 @@
     UIImage *newImage = [UIImage imageWithCGImage:imageRef scale:1.0 orientation:imageToCrop.imageOrientation];
     CGImageRelease(imageRef);
     return newImage;
-}
-
-- (void)drawRect:(CGRect)rect {
-    CGContextRef c = UIGraphicsGetCurrentContext();
-    CGFloat minx = CGRectGetMinX(self.previewLayerFrame), midx = CGRectGetMidX(self.previewLayerFrame), maxx = CGRectGetMaxX(self.previewLayerFrame);
-    CGFloat miny = CGRectGetMinY(self.previewLayerFrame), midy = CGRectGetMidY(self.previewLayerFrame), maxy = CGRectGetMaxY(self.previewLayerFrame);
-    CGContextMoveToPoint(c, minx, midy);
-    CGContextAddArcToPoint(c, minx, miny, midx, miny, PREVIEW_LAYER_EDGE_RADIUS);
-    CGContextAddArcToPoint(c, maxx, miny, maxx, midy, PREVIEW_LAYER_EDGE_RADIUS);
-    CGContextAddArcToPoint(c, maxx, maxy, midx, maxy, PREVIEW_LAYER_EDGE_RADIUS);
-    CGContextAddArcToPoint(c, minx, maxy, minx, midy, PREVIEW_LAYER_EDGE_RADIUS);
-    CGContextClosePath(c);
-    CGContextSetShadow(c, CGSizeMake(0, 0), 6);
-    CGContextSetLineWidth(c, 4);
-    CGContextSetStrokeColorWithColor(c, [[UIColor whiteColor] CGColor]);
-    CGContextDrawPath(c, kCGPathFillStroke);
 }
 
 @end

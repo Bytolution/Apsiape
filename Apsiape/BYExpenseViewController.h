@@ -12,9 +12,6 @@
 
 @interface BYExpenseViewController : UIViewController
 
-- (id)initWithExpense:(Expense*)expense;
-
 @property (nonatomic, strong) UIViewController *containerViewController;
-
 
 @end

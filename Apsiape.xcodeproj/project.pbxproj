@@ -21,9 +21,15 @@
 		A310311416E3AC9E00B163DC /* BYContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311316E3AC9E00B163DC /* BYContainerViewController.m */; };
 		A310311E16E3E37C00B163DC /* BYMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311C16E3E37C00B163DC /* BYMainViewController.m */; };
 		A337965016E52A4C00C55116 /* BYCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */; };
+		A3598064170E42F700FA8872 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3598063170E42F700FA8872 /* CoreLocation.framework */; };
 		A37135541706B4C000C386F7 /* BYExpenseInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A37135531706B4C000C386F7 /* BYExpenseInputViewController.m */; };
 		A373763316F62FF400611FC6 /* BYExpenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A373763216F62FF400611FC6 /* BYExpenseViewController.m */; };
 		A37526DB16F4FD540079C94A /* BYCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A37526DA16F4FD540079C94A /* BYCollectionView.m */; };
+		A381EAF21711A49F00E53E90 /* BYAddLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A381EAF11711A49F00E53E90 /* BYAddLocationViewController.m */; };
+		A381EAF51711A6EB00E53E90 /* BYLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = A381EAF41711A6EB00E53E90 /* BYLocator.m */; };
+		A381EAFB1711AE0200E53E90 /* BYLocationTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = A381EAFA1711AE0200E53E90 /* BYLocationTagView.m */; };
+		A381EAFE1711AE6D00E53E90 /* BYAddPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A381EAFD1711AE6D00E53E90 /* BYAddPhotoViewController.m */; };
+		A381EB021711B7AA00E53E90 /* Colours.m in Sources */ = {isa = PBXBuildFile; fileRef = A381EB011711B7AA00E53E90 /* Colours.m */; };
 		A3832F0C16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3832F0A16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld */; };
 		A384A4AB16F0F490008FC8DC /* BYHeaderBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A384A4A916F0F490008FC8DC /* BYHeaderBarViewController.m */; };
 		A384A4AF16F0FA11008FC8DC /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A384A4AD16F0FA11008FC8DC /* search@2x.png */; };
@@ -33,6 +39,7 @@
 		A39162B51703A75700B3F9FF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39162B41703A75700B3F9FF /* CoreMedia.framework */; };
 		A39C59BE16F6165800A68679 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39C59BD16F6165800A68679 /* QuartzCore.framework */; };
 		A3A24CD916FA1F5D0058493E /* BYExpenseInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3A24CD816FA1F5D0058493E /* BYExpenseInputView.m */; };
+		A3D840BE1713262E004F6410 /* LocationArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = A3D840BD1713262E004F6410 /* LocationArrow.png */; };
 		A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DAA96416F778CC00C22671 /* BYStorage.m */; };
 		A3E756FD16E295B400AE2AF7 /* Expense.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E756FC16E295B400AE2AF7 /* Expense.m */; };
 		A3E7570016E295B400AE2AF7 /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = A3E756FF16E295B400AE2AF7 /* Tag.m */; };
@@ -62,6 +69,7 @@
 		A310311C16E3E37C00B163DC /* BYMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYMainViewController.m; sourceTree = "<group>"; };
 		A337964E16E52A4C00C55116 /* BYCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionViewCell.h; sourceTree = "<group>"; };
 		A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionViewCell.m; sourceTree = "<group>"; };
+		A3598063170E42F700FA8872 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A35B909916EC15CB0031C704 /* InterfaceConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceConstants.h; sourceTree = "<group>"; };
 		A37135521706B4C000C386F7 /* BYExpenseInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseInputViewController.h; sourceTree = "<group>"; };
 		A37135531706B4C000C386F7 /* BYExpenseInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseInputViewController.m; sourceTree = "<group>"; };
@@ -69,6 +77,16 @@
 		A373763216F62FF400611FC6 /* BYExpenseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseViewController.m; sourceTree = "<group>"; };
 		A37526D916F4FD530079C94A /* BYCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionView.h; sourceTree = "<group>"; };
 		A37526DA16F4FD540079C94A /* BYCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionView.m; sourceTree = "<group>"; };
+		A381EAF01711A49F00E53E90 /* BYAddLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYAddLocationViewController.h; sourceTree = "<group>"; };
+		A381EAF11711A49F00E53E90 /* BYAddLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYAddLocationViewController.m; sourceTree = "<group>"; };
+		A381EAF31711A6EB00E53E90 /* BYLocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYLocator.h; sourceTree = "<group>"; };
+		A381EAF41711A6EB00E53E90 /* BYLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYLocator.m; sourceTree = "<group>"; };
+		A381EAF91711AE0200E53E90 /* BYLocationTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYLocationTagView.h; sourceTree = "<group>"; };
+		A381EAFA1711AE0200E53E90 /* BYLocationTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYLocationTagView.m; sourceTree = "<group>"; };
+		A381EAFC1711AE6D00E53E90 /* BYAddPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYAddPhotoViewController.h; sourceTree = "<group>"; };
+		A381EAFD1711AE6D00E53E90 /* BYAddPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYAddPhotoViewController.m; sourceTree = "<group>"; };
+		A381EB001711B7AA00E53E90 /* Colours.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Colours.h; sourceTree = "<group>"; };
+		A381EB011711B7AA00E53E90 /* Colours.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Colours.m; sourceTree = "<group>"; };
 		A3832F0B16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ApsiapeDataModel.xcdatamodel; sourceTree = "<group>"; };
 		A384A4A816F0F490008FC8DC /* BYHeaderBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYHeaderBarViewController.h; sourceTree = "<group>"; };
 		A384A4A916F0F490008FC8DC /* BYHeaderBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYHeaderBarViewController.m; sourceTree = "<group>"; };
@@ -81,6 +99,7 @@
 		A39C59BD16F6165800A68679 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A3A24CD716FA1F5D0058493E /* BYExpenseInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseInputView.h; sourceTree = "<group>"; };
 		A3A24CD816FA1F5D0058493E /* BYExpenseInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseInputView.m; sourceTree = "<group>"; };
+		A3D840BD1713262E004F6410 /* LocationArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LocationArrow.png; sourceTree = "<group>"; };
 		A3DAA96316F778CC00C22671 /* BYStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYStorage.h; sourceTree = "<group>"; };
 		A3DAA96416F778CC00C22671 /* BYStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYStorage.m; sourceTree = "<group>"; };
 		A3E756FB16E295B400AE2AF7 /* Expense.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Expense.h; sourceTree = "<group>"; };
@@ -97,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3598064170E42F700FA8872 /* CoreLocation.framework in Frameworks */,
 				A39162B51703A75700B3F9FF /* CoreMedia.framework in Frameworks */,
 				A39C59BE16F6165800A68679 /* QuartzCore.framework in Frameworks */,
 				A39162B31703A5AD00B3F9FF /* AVFoundation.framework in Frameworks */,
@@ -130,6 +150,7 @@
 		A307E81116DE8A0D00C9425A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A3598063170E42F700FA8872 /* CoreLocation.framework */,
 				A39162B41703A75700B3F9FF /* CoreMedia.framework */,
 				A39162B21703A5AD00B3F9FF /* AVFoundation.framework */,
 				A39C59BD16F6165800A68679 /* QuartzCore.framework */,
@@ -163,6 +184,8 @@
 		A307E81916DE8A0D00C9425A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A381EB001711B7AA00E53E90 /* Colours.h */,
+				A381EB011711B7AA00E53E90 /* Colours.m */,
 				A302945416FB554F009BBF6D /* miso-light.ttf */,
 				A302945616FB56DB009BBF6D /* miso-regular.ttf */,
 				A307E82116DE8A0D00C9425A /* BYAppDelegate.h */,
@@ -174,6 +197,7 @@
 				A307E81E16DE8A0D00C9425A /* main.m */,
 				A307E82016DE8A0D00C9425A /* Apsiape-Prefix.pch */,
 				A307E82416DE8A0D00C9425A /* Default.png */,
+				A3D840BD1713262E004F6410 /* LocationArrow.png */,
 				A307E82616DE8A0D00C9425A /* Default@2x.png */,
 				A307E82816DE8A0D00C9425A /* Default-568h@2x.png */,
 				A384A4AD16F0FA11008FC8DC /* search@2x.png */,
@@ -195,22 +219,14 @@
 			name = Amount;
 			sourceTree = "<group>";
 		};
-		A371354E1706B23100C386F7 /* Utility Views */ = {
-			isa = PBXGroup;
-			children = (
-				A39162AF1703667F00B3F9FF /* BYQuickShotView.h */,
-				A39162B01703667F00B3F9FF /* BYQuickShotView.m */,
-			);
-			name = "Utility Views";
-			sourceTree = "<group>";
-		};
 		A373763716F6306B00611FC6 /* Expense Creation */ = {
 			isa = PBXGroup;
 			children = (
 				A373763116F62FF400611FC6 /* BYExpenseViewController.h */,
 				A373763216F62FF400611FC6 /* BYExpenseViewController.m */,
 				A371354D1706B21400C386F7 /* Amount */,
-				A371354E1706B23100C386F7 /* Utility Views */,
+				A3F34736170CD4830057013B /* Photo */,
+				A381EAFF1711AEA400E53E90 /* Location */,
 			);
 			name = "Expense Creation";
 			sourceTree = "<group>";
@@ -225,6 +241,19 @@
 			name = "New Group";
 			sourceTree = "<group>";
 		};
+		A381EAFF1711AEA400E53E90 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				A381EAF01711A49F00E53E90 /* BYAddLocationViewController.h */,
+				A381EAF11711A49F00E53E90 /* BYAddLocationViewController.m */,
+				A381EAF91711AE0200E53E90 /* BYLocationTagView.h */,
+				A381EAFA1711AE0200E53E90 /* BYLocationTagView.m */,
+				A381EAF31711A6EB00E53E90 /* BYLocator.h */,
+				A381EAF41711A6EB00E53E90 /* BYLocator.m */,
+			);
+			name = Location;
+			sourceTree = "<group>";
+		};
 		A3832F0D16E0F6FD00D64DC1 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,6 +264,17 @@
 				A3832F0A16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld */,
 			);
 			name = "Core Data";
+			sourceTree = "<group>";
+		};
+		A3F34736170CD4830057013B /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				A381EAFC1711AE6D00E53E90 /* BYAddPhotoViewController.h */,
+				A381EAFD1711AE6D00E53E90 /* BYAddPhotoViewController.m */,
+				A39162AF1703667F00B3F9FF /* BYQuickShotView.h */,
+				A39162B01703667F00B3F9FF /* BYQuickShotView.m */,
+			);
+			name = Photo;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -297,6 +337,7 @@
 				A384A4B016F0FA11008FC8DC /* add@2x.png in Resources */,
 				A302945516FB554F009BBF6D /* miso-light.ttf in Resources */,
 				A302945716FB56DB009BBF6D /* miso-regular.ttf in Resources */,
+				A3D840BE1713262E004F6410 /* LocationArrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,6 +364,11 @@
 				A3F7FAC716FA36D1002F58AA /* BYExpenseKeyboard.m in Sources */,
 				A39162B11703667F00B3F9FF /* BYQuickShotView.m in Sources */,
 				A37135541706B4C000C386F7 /* BYExpenseInputViewController.m in Sources */,
+				A381EAF21711A49F00E53E90 /* BYAddLocationViewController.m in Sources */,
+				A381EAF51711A6EB00E53E90 /* BYLocator.m in Sources */,
+				A381EAFB1711AE0200E53E90 /* BYLocationTagView.m in Sources */,
+				A381EAFE1711AE6D00E53E90 /* BYAddPhotoViewController.m in Sources */,
+				A381EB021711B7AA00E53E90 /* Colours.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

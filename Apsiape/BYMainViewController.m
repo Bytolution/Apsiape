@@ -46,7 +46,7 @@
     NSLog(@"cell got tapped at index: %d", index);
     cell.backgroundColor = [UIColor lightGrayColor];
     BYContainerViewController *conViewCon = [BYContainerViewController sharedContainerViewController];
-    [conViewCon displayDetailViewController:[[BYExpenseViewController alloc]initWithExpense:nil] withAnimationParameters:nil];
+    [conViewCon displayDetailViewController:[[BYExpenseViewController alloc]init] withAnimationParameters:nil];
 }
 
 @end

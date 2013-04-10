@@ -24,7 +24,6 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor blackColor];
     }
     return self;
 }
@@ -51,7 +50,7 @@
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.titleLabel.font = [UIFont fontWithName:@"Miso" size:30];
         button.backgroundColor = [UIColor clearColor];
-        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [button setTitleColor:self.fontColor forState:UIControlStateNormal];
         CGPoint buttonOrigin = CGPointMake(32, 13);
         switch (i) {
             case 0:

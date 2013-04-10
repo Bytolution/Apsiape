@@ -7,8 +7,6 @@
 //
 
 #import "BYExpenseInputView.h"
-#import "InterfaceConstants.h"
-#import "BYExpenseKeyboard.h"
 
 @interface BYExpenseInputView () 
 
@@ -26,11 +24,6 @@
     return self;
 }
 
-- (void)didMoveToSuperview {
-    self.backgroundColor = [UIColor colorWithWhite:0.1 alpha:1];
-    
-}
-
 - (void)setText:(NSString *)text {
     _text = text;
     [self setNeedsDisplay];
@@ -43,30 +36,24 @@
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    [[UIColor whiteColor] setFill];
-    [[UIColor whiteColor] setStroke];
+    [self.fontColor setFill];
 
-    CGContextMoveToPoint(context, CGRectGetMinX(rect), CGRectGetMaxY(rect));
-    CGContextAddLineToPoint(context, CGRectGetMaxX(rect), CGRectGetMaxY(rect));
     CGContextSetLineWidth(context, 4);
     
-    CGContextDrawPath(context, kCGPathFillStroke);
-    
-    CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 4, [[UIColor whiteColor] CGColor]);
+    CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 4, [self.fontColor CGColor]);
     [self.text drawInRect:txtRect withFont:[UIFont fontWithName:@"Miso-Light" size:65] lineBreakMode:NSLineBreakByCharWrapping alignment:NSTextAlignmentRight];
+    NSString *currString = @"€";
     
-    // TODO: implementation for all currencies
     txtRect = rect;
     txtRect.origin.x = rect.size.width - 60;
     txtRect.size.width = 50;
     
-    NSString *currString = @"€";
     [currString drawInRect:txtRect withFont:[UIFont fontWithName:@"Miso-Light" size:65] lineBreakMode:NSLineBreakByCharWrapping alignment:NSTextAlignmentRight];
-    //
-        
-    context = UIGraphicsGetCurrentContext();
     
-    CGContextDrawPath(context, kCGPathFillStroke);
+    // TODO: implementation for all currencies
+    
+    
+    
 }
 
 

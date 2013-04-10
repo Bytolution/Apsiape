@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Colours.h"
 
 @class BYContainerViewController;
 
@@ -17,6 +18,10 @@
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 - (void)saveDocument;
+- (void)startLocationTracking;
+
++ (NSArray*)primaryAppColorScheme;
++ (NSArray*)secondaryAppColorScheme;
 
 + (NSString*)appFontName;
 + (NSString*)secondAppFontName;

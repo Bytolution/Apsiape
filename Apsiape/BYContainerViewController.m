@@ -57,10 +57,13 @@
     [self addChildViewController:detailViewController];
     detailViewController.view.frame = CGRectMake(0, HEADER_VIEW_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - HEADER_VIEW_HEIGHT);
     detailViewController.view.alpha = 0;
+//    [detailViewController viewWillAppear:YES];
     [self.view addSubview:detailViewController.view];
     [detailViewController didMoveToParentViewController:self];
     [UIView animateWithDuration:.2 animations:^{
         detailViewController.view.alpha = 1;
+    } completion:^(BOOL finished) {
+//        [detailViewController viewDidAppear:YES];
     }];
 }
 

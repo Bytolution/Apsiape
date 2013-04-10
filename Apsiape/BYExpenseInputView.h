@@ -11,5 +11,7 @@
 @interface BYExpenseInputView : UIView
 
 @property (nonatomic, strong) NSString *text;
+@property (nonatomic, strong) UIColor *fontColor;
+
 
 @end

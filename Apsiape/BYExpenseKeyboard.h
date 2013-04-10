@@ -18,5 +18,6 @@
 @interface BYExpenseKeyboard : UIView
 
 @property (nonatomic, strong) id <BYExpenseKeyboardDelegate> delegate;
+@property (nonatomic, strong) UIColor *fontColor;
 
 @end

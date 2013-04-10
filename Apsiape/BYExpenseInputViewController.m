@@ -10,12 +10,15 @@
 #import "BYExpenseInputView.h"
 #import "BYExpenseKeyboard.h"
 #import "InterfaceConstants.h"
+#import "BYStorage.h"
 
 @interface BYExpenseInputViewController () <BYExpenseKeyboardDelegate>
 
 @property (nonatomic, strong) NSMutableString *expenseValue;
 @property (nonatomic, strong) BYExpenseInputView *expenseInputView;
 @property (nonatomic, strong) BYExpenseKeyboard *decimalKeyboard;
+
+- (void)setSubviewColors;
 
 @end
 
@@ -41,11 +44,18 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [self setSubviewColors];
     [self.view addSubview:self.decimalKeyboard];
     [self.view addSubview:self.expenseInputView];
     self.decimalKeyboard.delegate = self;
 }
 
+- (void)setSubviewColors {
+    self.decimalKeyboard.backgroundColor = ColorSnow;
+    self.expenseInputView.backgroundColor = ColorGhostWhite;
+    self.expenseInputView.fontColor = ColorCharcoal;
+    self.decimalKeyboard.fontColor = Color100PercentBlack;
+}
 
 - (void)numberKeyTapped:(NSString *)numberString {
     NSRange decSeparatorRange = [self.expenseValue rangeOfString:@"."];
