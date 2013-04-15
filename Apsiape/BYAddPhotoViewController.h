@@ -10,4 +10,6 @@
 
 @interface BYAddPhotoViewController : UIViewController
 
+@property (nonatomic, strong, readonly) UIImage *capturedPhoto;
+
 @end

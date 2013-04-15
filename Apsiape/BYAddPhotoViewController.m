@@ -9,9 +9,10 @@
 #import "BYAddPhotoViewController.h"
 #import "BYQuickShotView.h"
 
-@interface BYAddPhotoViewController ()
+@interface BYAddPhotoViewController () <BYQuickShotViewDelegate>
 
 @property (nonatomic, strong) BYQuickShotView *quickShotView;
+@property (nonatomic, strong) UIImage *lastImageTaken;
 
 @end
 
@@ -24,9 +25,23 @@
     return _quickShotView;
 }
 
+- (UIImage *)capturedPhoto {
+    return [self.lastImageTaken copy];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
-    self.quickShotView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width);
+    self.quickShotView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.width);
+    self.quickShotView.delegate = self;
     [self.view addSubview:self.quickShotView];
+}
+
+- (void)didTakeSnapshot:(UIImage *)img {
+    NSLog(@"%@", img);
+    self.lastImageTaken = img;
+}
+
+- (void)didDiscardLastImage {
+    self.lastImageTaken = nil;
 }
 
 @end

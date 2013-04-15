@@ -19,7 +19,6 @@
     [BYStorage sharedStorage];
     self.containerViewController = [BYContainerViewController sharedContainerViewController];
     self.window.rootViewController = self.containerViewController;
-    self.window.backgroundColor = [UIColor redColor];
     [self.window makeKeyAndVisible];
     return YES;
 }

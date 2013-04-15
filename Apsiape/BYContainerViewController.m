@@ -42,6 +42,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    self.view.backgroundColor = [UIColor whiteColor];
+    
     [self addChildViewController:self.headerBarViewController];
     self.headerBarViewController.view.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), HEADER_VIEW_HEIGHT);
     [self.view addSubview:self.headerBarViewController.view];

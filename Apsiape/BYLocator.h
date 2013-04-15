@@ -7,9 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface BYLocator : NSObject
 
+- (void)startLocatingWithTimeout:(float)timeoutInSeconds;
+
 @property (nonatomic, readonly) BOOL runnning;
+
+@property (nonatomic, strong) CLLocation *latestLocationMeasurement;
 
 @end

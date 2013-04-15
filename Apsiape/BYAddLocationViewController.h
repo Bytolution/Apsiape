@@ -10,4 +10,6 @@
 
 @interface BYAddLocationViewController : UIViewController
 
+@property (nonatomic, strong) NSDictionary *locationData;
+
 @end

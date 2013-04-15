@@ -13,14 +13,18 @@
 #import "InterfaceConstants.h"
 #import "BYAddPhotoViewController.h"
 #import "BYAddLocationViewController.h"
+#import "BYConclusionViewController.h"
 
-@interface BYExpenseViewController ()
+@interface BYExpenseViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) Expense *expense;
 @property (nonatomic, strong) BYExpenseInputViewController *expenseInputViewController;
 @property (nonatomic, strong) BYAddPhotoViewController *addPhotoViewController;
 @property (nonatomic, strong) BYAddLocationViewController *addLocationViewController;
+@property (nonatomic, strong) BYConclusionViewController *conclusionViewController;
+
+
+- (void)scrollViewDidScrollToLastPage;
 
 @end
 
@@ -46,10 +50,15 @@
     return _addLocationViewController;
 }
 
+- (BYConclusionViewController *)conclusionViewController {
+    if (!_conclusionViewController) _conclusionViewController = [[BYConclusionViewController alloc]init];
+    return _conclusionViewController;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor whiteColor];
 	// Do any additional setup after loading the view.
 }
 
@@ -57,11 +66,11 @@
     [super viewWillAppear:animated];
     
     // Setup of the scrollView
-    self.scrollView.backgroundColor = [UIColor colorWithWhite:0.2 alpha:1];
     self.scrollView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width * 3, self.scrollView.bounds.size.height);
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width, self.scrollView.bounds.size.height * 4);
     self.scrollView.pagingEnabled = YES;
     self.scrollView.bounces = NO;
+    self.scrollView.delegate = self;
     [self.view addSubview:self.scrollView];
     
     // Adding view controller No 1
@@ -71,29 +80,36 @@
     [self.expenseInputViewController viewDidAppear:NO];
     // No 2
     CGRect secondPageRect = self.scrollView.bounds;
-    secondPageRect.origin.x = self.scrollView.bounds.size.width;
+    secondPageRect.origin.y = self.scrollView.bounds.size.height;
     self.addPhotoViewController.view.frame = secondPageRect;
     [self.addPhotoViewController viewWillAppear:NO];
     [self.scrollView addSubview:self.addPhotoViewController.view];
     [self.addPhotoViewController viewDidAppear:NO];
     // No 3
     CGRect thirdPageRect = self.scrollView.bounds;
-    thirdPageRect.origin.x = self.scrollView.bounds.size.width * 2;
+    thirdPageRect.origin.y = self.scrollView.bounds.size.height * 2;
     self.addLocationViewController.view.frame = thirdPageRect;
     [self.addLocationViewController viewWillAppear:NO];
     [self.scrollView addSubview:self.addLocationViewController.view];
     [self.addLocationViewController viewDidAppear:NO];
+    // No 4
+    CGRect fourthPageRect = self.scrollView.bounds;
+    fourthPageRect.origin.y = self.scrollView.bounds.size.height * 3;
+    self.conclusionViewController.view.frame = fourthPageRect;
+    [self.conclusionViewController viewWillAppear:NO];
+    [self.scrollView addSubview:self.conclusionViewController.view];
+    [self.conclusionViewController viewDidAppear:NO];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView.contentOffset.y == scrollView.contentSize.height * (3.0f/4.0f)) {
+        [self scrollViewDidScrollToLastPage];
+    }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)scrollViewDidScrollToLastPage {
+    self.conclusionViewController.view.backgroundColor = [UIColor greenColor];
+    NSLog(@"%@, %@, %@", self.expenseInputViewController.valueString, self.addPhotoViewController.capturedPhoto, self.addLocationViewController.locationData);
 }
 
 @end

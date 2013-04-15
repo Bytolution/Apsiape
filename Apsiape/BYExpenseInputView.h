@@ -13,5 +13,7 @@
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, strong) UIColor *fontColor;
 
+- (void)addCharacter:(NSString*)character;
+- (void)deleteCharacter;
 
 @end

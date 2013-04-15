@@ -7,7 +7,6 @@
 //
 
 #import "BYLocator.h"
-#import <CoreLocation/CoreLocation.h>
 
 @interface BYLocator () <CLLocationManagerDelegate>
 
@@ -31,9 +30,15 @@
     return _locationManager;
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    NSLog(@"%@", manager.location);
+- (void)startLocatingWithTimeout:(float)timeoutInSeconds {
+    [self.locationManager startUpdatingLocation];
+    self.locationManagerIsUpdatingPosition = YES;
 }
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    self.latestLocationMeasurement = manager.location;
+}
+
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     NSLog(@"authorization status: %u", status);
 }

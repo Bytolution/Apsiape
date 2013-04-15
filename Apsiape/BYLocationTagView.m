@@ -8,8 +8,75 @@
 
 #import "BYLocationTagView.h"
 #import "Colours.h"
+#import <QuartzCore/QuartzCore.h>
+
+@interface BYLocationTagViewLayerGreen : UIView
+
+@end
+
+@implementation BYLocationTagViewLayerGreen
+
+
+
+@end
+
+@interface BYLocationTagViewLayerGrey : UIView
+
+@end
+
+@implementation BYLocationTagViewLayerGrey
+
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.backgroundColor = [UIColor clearColor];
+    }
+    return self;
+}
+
+- (void)drawRect:(CGRect)rect {
+    rect = CGRectInset(rect, 1.5, 1.5);
+
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
+    CGFloat minX = CGRectGetMinX(rect), midX = CGRectGetMidX(rect), maxX = CGRectGetMaxX(rect);
+    CGFloat minY = CGRectGetMinY(rect), midY = CGRectGetMidY(rect), maxY = CGRectGetMaxY(rect);
+    
+    CGContextMoveToPoint(ctx, midX, midY);
+    CGContextAddLineToPoint(ctx, minX, midY);
+    CGContextAddLineToPoint(ctx, maxX, minY);
+    CGContextAddLineToPoint(ctx, midX, maxY);
+    CGContextClosePath(ctx);
+    
+    CGContextSetLineWidth(ctx, 2);
+    
+    [[UIColor whiteColor] setStroke];
+    
+    UIColor *fillColor = ColorPastelGreen;
+    [fillColor setFill];
+    
+    CGContextSetLineJoin(ctx, kCGLineJoinRound);
+    CGContextSetLineCap(ctx, kCGLineCapRound);
+    
+    CGContextDrawPath(ctx, kCGPathFillStroke);
+
+}
+
+@end
+
+
+@interface BYLocationTagView () <CAAction>
+
+@property (nonatomic, strong) BYLocationTagViewLayerGrey *greyLayer;
+
+@end
 
 @implementation BYLocationTagView
+
+- (BYLocationTagViewLayerGrey *)greyLayer {
+    if (!_greyLayer) _greyLayer = [[BYLocationTagViewLayerGrey alloc] init];
+    return _greyLayer;
+}
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -21,35 +88,9 @@
 }
 
 - (void)didMoveToSuperview {
-
-}
-
-- (void)drawRect:(CGRect)rect
-{
-//    rect = CGRectInset(rect, 0.5f, 0.5f);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGFloat minX = CGRectGetMinX(rect), midX = CGRectGetMidX(rect), maxX = CGRectGetMaxX(rect);
-    CGFloat minY = CGRectGetMinY(rect), midY = CGRectGetMidY(rect), maxY = CGRectGetMaxY(rect);
-    
-    CGContextMoveToPoint(context, midX, midY);
-    CGContextAddLineToPoint(context, minX, midY);
-    CGContextAddLineToPoint(context, maxX, minY);
-    CGContextAddLineToPoint(context, midX, maxY);
-    CGContextClosePath(context);
-    
-    [[UIColor whiteColor] setStroke];
-    
-    UIColor *fillColor = ColorPastelGreen;
-    [fillColor setFill];
-    
-    CGContextDrawPath(context, kCGPathStroke);
-        
-    [[UIColor greenColor] setStroke];
-    CGContextSetLineWidth(context, 3);
-    CGContextAddRect(context, self.bounds);
-    CGContextDrawPath(context, kCGPathStroke);
-
+    [super didMoveToSuperview];
+    self.greyLayer.frame = self.bounds;
+    [self addSubview:self.greyLayer];
 }
 
 

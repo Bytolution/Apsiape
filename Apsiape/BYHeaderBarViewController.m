@@ -39,7 +39,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor colorWithWhite:0.3 alpha:1];
+        self.backgroundColor = [UIColor colorWithWhite:.95 alpha:1];
     }
     return self;
 }
@@ -51,7 +51,7 @@
 
 - (void)drawRect:(CGRect)rect {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    [[UIColor whiteColor] setStroke];
+    [[UIColor blackColor] setStroke];
     CGContextSetLineWidth(context, 3);
     CGContextMoveToPoint(context, CGRectGetMinX(rect), CGRectGetMaxY(rect));
     CGContextAddLineToPoint(context, CGRectGetMaxX(rect), CGRectGetMaxY(rect));
@@ -85,7 +85,6 @@
 
 - (void)viewDidLoad
 {
-    self.view.backgroundColor = [UIColor blueColor];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }

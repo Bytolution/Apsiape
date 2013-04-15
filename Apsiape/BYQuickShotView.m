@@ -231,7 +231,6 @@
     UIView *flashView = [[UIView alloc]initWithFrame:self.previewLayerFrame];
     flashView.backgroundColor = [UIColor whiteColor];
     flashView.layer.masksToBounds = YES;
-//    flashView.layer.cornerRadius = PREVIEW_LAYER_EDGE_RADIUS;
     [self addSubview:flashView];
     [UIView animateWithDuration:0.2 delay:0.1 options:kNilOptions animations:^{
         flashView.alpha = 0.0;

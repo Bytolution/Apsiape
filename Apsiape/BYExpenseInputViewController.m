@@ -34,13 +34,13 @@
     return _decimalKeyboard;
 }
 
+- (NSNumber *)valueString {
+    return [self.expenseValue copy];
+}
+
 - (NSMutableString *)expenseValue {
     if (!_expenseValue) _expenseValue = [[NSMutableString alloc]init];
     return _expenseValue;
-}
-
-- (void)viewDidLoad {
-    //
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -61,9 +61,10 @@
     NSRange decSeparatorRange = [self.expenseValue rangeOfString:@"."];
     if (decSeparatorRange.length == 1) {
         if (decSeparatorRange.location < self.expenseValue.length - 2) return;
-        
         if ([numberString isEqualToString:@"."]) return;
     }
+    if (self.expenseValue.length == 7) return;
+    
     [self.expenseValue appendString:numberString];
     self.expenseInputView.text = self.expenseValue;
 }

@@ -8,15 +8,19 @@
 
 #import "BYAddLocationViewController.h"
 #import "BYLocationTagView.h"
+#import "BYLocator.h"
 #import <math.h>
 
 @interface BYAddLocationViewController ()
 
 @property (nonatomic, strong) BYLocationTagView *locationTagView;
+@property (nonatomic, strong) BYLocator *locator;
+
+- (void)locationTagViewTapped;
 
 @end
 
-#define DegreesToRadians(x) ((x) * M_PI / 180.0)
+
 
 @implementation BYAddLocationViewController
 
@@ -29,21 +33,39 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(locationTagViewTapped)];
+        [self.locationTagView addGestureRecognizer:tgr];
     }
     return self;
 }
 
-#define LOCTAG_HEIGHT 240
-#define LOCTAG_WIDTH 240
+// implement location handle-back
+
+#define DegreesToRadians(x) ((x) * M_PI / 180.0)
+#define LOCTAG_HEIGHT 200
+#define LOCTAG_WIDTH 200
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.locationTagView.frame = CGRectMake(40, 80, LOCTAG_WIDTH, LOCTAG_HEIGHT);
+    self.locationTagView.userInteractionEnabled = YES;
+    self.locationTagView.frame = CGRectMake(50, 80, LOCTAG_WIDTH, LOCTAG_HEIGHT);
     self.locationTagView.bounds = CGRectMake(0, 0, LOCTAG_WIDTH, LOCTAG_HEIGHT);
-    CGAffineTransform transform = CGAffineTransformMakeRotation(DegreesToRadians(340));
+    CGAffineTransform transform = CGAffineTransformMakeRotation(DegreesToRadians(-10));
     self.locationTagView.transform = transform;
     [self.view addSubview:self.locationTagView];
+    
+    if (!self.locator) self.locator = [[BYLocator alloc]init];
+    [self.locator startLocatingWithTimeout:30];
+}
+
+- (void)locationTagViewTapped {
+    [UIView animateWithDuration:.2 delay:0 options:kNilOptions animations:^{
+        self.locationTagView.transform = CGAffineTransformMakeScale(.9, .9);
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:.2 animations:^{
+            self.locationTagView.transform = CGAffineTransformMakeScale(1.0, 1.0);
+        }];
+    }];
 }
 
 @end
