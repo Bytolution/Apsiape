@@ -26,6 +26,8 @@
 
 - (void)scrollViewDidScrollToLastPage;
 
+- (void)saveExpenseToDocument;
+
 @end
 
 @implementation BYExpenseViewController

@@ -9,7 +9,6 @@
 #import "BYAddLocationViewController.h"
 #import "BYLocationTagView.h"
 #import "BYLocator.h"
-#import <math.h>
 
 @interface BYAddLocationViewController ()
 
@@ -39,7 +38,9 @@
     return self;
 }
 
-// implement location handle-back
+- (NSData *)locationData {
+    return [NSKeyedArchiver archivedDataWithRootObject:self.locator.latestLocationMeasurement];
+}
 
 #define DegreesToRadians(x) ((x) * M_PI / 180.0)
 #define LOCTAG_HEIGHT 200
