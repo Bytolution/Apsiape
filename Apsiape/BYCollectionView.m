@@ -31,10 +31,8 @@
     CGRect rect;
     if (index % 2) {
         rect = CGRectMake(self.contentSize.width/2, [self.collectionViewDataSource heightForCellsInCollectionView] * (index/2), self.contentSize.width/2, [self.collectionViewDataSource heightForCellsInCollectionView]);
-        
     } else {
         rect = CGRectMake(0, [self.collectionViewDataSource heightForCellsInCollectionView] * (index/2), self.contentSize.width/2, [self.collectionViewDataSource heightForCellsInCollectionView]);
-                
     }
     return rect;
 }

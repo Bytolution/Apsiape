@@ -6,8 +6,9 @@
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
 
+#import <CoreData/CoreData.h>
 #import "BYMainViewController.h"
-#import "BYAppDelegate.h"
+#import "BYStorage.h"
 #import "InterfaceConstants.h"
 #import "BYCollectionViewCell.h"
 #import "BYExpenseViewController.h"
@@ -16,11 +17,21 @@
 @interface BYMainViewController ()
 
 @property (nonatomic, strong) BYCollectionView *customCollectionView;
+@property (nonatomic, strong) NSArray *collectionViewData;
+
+- (void)updateCollectionViewData;
 
 @end
 
 
 @implementation BYMainViewController
+
+- (void)updateCollectionViewData {
+    NSFetchRequest *fetchR = [NSFetchRequest fetchRequestWithEntityName:@"Expense"];
+    NSManagedObjectContext *context = [[BYStorage sharedStorage] managedObjectContext];
+    NSError *error;
+    self.collectionViewData = [context executeFetchRequest:fetchR error:&error];
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     self.customCollectionView = [[BYCollectionView alloc]initWithFrame:self.view.bounds];
@@ -30,7 +41,7 @@
 }
 
 - (UIView *)collectionView:(BYCollectionView *)collectionView cellAtIndex:(NSInteger)index {
-    BYCollectionViewCell *cell = [[BYCollectionViewCell alloc]initWithFrame:[collectionView frameForCellAtIndex:index] cellAttributes:nil index:index];
+    BYCollectionViewCell *cell = [[BYCollectionViewCell alloc]initWithFrame:[collectionView frameForCellAtIndex:index] cellAttributes:@{@"title" : @"text"} index:index];
     return cell;
 }
 
@@ -43,7 +54,6 @@
 }
 
 - (void)collectionView:(BYCollectionView *)collectionView cellDidDetectedTapGesture:(BYCollectionViewCell *)cell atIndex:(NSInteger)index {
-    NSLog(@"cell got tapped at index: %d", index);
     cell.backgroundColor = [UIColor lightGrayColor];
     BYContainerViewController *conViewCon = [BYContainerViewController sharedContainerViewController];
     [conViewCon displayDetailViewController:[[BYExpenseViewController alloc]init] withAnimationParameters:nil];

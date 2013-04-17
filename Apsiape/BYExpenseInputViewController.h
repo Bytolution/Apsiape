@@ -10,6 +10,6 @@
 
 @interface BYExpenseInputViewController : UIViewController
 
-@property (nonatomic, strong, readonly) NSNumber *valueString;
+@property (nonatomic, strong, readonly) NSString *valueString;
 
 @end

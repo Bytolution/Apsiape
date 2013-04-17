@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
 
+#import <CoreData/CoreData.h>
 #import "BYExpenseViewController.h"
 #import "BYExpenseInputViewController.h"
-#import "BYExpenseKeyboard.h"
 #import "Expense.h"
-#import "InterfaceConstants.h"
+#import "BYStorage.h"
 #import "BYAddPhotoViewController.h"
 #import "BYAddLocationViewController.h"
 #import "BYConclusionViewController.h"
@@ -111,7 +111,16 @@
 
 - (void)scrollViewDidScrollToLastPage {
     self.conclusionViewController.view.backgroundColor = [UIColor greenColor];
-    NSLog(@"%@, %@, %@", self.expenseInputViewController.valueString, self.addPhotoViewController.capturedPhoto, self.addLocationViewController.locationData);
+    if (![self.expenseInputViewController.valueString isEqualToString:@""]) {
+        NSManagedObjectContext *context = [BYStorage sharedStorage].managedObjectContext;
+        Expense *newExpense = [NSEntityDescription insertNewObjectForEntityForName:@"Expense" inManagedObjectContext:context];
+        newExpense.value = self.expenseInputViewController.valueString;
+        newExpense.image = self.addPhotoViewController.capturedPhoto;
+        newExpense.location = self.addLocationViewController.locationData;
+        [[BYStorage sharedStorage] saveDocument];
+    }
+    [self.view removeFromSuperview];
 }
+
 
 @end
