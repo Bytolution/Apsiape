@@ -81,7 +81,6 @@
 
 @interface BYQuickShotView ()
 
-- (void)prepareSession;
 - (AVCaptureDevice*)rearCamera;
 - (void)captureImage;
 - (CGRect)previewLayerFrame;

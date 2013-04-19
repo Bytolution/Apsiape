@@ -8,7 +8,6 @@
 
 #import "BYLocationTagView.h"
 #import "Colours.h"
-#import <QuartzCore/QuartzCore.h>
 
 @interface BYLocationTagViewLayerGreen : UIView
 
@@ -65,7 +64,7 @@
 @end
 
 
-@interface BYLocationTagView () <CAAction>
+@interface BYLocationTagView ()
 
 @property (nonatomic, strong) BYLocationTagViewLayerGrey *greyLayer;
 

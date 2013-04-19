@@ -14,6 +14,8 @@
 
 @interface BYCollectionView ()
 
+- (void)calculateContentSize;
+
 @end
 
 @implementation BYCollectionView
@@ -39,10 +41,6 @@
 
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
-    //add CELL_CONTENT_INSET because otherwise our little tweak to align the cells will be visible
-    self.contentSize = CGSizeMake(self.bounds.size.width, ([self.collectionViewDataSource numberOfCellsInCollectionView]/2) * [self.collectionViewDataSource heightForCellsInCollectionView] + CELL_CONTENT_INSET);
-    if (self.contentSize.height < self.bounds.size.height) self.contentSize = CGSizeMake(self.bounds.size.width, self.bounds.size.height + CELL_CONTENT_INSET +1);
-    //
     [self loadCollectionView];
 }
 
@@ -63,6 +61,16 @@
         cell.delegate = self;
         [self addSubview:cell];
     }
+    [self calculateContentSize];
+}
+
+- (void)calculateContentSize
+{
+    float numberOfCells = [self.collectionViewDataSource numberOfCellsInCollectionView];
+    float heightOfCells = [self.collectionViewDataSource heightForCellsInCollectionView];
+    self.contentSize = CGSizeMake(self.bounds.size.width,  (roundf((numberOfCells/2.0f)) * heightOfCells)  + CELL_CONTENT_INSET);
+    if (self.contentSize.height < self.bounds.size.height) self.contentSize = CGSizeMake(self.bounds.size.width, self.bounds.size.height + CELL_CONTENT_INSET + 1);
+
 }
 
 @end

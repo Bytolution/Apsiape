@@ -9,12 +9,10 @@
 #import "BYContainerViewController.h"
 #import "InterfaceConstants.h"
 #import "BYMainViewController.h"
-#import "BYHeaderBar.h"
 
 @interface BYContainerViewController ()
 
 @property (nonatomic, strong) BYMainViewController *mainViewController;
-@property (nonatomic, strong) BYHeaderBar *headerBar;
 
 @end
 
@@ -36,28 +34,16 @@
     return _mainViewController; 
 }
 
-- (BYHeaderBar *)headerBar {
-    if (!_headerBar) _headerBar = [[BYHeaderBar alloc]init];
-    return _headerBar;
-}
-
 - (void)viewWillAppear:(BOOL)animated {
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-    [self addChildViewController:self.headerBar];
-    self.headerBar.view.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), HEADER_VIEW_HEIGHT);
-    [self.view addSubview:self.headerBar.view];
-    [self.headerBar didMoveToParentViewController:self];
-    
     [self addChildViewController:self.mainViewController];
-    self.mainViewController.view.frame = CGRectMake(0, HEADER_VIEW_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - HEADER_VIEW_HEIGHT);
+    self.mainViewController.view.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     [self.view addSubview:self.mainViewController.view];
     [self.mainViewController didMoveToParentViewController:self];
 }
 
 - (void)displayDetailViewController:(UIViewController*)detailViewController withAnimationParameters:(NSDictionary*)params {
     [self addChildViewController:detailViewController];
-    detailViewController.view.frame = CGRectMake(0, HEADER_VIEW_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - HEADER_VIEW_HEIGHT);
+    detailViewController.view.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
     detailViewController.view.alpha = 0;
 //    [detailViewController viewWillAppear:YES];
     [self.view addSubview:detailViewController.view];

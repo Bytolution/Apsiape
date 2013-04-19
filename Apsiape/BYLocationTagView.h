@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BYLocationTagView : UIView
+@interface BYLocationTagView : UIView 
 
 @property (nonatomic, strong) UIColor *tagColor;
 

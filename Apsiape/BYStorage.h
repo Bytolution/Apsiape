@@ -18,7 +18,6 @@
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 - (void)saveDocument;
-- (void)startLocationTracking;
 
 + (NSArray*)primaryAppColorScheme;
 + (NSArray*)secondaryAppColorScheme;

@@ -26,7 +26,6 @@
 
 - (void)scrollViewDidScrollToLastPage;
 
-- (void)saveExpenseToDocument;
 
 @end
 
