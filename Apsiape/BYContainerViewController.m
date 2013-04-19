@@ -9,12 +9,12 @@
 #import "BYContainerViewController.h"
 #import "InterfaceConstants.h"
 #import "BYMainViewController.h"
-#import "BYHeaderBarViewController.h"
+#import "BYHeaderBar.h"
 
 @interface BYContainerViewController ()
 
 @property (nonatomic, strong) BYMainViewController *mainViewController;
-@property (nonatomic, strong) BYHeaderBarViewController *headerBarViewController;
+@property (nonatomic, strong) BYHeaderBar *headerBar;
 
 @end
 
@@ -36,18 +36,18 @@
     return _mainViewController; 
 }
 
-- (BYHeaderBarViewController *)headerBarViewController {
-    if (!_headerBarViewController) _headerBarViewController = [[BYHeaderBarViewController alloc]init];
-    return _headerBarViewController;
+- (BYHeaderBar *)headerBar {
+    if (!_headerBar) _headerBar = [[BYHeaderBar alloc]init];
+    return _headerBar;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [self addChildViewController:self.headerBarViewController];
-    self.headerBarViewController.view.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), HEADER_VIEW_HEIGHT);
-    [self.view addSubview:self.headerBarViewController.view];
-    [self.headerBarViewController didMoveToParentViewController:self];
+    [self addChildViewController:self.headerBar];
+    self.headerBar.view.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), HEADER_VIEW_HEIGHT);
+    [self.view addSubview:self.headerBar.view];
+    [self.headerBar didMoveToParentViewController:self];
     
     [self addChildViewController:self.mainViewController];
     self.mainViewController.view.frame = CGRectMake(0, HEADER_VIEW_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - HEADER_VIEW_HEIGHT);

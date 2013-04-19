@@ -31,9 +31,12 @@
     NSManagedObjectContext *context = [[BYStorage sharedStorage] managedObjectContext];
     NSError *error;
     self.collectionViewData = [context executeFetchRequest:fetchR error:&error];
+    [self.customCollectionView loadCollectionView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCollectionViewData) name:UIDocumentStateChangedNotification object:nil];
+    
     self.customCollectionView = [[BYCollectionView alloc]initWithFrame:self.view.bounds];
     self.customCollectionView.collectionViewDataSource = self;
     self.customCollectionView.collectionViewDelegate = self;
@@ -46,7 +49,7 @@
 }
 
 - (NSInteger)numberOfCellsInCollectionView {
-    return 10;
+    return self.collectionViewData.count;
 }
 
 - (CGFloat)heightForCellsInCollectionView {
@@ -54,7 +57,6 @@
 }
 
 - (void)collectionView:(BYCollectionView *)collectionView cellDidDetectedTapGesture:(BYCollectionViewCell *)cell atIndex:(NSInteger)index {
-    cell.backgroundColor = [UIColor lightGrayColor];
     BYContainerViewController *conViewCon = [BYContainerViewController sharedContainerViewController];
     [conViewCon displayDetailViewController:[[BYExpenseViewController alloc]init] withAnimationParameters:nil];
 }
