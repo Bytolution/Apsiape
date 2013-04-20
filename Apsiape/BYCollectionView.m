@@ -56,6 +56,9 @@
 
 - (void)loadCollectionView
 {
+    for (UIView *subview in self.subviews) {
+        [subview removeFromSuperview];
+    }
     for (int i = 0; i < [self.collectionViewDataSource numberOfCellsInCollectionView]; i++) {
         BYCollectionViewCell *cell = [self.collectionViewDataSource collectionView:self cellAtIndex:i];
         cell.delegate = self;

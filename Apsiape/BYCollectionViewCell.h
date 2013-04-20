@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BYCollectionViewCell.h"
 
 @class BYCollectionViewCell;
 
@@ -20,6 +21,9 @@
 
 @property (nonatomic, strong) id <BYCollectionViewCellDelegate> delegate;
 
-- (id)initWithFrame:(CGRect)frame cellAttributes:(NSDictionary*)attributes index:(NSInteger)index;
+- (id)initWithFrame:(CGRect)frame index:(NSInteger)index;
+
+@property (nonatomic, strong) UIImage *image;
+@property (nonatomic, strong) NSString *title;
 
 @end

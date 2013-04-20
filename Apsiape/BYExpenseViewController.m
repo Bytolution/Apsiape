@@ -118,6 +118,7 @@
         newExpense.location = self.addLocationViewController.locationData;
         [[BYStorage sharedStorage] saveDocument];
     }
+    
     [self.view removeFromSuperview];
 }
 

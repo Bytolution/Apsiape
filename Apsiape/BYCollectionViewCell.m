@@ -14,8 +14,8 @@
 
 @interface BYCollectionViewCell ()
 
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) UIImage *image;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic) BOOL locationTagActive;
 @property (nonatomic) CGRect containerFrame;
@@ -43,27 +43,36 @@
     return rect;
 }
 
-- (id)initWithFrame:(CGRect)frame cellAttributes:(NSDictionary *)attributes index:(NSInteger)index {
+- (id)initWithFrame:(CGRect)frame index:(NSInteger)index {
     self = [super initWithFrame:frame];
     if (self)
     {
         self.index = index;
         self.backgroundColor = [UIColor clearColor];
-        if (!self.containerView) self.containerView = [[UIView alloc]initWithFrame:self.containerFrame];
         
-        UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.containerFrame.size.width, self.containerFrame.size.height/2.5)];
-        titleLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
-        titleLabel.text = [attributes objectForKey:@"title"];
-        titleLabel.textColor = [UIColor whiteColor];
-        titleLabel.font = [UIFont systemFontOfSize:20];
-        titleLabel.textAlignment = NSTextAlignmentCenter;
-        [self.containerView addSubview:titleLabel];
-        self.containerView.backgroundColor = [UIColor colorWithWhite:1 alpha: .8];
-        [self addSubview:self.containerView];
         UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapDetected)];
         [self addGestureRecognizer:tgr];
     }
     return self;
+}
+
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    if (!self.containerView) self.containerView = [[UIView alloc]initWithFrame:self.containerFrame];
+    self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.containerFrame.size.width, self.containerFrame.size.height/2.5)];
+    self.titleLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
+    self.titleLabel.text = self.title;
+    self.titleLabel.textColor = [UIColor whiteColor];
+    self.titleLabel.font = [UIFont systemFontOfSize:20];
+    self.titleLabel.textAlignment = NSTextAlignmentCenter;
+    
+    if (!self.imageView) self.imageView = [[UIImageView alloc]initWithImage:self.image];
+    self.imageView.frame = self.containerView.bounds;
+    
+    [self.containerView insertSubview:self.imageView belowSubview:self.titleLabel];
+    [self.containerView addSubview:self.titleLabel];
+    self.containerView.backgroundColor = [UIColor colorWithWhite:1 alpha: .8];
+    [self addSubview:self.containerView];
 }
 
 - (void)tapDetected {

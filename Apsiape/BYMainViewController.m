@@ -8,14 +8,14 @@
 
 #import <CoreData/CoreData.h>
 #import "BYMainViewController.h"
+#import "BYCollectionView.h"
 #import "BYStorage.h"
-#import "InterfaceConstants.h"
-#import "BYCollectionViewCell.h"
 #import "BYExpenseViewController.h"
 #import "BYContainerViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "Expense.h"
 
-@interface BYMainViewController () <UIScrollViewDelegate> {
+@interface BYMainViewController () <UIScrollViewDelegate, BYCollectionViewDataSource, BYCollectionViewDelegate> {
     UIView *refreshHeaderView;
     UILabel *refreshLabel;
     UIImageView *refreshArrow;
@@ -56,8 +56,12 @@
 }
 
 
-- (UIView *)collectionView:(BYCollectionView *)collectionView cellAtIndex:(NSInteger)index {
-    BYCollectionViewCell *cell = [[BYCollectionViewCell alloc]initWithFrame:[collectionView frameForCellAtIndex:index] cellAttributes:@{@"title" : @"text"} index:index];
+- (UIView *)collectionView:(BYCollectionView *)collectionView cellAtIndex:(NSInteger)index
+{
+    BYCollectionViewCell *cell = [[BYCollectionViewCell alloc]initWithFrame:[collectionView frameForCellAtIndex:index] index:index];
+    Expense *expense = self.collectionViewData[index];
+    cell.title = expense.value;
+    cell.image = expense.image;
     return cell;
 }
 
@@ -66,14 +70,14 @@
 }
 
 - (CGFloat)heightForCellsInCollectionView {
-    return CELL_HEIGHT;
+    return 120;
 }
 
 - (void)collectionView:(BYCollectionView *)collectionView cellDidDetectedTapGesture:(BYCollectionViewCell *)cell atIndex:(NSInteger)index {
     
 }
 
-//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+//-------------------------------------------------------Refresh header implementation------------------------------------------------------------------------------------------//
 
 
 - (void)addPullToRefreshHeader {

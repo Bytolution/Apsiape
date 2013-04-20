@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BYCollectionView.h"
 
-@interface BYMainViewController : UIViewController <BYCollectionViewDataSource, BYCollectionViewDelegate>
+@interface BYMainViewController : UIViewController 
 
 @property (nonatomic, strong) UIViewController *containerViewController;
 
