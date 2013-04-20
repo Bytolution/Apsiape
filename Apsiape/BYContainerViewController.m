@@ -53,16 +53,16 @@
     [self.view addSubview:self.mainViewController.view];
     [self.mainViewController didMoveToParentViewController:self];
     
-    UINavigationBar *navBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, 320, 44)];
+    UINavigationBar *navBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, 320, HEADER_HEIGHT)];
     [self.view addSubview:navBar];
-    UITabBar *tabBar = [[UITabBar alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - 24, 320, 24)];
+    UITabBar *tabBar = [[UITabBar alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - FOOTER_HEIGHT, 320, FOOTER_HEIGHT)];
     tabBar.tintColor = [UIColor darkGrayColor];
     [self.view addSubview:tabBar];
 }
 
 - (void)displayDetailViewController:(UIViewController*)detailViewController withAnimationParameters:(NSDictionary*)params {
     [self addChildViewController:detailViewController];
-    detailViewController.view.frame = CGRectMake(0, 44, self.view.bounds.size.width, self.view.bounds.size.height - 68);
+    detailViewController.view.frame = self.contentFrame;
     detailViewController.view.alpha = 0;
 //    [detailViewController viewWillAppear:YES];
     [self.view addSubview:detailViewController.view];

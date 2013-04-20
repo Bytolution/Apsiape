@@ -35,8 +35,6 @@
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     [self loadCollectionView];
-    
-    self.alwaysBounceVertical = YES;
 }
 
 - (void)drawRect:(CGRect)rect {
