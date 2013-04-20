@@ -7,7 +7,6 @@
 //
 
 #import "BYCollectionView.h"
-#import "InterfaceConstants.h"
 #import "BYExpenseViewController.h"
 #import "BYContainerViewController.h"
 #import "BYStorage.h"

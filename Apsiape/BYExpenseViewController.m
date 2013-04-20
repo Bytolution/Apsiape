@@ -11,17 +11,11 @@
 #import "BYExpenseInputViewController.h"
 #import "Expense.h"
 #import "BYStorage.h"
-#import "BYAddPhotoViewController.h"
-#import "BYAddLocationViewController.h"
-#import "BYConclusionViewController.h"
 
 @interface BYExpenseViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) BYExpenseInputViewController *expenseInputViewController;
-@property (nonatomic, strong) BYAddPhotoViewController *addPhotoViewController;
-@property (nonatomic, strong) BYAddLocationViewController *addLocationViewController;
-@property (nonatomic, strong) BYConclusionViewController *conclusionViewController;
 
 
 - (void)scrollViewDidScrollToLastPage;
@@ -39,21 +33,6 @@
 - (BYExpenseInputViewController*)expenseInputViewController {
     if (!_expenseInputViewController) _expenseInputViewController = [[BYExpenseInputViewController alloc] init];
     return _expenseInputViewController;
-}
-
-- (BYAddPhotoViewController *)addPhotoViewController {
-    if (!_addPhotoViewController) _addPhotoViewController = [[BYAddPhotoViewController alloc] init];
-    return _addPhotoViewController;
-}
-
-- (BYAddLocationViewController *)addLocationViewController {
-    if (!_addLocationViewController) _addLocationViewController = [[BYAddLocationViewController alloc]init];
-    return _addLocationViewController;
-}
-
-- (BYConclusionViewController *)conclusionViewController {
-    if (!_conclusionViewController) _conclusionViewController = [[BYConclusionViewController alloc]init];
-    return _conclusionViewController;
 }
 
 - (void)viewDidLoad
@@ -79,27 +58,6 @@
     [self.expenseInputViewController viewWillAppear:NO];
     [self.scrollView addSubview:self.expenseInputViewController.view];
     [self.expenseInputViewController viewDidAppear:NO];
-    // No 2
-    CGRect secondPageRect = self.scrollView.bounds;
-    secondPageRect.origin.y = self.scrollView.bounds.size.height;
-    self.addPhotoViewController.view.frame = secondPageRect;
-    [self.addPhotoViewController viewWillAppear:NO];
-    [self.scrollView addSubview:self.addPhotoViewController.view];
-    [self.addPhotoViewController viewDidAppear:NO];
-    // No 3
-    CGRect thirdPageRect = self.scrollView.bounds;
-    thirdPageRect.origin.y = self.scrollView.bounds.size.height * 2;
-    self.addLocationViewController.view.frame = thirdPageRect;
-    [self.addLocationViewController viewWillAppear:NO];
-    [self.scrollView addSubview:self.addLocationViewController.view];
-    [self.addLocationViewController viewDidAppear:NO];
-    // No 4
-    CGRect fourthPageRect = self.scrollView.bounds;
-    fourthPageRect.origin.y = self.scrollView.bounds.size.height * 3;
-    self.conclusionViewController.view.frame = fourthPageRect;
-    [self.conclusionViewController viewWillAppear:NO];
-    [self.scrollView addSubview:self.conclusionViewController.view];
-    [self.conclusionViewController viewDidAppear:NO];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -108,14 +66,12 @@
     }
 }
 
-- (void)scrollViewDidScrollToLastPage {
-    self.conclusionViewController.view.backgroundColor = [UIColor greenColor];
+- (void)scrollViewDidScrollToLastPage
+{
     if (![self.expenseInputViewController.valueString isEqualToString:@""]) {
         NSManagedObjectContext *context = [BYStorage sharedStorage].managedObjectContext;
         Expense *newExpense = [NSEntityDescription insertNewObjectForEntityForName:@"Expense" inManagedObjectContext:context];
         newExpense.value = self.expenseInputViewController.valueString;
-        newExpense.image = self.addPhotoViewController.capturedPhoto;
-        newExpense.location = self.addLocationViewController.locationData;
         [[BYStorage sharedStorage] saveDocument];
     }
     

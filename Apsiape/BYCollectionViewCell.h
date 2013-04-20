@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "BYCollectionViewCell.h"
 
+#define CELL_CONTENT_INSET 4
+
 @class BYCollectionViewCell;
 
 @protocol BYCollectionViewCellDelegate <NSObject>
