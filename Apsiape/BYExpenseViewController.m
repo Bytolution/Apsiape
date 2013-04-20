@@ -47,7 +47,7 @@
     
     // Setup of the scrollView
     self.scrollView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width, self.scrollView.bounds.size.height * 4);
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width, self.scrollView.bounds.size.height);
     self.scrollView.pagingEnabled = YES;
     self.scrollView.bounces = NO;
     self.scrollView.delegate = self;
@@ -64,18 +64,6 @@
     if (scrollView.contentOffset.y == scrollView.contentSize.height * (3.0f/4.0f)) {
         [self scrollViewDidScrollToLastPage];
     }
-}
-
-- (void)scrollViewDidScrollToLastPage
-{
-    if (![self.expenseInputViewController.valueString isEqualToString:@""]) {
-        NSManagedObjectContext *context = [BYStorage sharedStorage].managedObjectContext;
-        Expense *newExpense = [NSEntityDescription insertNewObjectForEntityForName:@"Expense" inManagedObjectContext:context];
-        newExpense.value = self.expenseInputViewController.valueString;
-        [[BYStorage sharedStorage] saveDocument];
-    }
-    
-    [self.view removeFromSuperview];
 }
 
 

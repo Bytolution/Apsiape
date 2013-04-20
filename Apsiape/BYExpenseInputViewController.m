@@ -23,7 +23,7 @@
 
 @implementation BYExpenseInputViewController
 
-#define KEYBOARD_HEIGHT 400
+#define KEYBOARD_HEIGHT 240
 
 - (BYExpenseInputView *)expenseInputView {
     if (!_expenseInputView) _expenseInputView = [[BYExpenseInputView alloc]initWithFrame:CGRectMake(0, 0, 320, self.view.bounds.size.height - KEYBOARD_HEIGHT)];
