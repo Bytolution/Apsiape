@@ -12,12 +12,6 @@
 #import "BYContainerViewController.h"
 #import "BYStorage.h"
 
-@interface BYCollectionView ()
-
-- (void)calculateContentSize;
-
-@end
-
 @implementation BYCollectionView
 
 - (id)initWithFrame:(CGRect)frame
@@ -42,6 +36,8 @@
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     [self loadCollectionView];
+    
+    self.alwaysBounceVertical = YES;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -64,16 +60,11 @@
         cell.delegate = self;
         [self addSubview:cell];
     }
-    [self calculateContentSize];
-}
-
-- (void)calculateContentSize
-{
+    
+    // because with a changing number of items the contentSize also changes
     float numberOfCells = [self.collectionViewDataSource numberOfCellsInCollectionView];
     float heightOfCells = [self.collectionViewDataSource heightForCellsInCollectionView];
     self.contentSize = CGSizeMake(self.bounds.size.width,  (roundf((numberOfCells/2.0f)) * heightOfCells)  + CELL_CONTENT_INSET);
-    if (self.contentSize.height < self.bounds.size.height) self.contentSize = CGSizeMake(self.bounds.size.width, self.bounds.size.height + CELL_CONTENT_INSET + 1);
-
 }
 
 @end

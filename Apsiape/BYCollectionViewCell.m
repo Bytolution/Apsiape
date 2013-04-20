@@ -66,8 +66,11 @@
     self.titleLabel.font = [UIFont systemFontOfSize:20];
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     
+    self.containerView.clipsToBounds = YES;
+    
     if (!self.imageView) self.imageView = [[UIImageView alloc]initWithImage:self.image];
-    self.imageView.frame = self.containerView.bounds;
+    self.imageView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.width);
+    self.imageView.center = self.containerView.center;
     
     [self.containerView insertSubview:self.imageView belowSubview:self.titleLabel];
     [self.containerView addSubview:self.titleLabel];
@@ -75,22 +78,9 @@
     [self addSubview:self.containerView];
 }
 
-- (void)tapDetected {
-    [self.delegate cellDidDetectTapGesture:self withCellIndex:self.index];
-}
-
-- (void)drawRect:(CGRect)rect
+- (void)tapDetected
 {
-    CGFloat borderWidth = 1;
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    // this draws the rectangle on the outside of our content area. else it would be drawn half inside and half outside the path 
-    CGContextAddRect(context, CGRectMake(self.containerFrame.origin.x - (borderWidth/2), self.containerFrame.origin.y - (borderWidth/2), self.containerFrame.size.width + borderWidth, self.containerFrame.size.height + borderWidth));
-    CGContextSetShadowWithColor(context, CGSizeMake(0, 0), 3, [[UIColor blackColor] CGColor]);
-    [[UIColor blackColor] setStroke];
-    CGContextSetLineWidth(context, borderWidth);
-    CGContextDrawPath(context, kCGPathStroke);
-    [super drawRect:rect];
+    [self.delegate cellDidDetectTapGesture:self withCellIndex:self.index];
 }
 
 @end
