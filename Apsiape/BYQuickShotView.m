@@ -19,6 +19,7 @@
 - (CGRect)previewLayerFrame;
 - (UIImage*)cropImage:(UIImage*)imageToCrop;
 - (void)animateFlash;
+- (void)tapDetected;
 
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (nonatomic, strong) AVCaptureStillImageOutput *stillImageOutput;
@@ -37,6 +38,37 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
+        
+        AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.rearCamera error:nil];
+        AVCaptureStillImageOutput *newStillImageOutput = [[AVCaptureStillImageOutput alloc] init];
+        NSDictionary *outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                        AVVideoCodecJPEG, AVVideoCodecKey,
+                                        nil];
+        [newStillImageOutput setOutputSettings:outputSettings];
+        
+        AVCaptureSession *newCaptureSession = [[AVCaptureSession alloc] init];
+        
+        if ([newCaptureSession canAddInput:newVideoInput]) {
+            [newCaptureSession addInput:newVideoInput];
+        }
+        
+        if ([newCaptureSession canAddOutput:newStillImageOutput]) {
+            [newCaptureSession addOutput:newStillImageOutput];
+            self.stillImageOutput = newStillImageOutput;
+            self.captureSession = newCaptureSession;
+        }
+        dispatch_queue_t layerQ = dispatch_queue_create("layerQ", NULL);
+        dispatch_async(layerQ, ^{
+            [self.captureSession startRunning];
+            AVCaptureVideoPreviewLayer *prevLayer = [[AVCaptureVideoPreviewLayer alloc]initWithSession:self.captureSession];
+            prevLayer.masksToBounds = YES;
+            prevLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                prevLayer.frame = self.previewLayerFrame;
+                [self.layer insertSublayer:prevLayer atIndex:0];
+                [self.delegate quickShotViewDidFinishPreparation:self];
+            });
+        });
     }
     return self;
 }
@@ -75,38 +107,9 @@
     return captureDevice;
 }
 
-- (void)willMoveToSuperview:(UIView *)newSuperview
-{
-    AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.rearCamera error:nil];
-    AVCaptureStillImageOutput *newStillImageOutput = [[AVCaptureStillImageOutput alloc] init];
-    NSDictionary *outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                AVVideoCodecJPEG, AVVideoCodecKey,
-                                nil];
-    [newStillImageOutput setOutputSettings:outputSettings];
-
-    AVCaptureSession *newCaptureSession = [[AVCaptureSession alloc] init];
-
-    if ([newCaptureSession canAddInput:newVideoInput]) {
-        [newCaptureSession addInput:newVideoInput];
-    }
-    
-    if ([newCaptureSession canAddOutput:newStillImageOutput]) {
-        [newCaptureSession addOutput:newStillImageOutput];
-        self.stillImageOutput = newStillImageOutput;
-        self.captureSession = newCaptureSession;
-    }
-    dispatch_queue_t layerQ = dispatch_queue_create("layerQ", NULL);
-    dispatch_async(layerQ, ^{
-        [self.captureSession startRunning];
-        AVCaptureVideoPreviewLayer *prevLayer = [[AVCaptureVideoPreviewLayer alloc]initWithSession:self.captureSession];
-            prevLayer.frame = self.previewLayerFrame;
-            prevLayer.masksToBounds = YES;
-            prevLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.layer insertSublayer:prevLayer atIndex:0];
-            [self.delegate quickShotViewDidFinishPreparation:self];
-        });
-    });
+- (void)willMoveToSuperview:(UIView *)newSuperview {
+    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapDetected)];
+    [self addGestureRecognizer:tgr];
 }
 
 - (void)captureImage
@@ -142,7 +145,7 @@
                                                        }];
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)tapDetected
 {
     if (!self.imagePreView.image) {
         [self captureImage];
