@@ -11,73 +11,6 @@
 #import <CoreMedia/CoreMedia.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface BYQuickShotViewOverlayView : UIView
-
-@end
-
-@implementation BYQuickShotViewOverlayView
-
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.backgroundColor = [UIColor clearColor];
-    }
-    return self;
-}
-
-- (void)drawRect:(CGRect)rect {
-    CGRect bounds = self.bounds;
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    // Create the "visible" path, which will be the shape that gets the inner shadow
-    // In this case it's just a rounded rect, but could be as complex as your want
-    CGMutablePathRef visiblePath = CGPathCreateMutable();
-    CGPathAddRect(visiblePath, NULL, bounds);
-    CGPathCloseSubpath(visiblePath);
-    
-    // Fill this path
-    UIColor *aColor = [UIColor clearColor];
-    [aColor setFill];
-    CGContextAddPath(context, visiblePath);
-    CGContextFillPath(context);
-    
-    // Now create a larger rectangle, which we're going to subtract the visible path from
-    // and apply a shadow
-    CGMutablePathRef path = CGPathCreateMutable();
-    //(when drawing the shadow for a path whichs bounding box is not known pass "CGPathGetPathBoundingBox(visiblePath)" instead of "bounds" in the following line:)
-    CGPathAddRect(path, NULL, CGRectInset(bounds, -10, -10));
-    
-    // Add the visible path (so that it gets subtracted for the shadow)
-    CGPathAddPath(path, NULL, visiblePath);
-    CGPathCloseSubpath(path);
-        
-    // Add the visible paths as the clipping path to the context
-    CGContextAddPath(context, visiblePath);
-    CGContextClip(context);
-    
-    // Now setup the shadow properties on the context
-    aColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f];
-    CGContextSaveGState(context);
-    CGContextSetShadowWithColor(context, CGSizeMake(0.0f, 0.0f), 10.0f, [aColor CGColor]);
-    
-    // Now fill the rectangle, so the shadow gets drawn
-    [aColor setFill];
-    CGContextSaveGState(context);   
-    CGContextAddPath(context, path);
-    CGContextEOFillPath(context);
-    
-    CGContextSetStrokeColorWithColor(context, [[UIColor whiteColor]CGColor]);
-//    CGContextAddRect(context, rect);
-    CGContextSetLineWidth(context, 2);
-    CGContextDrawPath(context, kCGPathStroke);
-    
-    // Release the paths
-    CGPathRelease(path);    
-    CGPathRelease(visiblePath);
-}
-
-@end
 
 @interface BYQuickShotView ()
 
@@ -90,7 +23,6 @@
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (nonatomic, strong) AVCaptureStillImageOutput *stillImageOutput;
 @property (nonatomic, strong) UIImageView *imagePreView;
-@property (nonatomic, strong) BYQuickShotViewOverlayView *overlayView;
 
 @end
 
@@ -107,11 +39,6 @@
         self.backgroundColor = [UIColor clearColor];
     }
     return self;
-}
-
-- (BYQuickShotViewOverlayView *)overlayView {
-    if (!_overlayView) _overlayView = [[BYQuickShotViewOverlayView alloc]initWithFrame:self.bounds];
-    return _overlayView;
 }
 
 - (UIImageView *)imagePreView
@@ -148,9 +75,8 @@
     return captureDevice;
 }
 
-- (void)willMoveToSuperview:(UIView *)newSuperview {
-    [self addSubview:self.overlayView];
-    
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
     AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.rearCamera error:nil];
     AVCaptureStillImageOutput *newStillImageOutput = [[AVCaptureStillImageOutput alloc] init];
     NSDictionary *outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -178,7 +104,7 @@
             prevLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.layer insertSublayer:prevLayer atIndex:0];
-            
+            [self.delegate quickShotViewDidFinishPreparation:self];
         });
     });
 }
@@ -208,7 +134,7 @@
                                                            }
                                                            UIImage *croppedImg = [self cropImage:capturedImage];
                                                            if (!self.imagePreView.superview) {
-                                                               [self insertSubview:self.imagePreView belowSubview:self.overlayView];
+                                                               [self addSubview:self.imagePreView];
                                                            }
                                                            self.imagePreView.image = croppedImg;
                                                            [self.delegate didTakeSnapshot:croppedImg];

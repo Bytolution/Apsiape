@@ -66,7 +66,7 @@
     detailViewController.view.frame = CGRectMake(-self.contentFrame.size.width, self.contentFrame.origin.y, self.contentFrame.size.width, self.contentFrame.size.height);
     [self.view addSubview:detailViewController.view];
     [detailViewController didMoveToParentViewController:self];
-    [UIView animateWithDuration:0.6 animations:^{
+    [UIView animateWithDuration:0.4 animations:^{
         detailViewController.view.frame = self.contentFrame;
         self.mainViewController.view.frame = CGRectMake(self.contentFrame.size.width, self.contentFrame.origin.y, self.contentFrame.size.width, self.contentFrame.size.height);
     }];

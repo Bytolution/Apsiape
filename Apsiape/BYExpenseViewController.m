@@ -8,62 +8,85 @@
 
 #import <CoreData/CoreData.h>
 #import "BYExpenseViewController.h"
-#import "BYExpenseInputViewController.h"
+#import "BYExpenseKeyboard.h"
+#import "BYExpenseInputView.h"
 #import "Expense.h"
 #import "BYStorage.h"
 
-@interface BYExpenseViewController () <UIScrollViewDelegate>
+@interface BYExpenseViewController () <UIScrollViewDelegate, BYExpenseKeyboardDelegate>
 
+@property (nonatomic, strong) NSMutableString *expenseValue;
+@property (nonatomic, strong) BYExpenseInputView *expenseInputView;
+@property (nonatomic, strong) BYExpenseKeyboard *decimalKeyboard;
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) BYExpenseInputViewController *expenseInputViewController;
 
-
-- (void)scrollViewDidScrollToLastPage;
-
+- (void)setSubviewColors;
 
 @end
 
 @implementation BYExpenseViewController
 
-- (UIScrollView *)scrollView {
-    if (!_scrollView) _scrollView = [[UIScrollView alloc]init];
+#define KEYBOARD_HEIGHT 240
+
+- (UIScrollView *)scrollView
+{
+    if (!_scrollView) _scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, self.view.bounds.size.height - KEYBOARD_HEIGHT)];
     return _scrollView;
 }
 
-- (BYExpenseInputViewController*)expenseInputViewController {
-    if (!_expenseInputViewController) _expenseInputViewController = [[BYExpenseInputViewController alloc] init];
-    return _expenseInputViewController;
+- (BYExpenseInputView *)expenseInputView {
+    if (!_expenseInputView) _expenseInputView = [[BYExpenseInputView alloc]initWithFrame:self.scrollView.bounds];
+    return _expenseInputView;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-	// Do any additional setup after loading the view.
+- (BYExpenseKeyboard *)decimalKeyboard {
+    if (!_decimalKeyboard) _decimalKeyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height - KEYBOARD_HEIGHT, 320, KEYBOARD_HEIGHT)];
+    return _decimalKeyboard;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    // Setup of the scrollView
-    self.scrollView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width, self.scrollView.bounds.size.height);
-    self.scrollView.pagingEnabled = YES;
-    self.scrollView.bounces = NO;
-    self.scrollView.delegate = self;
-    [self.view addSubview:self.scrollView];
-    
-    // Adding view controller No 1
-    self.expenseInputViewController.view.frame = self.scrollView.bounds;
-    [self.expenseInputViewController viewWillAppear:NO];
-    [self.scrollView addSubview:self.expenseInputViewController.view];
-    [self.expenseInputViewController viewDidAppear:NO];
+- (NSNumber *)valueString {
+    return [self.expenseValue copy];
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView.contentOffset.y == scrollView.contentSize.height * (3.0f/4.0f)) {
-        [self scrollViewDidScrollToLastPage];
+- (NSMutableString *)expenseValue {
+    if (!_expenseValue) _expenseValue = [[NSMutableString alloc]init];
+    return _expenseValue;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [self setSubviewColors];
+    [self.view addSubview:self.decimalKeyboard];
+    [self.view addSubview:self.expenseInputView];
+    self.decimalKeyboard.delegate = self;
+}
+
+- (void)setSubviewColors {
+    self.decimalKeyboard.backgroundColor = [UIColor whiteColor];
+    self.expenseInputView.backgroundColor = [UIColor whiteColor];
+    self.expenseInputView.fontColor = [UIColor blackColor];
+    self.decimalKeyboard.fontColor = [UIColor darkGrayColor];
+}
+
+- (void)numberKeyTapped:(NSString *)numberString {
+    NSRange decSeparatorRange = [self.expenseValue rangeOfString:@"."];
+    if (decSeparatorRange.length == 1) {
+        if (decSeparatorRange.location < self.expenseValue.length - 2) return;
+        if ([numberString isEqualToString:@"."]) return;
     }
+    if (self.expenseValue.length == 7) return;
+    
+    [self.expenseValue appendString:numberString];
+    self.expenseInputView.text = self.expenseValue;
+}
+
+- (void)deleteKeyTapped {
+    if (self.expenseValue.length < 1) {
+        return;
+    } else {
+        NSRange range = NSMakeRange(self.expenseValue.length - 1, 1);
+        [self.expenseValue deleteCharactersInRange:range];
+    }
+    self.expenseInputView.text = self.expenseValue;
 }
 
 

@@ -8,13 +8,6 @@
 
 #import "BYExpenseInputView.h"
 
-@interface BYExpenseInputView () 
-
-@property (nonatomic) BOOL includeDecimalSeparator;
-@property (nonatomic, strong) NSMutableString *firstSubstring;
-@property (nonatomic, strong) NSMutableString *secondSubstring;
-
-@end
 
 @implementation BYExpenseInputView
 
@@ -26,18 +19,6 @@
     }
     return self;
 }
-//
-//- (void)addCharacter:(NSString *)character {
-//    if (![character isEqualToString:@"."]) {
-//        self.includeDecimalSeparator = YES;
-//    } else {
-//        if (!self.includeDecimalSeparator) {
-//            [self.firstSubstring appendString:character];
-//        } else {
-//            
-//        }
-//    }
-//}
 
 - (void)setText:(NSString *)text {
     _text = text;
@@ -66,9 +47,6 @@
     [currString drawInRect:txtRect withFont:[UIFont fontWithName:@"Miso-Light" size:65] lineBreakMode:NSLineBreakByCharWrapping alignment:NSTextAlignmentRight];
     
     // TODO: implementation for all currencies
-    
-    
-    
 }
 
 

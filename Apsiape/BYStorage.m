@@ -111,12 +111,5 @@
     return [UIFont fontWithName:@"Helvetica" size:18];
 }
 
-+ (NSArray *)primaryAppColorScheme {
-    return [Colours generateColorSchemeFromColor:ColorSnow ofType:ColorSchemeAnalagous];
-}
-
-+ (NSArray *)secondaryAppColorScheme {
-    return [Colours generateColorSchemeFromColor:ColorCharcoal ofType:ColorSchemeAnalagous];
-}
 
 @end
