@@ -180,12 +180,7 @@
 			children = (
 				A373763116F62FF400611FC6 /* BYExpenseViewController.h */,
 				A373763216F62FF400611FC6 /* BYExpenseViewController.m */,
-				A3A24CD716FA1F5D0058493E /* BYExpenseInputView.h */,
-				A3A24CD816FA1F5D0058493E /* BYExpenseInputView.m */,
-				A3F7FAC516FA36D1002F58AA /* BYExpenseKeyboard.h */,
-				A3F7FAC616FA36D1002F58AA /* BYExpenseKeyboard.m */,
-				A39162AF1703667F00B3F9FF /* BYQuickShotView.h */,
-				A39162B01703667F00B3F9FF /* BYQuickShotView.m */,
+				A3EAF9BE1725BD7900DE0116 /* Supporting View */,
 			);
 			name = "Expense Creation";
 			sourceTree = "<group>";
@@ -209,6 +204,19 @@
 				A3193F15171C613A00EED786 /* Expense.m */,
 			);
 			name = "Core Data";
+			sourceTree = "<group>";
+		};
+		A3EAF9BE1725BD7900DE0116 /* Supporting View */ = {
+			isa = PBXGroup;
+			children = (
+				A3A24CD716FA1F5D0058493E /* BYExpenseInputView.h */,
+				A3A24CD816FA1F5D0058493E /* BYExpenseInputView.m */,
+				A3F7FAC516FA36D1002F58AA /* BYExpenseKeyboard.h */,
+				A3F7FAC616FA36D1002F58AA /* BYExpenseKeyboard.m */,
+				A39162AF1703667F00B3F9FF /* BYQuickShotView.h */,
+				A39162B01703667F00B3F9FF /* BYQuickShotView.m */,
+			);
+			name = "Supporting View";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

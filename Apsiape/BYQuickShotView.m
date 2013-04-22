@@ -16,7 +16,6 @@
 
 - (AVCaptureDevice*)rearCamera;
 - (void)captureImage;
-- (CGRect)previewLayerFrame;
 - (UIImage*)cropImage:(UIImage*)imageToCrop;
 - (void)animateFlash;
 - (void)tapDetected;
@@ -24,6 +23,7 @@
 @property (nonatomic, strong) AVCaptureSession *captureSession;
 @property (nonatomic, strong) AVCaptureStillImageOutput *stillImageOutput;
 @property (nonatomic, strong) UIImageView *imagePreView;
+@property (nonatomic, strong) AVCaptureVideoPreviewLayer *prevLayer;
 
 @end
 
@@ -60,12 +60,12 @@
         dispatch_queue_t layerQ = dispatch_queue_create("layerQ", NULL);
         dispatch_async(layerQ, ^{
             [self.captureSession startRunning];
-            AVCaptureVideoPreviewLayer *prevLayer = [[AVCaptureVideoPreviewLayer alloc]initWithSession:self.captureSession];
-            prevLayer.masksToBounds = YES;
-            prevLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+            if (!self.prevLayer) self.prevLayer = [[AVCaptureVideoPreviewLayer alloc]initWithSession:self.captureSession];
+            self.prevLayer.masksToBounds = YES;
+            self.prevLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
             dispatch_async(dispatch_get_main_queue(), ^{
-                prevLayer.frame = self.previewLayerFrame;
-                [self.layer insertSublayer:prevLayer atIndex:0];
+                [self.layer insertSublayer:self.prevLayer atIndex:0];
+                self.prevLayer.frame = self.bounds;
                 [self.delegate quickShotViewDidFinishPreparation:self];
             });
         });
@@ -79,17 +79,11 @@
         _imagePreView = [[UIImageView alloc]init];
 //        _imagePreView.layer.cornerRadius = PREVIEW_LAYER_EDGE_RADIUS - 1;
         _imagePreView.layer.masksToBounds = YES;
-        _imagePreView.frame = self.previewLayerFrame;
+        _imagePreView.frame = self.bounds;
         _imagePreView.userInteractionEnabled = NO;
         _imagePreView.backgroundColor = [UIColor clearColor];
     }
     return _imagePreView;
-}
-
-- (CGRect)previewLayerFrame
-{
-    CGRect layerFrame = self.bounds;
-    return layerFrame;
 }
 
 //This method returns the AVCaptureDevice we want to use as an input for our AVCaptureSession
@@ -110,6 +104,10 @@
 - (void)willMoveToSuperview:(UIView *)newSuperview {
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapDetected)];
     [self addGestureRecognizer:tgr];
+}
+
+- (void)didMoveToSuperview {
+    self.prevLayer.frame = self.bounds;
 }
 
 - (void)captureImage
@@ -156,7 +154,7 @@
 }
 
 - (void)animateFlash {
-    UIView *flashView = [[UIView alloc]initWithFrame:self.previewLayerFrame];
+    UIView *flashView = [[UIView alloc]initWithFrame:self.bounds];
     flashView.backgroundColor = [UIColor whiteColor];
     flashView.layer.masksToBounds = YES;
     [self addSubview:flashView];

@@ -20,72 +20,96 @@
 @property (nonatomic, strong) BYExpenseInputView *expenseInputView;
 @property (nonatomic, strong) BYExpenseKeyboard *decimalKeyboard;
 @property (nonatomic, strong) BYQuickShotView *quickShotView;
-@property (nonatomic, strong) UIScrollView *mainScrollView;
-@property (nonatomic, strong) UIScrollView *quickShotScrollView;
+@property (nonatomic, strong) UIView *locatorView;
 @property (nonatomic, strong) UIView *leftPullView;
+@property (nonatomic) BOOL quickShotViewIsVisible;
 
 - (void)setSubviewColors;
+
 - (void)switchToQuickShotView;
-- (void)switchToMainView;
+- (void)switchToLocatorView;
+
+- (void)dismissQuickShotView;
+- (void)dismissLocatorView;
+
 - (void)swipeDetected:(UISwipeGestureRecognizer*)pan;
 
 @end
 
-@implementation BYExpenseViewController
-
 #define KEYBOARD_HEIGHT 240
 
+@implementation BYExpenseViewController
 
-- (UIScrollView *)mainScrollView
+//----------------------------------------------------------------------------------Creation getters-------------------------------------------------------------------------------//
+
+- (BYExpenseKeyboard *)decimalKeyboard
 {
-    if (!_mainScrollView) _mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, 320, self.view.bounds.size.height - KEYBOARD_HEIGHT)];
-    return _mainScrollView;
-}
-
-- (UIScrollView *)quickShotScrollView
-{
-    if (!_quickShotScrollView) _quickShotScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(- 320, 0, 320, self.view.bounds.size.height - KEYBOARD_HEIGHT)];
-    return _quickShotScrollView;
-}
-
-- (BYExpenseInputView *)expenseInputView {
-    if (!_expenseInputView) _expenseInputView = [[BYExpenseInputView alloc]initWithFrame:self.mainScrollView.bounds];
-    return _expenseInputView;
-}
-
-- (BYExpenseKeyboard *)decimalKeyboard {
-    if (!_decimalKeyboard) _decimalKeyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.view.bounds.size.height - KEYBOARD_HEIGHT, 320, KEYBOARD_HEIGHT)];
+    if (!_decimalKeyboard) _decimalKeyboard = [[BYExpenseKeyboard alloc]init];
     return _decimalKeyboard;
 }
-
-- (NSNumber *)valueString {
-    return [self.expenseValue copy];
+- (BYExpenseInputView *)expenseInputView
+{
+    if (!_expenseInputView) _expenseInputView = [[BYExpenseInputView alloc]init];
+    return _expenseInputView;
 }
-
-- (NSMutableString *)expenseValue {
+- (BYQuickShotView *)quickShotView
+{
+    if (!_quickShotView) _quickShotView = [[BYQuickShotView alloc]init];
+    return _quickShotView;
+}
+- (NSMutableString *)expenseValue
+{
     if (!_expenseValue) _expenseValue = [[NSMutableString alloc]init];
     return _expenseValue;
 }
+- (UIView *)locatorView
+{
+    if (!_locatorView) _locatorView = [[UIView alloc]init];
+    return _locatorView;
+}
+- (NSNumber *)valueString
+{
+    return [self.expenseValue copy];
+}
+
+//------------------------------------------------------------------------------------View setup------------------------------------------------------------------------------------//
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    // gesture recognizers
     UISwipeGestureRecognizer *sgr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeDetected:)];
     [self.view addGestureRecognizer:sgr];
     UISwipeGestureRecognizer *ssgr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeDetected:)];
     ssgr.direction = UISwipeGestureRecognizerDirectionLeft;
     [self.view addGestureRecognizer:ssgr];
     
-    [self setSubviewColors];
-    [self.view addSubview:self.mainScrollView];
-    [self.view addSubview:self.decimalKeyboard];
-    [self.view addSubview:self.quickShotScrollView];
-    [self.mainScrollView addSubview:self.expenseInputView];
-    self.mainScrollView.delegate = self;
-    self.quickShotScrollView.delegate = self;
-    self.decimalKeyboard.delegate = self;
+    // adding subview 'expenseView'
+    CGRect rect = self.view.bounds;
+    rect.size.height -= KEYBOARD_HEIGHT;
+    self.expenseInputView.frame = rect;
+    [self.view addSubview:self.expenseInputView];
     
-    BYQuickShotView *qsv = [[BYQuickShotView alloc]initWithFrame:CGRectMake(0, 0, 320, self.quickShotScrollView.bounds.size.height)];
-    [self.quickShotScrollView addSubview:qsv];
+    // adding subview 'quickShotView'
+    rect.origin.x -= self.view.frame.size.width;
+    rect.size.height = rect.size.width;
+    self.quickShotView.frame = rect;
+    [self.view addSubview:self.quickShotView];
+    
+    // adding subview 'decimalKeyboard'
+    self.decimalKeyboard.frame = CGRectMake(0, self.view.bounds.size.height - KEYBOARD_HEIGHT, 320, KEYBOARD_HEIGHT);
+    [self.view addSubview:self.decimalKeyboard];
+    
+    // adding subview 'locatorView'
+    self.locatorView.frame = CGRectMake(320, 0, 100, self.expenseInputView.bounds.size.height);
+    [self.view addSubview:self.locatorView];
+    
+    // delegation
+    self.decimalKeyboard.delegate = self;
+    self.quickShotView.delegate = self;
+    
+    [self setSubviewColors];
+    
+    self.quickShotViewIsVisible = NO;
 }
 
 - (void)setSubviewColors
@@ -120,56 +144,80 @@
     self.expenseInputView.text = self.expenseValue;
 }
 
-//----------------------------------------------------------------------------Scroll view implementation(pull control etc.)--------------------------------------------------------------------------//
+//-------------------------------------------------------------------------------------Gesture handling------------------------------------------------------------------------------------//
 
 #define PULL_CONTROL_WIDTH 60
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    //    if (scrollView.contentOffset.x > PULL_WIDTH && scrollView.contentOffset.x > 0) {
-    //        // right
-    //    } else if (scrollView.contentOffset.x < - PULL_WIDTH && scrollView.contentOffset.x < 0) {
-    //
-    //    }
-}
-
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-//{
-//    if (scrollView == self.mainScrollView) {
-//        if (scrollView.contentOffset.x > PULL_CONTROL_WIDTH && scrollView.contentOffset.x > 0) {
-//            NSLog(@"right");
-//        } else if (scrollView.contentOffset.x < - PULL_CONTROL_WIDTH && scrollView.contentOffset.x < 0) {
-//            NSLog(@"left");
-//            [self switchToQuickShotView];
-//        }
-//    } else {
-//        if (scrollView.contentOffset.x > PULL_CONTROL_WIDTH && scrollView.contentOffset.x > 0) {
-//            [self switchToMainView];
-//        } else if (scrollView.contentOffset.x < - PULL_CONTROL_WIDTH && scrollView.contentOffset.x < 0) {
-//            NSLog(@"left");
-//            
-//        }
-//    }
-//}
+#define DURATION 0.6
 
 - (void)swipeDetected:(UISwipeGestureRecognizer *)pan
 {
-    if (pan.direction == UISwipeGestureRecognizerDirectionRight) {
-        [self switchToQuickShotView];
+    if (!self.quickShotViewIsVisible) {
+        if (pan.direction == UISwipeGestureRecognizerDirectionLeft) {
+            [self switchToLocatorView];
+        } else {
+            [self switchToQuickShotView];
+        }
     } else {
-        [self switchToMainView];
+        if (pan.direction == UISwipeGestureRecognizerDirectionLeft) {
+            [self dismissQuickShotView];
+        }
     }
 }
-- (void)switchToQuickShotView {
-    [UIView animateWithDuration:0.4 animations:^{
-        self.mainScrollView.frame = CGRectMake(320, 0, 320, self.view.frame.size.height - KEYBOARD_HEIGHT);
-        self.quickShotScrollView.frame = CGRectMake(0, 0, 320, self.view.frame.size.height - KEYBOARD_HEIGHT);
+- (void)switchToQuickShotView
+{
+    [UIView animateWithDuration:(DURATION/2) animations:^{
+        self.decimalKeyboard.frame = CGRectMake(0, self.quickShotView.bounds.size.height, 320, KEYBOARD_HEIGHT);
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:DURATION animations:^{
+            self.quickShotView.frame = CGRectMake(0, 0, 320, 320);
+            self.decimalKeyboard.backgroundColor = [UIColor grayColor];
+            self.quickShotViewIsVisible = YES;
+        }];
     }];
 }
-- (void)switchToMainView {
-    [UIView animateWithDuration:0.4 animations:^{
-        self.mainScrollView.frame = CGRectMake(0, 0, 320, self.view.frame.size.height - KEYBOARD_HEIGHT);
-        self.quickShotScrollView.frame = CGRectMake(- 320, 0, 320, self.view.frame.size.height - KEYBOARD_HEIGHT);
+
+- (void)dismissQuickShotView
+{
+    [UIView animateWithDuration:DURATION animations:^{
+        self.quickShotView.frame = CGRectMake(- 320, 0, 320, 320);
+        self.decimalKeyboard.backgroundColor = [UIColor whiteColor];
+        
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:(DURATION/2) animations:^{
+            self.decimalKeyboard.frame = CGRectMake(0, self.view.bounds.size.height - KEYBOARD_HEIGHT, 320, KEYBOARD_HEIGHT);
+            self.quickShotViewIsVisible = NO;
+        }];
     }];
+}
+
+- (void)switchToLocatorView
+{
+    [UIView animateWithDuration:0.5 animations:^{
+        self.locatorView.frame = CGRectMake(self.view.bounds.size.width - 100, 0, 100, self.expenseInputView.bounds.size.height);
+    }];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
+- (void)dismissLocatorView
+{
+    
+}
+
+//----------------------------------------------------------------------------QuickShotView delegate implementation--------------------------------------------------------------------------//
+
+- (void)quickShotViewDidFinishPreparation:(BYQuickShotView *)quickShotView
+{
+    
+}
+
+- (void)didTakeSnapshot:(UIImage *)img
+{
+    
+}
+
+- (void)didDiscardLastImage
+{
+    
 }
 
 @end
