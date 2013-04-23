@@ -23,6 +23,7 @@
 @property (nonatomic, strong) UIView *locatorView;
 @property (nonatomic, strong) UIView *leftPullView;
 @property (nonatomic) BOOL quickShotViewIsVisible;
+@property (nonatomic) BOOL locatorViewIsVisible;
 
 - (void)setSubviewColors;
 
@@ -101,6 +102,7 @@
     
     // adding subview 'locatorView'
     self.locatorView.frame = CGRectMake(320, 0, 100, self.expenseInputView.bounds.size.height);
+    self.locatorView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7];
     [self.view addSubview:self.locatorView];
     
     // delegation
@@ -151,18 +153,19 @@
 
 - (void)swipeDetected:(UISwipeGestureRecognizer *)pan
 {
-    if (!self.quickShotViewIsVisible) {
-        if (pan.direction == UISwipeGestureRecognizerDirectionLeft) {
-            [self switchToLocatorView];
-        } else {
+    if (!self.quickShotViewIsVisible && !self.locatorViewIsVisible) {
+        if (pan.direction == UISwipeGestureRecognizerDirectionRight) {
             [self switchToQuickShotView];
+        } else {
+            [self switchToLocatorView];
         }
-    } else {
-        if (pan.direction == UISwipeGestureRecognizerDirectionLeft) {
-            [self dismissQuickShotView];
-        }
+    } else if (self.quickShotViewIsVisible) {
+        if (pan.direction == UISwipeGestureRecognizerDirectionLeft) [self dismissQuickShotView];
+    } else if (self.locatorViewIsVisible) {
+        if (pan.direction == UISwipeGestureRecognizerDirectionRight) [self dismissLocatorView];
     }
 }
+
 - (void)switchToQuickShotView
 {
     [UIView animateWithDuration:(DURATION/2) animations:^{
@@ -181,7 +184,6 @@
     [UIView animateWithDuration:DURATION animations:^{
         self.quickShotView.frame = CGRectMake(- 320, 0, 320, 320);
         self.decimalKeyboard.backgroundColor = [UIColor whiteColor];
-        
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:(DURATION/2) animations:^{
             self.decimalKeyboard.frame = CGRectMake(0, self.view.bounds.size.height - KEYBOARD_HEIGHT, 320, KEYBOARD_HEIGHT);
@@ -192,15 +194,20 @@
 
 - (void)switchToLocatorView
 {
-    [UIView animateWithDuration:0.5 animations:^{
-        self.locatorView.frame = CGRectMake(self.view.bounds.size.width - 100, 0, 100, self.expenseInputView.bounds.size.height);
+    [UIView animateWithDuration:0.2 animations:^{
+        self.locatorView.frame = CGRectMake(220, 0, 100, self.expenseInputView.bounds.size.height);
     }];
+    self.locatorViewIsVisible = YES;
     NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)dismissLocatorView
 {
-    
+    [UIView animateWithDuration:0.2 animations:^{
+        self.locatorView.frame = CGRectMake(320, 0, 100, self.expenseInputView.bounds.size.height);
+    }];
+    self.locatorViewIsVisible = NO;
+    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 //----------------------------------------------------------------------------QuickShotView delegate implementation--------------------------------------------------------------------------//
