@@ -83,21 +83,11 @@
 
 #define PULL_WIDTH 80
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    if (scrollView.contentOffset.x > PULL_WIDTH && scrollView.contentOffset.x > 0) {
-//        // right
-//    } else if (scrollView.contentOffset.x < - PULL_WIDTH && scrollView.contentOffset.x < 0) {
-//        
-//    }
-}
-
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (scrollView.contentOffset.x > PULL_WIDTH && scrollView.contentOffset.x > 0) {
-        NSLog(@"right");
+        //
     } else if (scrollView.contentOffset.x < - PULL_WIDTH && scrollView.contentOffset.x < 0) {
-        NSLog(@"left");
-        BYContainerViewController *containerController = [BYContainerViewController sharedContainerViewController];
-        [containerController displayDetailViewController:[[BYExpenseViewController alloc]init] withAnimationParameters:nil];
+        [[BYContainerViewController sharedContainerViewController] displayExpenseCreationViewController];
     }
 }
 

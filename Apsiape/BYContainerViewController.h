@@ -20,6 +20,7 @@
 
 + (BYContainerViewController*)sharedContainerViewController;
 
-- (void)displayDetailViewController:(UIViewController*)detailViewController withAnimationParameters:(NSDictionary*)params;
+- (void)displayExpenseCreationViewController;
+- (void)dismissExpenseCreationViewController;
 
 @end

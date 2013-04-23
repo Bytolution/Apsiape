@@ -149,7 +149,7 @@
 //-------------------------------------------------------------------------------------Gesture handling------------------------------------------------------------------------------------//
 
 #define PULL_CONTROL_WIDTH 60
-#define DURATION 0.6
+#define DURATION 0.3
 
 - (void)swipeDetected:(UISwipeGestureRecognizer *)pan
 {
@@ -198,7 +198,6 @@
         self.locatorView.frame = CGRectMake(220, 0, 100, self.expenseInputView.bounds.size.height);
     }];
     self.locatorViewIsVisible = YES;
-    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)dismissLocatorView
@@ -207,7 +206,6 @@
         self.locatorView.frame = CGRectMake(320, 0, 100, self.expenseInputView.bounds.size.height);
     }];
     self.locatorViewIsVisible = NO;
-    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 //----------------------------------------------------------------------------QuickShotView delegate implementation--------------------------------------------------------------------------//
