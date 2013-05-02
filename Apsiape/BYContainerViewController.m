@@ -47,19 +47,22 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    NSLog(@"%@",NSStringFromCGRect([[UIScreen mainScreen]bounds]));
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self addChildViewController:self.mainViewController];
-    self.mainViewController.view.frame = CGRectMake(0, 44, self.view.bounds.size.width, self.view.bounds.size.height - 68);
+    self.mainViewController.view.frame = CGRectMake(0, HEADER_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - (HEADER_HEIGHT + FOOTER_HEIGHT));
     [self.view addSubview:self.mainViewController.view];
     [self.mainViewController didMoveToParentViewController:self];
     
     self.navBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, 320, HEADER_HEIGHT)];
     [self.view addSubview:self.navBar];
-    self.navBar.tintColor = [UIColor lightGrayColor];
+    [self.navBar setBackgroundImage:[UIImage imageNamed:@"_0000_NavBar.png"] forBarMetrics:UIBarMetricsDefault];
     
     self.toolBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - FOOTER_HEIGHT, 320, FOOTER_HEIGHT)];
     self.toolBar.tintColor = [UIColor darkGrayColor];
+    [self.toolBar setBackgroundImage:[UIImage imageNamed:@"MainScreen_4_inch_0001s_0001_Form-4.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
     [self.view addSubview:self.toolBar];
 }
 
