@@ -23,4 +23,7 @@
 - (void)displayExpenseCreationViewController;
 - (void)dismissExpenseCreationViewController;
 
+- (void)displayMapView;
+- (void)dismissMapView;
+
 @end

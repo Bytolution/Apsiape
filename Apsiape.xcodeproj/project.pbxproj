@@ -22,6 +22,8 @@
 		A310311E16E3E37C00B163DC /* BYMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311C16E3E37C00B163DC /* BYMainViewController.m */; };
 		A3193F16171C613A00EED786 /* Expense.m in Sources */ = {isa = PBXBuildFile; fileRef = A3193F15171C613A00EED786 /* Expense.m */; };
 		A337965016E52A4C00C55116 /* BYCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */; };
+		A352C6331735AE3F005BF720 /* BYSplitAnimationOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = A352C6321735AE3F005BF720 /* BYSplitAnimationOverlayView.m */; };
+		A353B08D1733FE5300C5D868 /* UIImage+ImageFromView.m in Sources */ = {isa = PBXBuildFile; fileRef = A353B08C1733FE5300C5D868 /* UIImage+ImageFromView.m */; };
 		A3598064170E42F700FA8872 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3598063170E42F700FA8872 /* CoreLocation.framework */; };
 		A373763316F62FF400611FC6 /* BYExpenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A373763216F62FF400611FC6 /* BYExpenseViewController.m */; };
 		A37526DB16F4FD540079C94A /* BYCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A37526DA16F4FD540079C94A /* BYCollectionView.m */; };
@@ -33,7 +35,6 @@
 		A39162B51703A75700B3F9FF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39162B41703A75700B3F9FF /* CoreMedia.framework */; };
 		A39C59BE16F6165800A68679 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39C59BD16F6165800A68679 /* QuartzCore.framework */; };
 		A3A24CD916FA1F5D0058493E /* BYExpenseInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3A24CD816FA1F5D0058493E /* BYExpenseInputView.m */; };
-		A3D840BE1713262E004F6410 /* LocationArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = A3D840BD1713262E004F6410 /* LocationArrow.png */; };
 		A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DAA96416F778CC00C22671 /* BYStorage.m */; };
 		A3E7570216E295F400AE2AF7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3E7570116E295F400AE2AF7 /* CoreData.framework */; };
 		A3F7FAC716FA36D1002F58AA /* BYExpenseKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F7FAC616FA36D1002F58AA /* BYExpenseKeyboard.m */; };
@@ -63,6 +64,10 @@
 		A3193F15171C613A00EED786 /* Expense.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Expense.m; sourceTree = "<group>"; };
 		A337964E16E52A4C00C55116 /* BYCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionViewCell.h; sourceTree = "<group>"; };
 		A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionViewCell.m; sourceTree = "<group>"; };
+		A352C6311735AE3F005BF720 /* BYSplitAnimationOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYSplitAnimationOverlayView.h; sourceTree = "<group>"; };
+		A352C6321735AE3F005BF720 /* BYSplitAnimationOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYSplitAnimationOverlayView.m; sourceTree = "<group>"; };
+		A353B08B1733FE5300C5D868 /* UIImage+ImageFromView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageFromView.h"; sourceTree = "<group>"; };
+		A353B08C1733FE5300C5D868 /* UIImage+ImageFromView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageFromView.m"; sourceTree = "<group>"; };
 		A3598063170E42F700FA8872 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A373763116F62FF400611FC6 /* BYExpenseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseViewController.h; sourceTree = "<group>"; };
 		A373763216F62FF400611FC6 /* BYExpenseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseViewController.m; sourceTree = "<group>"; };
@@ -78,7 +83,6 @@
 		A39C59BD16F6165800A68679 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A3A24CD716FA1F5D0058493E /* BYExpenseInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseInputView.h; sourceTree = "<group>"; };
 		A3A24CD816FA1F5D0058493E /* BYExpenseInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseInputView.m; sourceTree = "<group>"; };
-		A3D840BD1713262E004F6410 /* LocationArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LocationArrow.png; sourceTree = "<group>"; };
 		A3DAA96316F778CC00C22671 /* BYStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYStorage.h; sourceTree = "<group>"; };
 		A3DAA96416F778CC00C22671 /* BYStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYStorage.m; sourceTree = "<group>"; };
 		A3E7570116E295F400AE2AF7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -144,6 +148,8 @@
 				A310311316E3AC9E00B163DC /* BYContainerViewController.m */,
 				A310311B16E3E37C00B163DC /* BYMainViewController.h */,
 				A310311C16E3E37C00B163DC /* BYMainViewController.m */,
+				A352C6311735AE3F005BF720 /* BYSplitAnimationOverlayView.h */,
+				A352C6321735AE3F005BF720 /* BYSplitAnimationOverlayView.m */,
 				A373763716F6306B00611FC6 /* Expense Creation */,
 				A37526DC16F5201D0079C94A /* CollectionView */,
 				A3832F0D16E0F6FD00D64DC1 /* Core Data */,
@@ -155,6 +161,8 @@
 		A307E81916DE8A0D00C9425A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A353B08B1733FE5300C5D868 /* UIImage+ImageFromView.h */,
+				A353B08C1733FE5300C5D868 /* UIImage+ImageFromView.m */,
 				A302945416FB554F009BBF6D /* miso-light.ttf */,
 				A302945616FB56DB009BBF6D /* miso-regular.ttf */,
 				A307E82116DE8A0D00C9425A /* BYAppDelegate.h */,
@@ -166,7 +174,6 @@
 				A307E81E16DE8A0D00C9425A /* main.m */,
 				A307E82016DE8A0D00C9425A /* Apsiape-Prefix.pch */,
 				A307E82416DE8A0D00C9425A /* Default.png */,
-				A3D840BD1713262E004F6410 /* LocationArrow.png */,
 				A307E82616DE8A0D00C9425A /* Default@2x.png */,
 				A307E82816DE8A0D00C9425A /* Default-568h@2x.png */,
 				A384A4AD16F0FA11008FC8DC /* search@2x.png */,
@@ -279,7 +286,6 @@
 				A384A4B016F0FA11008FC8DC /* add@2x.png in Resources */,
 				A302945516FB554F009BBF6D /* miso-light.ttf in Resources */,
 				A302945716FB56DB009BBF6D /* miso-regular.ttf in Resources */,
-				A3D840BE1713262E004F6410 /* LocationArrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +309,8 @@
 				A3F7FAC716FA36D1002F58AA /* BYExpenseKeyboard.m in Sources */,
 				A39162B11703667F00B3F9FF /* BYQuickShotView.m in Sources */,
 				A3193F16171C613A00EED786 /* Expense.m in Sources */,
+				A353B08D1733FE5300C5D868 /* UIImage+ImageFromView.m in Sources */,
+				A352C6331735AE3F005BF720 /* BYSplitAnimationOverlayView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

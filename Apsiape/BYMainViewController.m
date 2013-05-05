@@ -35,6 +35,16 @@
 
 @implementation BYMainViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCollectionViewData) name:UIDocumentStateChangedNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCollectionViewData) name:@"UIDocumentSavedSuccessfullyNotification" object:nil];
+    }
+    return self;
+}
+
 - (void)updateCollectionViewData {
     NSFetchRequest *fetchR = [NSFetchRequest fetchRequestWithEntityName:@"Expense"];
     NSManagedObjectContext *context = [[BYStorage sharedStorage] managedObjectContext];
@@ -43,9 +53,8 @@
     [self.customCollectionView loadCollectionView];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCollectionViewData) name:UIDocumentStateChangedNotification object:nil];
-    
+- (void)viewWillAppear:(BOOL)animated
+{
     self.customCollectionView = [[BYCollectionView alloc]initWithFrame:self.view.bounds];
     self.customCollectionView.collectionViewDataSource = self;
     self.customCollectionView.collectionViewDelegate = self;
@@ -56,7 +65,6 @@
     
     [self.view addSubview:self.customCollectionView];
 }
-
 
 - (UIView *)collectionView:(BYCollectionView *)collectionView cellAtIndex:(NSInteger)index
 {

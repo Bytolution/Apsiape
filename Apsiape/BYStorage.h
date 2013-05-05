@@ -14,7 +14,7 @@
 
 + (BYStorage*)sharedStorage;
 
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+- (NSManagedObjectContext*)managedObjectContext;
 
 - (void)saveDocument;
 

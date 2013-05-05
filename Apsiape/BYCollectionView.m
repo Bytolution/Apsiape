@@ -17,7 +17,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -48,7 +48,7 @@
 }
 
 - (void)loadCollectionView
-{
+{    
     for (UIView *subview in self.subviews) {
         [subview removeFromSuperview];
     }

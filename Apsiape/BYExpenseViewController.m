@@ -22,6 +22,7 @@
 @property (nonatomic, strong) BYQuickShotView *quickShotView;
 @property (nonatomic, strong) UIView *locatorView;
 @property (nonatomic, strong) UIView *leftPullView;
+@property (nonatomic, strong) UIImage *photo;
 @property (nonatomic) BOOL quickShotViewIsVisible;
 @property (nonatomic) BOOL locatorViewIsVisible;
 
@@ -34,6 +35,8 @@
 - (void)dismissLocatorView;
 
 - (void)swipeDetected:(UISwipeGestureRecognizer*)pan;
+
+- (void)saveExpenseToObjectContext;
 
 @end
 
@@ -112,6 +115,12 @@
     [self setSubviewColors];
     
     self.quickShotViewIsVisible = NO;
+}
+
+- (void)removeFromParentViewController
+{
+    [super removeFromParentViewController];
+    [self saveExpenseToObjectContext];
 }
 
 - (void)setSubviewColors
@@ -217,12 +226,25 @@
 
 - (void)didTakeSnapshot:(UIImage *)img
 {
-    
+    self.photo = img;
 }
 
 - (void)didDiscardLastImage
 {
-    
+    self.photo = nil;
+}
+
+//-----------------------------------------------------------------------------------------Core data------------------------------------------------------------------------------------------//
+
+- (void)saveExpenseToObjectContext
+{
+    if (self.expenseValue.length > 0) {
+        NSManagedObjectContext *managedObjectContext = [[BYStorage sharedStorage] managedObjectContext];
+        Expense *newExpense = [NSEntityDescription insertNewObjectForEntityForName:@"Expense" inManagedObjectContext:managedObjectContext];
+        newExpense.value = [self.expenseValue copy];
+        newExpense.image = self.photo;
+        [[BYStorage sharedStorage] saveDocument];
+    }
 }
 
 @end
