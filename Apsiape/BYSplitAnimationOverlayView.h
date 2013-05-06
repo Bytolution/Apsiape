@@ -8,8 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol BYSplitAnimationOverlayViewProtocol <NSObject>
+
+- (void)splitAnimationOverlayViewDidFinishOpeningAnimation;
+
+@required
+
+- (void)splitAnimationOverlayViewDidFinishClosingAnimation;
+
+@end
+
 @interface BYSplitAnimationOverlayView : UIView
 
+@property (nonatomic, strong) id <BYSplitAnimationOverlayViewProtocol> delegate;
+
 - (void)splitView:(UIView*)sourceView;
+- (void)slideBack;
 
 @end

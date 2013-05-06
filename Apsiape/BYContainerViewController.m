@@ -10,8 +10,9 @@
 #import "BYExpenseViewController.h"
 #import "UIImage+ImageFromView.h"
 #import <QuartzCore/QuartzCore.h>
+#import <MapKit/MapKit.h>
 
-@interface BYContainerViewController ()
+@interface BYContainerViewController () <BYSplitAnimationOverlayViewProtocol>
 
 @property (nonatomic, strong) BYMainViewController *mainViewController;
 @property (nonatomic, strong) UINavigationBar *navBar;
@@ -19,11 +20,15 @@
 @property (nonatomic) CGRect contentFrame;
 @property (nonatomic, strong) BYExpenseViewController *expenseViewController;
 @property (nonatomic, strong) UIImage *animationImage;
+@property (nonatomic, strong) BYSplitAnimationOverlayView *splitAnimationOverlayView;
 @property (nonatomic) BOOL mainViewControllerVisible;
+@property (nonatomic, strong) MKMapView *mapView;
+
+- (void)mapButtonTapped;
 
 @end
 
-@implementation BYContainerViewController
+@implementation BYContainerViewController 
 
 #define HEADER_HEIGHT 44
 #define FOOTER_HEIGHT 40
@@ -60,6 +65,7 @@
     self.mainViewController.view.frame = CGRectMake(0, HEADER_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - (HEADER_HEIGHT + FOOTER_HEIGHT));
     [self.view addSubview:self.mainViewController.view];
     [self.mainViewController didMoveToParentViewController:self];
+    self.mainViewControllerVisible = YES;
     
     self.navBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, 320, HEADER_HEIGHT)];
     [self.view insertSubview:self.navBar aboveSubview:self.mainViewController.view];
@@ -69,31 +75,34 @@
     [self.toolBar setBackgroundImage:[UIImage imageNamed:@"1234.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
     [self.view addSubview:self.toolBar];
     
-    UIPinchGestureRecognizer *pgr = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(displayMapView)];
-    [self.view addGestureRecognizer:pgr];
+    UIBarButtonItem *mapButton = [[UIBarButtonItem alloc]initWithTitle:@"Gnarl" style:UIBarButtonItemStyleBordered target:self action:@selector(mapButtonTapped)];
+    UINavigationItem *navItem = [[UINavigationItem alloc]init];
+    navItem.rightBarButtonItem = mapButton;
+    [self.navBar pushNavigationItem:navItem animated:YES];
 }
 
 
 - (void)displayExpenseCreationViewController
 {
-    if (!self.expenseViewController) self.expenseViewController = [[BYExpenseViewController alloc]init];
-    
-    UIBarButtonItem *dismissButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissExpenseCreationViewController)];
-    UINavigationItem *navItem = [[UINavigationItem alloc]init];
-    navItem.rightBarButtonItem = dismissButton;
-    
-    self.expenseViewController.view.clipsToBounds = YES;
-    [self.navBar pushNavigationItem:navItem animated:YES];
-    [self addChildViewController:self.expenseViewController];
-    self.expenseViewController.view.frame = CGRectMake(-self.contentFrame.size.width, self.contentFrame.origin.y, self.contentFrame.size.width, self.contentFrame.size.height + FOOTER_HEIGHT);
-    [self.view addSubview:self.expenseViewController.view];
-    [self.expenseViewController didMoveToParentViewController:self];
-    
-    [UIView animateWithDuration:0.4 animations:^{
-        self.expenseViewController.view.frame = CGRectMake(0, self.contentFrame.origin.y, self.contentFrame.size.width, self.contentFrame.size.height + FOOTER_HEIGHT);
-        self.mainViewController.view.frame = CGRectMake(self.contentFrame.size.width, self.contentFrame.origin.y, self.contentFrame.size.width, self.contentFrame.size.height);
-        self.toolBar.frame = CGRectMake(320, self.view.frame.size.height - FOOTER_HEIGHT, 320, FOOTER_HEIGHT);
-    }];
+    if (!self.mainViewControllerVisible) {
+        if (!self.expenseViewController) self.expenseViewController = [[BYExpenseViewController alloc]init];
+        
+        UIBarButtonItem *dismissButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissExpenseCreationViewController)];
+        UINavigationItem *navItem = [[UINavigationItem alloc]init];
+        navItem.rightBarButtonItem = dismissButton;
+        
+        self.expenseViewController.view.clipsToBounds = YES;
+        [self addChildViewController:self.expenseViewController];
+        self.expenseViewController.view.frame = CGRectMake(-self.contentFrame.size.width, self.contentFrame.origin.y, self.contentFrame.size.width, self.contentFrame.size.height + FOOTER_HEIGHT);
+        [self.view addSubview:self.expenseViewController.view];
+        [self.expenseViewController didMoveToParentViewController:self];
+        
+        [UIView animateWithDuration:0.4 animations:^{
+            self.expenseViewController.view.frame = CGRectMake(0, self.contentFrame.origin.y, self.contentFrame.size.width, self.contentFrame.size.height + FOOTER_HEIGHT);
+            self.mainViewController.view.frame = CGRectMake(self.contentFrame.size.width, self.contentFrame.origin.y, self.contentFrame.size.width, self.contentFrame.size.height);
+            self.toolBar.frame = CGRectMake(320, self.view.frame.size.height - FOOTER_HEIGHT, 320, FOOTER_HEIGHT);
+        }];
+    }
 }
 
 - (void)dismissExpenseCreationViewController
@@ -103,10 +112,10 @@
     [self.expenseViewController viewWillDisappear:YES];
     [UIView animateWithDuration:0.6 animations:^{
         CGRect rect = self.contentFrame;
-        rect.origin.x = - self.contentFrame.size.width;
-        self.expenseViewController.view.frame = rect;
-        rect.origin.x = 0;
         self.mainViewController.view.frame = rect;
+        rect.origin.x = - self.contentFrame.size.width;
+        rect.size.height += FOOTER_HEIGHT;
+        self.expenseViewController.view.frame = rect;
         self.toolBar.frame = CGRectMake(0, self.view.frame.size.height - FOOTER_HEIGHT, 320, FOOTER_HEIGHT);
     } completion:^(BOOL finished) {
         [self.expenseViewController removeFromParentViewController];
@@ -115,16 +124,47 @@
     }];
 }
 
+- (void)mapButtonTapped
+{
+    if (self.mainViewControllerVisible) {
+        [self displayMapView];
+    } else {
+        [self dismissMapView];
+    }
+}
+
 - (void)displayMapView
 {
-    BYSplitAnimationOverlayView *splitAnimOverlayView = [[BYSplitAnimationOverlayView alloc]initWithFrame:self.mainViewController.view.frame];
-    [self.view insertSubview:splitAnimOverlayView aboveSubview:self.mainViewController.view];
-    [splitAnimOverlayView splitView:self.mainViewController.view];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    self.splitAnimationOverlayView = [[BYSplitAnimationOverlayView alloc]initWithFrame:self.contentFrame];
+    self.splitAnimationOverlayView.delegate = self;
+    [self.view insertSubview:self.splitAnimationOverlayView aboveSubview:self.mainViewController.view];
+    [self.splitAnimationOverlayView splitView:self.mainViewController.view];
+    self.mainViewControllerVisible = NO;
+    if (!self.mapView) {
+        self.mapView = [[MKMapView alloc]init];
+        CGRect mapFrame = CGRectMake(0, CGRectGetMidY(self.contentFrame) - 160, self.view.frame.size.width, 320);
+        self.mapView.frame = CGRectInset(mapFrame, 10, 10);
+        [self.view insertSubview:self.mapView belowSubview:self.mainViewController.view];
+        self.mapView.showsUserLocation = YES;
+        [self.mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
+    }
 }
 
 - (void)dismissMapView
 {
+    [self.splitAnimationOverlayView slideBack];
+}
+
+- (void)splitAnimationOverlayViewDidFinishOpeningAnimation
+{
     
+}
+- (void)splitAnimationOverlayViewDidFinishClosingAnimation
+{
+    [self.splitAnimationOverlayView removeFromSuperview];
+    self.splitAnimationOverlayView = nil;
+    self.mainViewControllerVisible = YES;
 }
 
 @end

@@ -11,6 +11,7 @@
 
 @interface BYSplitAnimationOverlayView ()
 
+@property (nonatomic, strong) UIView *sourceView;
 @property (nonatomic, strong) UIImageView *topImageView;
 @property (nonatomic, strong) UIImageView *bottomImageView;
 @property (nonatomic, strong) UIImageView *topShadowView;
@@ -25,7 +26,7 @@
     self = [super  initWithFrame:frame];
     if (self) {
         self.userInteractionEnabled = NO;
-        self.backgroundColor = [UIColor greenColor];
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
@@ -49,23 +50,46 @@
     [self addSubview:topImgView];
     [self addSubview:bottomImgView];
     
-    CGRect topHalf = self.frame;
+    CGRect topHalf = self.bounds;
     topHalf.size.height = self.frame.size.height/2;
     topImgView.frame = topHalf;
     
-    CGRect bottomHalf = self.frame;
+    CGRect bottomHalf = self.bounds;
     bottomHalf.size.height = self.frame.size.height/2;
-    bottomHalf.origin.y = self.center.y;
+    bottomHalf.origin.y = CGRectGetMidY(self.bounds);
     bottomImgView.frame = bottomHalf;
     
     topHalf.origin.y -= 160;
     bottomHalf.origin.y += 160;
     
-    sourceView.hidden = YES;
+    self.sourceView = sourceView;
+    self.sourceView.hidden = YES;
     
-    [UIView animateWithDuration:10 animations:^{
+    [UIView animateWithDuration:0.6 animations:^{
         topImgView.frame = topHalf;
         bottomImgView.frame = bottomHalf;
+    } completion:^(BOOL finished) {
+        self.topImageView = topImgView;
+        self.bottomImageView = bottomImgView;
+        [self.delegate splitAnimationOverlayViewDidFinishOpeningAnimation];
+    }];
+}
+
+- (void)slideBack
+{
+    CGRect topHalf = self.bounds;
+    topHalf.size.height = self.frame.size.height/2;
+    
+    CGRect bottomHalf = self.bounds;
+    bottomHalf.size.height = self.frame.size.height/2;
+    bottomHalf.origin.y = CGRectGetMidY(self.bounds);
+
+    [UIView animateWithDuration:0.6 animations:^{
+        self.topImageView.frame = topHalf;
+        self.bottomImageView.frame = bottomHalf;
+    } completion:^(BOOL finished) {
+        [self.delegate splitAnimationOverlayViewDidFinishClosingAnimation];
+        self.sourceView.hidden = NO;
     }];
 }
 
