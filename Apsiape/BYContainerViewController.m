@@ -6,13 +6,12 @@
 
 #import "BYContainerViewController.h"
 #import "BYMainViewController.h"
-#import "BYSplitAnimationOverlayView.h"
 #import "BYExpenseViewController.h"
 #import "UIImage+ImageFromView.h"
 #import <QuartzCore/QuartzCore.h>
 #import <MapKit/MapKit.h>
 
-@interface BYContainerViewController () <BYSplitAnimationOverlayViewProtocol>
+@interface BYContainerViewController () 
 
 @property (nonatomic, strong) BYMainViewController *mainViewController;
 @property (nonatomic, strong) UINavigationBar *navBar;
@@ -20,7 +19,6 @@
 @property (nonatomic) CGRect contentFrame;
 @property (nonatomic, strong) BYExpenseViewController *expenseViewController;
 @property (nonatomic, strong) UIImage *animationImage;
-@property (nonatomic, strong) BYSplitAnimationOverlayView *splitAnimationOverlayView;
 @property (nonatomic) BOOL mainViewControllerVisible;
 @property (nonatomic, strong) MKMapView *mapView;
 
@@ -136,24 +134,10 @@
 - (void)displayMapView
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
-    self.splitAnimationOverlayView = [[BYSplitAnimationOverlayView alloc]initWithFrame:self.contentFrame];
-    self.splitAnimationOverlayView.delegate = self;
-    [self.view insertSubview:self.splitAnimationOverlayView aboveSubview:self.mainViewController.view];
-    [self.splitAnimationOverlayView splitView:self.mainViewController.view];
-    self.mainViewControllerVisible = NO;
-    if (!self.mapView) {
-        self.mapView = [[MKMapView alloc]init];
-        CGRect mapFrame = CGRectMake(0, CGRectGetMidY(self.contentFrame) - 160, self.view.frame.size.width, 320);
-        self.mapView.frame = CGRectInset(mapFrame, 10, 10);
-        [self.view insertSubview:self.mapView belowSubview:self.mainViewController.view];
-        self.mapView.showsUserLocation = YES;
-        [self.mapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
-    }
 }
 
 - (void)dismissMapView
 {
-    [self.splitAnimationOverlayView slideBack];
 }
 
 - (void)splitAnimationOverlayViewDidFinishOpeningAnimation
@@ -162,9 +146,6 @@
 }
 - (void)splitAnimationOverlayViewDidFinishClosingAnimation
 {
-    [self.splitAnimationOverlayView removeFromSuperview];
-    self.splitAnimationOverlayView = nil;
-    self.mainViewControllerVisible = YES;
 }
 
 @end
