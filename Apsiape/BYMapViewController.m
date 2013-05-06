@@ -7,12 +7,23 @@
 //
 
 #import "BYMapViewController.h"
+#import <MapKit/MapKit.h>
 
 @interface BYMapViewController ()
 
+@property (nonatomic, strong) MKMapView *mapView;
+
 @end
 
+#define MAPVIEW_INSET 10
+
 @implementation BYMapViewController
+
+- (MKMapView *)mapView
+{
+    if (!_mapView) _mapView = [[MKMapView alloc]init];
+    return _mapView;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -23,16 +34,12 @@
     return self;
 }
 
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [super viewWillAppear:animated];
+    
+    self.mapView.frame = CGRectInset(self.view.bounds, MAPVIEW_INSET, MAPVIEW_INSET);
+    [self.view addSubview:self.mapView];
 }
 
 @end
