@@ -24,7 +24,6 @@
     BOOL isDragging;
 }
 
-@property (nonatomic, strong) BYCollectionView *customCollectionView;
 @property (nonatomic, strong) NSArray *collectionViewData;
 
 - (void)updateCollectionViewData;
@@ -59,6 +58,7 @@
     self.customCollectionView.collectionViewDataSource = self;
     self.customCollectionView.collectionViewDelegate = self;
     self.customCollectionView.delegate = self;
+    self.customCollectionView.autoresizesSubviews = YES;
     self.customCollectionView.alwaysBounceHorizontal = YES;
     self.customCollectionView.alwaysBounceVertical = YES;
     self.customCollectionView.directionalLockEnabled = YES;

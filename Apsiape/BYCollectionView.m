@@ -47,6 +47,13 @@
     
 }
 
+- (void)reloadContentSize
+{
+    float numberOfCells = [self.collectionViewDataSource numberOfCellsInCollectionView];
+    float heightOfCells = [self.collectionViewDataSource heightForCellsInCollectionView];
+    self.contentSize = CGSizeMake(self.bounds.size.width,  (roundf((numberOfCells/2.0f)) * heightOfCells)  + CELL_CONTENT_INSET);
+}
+
 - (void)loadCollectionView
 {    
     for (UIView *subview in self.subviews) {
@@ -59,9 +66,7 @@
     }
     
     // because with a changing number of items the contentSize also changes
-    float numberOfCells = [self.collectionViewDataSource numberOfCellsInCollectionView];
-    float heightOfCells = [self.collectionViewDataSource heightForCellsInCollectionView];
-    self.contentSize = CGSizeMake(self.bounds.size.width,  (roundf((numberOfCells/2.0f)) * heightOfCells)  + CELL_CONTENT_INSET);
+    [self reloadContentSize];
 }
 
 @end

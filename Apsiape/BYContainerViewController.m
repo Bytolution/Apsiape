@@ -5,11 +5,13 @@
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 
 #import "BYContainerViewController.h"
+#import "BYCollectionView.h"
 #import "BYMainViewController.h"
 #import "BYExpenseViewController.h"
 #import "UIImage+ImageFromView.h"
 #import <QuartzCore/QuartzCore.h>
 #import <MapKit/MapKit.h>
+#import "BYMapViewController.h"
 
 @interface BYContainerViewController () 
 
@@ -18,6 +20,7 @@
 @property (nonatomic, strong) UIToolbar *toolBar;
 @property (nonatomic, strong) BYExpenseViewController *expenseViewController;
 @property (nonatomic) BOOL mainViewControllerVisible;
+@property (nonatomic, strong) BYMapViewController *mapViewController;
 
 - (void)mapButtonTapped;
 
@@ -28,7 +31,7 @@
 #define HEADER_HEIGHT 44
 #define FOOTER_HEIGHT 40
 #define SHADOW_HEIGHT 30
-#define MAP_HEIGHT 240
+#define MAP_HEIGHT 280
 
 + (BYContainerViewController *)sharedContainerViewController {
     static BYContainerViewController *sharedInstance = nil;
@@ -138,12 +141,22 @@
 
 - (void)displayMapView
 {
+    CGRect mainViewFrame = self.mainViewController.view.frame;
+    mainViewFrame.size.height -= MAP_HEIGHT;
+    
+    if (!self.mapViewController) {
+        self.mapViewController = [[BYMapViewController alloc]init];
+        [self addChildViewController:self.mapViewController];
+        self.mapViewController.view.frame = CGRectMake(0, CGRectGetMaxY(self.view.bounds), self.view.frame.size.width, MAP_HEIGHT);
+        [self.view addSubview:self.mapViewController.view];
+        [self.mapViewController didMoveToParentViewController:self];
+    }
+    
     [UIView animateWithDuration:1 animations:^{
-        CGRect mainViewFrame = self.mainViewController.view.frame;
-        mainViewFrame.size.height -= MAP_HEIGHT;
         self.mainViewController.view.frame = mainViewFrame;
-        mainViewFrame.origin.y += MAP_HEIGHT;
-        
+        self.mainViewController.customCollectionView.frame = self.mainViewController.view.bounds;
+        self.mapViewController.view.frame = CGRectMake(0, CGRectGetMaxY(self.view.bounds) - MAP_HEIGHT, self.view.frame.size.width, MAP_HEIGHT);
+        self.mainViewControllerVisible = NO;
     } completion:^(BOOL finished) {
         
     }];
@@ -151,6 +164,17 @@
 
 - (void)dismissMapView
 {
+    CGRect mainViewFrame = self.mainViewController.view.frame;
+    mainViewFrame.size.height += MAP_HEIGHT;
+    
+    [UIView animateWithDuration:1 animations:^{
+        self.mainViewController.view.frame = mainViewFrame;
+        self.mainViewController.customCollectionView.frame = self.mainViewController.view.bounds;
+        self.mapViewController.view.frame = CGRectMake(0, CGRectGetMaxY(self.view.bounds), self.view.frame.size.width, MAP_HEIGHT);
+        self.mainViewControllerVisible = YES;
+    } completion:^(BOOL finished) {
+        
+    }];
 }
 
 - (void)splitAnimationOverlayViewDidFinishOpeningAnimation
