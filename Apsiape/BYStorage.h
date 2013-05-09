@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Colours.h"
 
 @class BYContainerViewController;
 
@@ -15,12 +14,9 @@
 
 + (BYStorage*)sharedStorage;
 
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+- (NSManagedObjectContext*)managedObjectContext;
 
 - (void)saveDocument;
-
-+ (NSArray*)primaryAppColorScheme;
-+ (NSArray*)secondaryAppColorScheme;
 
 + (NSString*)appFontName;
 + (NSString*)secondAppFontName;

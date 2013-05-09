@@ -7,7 +7,6 @@
 //
 
 #import "BYCollectionView.h"
-#import "InterfaceConstants.h"
 #import "BYExpenseViewController.h"
 #import "BYContainerViewController.h"
 #import "BYStorage.h"
@@ -18,7 +17,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -36,8 +35,6 @@
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     [self loadCollectionView];
-    
-    self.alwaysBounceVertical = YES;
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -50,8 +47,15 @@
     
 }
 
-- (void)loadCollectionView
+- (void)reloadContentSize
 {
+    float numberOfCells = [self.collectionViewDataSource numberOfCellsInCollectionView];
+    float heightOfCells = [self.collectionViewDataSource heightForCellsInCollectionView];
+    self.contentSize = CGSizeMake(self.bounds.size.width,  (roundf((numberOfCells/2.0f)) * heightOfCells)  + CELL_CONTENT_INSET);
+}
+
+- (void)loadCollectionView
+{    
     for (UIView *subview in self.subviews) {
         [subview removeFromSuperview];
     }
@@ -62,9 +66,7 @@
     }
     
     // because with a changing number of items the contentSize also changes
-    float numberOfCells = [self.collectionViewDataSource numberOfCellsInCollectionView];
-    float heightOfCells = [self.collectionViewDataSource heightForCellsInCollectionView];
-    self.contentSize = CGSizeMake(self.bounds.size.width,  (roundf((numberOfCells/2.0f)) * heightOfCells)  + CELL_CONTENT_INSET);
+    [self reloadContentSize];
 }
 
 @end

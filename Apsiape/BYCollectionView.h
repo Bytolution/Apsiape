@@ -34,4 +34,6 @@
 - (void)loadCollectionView;
 - (CGRect)frameForCellAtIndex:(NSInteger)index;
 
+- (void)reloadContentSize;
+
 @end

@@ -75,6 +75,7 @@
 - (void)saveDocument {
     [self.document saveToURL:self.document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
         if (success) NSLog(@"document was saved successfully in '-saveDocument'");
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"UIDocumentSavedSuccessfullyNotification" object:nil];
     }];
 }
 
@@ -111,12 +112,5 @@
     return [UIFont fontWithName:@"Helvetica" size:18];
 }
 
-+ (NSArray *)primaryAppColorScheme {
-    return [Colours generateColorSchemeFromColor:ColorSnow ofType:ColorSchemeAnalagous];
-}
-
-+ (NSArray *)secondaryAppColorScheme {
-    return [Colours generateColorSchemeFromColor:ColorCharcoal ofType:ColorSchemeAnalagous];
-}
 
 @end

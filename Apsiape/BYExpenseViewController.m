@@ -8,119 +8,243 @@
 
 #import <CoreData/CoreData.h>
 #import "BYExpenseViewController.h"
-#import "BYExpenseInputViewController.h"
+#import "BYExpenseKeyboard.h"
+#import "BYExpenseInputView.h"
+#import "BYQuickShotView.h"
 #import "Expense.h"
 #import "BYStorage.h"
-#import "BYAddPhotoViewController.h"
-#import "BYAddLocationViewController.h"
-#import "BYConclusionViewController.h"
 
-@interface BYExpenseViewController () <UIScrollViewDelegate>
+@interface BYExpenseViewController () <UIScrollViewDelegate, BYExpenseKeyboardDelegate, BYQuickShotViewDelegate, UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) BYExpenseInputViewController *expenseInputViewController;
-@property (nonatomic, strong) BYAddPhotoViewController *addPhotoViewController;
-@property (nonatomic, strong) BYAddLocationViewController *addLocationViewController;
-@property (nonatomic, strong) BYConclusionViewController *conclusionViewController;
+@property (nonatomic, strong) NSMutableString *expenseValue;
+@property (nonatomic, strong) BYExpenseInputView *expenseInputView;
+@property (nonatomic, strong) BYExpenseKeyboard *decimalKeyboard;
+@property (nonatomic, strong) BYQuickShotView *quickShotView;
+@property (nonatomic, strong) UIView *locatorView;
+@property (nonatomic, strong) UIView *leftPullView;
+@property (nonatomic, strong) UIImage *photo;
+@property (nonatomic) BOOL quickShotViewIsVisible;
+@property (nonatomic) BOOL locatorViewIsVisible;
 
+- (void)setSubviewColors;
 
-- (void)scrollViewDidScrollToLastPage;
+- (void)switchToQuickShotView;
+- (void)switchToLocatorView;
 
+- (void)dismissQuickShotView;
+- (void)dismissLocatorView;
+
+- (void)swipeDetected:(UISwipeGestureRecognizer*)pan;
+
+- (void)saveExpenseToObjectContext;
 
 @end
 
+#define KEYBOARD_HEIGHT 240
+
 @implementation BYExpenseViewController
 
-- (UIScrollView *)scrollView {
-    if (!_scrollView) _scrollView = [[UIScrollView alloc]init];
-    return _scrollView;
-}
+//----------------------------------------------------------------------------------Creation getters-------------------------------------------------------------------------------//
 
-- (BYExpenseInputViewController*)expenseInputViewController {
-    if (!_expenseInputViewController) _expenseInputViewController = [[BYExpenseInputViewController alloc] init];
-    return _expenseInputViewController;
-}
-
-- (BYAddPhotoViewController *)addPhotoViewController {
-    if (!_addPhotoViewController) _addPhotoViewController = [[BYAddPhotoViewController alloc] init];
-    return _addPhotoViewController;
-}
-
-- (BYAddLocationViewController *)addLocationViewController {
-    if (!_addLocationViewController) _addLocationViewController = [[BYAddLocationViewController alloc]init];
-    return _addLocationViewController;
-}
-
-- (BYConclusionViewController *)conclusionViewController {
-    if (!_conclusionViewController) _conclusionViewController = [[BYConclusionViewController alloc]init];
-    return _conclusionViewController;
-}
-
-- (void)viewDidLoad
+- (BYExpenseKeyboard *)decimalKeyboard
 {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-	// Do any additional setup after loading the view.
+    if (!_decimalKeyboard) _decimalKeyboard = [[BYExpenseKeyboard alloc]init];
+    return _decimalKeyboard;
+}
+- (BYExpenseInputView *)expenseInputView
+{
+    if (!_expenseInputView) _expenseInputView = [[BYExpenseInputView alloc]init];
+    return _expenseInputView;
+}
+- (BYQuickShotView *)quickShotView
+{
+    if (!_quickShotView) _quickShotView = [[BYQuickShotView alloc]init];
+    return _quickShotView;
+}
+- (NSMutableString *)expenseValue
+{
+    if (!_expenseValue) _expenseValue = [[NSMutableString alloc]init];
+    return _expenseValue;
+}
+- (UIView *)locatorView
+{
+    if (!_locatorView) _locatorView = [[UIView alloc]init];
+    return _locatorView;
+}
+- (NSNumber *)valueString
+{
+    return [self.expenseValue copy];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+//------------------------------------------------------------------------------------View setup------------------------------------------------------------------------------------//
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    // gesture recognizers
+    UISwipeGestureRecognizer *sgr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeDetected:)];
+    [self.view addGestureRecognizer:sgr];
+    UISwipeGestureRecognizer *ssgr = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeDetected:)];
+    ssgr.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer:ssgr];
     
-    // Setup of the scrollView
-    self.scrollView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height);
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width, self.scrollView.bounds.size.height * 4);
-    self.scrollView.pagingEnabled = YES;
-    self.scrollView.bounces = NO;
-    self.scrollView.delegate = self;
-    [self.view addSubview:self.scrollView];
+    // adding subview 'expenseView'
+    CGRect rect = self.view.bounds;
+    rect.size.height -= KEYBOARD_HEIGHT;
+    self.expenseInputView.frame = rect;
+    [self.view addSubview:self.expenseInputView];
     
-    // Adding view controller No 1
-    self.expenseInputViewController.view.frame = self.scrollView.bounds;
-    [self.expenseInputViewController viewWillAppear:NO];
-    [self.scrollView addSubview:self.expenseInputViewController.view];
-    [self.expenseInputViewController viewDidAppear:NO];
-    // No 2
-    CGRect secondPageRect = self.scrollView.bounds;
-    secondPageRect.origin.y = self.scrollView.bounds.size.height;
-    self.addPhotoViewController.view.frame = secondPageRect;
-    [self.addPhotoViewController viewWillAppear:NO];
-    [self.scrollView addSubview:self.addPhotoViewController.view];
-    [self.addPhotoViewController viewDidAppear:NO];
-    // No 3
-    CGRect thirdPageRect = self.scrollView.bounds;
-    thirdPageRect.origin.y = self.scrollView.bounds.size.height * 2;
-    self.addLocationViewController.view.frame = thirdPageRect;
-    [self.addLocationViewController viewWillAppear:NO];
-    [self.scrollView addSubview:self.addLocationViewController.view];
-    [self.addLocationViewController viewDidAppear:NO];
-    // No 4
-    CGRect fourthPageRect = self.scrollView.bounds;
-    fourthPageRect.origin.y = self.scrollView.bounds.size.height * 3;
-    self.conclusionViewController.view.frame = fourthPageRect;
-    [self.conclusionViewController viewWillAppear:NO];
-    [self.scrollView addSubview:self.conclusionViewController.view];
-    [self.conclusionViewController viewDidAppear:NO];
+    // adding subview 'quickShotView'
+    rect.origin.x -= self.view.frame.size.width;
+    rect.size.height = rect.size.width;
+    self.quickShotView.frame = rect;
+    [self.view addSubview:self.quickShotView];
+    
+    // adding subview 'decimalKeyboard'
+    self.decimalKeyboard.frame = CGRectMake(0, self.view.bounds.size.height - KEYBOARD_HEIGHT, 320, KEYBOARD_HEIGHT);
+    [self.view addSubview:self.decimalKeyboard];
+    
+    // adding subview 'locatorView'
+    self.locatorView.frame = CGRectMake(320, 0, 100, self.expenseInputView.bounds.size.height);
+    self.locatorView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7];
+    [self.view addSubview:self.locatorView];
+    
+    // delegation
+    self.decimalKeyboard.delegate = self;
+    self.quickShotView.delegate = self;
+    
+    [self setSubviewColors];
+    
+    self.quickShotViewIsVisible = NO;
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView.contentOffset.y == scrollView.contentSize.height * (3.0f/4.0f)) {
-        [self scrollViewDidScrollToLastPage];
+- (void)removeFromParentViewController
+{
+    [super removeFromParentViewController];
+    [self saveExpenseToObjectContext];
+}
+
+- (void)setSubviewColors
+{
+    self.decimalKeyboard.backgroundColor = [UIColor whiteColor];
+    self.expenseInputView.backgroundColor = [UIColor whiteColor];
+    self.expenseInputView.fontColor = [UIColor blackColor];
+    self.decimalKeyboard.fontColor = [UIColor darkGrayColor];
+}
+
+- (void)numberKeyTapped:(NSString *)numberString
+{
+    NSRange decSeparatorRange = [self.expenseValue rangeOfString:@"."];
+    if (decSeparatorRange.length == 1) {
+        if (decSeparatorRange.location < self.expenseValue.length - 2) return;
+        if ([numberString isEqualToString:@"."]) return;
+    }
+    if (self.expenseValue.length == 7) return;
+    
+    [self.expenseValue appendString:numberString];
+    self.expenseInputView.text = self.expenseValue;
+}
+
+- (void)deleteKeyTapped
+{
+    if (self.expenseValue.length < 1) {
+        return;
+    } else {
+        NSRange range = NSMakeRange(self.expenseValue.length - 1, 1);
+        [self.expenseValue deleteCharactersInRange:range];
+    }
+    self.expenseInputView.text = self.expenseValue;
+}
+
+//-------------------------------------------------------------------------------------Gesture handling------------------------------------------------------------------------------------//
+
+#define PULL_CONTROL_WIDTH 60
+#define DURATION 0.3
+
+- (void)swipeDetected:(UISwipeGestureRecognizer *)pan
+{
+    if (!self.quickShotViewIsVisible && !self.locatorViewIsVisible) {
+        if (pan.direction == UISwipeGestureRecognizerDirectionRight) {
+            [self switchToQuickShotView];
+        } else {
+            [self switchToLocatorView];
+        }
+    } else if (self.quickShotViewIsVisible) {
+        if (pan.direction == UISwipeGestureRecognizerDirectionLeft) [self dismissQuickShotView];
+    } else if (self.locatorViewIsVisible) {
+        if (pan.direction == UISwipeGestureRecognizerDirectionRight) [self dismissLocatorView];
     }
 }
 
-- (void)scrollViewDidScrollToLastPage {
-    self.conclusionViewController.view.backgroundColor = [UIColor greenColor];
-    if (![self.expenseInputViewController.valueString isEqualToString:@""]) {
-        NSManagedObjectContext *context = [BYStorage sharedStorage].managedObjectContext;
-        Expense *newExpense = [NSEntityDescription insertNewObjectForEntityForName:@"Expense" inManagedObjectContext:context];
-        newExpense.value = self.expenseInputViewController.valueString;
-        newExpense.image = self.addPhotoViewController.capturedPhoto;
-        newExpense.location = self.addLocationViewController.locationData;
+- (void)switchToQuickShotView
+{
+    [UIView animateWithDuration:(DURATION/2) animations:^{
+        self.decimalKeyboard.frame = CGRectMake(0, self.quickShotView.bounds.size.height, 320, KEYBOARD_HEIGHT);
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:DURATION animations:^{
+            self.quickShotView.frame = CGRectMake(0, 0, 320, 320);
+            self.decimalKeyboard.backgroundColor = [UIColor grayColor];
+            self.quickShotViewIsVisible = YES;
+        }];
+    }];
+}
+
+- (void)dismissQuickShotView
+{
+    [UIView animateWithDuration:DURATION animations:^{
+        self.quickShotView.frame = CGRectMake(- 320, 0, 320, 320);
+        self.decimalKeyboard.backgroundColor = [UIColor whiteColor];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:(DURATION/2) animations:^{
+            self.decimalKeyboard.frame = CGRectMake(0, self.view.bounds.size.height - KEYBOARD_HEIGHT, 320, KEYBOARD_HEIGHT);
+            self.quickShotViewIsVisible = NO;
+        }];
+    }];
+}
+
+- (void)switchToLocatorView
+{
+    [UIView animateWithDuration:0.2 animations:^{
+        self.locatorView.frame = CGRectMake(220, 0, 100, self.expenseInputView.bounds.size.height);
+    }];
+    self.locatorViewIsVisible = YES;
+}
+
+- (void)dismissLocatorView
+{
+    [UIView animateWithDuration:0.2 animations:^{
+        self.locatorView.frame = CGRectMake(320, 0, 100, self.expenseInputView.bounds.size.height);
+    }];
+    self.locatorViewIsVisible = NO;
+}
+
+//----------------------------------------------------------------------------QuickShotView delegate implementation--------------------------------------------------------------------------//
+
+- (void)quickShotViewDidFinishPreparation:(BYQuickShotView *)quickShotView
+{
+    
+}
+
+- (void)didTakeSnapshot:(UIImage *)img
+{
+    self.photo = img;
+}
+
+- (void)didDiscardLastImage
+{
+    self.photo = nil;
+}
+
+//-----------------------------------------------------------------------------------------Core data------------------------------------------------------------------------------------------//
+
+- (void)saveExpenseToObjectContext
+{
+    if (self.expenseValue.length > 0) {
+        NSManagedObjectContext *managedObjectContext = [[BYStorage sharedStorage] managedObjectContext];
+        Expense *newExpense = [NSEntityDescription insertNewObjectForEntityForName:@"Expense" inManagedObjectContext:managedObjectContext];
+        newExpense.value = [self.expenseValue copy];
+        newExpense.image = self.photo;
         [[BYStorage sharedStorage] saveDocument];
     }
-    
-    [self.view removeFromSuperview];
 }
-
 
 @end

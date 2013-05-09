@@ -8,7 +8,6 @@
 
 #import "BYCollectionViewCell.h"
 #import "Expense.h"
-#import "InterfaceConstants.h"
 
 #pragma mark ––– UICollectionViewCellContentView implementation
 

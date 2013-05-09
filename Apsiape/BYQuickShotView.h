@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class BYQuickShotView;
+
 @protocol BYQuickShotViewDelegate <NSObject>
+
+- (void)quickShotViewDidFinishPreparation:(BYQuickShotView*)quickShotView;
 
 - (void)didTakeSnapshot:(UIImage*)img;
 - (void)didDiscardLastImage;
