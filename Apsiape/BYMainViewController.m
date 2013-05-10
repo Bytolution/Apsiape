@@ -8,21 +8,14 @@
 
 #import <CoreData/CoreData.h>
 #import "BYMainViewController.h"
-#import "BYCollectionView.h"
+#import "BYCollectionViewCell.h"
 #import "BYStorage.h"
 #import "BYExpenseViewController.h"
 #import "BYContainerViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Expense.h"
 
-@interface BYMainViewController () <UIScrollViewDelegate, BYCollectionViewDataSource, BYCollectionViewDelegate> {
-    UIView *refreshHeaderView;
-    UILabel *refreshLabel;
-    UIImageView *refreshArrow;
-    UIActivityIndicatorView *refreshSpinner;
-    BOOL isLoading;
-    BOOL isDragging;
-}
+@interface BYMainViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, strong) NSArray *collectionViewData;
 
@@ -49,42 +42,42 @@
     NSManagedObjectContext *context = [[BYStorage sharedStorage] managedObjectContext];
     NSError *error;
     self.collectionViewData = [context executeFetchRequest:fetchR error:&error];
-    [self.customCollectionView loadCollectionView];
+    [self.collectionView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.customCollectionView = [[BYCollectionView alloc]initWithFrame:self.view.bounds];
-    self.customCollectionView.collectionViewDataSource = self;
-    self.customCollectionView.collectionViewDelegate = self;
-    self.customCollectionView.delegate = self;
-    self.customCollectionView.autoresizesSubviews = YES;
-    self.customCollectionView.alwaysBounceHorizontal = YES;
-    self.customCollectionView.alwaysBounceVertical = YES;
-    self.customCollectionView.directionalLockEnabled = YES;
+    [super viewWillAppear:animated];
     
-    [self.view addSubview:self.customCollectionView];
+    if (!self.collectionView) {
+        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
+        flowLayout.itemSize = CGSizeMake(160, 120);
+        flowLayout.minimumInteritemSpacing = 0;
+        flowLayout.minimumLineSpacing = 0;
+        self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
+        self.collectionView.dataSource = self;
+        
+        UIScrollView *collectionScrollView = (UIScrollView*)self.collectionView;
+        collectionScrollView.delegate = self;
+        
+        [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
+        [self.view addSubview:self.collectionView];
+        [self updateCollectionViewData];
+    }
 }
 
-- (UIView *)collectionView:(BYCollectionView *)collectionView cellAtIndex:(NSInteger)index
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    BYCollectionViewCell *cell = [[BYCollectionViewCell alloc]initWithFrame:[collectionView frameForCellAtIndex:index] index:index];
-    Expense *expense = self.collectionViewData[index];
+    return [self.collectionViewData count];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    BYCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID" forIndexPath:indexPath];
+    Expense *expense = self.collectionViewData[indexPath.row];
     cell.title = expense.value;
     cell.image = expense.image;
     return cell;
-}
-
-- (NSInteger)numberOfCellsInCollectionView {
-    return self.collectionViewData.count;
-}
-
-- (CGFloat)heightForCellsInCollectionView {
-    return 120;
-}
-
-- (void)collectionView:(BYCollectionView *)collectionView cellDidDetectedTapGesture:(BYCollectionViewCell *)cell atIndex:(NSInteger)index {
-    
 }
 
 //----------------------------------------------------------------------Pull control implementation------------------------------------------------------------------------//
@@ -92,9 +85,10 @@
 #define PULL_WIDTH 80
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (scrollView.contentOffset.x > PULL_WIDTH && scrollView.contentOffset.x > 0) {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    if (scrollView.contentOffset.y > PULL_WIDTH && scrollView.contentOffset.y > 0) {
         //
-    } else if (scrollView.contentOffset.x < - PULL_WIDTH && scrollView.contentOffset.x < 0) {
+    } else if (scrollView.contentOffset.y < - PULL_WIDTH && scrollView.contentOffset.y < 0) {
         [[BYContainerViewController sharedContainerViewController] displayExpenseCreationViewController];
     }
 }

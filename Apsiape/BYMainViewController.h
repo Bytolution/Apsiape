@@ -8,10 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class BYCollectionView;
 
 @interface BYMainViewController : UIViewController 
 
-@property (nonatomic, strong) BYCollectionView *customCollectionView;
+@property (nonatomic, strong) UICollectionView *collectionView;
 
 @end

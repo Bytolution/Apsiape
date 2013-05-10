@@ -9,21 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "BYCollectionViewCell.h"
 
-#define CELL_CONTENT_INSET 4
+#define CELL_CONTENT_INSET 5
 
 @class BYCollectionViewCell;
 
-@protocol BYCollectionViewCellDelegate <NSObject>
-
-- (void)cellDidDetectTapGesture:(BYCollectionViewCell*)cell withCellIndex:(NSInteger)index;
-
-@end
-
-@interface BYCollectionViewCell : UIView
-
-@property (nonatomic, strong) id <BYCollectionViewCellDelegate> delegate;
-
-- (id)initWithFrame:(CGRect)frame index:(NSInteger)index;
+@interface BYCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) NSString *title;

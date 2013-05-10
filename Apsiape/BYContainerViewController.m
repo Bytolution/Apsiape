@@ -5,7 +5,6 @@
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 
 #import "BYContainerViewController.h"
-#import "BYCollectionView.h"
 #import "BYMainViewController.h"
 #import "BYExpenseViewController.h"
 #import "UIImage+ImageFromView.h"
@@ -154,7 +153,7 @@
     
     [UIView animateWithDuration:1 animations:^{
         self.mainViewController.view.frame = mainViewFrame;
-        self.mainViewController.customCollectionView.frame = self.mainViewController.view.bounds;
+        self.mainViewController.collectionView.frame = self.mainViewController.view.bounds;
         self.mapViewController.view.frame = CGRectMake(0, CGRectGetMaxY(self.view.bounds) - MAP_HEIGHT, self.view.frame.size.width, MAP_HEIGHT);
         self.mainViewControllerVisible = NO;
     } completion:^(BOOL finished) {
@@ -169,7 +168,7 @@
     
     [UIView animateWithDuration:1 animations:^{
         self.mainViewController.view.frame = mainViewFrame;
-        self.mainViewController.customCollectionView.frame = self.mainViewController.view.bounds;
+        self.mainViewController.collectionView.frame = self.mainViewController.view.bounds;
         self.mapViewController.view.frame = CGRectMake(0, CGRectGetMaxY(self.view.bounds), self.view.frame.size.width, MAP_HEIGHT);
         self.mainViewControllerVisible = YES;
     } completion:^(BOOL finished) {

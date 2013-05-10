@@ -21,38 +21,13 @@
 @property (nonatomic) CGRect contentFrame;
 @property (nonatomic) NSInteger index;
 
-- (void)tapDetected;
 
 @end
 
 @implementation BYCollectionViewCell
 
 - (CGRect)containerFrame {
-    CGRect rect = CGRectMake(CELL_CONTENT_INSET, CELL_CONTENT_INSET, self.bounds.size.width - (2 * CELL_CONTENT_INSET), self.bounds.size.height - (2 * CELL_CONTENT_INSET));
-    if (self.index % 2) {
-        rect.origin.y += CELL_CONTENT_INSET/2;
-        rect.size.width -= CELL_CONTENT_INSET/2;
-        
-    } else {
-        // even
-        rect.origin.x += CELL_CONTENT_INSET/2;
-        rect.origin.y += CELL_CONTENT_INSET/2;
-        rect.size.width -= CELL_CONTENT_INSET/2;
-    }
-    return rect;
-}
-
-- (id)initWithFrame:(CGRect)frame index:(NSInteger)index {
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-        self.index = index;
-        self.backgroundColor = [UIColor clearColor];
-        
-        UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapDetected)];
-        [self addGestureRecognizer:tgr];
-    }
-    return self;
+    return self.bounds;
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview
@@ -75,11 +50,6 @@
     [self.containerView addSubview:self.titleLabel];
     self.containerView.backgroundColor = [UIColor colorWithWhite:1 alpha: .8];
     [self addSubview:self.containerView];
-}
-
-- (void)tapDetected
-{
-    [self.delegate cellDidDetectTapGesture:self withCellIndex:self.index];
 }
 
 @end

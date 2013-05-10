@@ -27,7 +27,6 @@
 		A35DDD7B1737F7C2003C287E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A35DDD7A1737F7C2003C287E /* MapKit.framework */; };
 		A35DDD7E1737FDD7003C287E /* BYMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35DDD7D1737FDD7003C287E /* BYMapViewController.m */; };
 		A373763316F62FF400611FC6 /* BYExpenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A373763216F62FF400611FC6 /* BYExpenseViewController.m */; };
-		A37526DB16F4FD540079C94A /* BYCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A37526DA16F4FD540079C94A /* BYCollectionView.m */; };
 		A3832F0C16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3832F0A16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld */; };
 		A384A4AF16F0FA11008FC8DC /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A384A4AD16F0FA11008FC8DC /* search@2x.png */; };
 		A384A4B016F0FA11008FC8DC /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A384A4AE16F0FA11008FC8DC /* add@2x.png */; };
@@ -73,8 +72,6 @@
 		A35DDD7D1737FDD7003C287E /* BYMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYMapViewController.m; sourceTree = "<group>"; };
 		A373763116F62FF400611FC6 /* BYExpenseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseViewController.h; sourceTree = "<group>"; };
 		A373763216F62FF400611FC6 /* BYExpenseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseViewController.m; sourceTree = "<group>"; };
-		A37526D916F4FD530079C94A /* BYCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionView.h; sourceTree = "<group>"; };
-		A37526DA16F4FD540079C94A /* BYCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionView.m; sourceTree = "<group>"; };
 		A3832F0B16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ApsiapeDataModel.xcdatamodel; sourceTree = "<group>"; };
 		A384A4AD16F0FA11008FC8DC /* search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search@2x.png"; sourceTree = "<group>"; };
 		A384A4AE16F0FA11008FC8DC /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
@@ -199,8 +196,6 @@
 		A37526DC16F5201D0079C94A /* CollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				A37526D916F4FD530079C94A /* BYCollectionView.h */,
-				A37526DA16F4FD540079C94A /* BYCollectionView.m */,
 				A337964E16E52A4C00C55116 /* BYCollectionViewCell.h */,
 				A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */,
 			);
@@ -306,7 +301,6 @@
 				A310311416E3AC9E00B163DC /* BYContainerViewController.m in Sources */,
 				A310311E16E3E37C00B163DC /* BYMainViewController.m in Sources */,
 				A337965016E52A4C00C55116 /* BYCollectionViewCell.m in Sources */,
-				A37526DB16F4FD540079C94A /* BYCollectionView.m in Sources */,
 				A373763316F62FF400611FC6 /* BYExpenseViewController.m in Sources */,
 				A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */,
 				A3A24CD916FA1F5D0058493E /* BYExpenseInputView.m in Sources */,
