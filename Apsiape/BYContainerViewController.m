@@ -122,7 +122,7 @@
         [self.expenseViewController.view removeFromSuperview];
         self.expenseViewController = nil;
         
-        UIBarButtonItem *mapButton = [[UIBarButtonItem alloc]initWithTitle:@"Gnarl" style:UIBarButtonItemStyleBordered target:self action:@selector(mapButtonTapped)];
+        UIBarButtonItem *mapButton = [[UIBarButtonItem alloc]initWithTitle:@"Map" style:UIBarButtonItemStyleBordered target:self action:@selector(mapButtonTapped)];
         UINavigationItem *navItem = [[UINavigationItem alloc]init];
         navItem.rightBarButtonItem = mapButton;
         [self.navBar pushNavigationItem:navItem animated:YES];
@@ -145,6 +145,7 @@
     
     if (!self.mapViewController) {
         self.mapViewController = [[BYMapViewController alloc]init];
+        self.mapViewController.view.backgroundColor = [UIColor darkGrayColor];
         [self addChildViewController:self.mapViewController];
         self.mapViewController.view.frame = CGRectMake(0, CGRectGetMaxY(self.view.bounds), self.view.frame.size.width, MAP_HEIGHT);
         [self.view addSubview:self.mapViewController.view];

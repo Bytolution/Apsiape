@@ -13,43 +13,52 @@
 
 @interface BYCollectionViewCell ()
 
-@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic, strong) UIView *containerView;
-@property (nonatomic) BOOL locationTagActive;
-@property (nonatomic) CGRect containerFrame;
-@property (nonatomic) CGRect contentFrame;
-@property (nonatomic) NSInteger index;
-
 
 @end
 
 @implementation BYCollectionViewCell
 
-- (CGRect)containerFrame {
-    return self.bounds;
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.label = [[UILabel alloc]initWithFrame:CGRectZero];
+        self.label.textAlignment = NSTextAlignmentRight;
+        self.label.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0.6];
+        self.label.textColor = [UIColor darkTextColor];
+        self.label.font = [UIFont fontWithName:@"Miso" size:32];
+        
+        self.imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
+        self.imageView.backgroundColor = [UIColor clearColor];
+        
+        [self.contentView addSubview:self.imageView];
+        [self.contentView addSubview:self.label];
+        
+        self.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1];
+    }
+    return self;
 }
 
-- (void)willMoveToSuperview:(UIView *)newSuperview
+- (void)setTitle:(NSString *)title
 {
-    if (!self.containerView) self.containerView = [[UIView alloc]initWithFrame:self.containerFrame];
-    self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.containerFrame.size.width, self.containerFrame.size.height/2.5)];
-    self.titleLabel.backgroundColor = [UIColor colorWithWhite:0 alpha:0.3];
-    self.titleLabel.text = self.title;
-    self.titleLabel.textColor = [UIColor whiteColor];
-    self.titleLabel.font = [UIFont systemFontOfSize:20];
-    self.titleLabel.textAlignment = NSTextAlignmentCenter;
-    
-    self.containerView.clipsToBounds = YES;
-    
-    if (!self.imageView) self.imageView = [[UIImageView alloc]initWithImage:self.image];
-    self.imageView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.width);
-    self.imageView.center = self.containerView.center;
-    
-    [self.containerView insertSubview:self.imageView belowSubview:self.titleLabel];
-    [self.containerView addSubview:self.titleLabel];
-    self.containerView.backgroundColor = [UIColor colorWithWhite:1 alpha: .8];
-    [self addSubview:self.containerView];
+    _title = title;
+    self.label.text = _title;
+}
+
+- (void)setImage:(UIImage *)image
+{
+    _image = image;
+    self.imageView.image = _image;
+}
+
+- (void)didMoveToSuperview
+{
+    CGRect rect = self.contentView.bounds;
+    rect.size.height = self.contentView.bounds.size.height/3;
+    self.label.frame = rect;
+    self.imageView.frame = self.contentView.bounds;
 }
 
 @end

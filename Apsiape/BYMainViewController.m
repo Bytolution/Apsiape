@@ -15,7 +15,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "Expense.h"
 
-@interface BYMainViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface BYMainViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) NSArray *collectionViewData;
 
@@ -51,18 +51,15 @@
     
     if (!self.collectionView) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-        flowLayout.itemSize = CGSizeMake(160, 120);
-        flowLayout.minimumInteritemSpacing = 0;
-        flowLayout.minimumLineSpacing = 0;
+        flowLayout.itemSize = CGSizeMake(145, 120);
+        flowLayout.minimumInteritemSpacing = 10;
+        flowLayout.minimumLineSpacing = 10;
         self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
         self.collectionView.dataSource = self;
-        
-        UIScrollView *collectionScrollView = (UIScrollView*)self.collectionView;
-        collectionScrollView.delegate = self;
-        
+        self.collectionView.delegate = self;
+        self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
         [self.view addSubview:self.collectionView];
-        [self updateCollectionViewData];
     }
 }
 
@@ -71,9 +68,14 @@
     return [self.collectionViewData count];
 }
 
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(10, 10, 10, 10);
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    BYCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID" forIndexPath:indexPath];
+    BYCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID" forIndexPath:indexPath];
     Expense *expense = self.collectionViewData[indexPath.row];
     cell.title = expense.value;
     cell.image = expense.image;
