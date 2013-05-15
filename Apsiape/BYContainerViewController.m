@@ -62,7 +62,7 @@
     
     self.navBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, 320, HEADER_HEIGHT)];
     [self.view insertSubview:self.navBar aboveSubview:self.mainViewController.view];
-    [self.navBar setBackgroundImage:[UIImage imageNamed:@"1234.png"] forBarMetrics:UIBarMetricsDefault];
+    [self.navBar setBackgroundImage:[UIImage imageNamed:@"Layout_0002_NavBar.png"] forBarMetrics:UIBarMetricsDefault];
     
 //    self.toolBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - FOOTER_HEIGHT, 320, FOOTER_HEIGHT)];
 //    [self.toolBar setBackgroundImage:[UIImage imageNamed:@"1234.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
@@ -77,7 +77,6 @@
 
 - (void)displayExpenseCreationViewController
 {
-    NSLog(@"bloerp");
     if (!self.expenseViewController) self.expenseViewController = [[BYExpenseViewController alloc]init];
     
     self.navBar.items = nil;

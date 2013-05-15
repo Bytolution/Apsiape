@@ -58,6 +58,7 @@
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
         self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+        self.collectionView.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Layout_0000_ScrollView-Background.png"]];
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
         [self.view addSubview:self.collectionView];
     }
@@ -87,7 +88,6 @@
 #define PULL_WIDTH 80
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     if (scrollView.contentOffset.y > PULL_WIDTH && scrollView.contentOffset.y > 0) {
         //
     } else if (scrollView.contentOffset.y < - PULL_WIDTH && scrollView.contentOffset.y < 0) {
