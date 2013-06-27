@@ -8,6 +8,7 @@
 
 #import "BYNewExpenseViewController.h"
 #import "BYQuickShotView.h"
+#import "BYExpenseKeyboard.h"
 #import "Expense.h"
 #import "BYStorage.h"
 
@@ -36,7 +37,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.view.backgroundColor = [UIColor blackColor];
+        self.view.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -53,9 +54,11 @@
     [self.headerBar pushNavigationItem:navItem animated:YES];
     self.quickShotView = [[BYQuickShotView alloc]initWithFrame:CGRectMake(0, 120, 320, 428)];
     self.quickShotView.delegate = self;
-    [self.view addSubview:self.quickShotView];
+//    [self.view addSubview:self.quickShotView];
     self.textField.font = [UIFont fontWithName:@"Miso-Light" size:55];
     self.textField.textColor = [UIColor darkTextColor];
+    BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height/2 + 40, 320, self.view.frame.size.height/2 - 40)];
+    [self.view addSubview:keyboard];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
