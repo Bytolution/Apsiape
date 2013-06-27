@@ -28,7 +28,7 @@
 @end
 
 #define PREVIEW_LAYER_INSET 8
-#define PREVIEW_LAYER_EDGE_RADIUS 10
+#define PREVIEW_LAYER_EDGE_RADIUS 5
 #define BUTTON_SIZE 50
 
 @implementation BYQuickShotView
@@ -37,7 +37,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor colorWithWhite:0 alpha:.1];
+        self.layer.cornerRadius = PREVIEW_LAYER_EDGE_RADIUS;
         
         AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.rearCamera error:nil];
         AVCaptureStillImageOutput *newStillImageOutput = [[AVCaptureStillImageOutput alloc] init];
@@ -62,10 +63,12 @@
             [self.captureSession startRunning];
             if (!self.prevLayer) self.prevLayer = [[AVCaptureVideoPreviewLayer alloc]initWithSession:self.captureSession];
             self.prevLayer.masksToBounds = YES;
+            self.prevLayer.cornerRadius = PREVIEW_LAYER_EDGE_RADIUS;
             self.prevLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.layer insertSublayer:self.prevLayer atIndex:0];
                 self.prevLayer.frame = self.bounds;
+                
                 [self.delegate quickShotViewDidFinishPreparation:self];
             });
         });
@@ -77,7 +80,7 @@
 {
     if (!_imagePreView) {
         _imagePreView = [[UIImageView alloc]init];
-//        _imagePreView.layer.cornerRadius = PREVIEW_LAYER_EDGE_RADIUS - 1;
+        _imagePreView.layer.cornerRadius = PREVIEW_LAYER_EDGE_RADIUS;
         _imagePreView.layer.masksToBounds = YES;
         _imagePreView.frame = self.bounds;
         _imagePreView.userInteractionEnabled = NO;
@@ -108,6 +111,10 @@
 
 - (void)didMoveToSuperview {
     self.prevLayer.frame = self.bounds;
+    [self addSubview:self.imagePreView];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:self.bounds];
+    imageView.image = [UIImage imageNamed:@"Layout_0001_Image-Capture-Overlay.png"];
+    [self addSubview:imageView]; 
 }
 
 - (void)captureImage
@@ -123,24 +130,25 @@
 			}
 		}
 	}
+
     
-    [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:stillImageConnection
-                                                       completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
-                                                           UIImage *capturedImage;
-                                                           if (imageDataSampleBuffer != NULL) {
-                                                               // as for now we only save the image to the camera roll, but for reusability we should consider implementing a protocol
-                                                               // that returns the image to the object using this view
-                                                               NSData *imgData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-                                                               capturedImage = [UIImage imageWithData:imgData];
-                                                           }
-                                                           UIImage *croppedImg = [self cropImage:capturedImage];
-                                                           if (!self.imagePreView.superview) {
-                                                               [self addSubview:self.imagePreView];
-                                                           }
-                                                           self.imagePreView.image = croppedImg;
-                                                           [self.delegate didTakeSnapshot:croppedImg];
-                                                           [self animateFlash];
-                                                       }];
+    if (self.rearCamera) {
+        [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:stillImageConnection
+                                                           completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
+        {
+           UIImage *capturedImage;
+           if (imageDataSampleBuffer != NULL) {
+               NSData *imgData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+               capturedImage = [UIImage imageWithData:imgData];
+               UIImage *croppedImg = [self cropImage:capturedImage];
+               self.imagePreView.image = croppedImg;
+               [self.delegate didTakeSnapshot:croppedImg];
+               [self animateFlash];
+           } else if (error) {
+               NSLog(@"%@", error.description);
+           }
+       }];
+    }
 }
 
 - (void)tapDetected

@@ -6,20 +6,20 @@
 
 #import "BYContainerViewController.h"
 #import "BYMainViewController.h"
-#import "BYExpenseViewController.h"
 #import "UIImage+ImageFromView.h"
 #import <QuartzCore/QuartzCore.h>
 #import <MapKit/MapKit.h>
 #import "BYMapViewController.h"
+#import "BYNewExpenseViewController.h"
 
 @interface BYContainerViewController () 
 
 @property (nonatomic, strong) BYMainViewController *mainViewController;
 @property (nonatomic, strong) UINavigationBar *navBar;
 @property (nonatomic, strong) UIToolbar *toolBar;
-@property (nonatomic, strong) BYExpenseViewController *expenseViewController;
 @property (nonatomic) BOOL mainViewControllerVisible;
 @property (nonatomic, strong) BYMapViewController *mapViewController;
+@property (nonatomic, strong) UIWindow *backgroundWindow;
 
 - (void)mapButtonTapped;
 
@@ -71,61 +71,14 @@
     UIBarButtonItem *mapButton = [[UIBarButtonItem alloc]initWithTitle:@"Gnarl" style:UIBarButtonItemStyleBordered target:self action:@selector(mapButtonTapped)];
     UINavigationItem *navItem = [[UINavigationItem alloc]init];
     navItem.rightBarButtonItem = mapButton;
-    [self.navBar pushNavigationItem:navItem animated:YES];
+//    [self.navBar pushNavigationItem:navItem animated:YES];
 }
-
 
 - (void)displayExpenseCreationViewController
 {
-    if (!self.expenseViewController) self.expenseViewController = [[BYExpenseViewController alloc]init];
-    
-    self.navBar.items = nil;
-    
-    UIBarButtonItem *dismissButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissExpenseCreationViewController)];
-    UINavigationItem *navItem = [[UINavigationItem alloc]init];
-    navItem.rightBarButtonItem = dismissButton;
-    [self.navBar pushNavigationItem:navItem animated:YES];
-    
-    self.expenseViewController.view.clipsToBounds = YES;
-    [self addChildViewController:self.expenseViewController];
-    self.expenseViewController.view.frame = CGRectMake(-self.view.bounds.size.width, HEADER_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - HEADER_HEIGHT);
-    [self.view addSubview:self.expenseViewController.view];
-    [self.expenseViewController didMoveToParentViewController:self];
-        
-    [UIView animateWithDuration:0.4 animations:^{
-        self.expenseViewController.view.frame = self.mainViewController.view.frame;
-        
-        CGRect postAnimMainViewFrame = self.expenseViewController.view.frame;
-        postAnimMainViewFrame.origin.x += self.view.bounds.size.width;
-        
-        self.mainViewController.view.frame = postAnimMainViewFrame;
-        self.toolBar.frame = CGRectMake(320, self.view.frame.size.height - FOOTER_HEIGHT, 320, FOOTER_HEIGHT);
-    }];
-}
-
-- (void)dismissExpenseCreationViewController
-{
-    self.navBar.items = nil;
-    [self.expenseViewController willMoveToParentViewController:nil];
-    [self.expenseViewController viewWillDisappear:YES];
-    [UIView animateWithDuration:0.6 animations:^{
-        self.mainViewController.view.frame = self.expenseViewController.view.frame;
-        
-        CGRect postAnimMainViewFrame = self.expenseViewController.view.frame;
-        postAnimMainViewFrame.origin.x -= self.view.bounds.size.width;
-        
-        self.expenseViewController.view.frame = postAnimMainViewFrame;
-        
-    } completion:^(BOOL finished) {
-        [self.expenseViewController removeFromParentViewController];
-        [self.expenseViewController.view removeFromSuperview];
-        self.expenseViewController = nil;
-        
-        UIBarButtonItem *mapButton = [[UIBarButtonItem alloc]initWithTitle:@"Map" style:UIBarButtonItemStyleBordered target:self action:@selector(mapButtonTapped)];
-        UINavigationItem *navItem = [[UINavigationItem alloc]init];
-        navItem.rightBarButtonItem = mapButton;
-        [self.navBar pushNavigationItem:navItem animated:YES];
-    }];
+    BYNewExpenseViewController *newExpenseVC = [[BYNewExpenseViewController alloc]init];
+    newExpenseVC.view.frame = self.view.bounds;
+    [self.view addSubview:newExpenseVC.view];
 }
 
 - (void)mapButtonTapped
@@ -182,6 +135,7 @@
 }
 - (void)splitAnimationOverlayViewDidFinishClosingAnimation
 {
+    
 }
 
 @end

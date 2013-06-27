@@ -27,6 +27,7 @@
 
 - (void)drawRect:(CGRect)rect
 {
+    NSLog(@"%@", self.text);
     CGRect txtRect = rect;
     txtRect.size.width -= 50;
     

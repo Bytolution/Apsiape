@@ -17,7 +17,7 @@
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImageView *foregroundImageView;
-@property (nonatomic, strong) UIImageView *backgroundImageView;
+//@property (nonatomic, strong) UIImageView *backgroundImageView;
 
 @end
 
@@ -39,9 +39,9 @@
         self.imageView.layer.masksToBounds = YES;
         
         self.foregroundImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Layout_0000s_0000_Cell-Shape.png"]];
-        self.backgroundImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Layout_0000s_0001_Cell-Background.png"]];
+//        self.backgroundImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Layout_0000s_0001_Cell-Background.png"]];
         
-        [self.contentView addSubview:self.backgroundImageView];
+//        [self.contentView addSubview:self.backgroundImageView];
         [self.contentView addSubview:self.imageView];
         [self.contentView addSubview:self.foregroundImageView];
         [self.contentView addSubview:self.label];
@@ -70,7 +70,7 @@
     self.label.frame = CGRectInset(rect, 6, 0);
     self.imageView.frame = self.contentView.bounds;
     self.foregroundImageView.frame = self.contentView.bounds;
-    self.backgroundImageView.frame = self.contentView.bounds;
+//    self.backgroundImageView.frame = self.contentView.bounds;
 }
 
 @end

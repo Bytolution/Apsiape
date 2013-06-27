@@ -50,6 +50,7 @@
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.titleLabel.font = [UIFont fontWithName:@"Miso" size:30];
         button.backgroundColor = [UIColor clearColor];
+        [button setBackgroundImage:[UIImage imageNamed:@"Layout_0000_KeyBoard-Button@2x.png"] forState:UIControlStateNormal];
         [button setTitleColor:self.fontColor forState:UIControlStateNormal];
         CGPoint buttonOrigin = CGPointMake(32, 13);
         switch (i) {

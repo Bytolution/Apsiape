@@ -10,7 +10,6 @@
 #import "BYMainViewController.h"
 #import "BYCollectionViewCell.h"
 #import "BYStorage.h"
-#import "BYExpenseViewController.h"
 #import "BYContainerViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Expense.h"
@@ -55,6 +54,7 @@
         flowLayout.minimumInteritemSpacing = 10;
         flowLayout.minimumLineSpacing = 10;
         self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
+        self.collectionView.alwaysBounceVertical = YES;
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
         self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
