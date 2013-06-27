@@ -48,12 +48,13 @@
     
     [self.view addSubview:self.headerBar];
     [self.headerBar setBackgroundImage:[UIImage imageNamed:@"Header_Bar.png"] forBarMetrics:UIBarMetricsDefault];
+    self.headerBar.tintColor = [UIColor whiteColor];
     UIBarButtonItem *mapButton = [[UIBarButtonItem alloc]initWithTitle:@"Gnarl" style:UIBarButtonItemStyleBordered target:self action:@selector(dismiss)];
     UINavigationItem *navItem = [[UINavigationItem alloc]init];
     navItem.rightBarButtonItem = mapButton;
     [self.headerBar pushNavigationItem:navItem animated:YES];
-    self.quickShotView = [[BYQuickShotView alloc]initWithFrame:CGRectMake(0, 120, 320, 428)];
-    self.quickShotView.delegate = self;
+//    self.quickShotView = [[BYQuickShotView alloc]initWithFrame:CGRectMake(0, 120, 320, 428)];
+//    self.quickShotView.delegate = self;
 //    [self.view addSubview:self.quickShotView];
     self.textField.font = [UIFont fontWithName:@"Miso-Light" size:55];
     self.textField.textColor = [UIColor darkTextColor];
