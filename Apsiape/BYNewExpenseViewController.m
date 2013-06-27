@@ -8,11 +8,17 @@
 
 #import "BYNewExpenseViewController.h"
 #import "BYQuickShotView.h"
+#import "Expense.h"
+#import "BYStorage.h"
 
-@interface BYNewExpenseViewController ()
+@interface BYNewExpenseViewController () <BYQuickShotViewDelegate>
 
 @property (nonatomic, strong) UINavigationBar *headerBar;
 @property (weak, nonatomic) IBOutlet UITextField *textField;
+@property (nonatomic, strong) UIImage *capturedPhoto;
+@property (nonatomic, strong) BYQuickShotView *quickShotView;
+
+- (void)dismiss;
 
 @end
 
@@ -40,17 +46,51 @@
     [super viewWillAppear:animated];
     
     [self.view addSubview:self.headerBar];
-    [self.headerBar setBackgroundImage:[UIImage imageNamed:@"Layout_0000_Header-Bar.png"] forBarMetrics:UIBarMetricsDefault];
-    
-    BYQuickShotView *quickShotView = [[BYQuickShotView alloc]initWithFrame:CGRectMake(16, 145, 288, 288)];
-    [self.view addSubview:quickShotView];
+    [self.headerBar setBackgroundImage:[UIImage imageNamed:@"Header_Bar.png"] forBarMetrics:UIBarMetricsDefault];
+    UIBarButtonItem *mapButton = [[UIBarButtonItem alloc]initWithTitle:@"Gnarl" style:UIBarButtonItemStyleBordered target:self action:@selector(dismiss)];
+    UINavigationItem *navItem = [[UINavigationItem alloc]init];
+    navItem.rightBarButtonItem = mapButton;
+    [self.headerBar pushNavigationItem:navItem animated:YES];
+    self.quickShotView = [[BYQuickShotView alloc]initWithFrame:CGRectMake(0, 120, 320, 428)];
+    self.quickShotView.delegate = self;
+    [self.view addSubview:self.quickShotView];
     self.textField.font = [UIFont fontWithName:@"Miso-Light" size:55];
     self.textField.textColor = [UIColor darkTextColor];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if (self.textField.text.length != 0) {
+        Expense *newExpense = [NSEntityDescription insertNewObjectForEntityForName:@"Expense" inManagedObjectContext:[[BYStorage sharedStorage]managedObjectContext]];
+        newExpense.value = self.textField.text;
+        newExpense.image = self.capturedPhoto;
+        [[BYStorage sharedStorage]saveDocument];
+    }
+}
+
+- (void)didTakeSnapshot:(UIImage *)img
+{
+    self.capturedPhoto = img;
+}
+- (void)didDiscardLastImage
+{
+    self.capturedPhoto = nil;
+}
+- (void)quickShotViewDidFinishPreparation:(BYQuickShotView *)quickShotView
+{
+    
+}
+
+- (void)dismiss
+{
+    [self.view removeFromSuperview];
+}
 
 - (void)viewDidUnload {
     [self setTextField:nil];
     [super viewDidUnload];
 }
+
 @end

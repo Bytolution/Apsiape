@@ -16,7 +16,7 @@
 
 @interface BYMainViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
-@property (nonatomic, strong) NSArray *collectionViewData;
+@property (nonatomic, strong) NSMutableArray *collectionViewData;
 
 - (void)updateCollectionViewData;
 
@@ -36,11 +36,12 @@
     return self;
 }
 
-- (void)updateCollectionViewData {
+- (void)updateCollectionViewData
+{
     NSFetchRequest *fetchR = [NSFetchRequest fetchRequestWithEntityName:@"Expense"];
     NSManagedObjectContext *context = [[BYStorage sharedStorage] managedObjectContext];
     NSError *error;
-    self.collectionViewData = [context executeFetchRequest:fetchR error:&error];
+    self.collectionViewData = [[context executeFetchRequest:fetchR error:&error] mutableCopy];
     [self.collectionView reloadData];
 }
 
@@ -50,7 +51,7 @@
     
     if (!self.collectionView) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-        flowLayout.itemSize = CGSizeMake(145, 120);
+        flowLayout.itemSize = CGSizeMake(320, 120);
         flowLayout.minimumInteritemSpacing = 10;
         flowLayout.minimumLineSpacing = 10;
         self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
@@ -58,10 +59,15 @@
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
         self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
-        self.collectionView.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Layout_0000_ScrollView-Background.png"]];
+        self.collectionView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1];
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
         [self.view addSubview:self.collectionView];
     }
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(10, 0, 0, 0);
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -69,9 +75,11 @@
     return [self.collectionViewData count];
 }
 
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return UIEdgeInsetsMake(10, 10, 10, 10);
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    [self.collectionViewData removeObjectAtIndex:indexPath.row];
+    [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -87,7 +95,8 @@
 
 #define PULL_WIDTH 80
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
     if (scrollView.contentOffset.y > PULL_WIDTH && scrollView.contentOffset.y > 0) {
         //
     } else if (scrollView.contentOffset.y < - PULL_WIDTH && scrollView.contentOffset.y < 0) {

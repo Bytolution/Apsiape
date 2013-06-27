@@ -15,6 +15,7 @@
 @interface BYContainerViewController () 
 
 @property (nonatomic, strong) BYMainViewController *mainViewController;
+@property (nonatomic, strong) BYNewExpenseViewController *expenseVC;
 @property (nonatomic, strong) UINavigationBar *navBar;
 @property (nonatomic, strong) UIToolbar *toolBar;
 @property (nonatomic) BOOL mainViewControllerVisible;
@@ -63,22 +64,21 @@
     self.navBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, 320, HEADER_HEIGHT)];
     [self.view insertSubview:self.navBar aboveSubview:self.mainViewController.view];
     [self.navBar setBackgroundImage:[UIImage imageNamed:@"Layout_0002_NavBar.png"] forBarMetrics:UIBarMetricsDefault];
-    
-//    self.toolBar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - FOOTER_HEIGHT, 320, FOOTER_HEIGHT)];
-//    [self.toolBar setBackgroundImage:[UIImage imageNamed:@"1234.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-//    [self.view addSubview:self.toolBar];
-    
-    UIBarButtonItem *mapButton = [[UIBarButtonItem alloc]initWithTitle:@"Gnarl" style:UIBarButtonItemStyleBordered target:self action:@selector(mapButtonTapped)];
-    UINavigationItem *navItem = [[UINavigationItem alloc]init];
-    navItem.rightBarButtonItem = mapButton;
-//    [self.navBar pushNavigationItem:navItem animated:YES];
+    self.navBar.tintColor = [UIColor whiteColor];
 }
 
 - (void)displayExpenseCreationViewController
 {
-    BYNewExpenseViewController *newExpenseVC = [[BYNewExpenseViewController alloc]init];
-    newExpenseVC.view.frame = self.view.bounds;
-    [self.view addSubview:newExpenseVC.view];
+    self.expenseVC = [[BYNewExpenseViewController alloc]init];
+    self.expenseVC.view.frame = self.view.bounds;
+    [self.view addSubview:self.expenseVC.view];
+    
+}
+
+- (void)dismissExpenseCreationViewController
+{
+    [self.expenseVC.view removeFromSuperview];
+    [self.navBar pushNavigationItem:nil animated:YES];
 }
 
 - (void)mapButtonTapped
@@ -103,7 +103,6 @@
         [self.view addSubview:self.mapViewController.view];
         [self.mapViewController didMoveToParentViewController:self];
     }
-    
     [UIView animateWithDuration:1 animations:^{
         self.mainViewController.view.frame = mainViewFrame;
         self.mainViewController.collectionView.frame = self.mainViewController.view.bounds;

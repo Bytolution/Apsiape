@@ -17,7 +17,8 @@
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImageView *foregroundImageView;
-//@property (nonatomic, strong) UIImageView *backgroundImageView;
+
+- (void)gestureRecognized:(UISwipeGestureRecognizer*)gRecognizer;
 
 @end
 
@@ -35,20 +36,29 @@
         
         self.imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
         self.imageView.backgroundColor = [UIColor clearColor];
-        self.imageView.layer.cornerRadius = 5;
         self.imageView.layer.masksToBounds = YES;
         
-        self.foregroundImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Layout_0000s_0000_Cell-Shape.png"]];
-//        self.backgroundImageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Layout_0000s_0001_Cell-Background.png"]];
-        
-//        [self.contentView addSubview:self.backgroundImageView];
         [self.contentView addSubview:self.imageView];
         [self.contentView addSubview:self.foregroundImageView];
         [self.contentView addSubview:self.label];
         
+        UISwipeGestureRecognizer *sgr = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(gestureRecognized:)];
+        [self.contentView addGestureRecognizer:sgr];
+        
         self.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0];
     }
     return self;
+}
+
+- (void)gestureRecognized:(UISwipeGestureRecognizer *)gRecognizer
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+        CGRect rect = self.frame;
+        rect.origin.x -= 30;
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            self.frame = rect;
+        }];
 }
 
 - (void)setTitle:(NSString *)title
@@ -70,7 +80,6 @@
     self.label.frame = CGRectInset(rect, 6, 0);
     self.imageView.frame = self.contentView.bounds;
     self.foregroundImageView.frame = self.contentView.bounds;
-//    self.backgroundImageView.frame = self.contentView.bounds;
 }
 
 @end
