@@ -126,7 +126,7 @@
 
 - (void)quickShotViewDidFinishPreparation:(BYQuickShotView *)quickShotView
 {
-    
+    //Halleluja
 }
 
 - (void)dismiss
