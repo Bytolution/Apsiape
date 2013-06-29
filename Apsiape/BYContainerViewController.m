@@ -28,7 +28,7 @@
 
 @implementation BYContainerViewController 
 
-#define HEADER_HEIGHT 44
+#define HEADER_HEIGHT 50
 #define FOOTER_HEIGHT 40
 #define SHADOW_HEIGHT 30
 #define MAP_HEIGHT 280
@@ -69,7 +69,7 @@
 
 - (void)displayExpenseCreationViewController
 {
-    self.expenseVC = [[BYNewExpenseViewController alloc]init];
+    self.expenseVC = [[BYNewExpenseViewController alloc]initWithNibName:nil bundle:nil];
     self.expenseVC.view.frame = self.view.bounds;
     [self.view addSubview:self.expenseVC.view];
     

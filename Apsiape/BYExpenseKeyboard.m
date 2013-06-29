@@ -5,7 +5,6 @@
 //  Created by Dario Lass on 20.03.13.
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
-
 #import "BYExpenseKeyboard.h"
 
 @interface BYExpenseKeyboard ()
@@ -25,7 +24,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor blackColor];
+        self.backgroundColor = [UIColor lightGrayColor];
         self.fontColor = [UIColor colorWithWhite:0.3 alpha:1];
     }
     return self;
@@ -52,7 +51,7 @@
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.titleLabel.font = [UIFont fontWithName:@"Miso" size:30];
         
-        button.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
+        button.backgroundColor = [UIColor colorWithWhite:0.98 alpha:1];
         
         [button setTitleColor:self.fontColor forState:UIControlStateNormal];
         
@@ -129,9 +128,9 @@
 
 - (void)buttonReleased:(UIButton *)sender
 {
-    [UIView animateWithDuration:0.3 animations:^{
-        sender.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
-    }];
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+        sender.backgroundColor = [UIColor colorWithWhite:0.98 alpha:1];
+    } completion:nil];
 }
 
 @end

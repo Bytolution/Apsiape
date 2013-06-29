@@ -30,7 +30,6 @@
 		A384A4AF16F0FA11008FC8DC /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A384A4AD16F0FA11008FC8DC /* search@2x.png */; };
 		A384A4B016F0FA11008FC8DC /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A384A4AE16F0FA11008FC8DC /* add@2x.png */; };
 		A390843F1755518F0076168C /* BYNewExpenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A390843D1755518F0076168C /* BYNewExpenseViewController.m */; };
-		A39084401755518F0076168C /* BYNewExpenseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A390843E1755518F0076168C /* BYNewExpenseViewController.xib */; };
 		A39162B11703667F00B3F9FF /* BYQuickShotView.m in Sources */ = {isa = PBXBuildFile; fileRef = A39162B01703667F00B3F9FF /* BYQuickShotView.m */; };
 		A39162B31703A5AD00B3F9FF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39162B21703A5AD00B3F9FF /* AVFoundation.framework */; };
 		A39162B51703A75700B3F9FF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39162B41703A75700B3F9FF /* CoreMedia.framework */; };
@@ -77,7 +76,6 @@
 		A384A4AE16F0FA11008FC8DC /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
 		A390843C1755518F0076168C /* BYNewExpenseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYNewExpenseViewController.h; sourceTree = "<group>"; };
 		A390843D1755518F0076168C /* BYNewExpenseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYNewExpenseViewController.m; sourceTree = "<group>"; };
-		A390843E1755518F0076168C /* BYNewExpenseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BYNewExpenseViewController.xib; sourceTree = "<group>"; };
 		A39162AF1703667F00B3F9FF /* BYQuickShotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYQuickShotView.h; sourceTree = "<group>"; };
 		A39162B01703667F00B3F9FF /* BYQuickShotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYQuickShotView.m; sourceTree = "<group>"; };
 		A39162B21703A5AD00B3F9FF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -201,7 +199,6 @@
 			children = (
 				A390843C1755518F0076168C /* BYNewExpenseViewController.h */,
 				A390843D1755518F0076168C /* BYNewExpenseViewController.m */,
-				A390843E1755518F0076168C /* BYNewExpenseViewController.xib */,
 				A3EAF9BE1725BD7900DE0116 /* Supporting View */,
 			);
 			name = "Expense Creation";
@@ -301,7 +298,6 @@
 				A384A4B016F0FA11008FC8DC /* add@2x.png in Resources */,
 				A302945516FB554F009BBF6D /* miso-light.ttf in Resources */,
 				A302945716FB56DB009BBF6D /* miso-regular.ttf in Resources */,
-				A39084401755518F0076168C /* BYNewExpenseViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

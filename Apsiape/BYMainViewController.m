@@ -51,9 +51,9 @@
     
     if (!self.collectionView) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-        flowLayout.itemSize = CGSizeMake(320, 120);
-        flowLayout.minimumInteritemSpacing = 10;
-        flowLayout.minimumLineSpacing = 10;
+        flowLayout.itemSize = CGSizeMake(320, 140);
+        flowLayout.minimumInteritemSpacing = 0;
+        flowLayout.minimumLineSpacing = 8;
         self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
         self.collectionView.alwaysBounceVertical = YES;
         self.collectionView.dataSource = self;
@@ -67,7 +67,7 @@
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(10, 0, 0, 0);
+    return UIEdgeInsetsMake(8, 0, 6, 0);
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
