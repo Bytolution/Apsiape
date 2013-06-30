@@ -24,11 +24,11 @@
 @property (nonatomic, strong) AVCaptureStillImageOutput *stillImageOutput;
 @property (nonatomic, strong) UIImageView *imagePreView;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *prevLayer;
+@property (nonatomic) CGRect centerRect;
 
 @end
 
 #define PREVIEW_LAYER_INSET 8
-#define PREVIEW_LAYER_EDGE_RADIUS 5
 #define BUTTON_SIZE 50
 
 @implementation BYQuickShotView
@@ -38,7 +38,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor colorWithWhite:0 alpha:.1];
-        self.layer.cornerRadius = PREVIEW_LAYER_EDGE_RADIUS;
         
         AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.rearCamera error:nil];
         AVCaptureStillImageOutput *newStillImageOutput = [[AVCaptureStillImageOutput alloc] init];
@@ -63,13 +62,14 @@
             [self.captureSession startRunning];
             if (!self.prevLayer) self.prevLayer = [[AVCaptureVideoPreviewLayer alloc]initWithSession:self.captureSession];
             self.prevLayer.masksToBounds = YES;
-            self.prevLayer.cornerRadius = PREVIEW_LAYER_EDGE_RADIUS;
             self.prevLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.layer insertSublayer:self.prevLayer atIndex:0];
                 self.prevLayer.frame = self.bounds;
-                
-                [self.delegate quickShotViewDidFinishPreparation:self];
+                //Always check!
+                if ([self.delegate respondsToSelector:@selector(quickShotViewDidFinishPreparation:)]) {
+                    [self.delegate quickShotViewDidFinishPreparation:self];
+                }
             });
         });
     }
@@ -79,10 +79,8 @@
 - (UIImageView *)imagePreView
 {
     if (!_imagePreView) {
-        _imagePreView = [[UIImageView alloc]init];
-        _imagePreView.layer.cornerRadius = PREVIEW_LAYER_EDGE_RADIUS;
+        _imagePreView = [[UIImageView alloc]initWithFrame:CGRectZero];
         _imagePreView.layer.masksToBounds = YES;
-        _imagePreView.frame = self.bounds;
         _imagePreView.userInteractionEnabled = NO;
         _imagePreView.backgroundColor = [UIColor clearColor];
     }
@@ -112,15 +110,28 @@
 - (void)didMoveToSuperview {
     self.prevLayer.frame = self.bounds;
     [self addSubview:self.imagePreView];
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:self.bounds];
-    imageView.image = [UIImage imageNamed:@"Layout_0001_Image-Capture-Overlay.png"];
-    [self addSubview:imageView]; 
+    
+    CGSize viewSize = self.frame.size;
+    if (viewSize.height > viewSize.width) {
+        CGFloat borderHeight = ((viewSize.height-viewSize.width)/2);
+        CALayer *topLayer = [CALayer layer];
+        CALayer *bottomLayer = [CALayer layer];
+        topLayer.frame = CGRectMake(0, 0, viewSize.width, borderHeight);
+        bottomLayer.frame = CGRectMake(0, viewSize.height - borderHeight, viewSize.width, borderHeight);
+        topLayer.backgroundColor = [UIColor blackColor].CGColor;
+        bottomLayer.backgroundColor = [UIColor blackColor].CGColor;
+        topLayer.opacity = 0.6;
+        bottomLayer.opacity = 0.6;
+        [self.layer addSublayer:topLayer];
+        [self.layer addSublayer:bottomLayer];
+        self.centerRect = CGRectMake(0, borderHeight, viewSize.width, viewSize.height - (2*borderHeight));
+    }
+    
 }
 
 - (void)captureImage
 {
     //Before we can take a snapshot, we need to determine the specific connection to be used
-    
     NSArray *connections = [self.stillImageOutput connections];
     AVCaptureConnection *stillImageConnection;
     for ( AVCaptureConnection *connection in connections ) {
@@ -130,7 +141,6 @@
 			}
 		}
 	}
-
     
     if (self.rearCamera) {
         [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:stillImageConnection
@@ -142,6 +152,7 @@
                capturedImage = [UIImage imageWithData:imgData];
                UIImage *croppedImg = [self cropImage:capturedImage];
                self.imagePreView.image = croppedImg;
+               self.imagePreView.frame = self.centerRect;
                [self.delegate didTakeSnapshot:croppedImg];
                [self animateFlash];
            } else if (error) {

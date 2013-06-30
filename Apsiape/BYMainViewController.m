@@ -59,7 +59,7 @@
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
         self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
-        self.collectionView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1];
+        self.collectionView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
         [self.view addSubview:self.collectionView];
     }

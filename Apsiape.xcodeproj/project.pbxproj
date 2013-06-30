@@ -35,6 +35,7 @@
 		A39162B51703A75700B3F9FF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39162B41703A75700B3F9FF /* CoreMedia.framework */; };
 		A39C59BE16F6165800A68679 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39C59BD16F6165800A68679 /* QuartzCore.framework */; };
 		A3A24CD916FA1F5D0058493E /* BYExpenseInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3A24CD816FA1F5D0058493E /* BYExpenseInputView.m */; };
+		A3D60C78177FA1DC004D5A54 /* BYCursorLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */; };
 		A3D986D3175245D20093F49E /* BYExpenseInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D986D2175245D20093F49E /* BYExpenseInputViewController.m */; };
 		A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DAA96416F778CC00C22671 /* BYStorage.m */; };
 		A3E7570216E295F400AE2AF7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3E7570116E295F400AE2AF7 /* CoreData.framework */; };
@@ -83,6 +84,8 @@
 		A39C59BD16F6165800A68679 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A3A24CD716FA1F5D0058493E /* BYExpenseInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseInputView.h; sourceTree = "<group>"; };
 		A3A24CD816FA1F5D0058493E /* BYExpenseInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseInputView.m; sourceTree = "<group>"; };
+		A3D60C76177FA1DC004D5A54 /* BYCursorLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCursorLabel.h; sourceTree = "<group>"; };
+		A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCursorLabel.m; sourceTree = "<group>"; };
 		A3D986D1175245D20093F49E /* BYExpenseInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseInputViewController.h; sourceTree = "<group>"; };
 		A3D986D2175245D20093F49E /* BYExpenseInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseInputViewController.m; sourceTree = "<group>"; };
 		A3DAA96316F778CC00C22671 /* BYStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYStorage.h; sourceTree = "<group>"; };
@@ -199,6 +202,8 @@
 			children = (
 				A390843C1755518F0076168C /* BYNewExpenseViewController.h */,
 				A390843D1755518F0076168C /* BYNewExpenseViewController.m */,
+				A3D60C76177FA1DC004D5A54 /* BYCursorLabel.h */,
+				A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */,
 				A3EAF9BE1725BD7900DE0116 /* Supporting View */,
 			);
 			name = "Expense Creation";
@@ -323,6 +328,7 @@
 				A35DDD7E1737FDD7003C287E /* BYMapViewController.m in Sources */,
 				A3D986D3175245D20093F49E /* BYExpenseInputViewController.m in Sources */,
 				A390843F1755518F0076168C /* BYNewExpenseViewController.m in Sources */,
+				A3D60C78177FA1DC004D5A54 /* BYCursorLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

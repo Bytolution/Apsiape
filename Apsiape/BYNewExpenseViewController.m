@@ -11,14 +11,17 @@
 #import "BYExpenseKeyboard.h"
 #import "Expense.h"
 #import "BYStorage.h"
+#import "BYCursorLabel.h"
 
-@interface BYNewExpenseViewController () <BYQuickShotViewDelegate, BYExpenseKeyboardDelegate>
+@interface BYNewExpenseViewController () <BYQuickShotViewDelegate, BYExpenseKeyboardDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) UINavigationBar *headerBar;
 @property (nonatomic, strong) UIImage *capturedPhoto;
 @property (nonatomic, strong) BYQuickShotView *quickShotView;
 @property (nonatomic, strong) NSMutableString *expenseValue;
-@property (nonatomic, strong) UILabel *expenseValueLabel;
+@property (nonatomic, strong) BYCursorLabel *expenseValueLabel;
+@property (nonatomic, strong) UIScrollView *mainScrollView;
+@property (nonatomic, strong) UIScrollView *pagingScrollView;
 
 - (void)dismiss;
 
@@ -40,42 +43,43 @@
 {
     [super viewWillAppear:animated];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor blackColor];
+    
+    if (!self.mainScrollView) self.mainScrollView = [[UIScrollView alloc]initWithFrame:self.view.bounds];
+    if (!self.pagingScrollView) self.pagingScrollView = [[UIScrollView alloc]initWithFrame:self.mainScrollView.bounds];
+    
+    self.mainScrollView.backgroundColor = [UIColor blackColor];
+    self.pagingScrollView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
+    self.mainScrollView.frame = self.view.bounds;
+    self.mainScrollView.contentSize = self.mainScrollView.frame.size;
+    self.pagingScrollView.frame = self.mainScrollView.bounds;
+    self.pagingScrollView.pagingEnabled = YES;
+    self.pagingScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width * 3, self.mainScrollView.frame.size.height);
+    self.pagingScrollView.showsHorizontalScrollIndicator = NO;
+    self.mainScrollView.alwaysBounceVertical = YES;
+    self.mainScrollView.delegate = self;
+    [self.view addSubview:self.mainScrollView];
+    [self.mainScrollView addSubview:self.pagingScrollView];
+    self.mainScrollView.layer.cornerRadius = 10;
+    self.mainScrollView.layer.borderWidth = 2;
+    self.mainScrollView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.mainScrollView.layer.masksToBounds = YES;
     
     self.expenseValue = [[NSMutableString alloc]initWithCapacity:30];
-    
-    self.expenseValueLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 60, 300, 80)];
-    self.expenseValueLabel.textAlignment = NSTextAlignmentRight;
-    NSAttributedString *attrString = [[NSAttributedString alloc]initWithString:@"Enter value" attributes:@{NSForegroundColorAttributeName : [UIColor grayColor]}];
-    self.expenseValueLabel.attributedText = attrString;
-    [self.view addSubview:self.expenseValueLabel];
-    self.expenseValueLabel.font = [UIFont fontWithName:@"Miso-Light" size:60];
-    
-    CALayer *stripeLayer = [CALayer layer];
-    CGSize labelSize = self.expenseValueLabel.bounds.size;
-    stripeLayer.frame = CGRectMake(labelSize.width - 2, 0, 2, labelSize.height);
-    stripeLayer.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:1 alpha:1].CGColor;
-    
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    animation.fromValue = [NSNumber numberWithFloat:1.0];
-    animation.fromValue = [NSNumber numberWithFloat:0.0];
-    animation.autoreverses = YES;
-    animation.repeatCount = 30;
-    animation.duration = 0.5;
-    
-    [stripeLayer addAnimation:animation forKey:@"opacityAnimation"];
-    [self.expenseValueLabel.layer addSublayer:stripeLayer];
-    
-    [self.view addSubview:self.headerBar];
-    [self.headerBar setBackgroundImage:[UIImage imageNamed:@"Header_Bar.png"] forBarMetrics:UIBarMetricsDefault];
-    self.headerBar.tintColor = [UIColor whiteColor];
-    UIBarButtonItem *mapButton = [[UIBarButtonItem alloc]initWithTitle:@"Gnarl" style:UIBarButtonItemStyleBordered target:self action:@selector(dismiss)];
-    UINavigationItem *navItem = [[UINavigationItem alloc]init];
-    navItem.rightBarButtonItem = mapButton;
-    [self.headerBar pushNavigationItem:navItem animated:YES];
     BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - KEYBOARD_HEIGHT, 320, KEYBOARD_HEIGHT)];
+    self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 10, 300, 80)];
+    [self.pagingScrollView addSubview:self.expenseValueLabel];
     keyboard.delegate = self;
-    [self.view addSubview:keyboard];
+    [self.pagingScrollView addSubview:keyboard];
+    
+    self.quickShotView = [[BYQuickShotView alloc]initWithFrame:CGRectMake(320, 0, self.pagingScrollView.frame.size.width, self.pagingScrollView.frame.size.height)];
+    self.quickShotView.delegate = self;
+    [self.pagingScrollView addSubview:self.quickShotView];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+//    NSLog(@"%@", NSStringFromCGPoint(scrollView.contentOffset));
 }
 
 - (void)numberKeyTapped:(NSString *)numberString
@@ -90,7 +94,6 @@
     [self.expenseValue appendString:numberString];
     self.expenseValueLabel.text = self.expenseValue;
 }
-
 - (void)deleteKeyTapped
 {
     if (self.expenseValue.length < 1) {
@@ -101,7 +104,6 @@
     }
     self.expenseValueLabel.text = self.expenseValue;
 }
-
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -113,29 +115,17 @@
         [[BYStorage sharedStorage]saveDocument];
     }
 }
-
 - (void)didTakeSnapshot:(UIImage *)img
 {
     self.capturedPhoto = img;
 }
-
 - (void)didDiscardLastImage
 {
     self.capturedPhoto = nil;
 }
-
-- (void)quickShotViewDidFinishPreparation:(BYQuickShotView *)quickShotView
-{
-    
-}
-
 - (void)dismiss
 {
     [self.view removeFromSuperview];
-}
-
-- (void)viewDidUnload {
-    [super viewDidUnload];
 }
 
 @end
