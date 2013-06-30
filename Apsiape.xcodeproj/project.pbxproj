@@ -25,7 +25,6 @@
 		A353B08D1733FE5300C5D868 /* UIImage+ImageFromView.m in Sources */ = {isa = PBXBuildFile; fileRef = A353B08C1733FE5300C5D868 /* UIImage+ImageFromView.m */; };
 		A3598064170E42F700FA8872 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3598063170E42F700FA8872 /* CoreLocation.framework */; };
 		A35DDD7B1737F7C2003C287E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A35DDD7A1737F7C2003C287E /* MapKit.framework */; };
-		A35DDD7E1737FDD7003C287E /* BYMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35DDD7D1737FDD7003C287E /* BYMapViewController.m */; };
 		A3832F0C16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3832F0A16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld */; };
 		A384A4AF16F0FA11008FC8DC /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A384A4AD16F0FA11008FC8DC /* search@2x.png */; };
 		A384A4B016F0FA11008FC8DC /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A384A4AE16F0FA11008FC8DC /* add@2x.png */; };
@@ -70,8 +69,6 @@
 		A353B08C1733FE5300C5D868 /* UIImage+ImageFromView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageFromView.m"; sourceTree = "<group>"; };
 		A3598063170E42F700FA8872 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A35DDD7A1737F7C2003C287E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		A35DDD7C1737FDD7003C287E /* BYMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYMapViewController.h; sourceTree = "<group>"; };
-		A35DDD7D1737FDD7003C287E /* BYMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYMapViewController.m; sourceTree = "<group>"; };
 		A3832F0B16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ApsiapeDataModel.xcdatamodel; sourceTree = "<group>"; };
 		A384A4AD16F0FA11008FC8DC /* search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search@2x.png"; sourceTree = "<group>"; };
 		A384A4AE16F0FA11008FC8DC /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
@@ -155,8 +152,6 @@
 				A310311316E3AC9E00B163DC /* BYContainerViewController.m */,
 				A310311B16E3E37C00B163DC /* BYMainViewController.h */,
 				A310311C16E3E37C00B163DC /* BYMainViewController.m */,
-				A35DDD7C1737FDD7003C287E /* BYMapViewController.h */,
-				A35DDD7D1737FDD7003C287E /* BYMapViewController.m */,
 				A373763716F6306B00611FC6 /* Expense Creation */,
 				A37526DC16F5201D0079C94A /* CollectionView */,
 				A3832F0D16E0F6FD00D64DC1 /* Core Data */,
@@ -325,7 +320,6 @@
 				A39162B11703667F00B3F9FF /* BYQuickShotView.m in Sources */,
 				A3193F16171C613A00EED786 /* Expense.m in Sources */,
 				A353B08D1733FE5300C5D868 /* UIImage+ImageFromView.m in Sources */,
-				A35DDD7E1737FDD7003C287E /* BYMapViewController.m in Sources */,
 				A3D986D3175245D20093F49E /* BYExpenseInputViewController.m in Sources */,
 				A390843F1755518F0076168C /* BYNewExpenseViewController.m in Sources */,
 				A3D60C78177FA1DC004D5A54 /* BYCursorLabel.m in Sources */,

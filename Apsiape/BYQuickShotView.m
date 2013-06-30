@@ -141,7 +141,6 @@
 			}
 		}
 	}
-    
     if (self.rearCamera) {
         [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:stillImageConnection
                                                            completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)

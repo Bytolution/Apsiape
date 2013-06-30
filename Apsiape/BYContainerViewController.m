@@ -9,7 +9,6 @@
 #import "UIImage+ImageFromView.h"
 #import <QuartzCore/QuartzCore.h>
 #import <MapKit/MapKit.h>
-#import "BYMapViewController.h"
 #import "BYNewExpenseViewController.h"
 
 @interface BYContainerViewController () 
@@ -19,7 +18,6 @@
 @property (nonatomic, strong) UINavigationBar *navBar;
 @property (nonatomic, strong) UIToolbar *toolBar;
 @property (nonatomic) BOOL mainViewControllerVisible;
-@property (nonatomic, strong) BYMapViewController *mapViewController;
 @property (nonatomic, strong) UIWindow *backgroundWindow;
 
 - (void)mapButtonTapped;
@@ -88,44 +86,6 @@
     } else {
         [self dismissMapView];
     }
-}
-
-- (void)displayMapView
-{
-    CGRect mainViewFrame = self.mainViewController.view.frame;
-    mainViewFrame.size.height -= MAP_HEIGHT;
-    
-    if (!self.mapViewController) {
-        self.mapViewController = [[BYMapViewController alloc]init];
-        self.mapViewController.view.backgroundColor = [UIColor darkGrayColor];
-        [self addChildViewController:self.mapViewController];
-        self.mapViewController.view.frame = CGRectMake(0, CGRectGetMaxY(self.view.bounds), self.view.frame.size.width, MAP_HEIGHT);
-        [self.view addSubview:self.mapViewController.view];
-        [self.mapViewController didMoveToParentViewController:self];
-    }
-    [UIView animateWithDuration:1 animations:^{
-        self.mainViewController.view.frame = mainViewFrame;
-        self.mainViewController.collectionView.frame = self.mainViewController.view.bounds;
-        self.mapViewController.view.frame = CGRectMake(0, CGRectGetMaxY(self.view.bounds) - MAP_HEIGHT, self.view.frame.size.width, MAP_HEIGHT);
-        self.mainViewControllerVisible = NO;
-    } completion:^(BOOL finished) {
-        
-    }];
-}
-
-- (void)dismissMapView
-{
-    CGRect mainViewFrame = self.mainViewController.view.frame;
-    mainViewFrame.size.height += MAP_HEIGHT;
-    
-    [UIView animateWithDuration:1 animations:^{
-        self.mainViewController.view.frame = mainViewFrame;
-        self.mainViewController.collectionView.frame = self.mainViewController.view.bounds;
-        self.mapViewController.view.frame = CGRectMake(0, CGRectGetMaxY(self.view.bounds), self.view.frame.size.width, MAP_HEIGHT);
-        self.mainViewControllerVisible = YES;
-    } completion:^(BOOL finished) {
-        
-    }];
 }
 
 - (void)splitAnimationOverlayViewDidFinishOpeningAnimation
