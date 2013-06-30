@@ -202,8 +202,6 @@
 			children = (
 				A390843C1755518F0076168C /* BYNewExpenseViewController.h */,
 				A390843D1755518F0076168C /* BYNewExpenseViewController.m */,
-				A3D60C76177FA1DC004D5A54 /* BYCursorLabel.h */,
-				A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */,
 				A3EAF9BE1725BD7900DE0116 /* Supporting View */,
 			);
 			name = "Expense Creation";
@@ -231,6 +229,8 @@
 		A3EAF9BE1725BD7900DE0116 /* Supporting View */ = {
 			isa = PBXGroup;
 			children = (
+				A3D60C76177FA1DC004D5A54 /* BYCursorLabel.h */,
+				A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */,
 				A3D986D1175245D20093F49E /* BYExpenseInputViewController.h */,
 				A3D986D2175245D20093F49E /* BYExpenseInputViewController.m */,
 				A3A24CD716FA1F5D0058493E /* BYExpenseInputView.h */,

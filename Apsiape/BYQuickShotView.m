@@ -118,8 +118,8 @@
         CALayer *bottomLayer = [CALayer layer];
         topLayer.frame = CGRectMake(0, 0, viewSize.width, borderHeight);
         bottomLayer.frame = CGRectMake(0, viewSize.height - borderHeight, viewSize.width, borderHeight);
-        topLayer.backgroundColor = [UIColor blackColor].CGColor;
-        bottomLayer.backgroundColor = [UIColor blackColor].CGColor;
+        topLayer.backgroundColor = [UIColor whiteColor].CGColor;
+        bottomLayer.backgroundColor = [UIColor whiteColor].CGColor;
         topLayer.opacity = 0.6;
         bottomLayer.opacity = 0.6;
         [self.layer addSublayer:topLayer];
