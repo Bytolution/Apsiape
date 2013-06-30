@@ -123,6 +123,15 @@
 {
     self.capturedPhoto = nil;
 }
+<<<<<<< HEAD
+=======
+
+- (void)quickShotViewDidFinishPreparation:(BYQuickShotView *)quickShotView
+{
+    //Halleluja
+}
+
+>>>>>>> ad8c5e9ed49a99e27790abb30fff5fea1f38c692
 - (void)dismiss
 {
     [self.view removeFromSuperview];
