@@ -69,17 +69,9 @@
 {
     return UIEdgeInsetsMake(8, 0, 6, 0);
 }
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return [self.collectionViewData count];
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    [self.collectionViewData removeObjectAtIndex:indexPath.row];
-    [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -97,9 +89,7 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    if (scrollView.contentOffset.y > PULL_WIDTH && scrollView.contentOffset.y > 0) {
-        //
-    } else if (scrollView.contentOffset.y < - PULL_WIDTH && scrollView.contentOffset.y < 0) {
+    if (scrollView.contentOffset.y < - PULL_WIDTH && scrollView.contentOffset.y < 0) {
         [[BYContainerViewController sharedContainerViewController] displayExpenseCreationViewController];
     }
 }

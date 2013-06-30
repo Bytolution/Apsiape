@@ -50,17 +50,6 @@
     return self;
 }
 
-- (void)gestureRecognized:(UISwipeGestureRecognizer *)gRecognizer
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-        CGRect rect = self.frame;
-        rect.origin.x -= 30;
-        
-        [UIView animateWithDuration:0.5 animations:^{
-            self.frame = rect;
-        }];
-}
-
 - (void)setTitle:(NSString *)title
 {
     _title = title;
@@ -84,13 +73,8 @@
     CALayer *borderLayer = [CALayer layer];
     borderLayer.borderColor = [UIColor blackColor].CGColor;
     borderLayer.borderWidth = 0.5;
-    borderLayer.frame = CGRectMake(0, 0, self.contentView.bounds.size.height, self.contentView.bounds.size.height);
+    borderLayer.frame = self.bounds;
     [self.contentView.layer addSublayer:borderLayer];
-    CALayer *borderLayer2 = [CALayer layer];
-    borderLayer2.borderColor = [UIColor blackColor].CGColor;
-    borderLayer2.borderWidth = 0.5;
-    borderLayer2.frame = self.contentView.bounds;
-    [self.contentView.layer addSublayer:borderLayer2];
 }
 
 @end

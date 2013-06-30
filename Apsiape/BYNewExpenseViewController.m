@@ -48,7 +48,6 @@
     if (!self.mainScrollView) self.mainScrollView = [[UIScrollView alloc]initWithFrame:self.view.bounds];
     if (!self.pagingScrollView) self.pagingScrollView = [[UIScrollView alloc]initWithFrame:self.mainScrollView.bounds];
     
-    self.mainScrollView.backgroundColor = [UIColor blackColor];
     self.pagingScrollView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
     self.mainScrollView.frame = self.view.bounds;
     self.mainScrollView.contentSize = self.mainScrollView.frame.size;
@@ -61,8 +60,6 @@
     [self.view addSubview:self.mainScrollView];
     [self.mainScrollView addSubview:self.pagingScrollView];
     self.mainScrollView.layer.cornerRadius = 10;
-    self.mainScrollView.layer.borderWidth = 2;
-    self.mainScrollView.layer.borderColor = [UIColor blackColor].CGColor;
     self.mainScrollView.layer.masksToBounds = YES;
     
     self.expenseValue = [[NSMutableString alloc]initWithCapacity:30];
@@ -77,11 +74,7 @@
     [self.pagingScrollView addSubview:self.quickShotView];
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-//    NSLog(@"%@", NSStringFromCGPoint(scrollView.contentOffset));
-}
-
+//------------------------------------------------------------------------------------------//
 - (void)numberKeyTapped:(NSString *)numberString
 {
     NSRange decSeparatorRange = [self.expenseValue rangeOfString:@"."];
@@ -104,17 +97,21 @@
     }
     self.expenseValueLabel.text = self.expenseValue;
 }
+//------------------------------------------------------------------------------------------//
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
     if (self.expenseValue.length != 0) {
         Expense *newExpense = [NSEntityDescription insertNewObjectForEntityForName:@"Expense" inManagedObjectContext:[[BYStorage sharedStorage]managedObjectContext]];
         newExpense.value = self.expenseValue;
         newExpense.image = self.capturedPhoto;
         [[BYStorage sharedStorage]saveDocument];
     }
+    self.capturedPhoto = nil;
+    self.expenseValue = nil;
 }
+
 - (void)didTakeSnapshot:(UIImage *)img
 {
     self.capturedPhoto = img;
@@ -123,15 +120,6 @@
 {
     self.capturedPhoto = nil;
 }
-<<<<<<< HEAD
-=======
-
-- (void)quickShotViewDidFinishPreparation:(BYQuickShotView *)quickShotView
-{
-    //Halleluja
-}
-
->>>>>>> ad8c5e9ed49a99e27790abb30fff5fea1f38c692
 - (void)dismiss
 {
     [self.view removeFromSuperview];
