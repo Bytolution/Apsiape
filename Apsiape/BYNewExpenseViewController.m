@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
 #import <QuartzCore/QuartzCore.h>
+#import <MapKit/MapKit.h>
 #import "BYNewExpenseViewController.h"
 #import "BYQuickShotView.h"
 #import "BYExpenseKeyboard.h"
@@ -22,6 +23,7 @@
 @property (nonatomic, strong) BYCursorLabel *expenseValueLabel;
 @property (nonatomic, strong) UIScrollView *mainScrollView;
 @property (nonatomic, strong) UIScrollView *pagingScrollView;
+@property (nonatomic, strong) MKMapView *mapView;
 
 - (void)dismiss;
 

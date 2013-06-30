@@ -61,8 +61,7 @@
     
     self.navBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, 320, HEADER_HEIGHT)];
     [self.view insertSubview:self.navBar aboveSubview:self.mainViewController.view];
-    [self.navBar setBackgroundImage:[UIImage imageNamed:@"Layout_0002_NavBar.png"] forBarMetrics:UIBarMetricsDefault];
-    self.navBar.tintColor = [UIColor whiteColor];
+    self.navBar.tintColor = [UIColor colorWithWhite:0.8 alpha:1];
 }
 
 - (void)displayExpenseCreationViewController
@@ -77,15 +76,6 @@
 {
     [self.expenseVC.view removeFromSuperview];
     [self.navBar pushNavigationItem:nil animated:YES];
-}
-
-- (void)mapButtonTapped
-{
-    if (self.mainViewControllerVisible) {
-        [self displayMapView];
-    } else {
-        [self dismissMapView];
-    }
 }
 
 - (void)splitAnimationOverlayViewDidFinishOpeningAnimation
