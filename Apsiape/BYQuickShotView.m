@@ -120,8 +120,8 @@
         bottomLayer.frame = CGRectMake(0, viewSize.height - borderHeight, viewSize.width, borderHeight);
         topLayer.backgroundColor = [UIColor whiteColor].CGColor;
         bottomLayer.backgroundColor = [UIColor whiteColor].CGColor;
-        topLayer.opacity = 0.6;
-        bottomLayer.opacity = 0.6;
+        topLayer.opacity = 0.7;
+        bottomLayer.opacity = 0.7;
         [self.layer addSublayer:topLayer];
         [self.layer addSublayer:bottomLayer];
         self.centerRect = CGRectMake(0, borderHeight, viewSize.width, viewSize.height - (2*borderHeight));
