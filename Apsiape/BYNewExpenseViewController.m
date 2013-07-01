@@ -26,6 +26,7 @@
 @property (nonatomic, strong) MKMapView *mapView;
 
 - (void)dismiss;
+- (void)prepareScrollViews;
 
 @end
 
@@ -33,20 +34,8 @@
 
 #define KEYBOARD_HEIGHT 240
 
-- (UINavigationBar *)headerBar
+- (void)prepareScrollViews
 {
-    if (!_headerBar) {
-        _headerBar = [[UINavigationBar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
-    }
-    return _headerBar;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    self.view.backgroundColor = [UIColor blackColor];
-    
     if (!self.mainScrollView) self.mainScrollView = [[UIScrollView alloc]initWithFrame:self.view.bounds];
     if (!self.pagingScrollView) self.pagingScrollView = [[UIScrollView alloc]initWithFrame:self.mainScrollView.bounds];
     
@@ -64,6 +53,31 @@
     self.mainScrollView.layer.cornerRadius = 10;
     self.mainScrollView.layer.masksToBounds = YES;
     
+    UIColor *lightGreen = [UIColor colorWithRed:0.4 green:0.9 blue:0.4 alpha:1];
+    UIColor *lightRed = [UIColor colorWithRed:0.9 green:0.4 blue:0.4 alpha:1];
+    
+    CGFloat pullViewHeight = 800;
+    UIView *topPullView = [[UIView alloc]initWithFrame:CGRectMake(0, - pullViewHeight, self.mainScrollView.frame.size.width, pullViewHeight)];
+    topPullView.backgroundColor = lightGreen;
+    [self.mainScrollView addSubview:topPullView];
+    UIView *bottomPullView = [[UIView alloc]initWithFrame:CGRectMake(0, self.mainScrollView.contentSize.height, self.mainScrollView.frame.size.width, pullViewHeight)];
+    bottomPullView.backgroundColor = lightRed;
+    [self.mainScrollView addSubview:bottomPullView];
+    UIView *rightPullView = [[UIView alloc]initWithFrame:CGRectMake(self.pagingScrollView.contentSize.width, 0, pullViewHeight, self.pagingScrollView.contentSize.height)];
+    rightPullView.backgroundColor = lightGreen;
+    [self.pagingScrollView addSubview:rightPullView];
+    UIView *leftPullView = [[UIView alloc]initWithFrame:CGRectMake(- pullViewHeight, 0, pullViewHeight, self.pagingScrollView.contentSize.height)];
+    leftPullView.backgroundColor = lightRed;
+    [self.pagingScrollView addSubview:leftPullView];
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.view.backgroundColor = [UIColor blackColor];
+    
+    [self prepareScrollViews];
+    
     self.expenseValue = [[NSMutableString alloc]initWithCapacity:30];
     BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - KEYBOARD_HEIGHT, 320, KEYBOARD_HEIGHT)];
     self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 10, 300, 80)];
@@ -76,7 +90,8 @@
     [self.pagingScrollView addSubview:self.quickShotView];
 }
 
-//------------------------------------------------------------------------------------------//
+#pragma mark Text Input Handling
+
 - (void)numberKeyTapped:(NSString *)numberString
 {
     NSRange decSeparatorRange = [self.expenseValue rangeOfString:@"."];
@@ -99,7 +114,8 @@
     }
     self.expenseValueLabel.text = self.expenseValue;
 }
-//------------------------------------------------------------------------------------------//
+
+#pragma mark Cleanup methods
 
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -113,6 +129,12 @@
     self.capturedPhoto = nil;
     self.expenseValue = nil;
 }
+- (void)dismiss
+{
+    [self.view removeFromSuperview];
+}
+
+#pragma mark Delegation
 
 - (void)didTakeSnapshot:(UIImage *)img
 {
@@ -122,9 +144,9 @@
 {
     self.capturedPhoto = nil;
 }
-- (void)dismiss
+- (void)quickShotViewDidFinishPreparation:(BYQuickShotView *)quickShotView
 {
-    [self.view removeFromSuperview];
+    
 }
 
 @end
