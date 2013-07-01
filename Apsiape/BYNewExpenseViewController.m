@@ -59,6 +59,19 @@
     CGFloat pullViewHeight = 800;
     UIView *topPullView = [[UIView alloc]initWithFrame:CGRectMake(0, - pullViewHeight, self.mainScrollView.frame.size.width, pullViewHeight)];
     topPullView.backgroundColor = lightGreen;
+    CALayer *checkmarkLayer = [CALayer layer];
+    checkmarkLayer.frame = CGRectMake(130, 720, 60, 60);
+    checkmarkLayer.contents = (__bridge id)([[UIImage imageNamed:@"add.png"] CGImage]);
+    CABasicAnimation* rotationAnimation;
+    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0];
+    rotationAnimation.duration = 1;
+    rotationAnimation.cumulative = YES;
+    rotationAnimation.repeatCount = HUGE_VALF;
+    rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    [checkmarkLayer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    
+    [topPullView.layer addSublayer:checkmarkLayer];
     [self.mainScrollView addSubview:topPullView];
     UIView *bottomPullView = [[UIView alloc]initWithFrame:CGRectMake(0, self.mainScrollView.contentSize.height, self.mainScrollView.frame.size.width, pullViewHeight)];
     bottomPullView.backgroundColor = lightRed;
@@ -91,7 +104,7 @@
     
     if (!self.mapView) self.mapView = [[MKMapView alloc]initWithFrame:CGRectMake(self.pagingScrollView.contentSize.width * (2.0f/3.0f), 0, self.pagingScrollView.bounds.size.width, self.pagingScrollView.bounds.size.height)];
     [self.pagingScrollView addSubview:self.mapView];
-//    self.mapView.userInteractionEnabled = NO;
+    self.mapView.userInteractionEnabled = NO;
     self.mapView.showsUserLocation = YES;
     
     CGSize viewSize = self.mapView.frame.size;
@@ -106,8 +119,6 @@
     bottomLayer.opacity = 0.7;
     [self.mapView.layer addSublayer:topLayer];
     [self.mapView.layer addSublayer:bottomLayer];
-    
-    [self.mapView setCenterCoordinate:self.mapView.prop];
 }
 
 #pragma mark Text Input Handling
