@@ -104,21 +104,7 @@
     
     if (!self.mapView) self.mapView = [[MKMapView alloc]initWithFrame:CGRectMake(self.pagingScrollView.contentSize.width * (2.0f/3.0f), 0, self.pagingScrollView.bounds.size.width, self.pagingScrollView.bounds.size.height)];
     [self.pagingScrollView addSubview:self.mapView];
-    self.mapView.userInteractionEnabled = NO;
     self.mapView.showsUserLocation = YES;
-    
-    CGSize viewSize = self.mapView.frame.size;
-    CGFloat borderHeight = ((viewSize.height-viewSize.width)/2);
-    CALayer *topLayer = [CALayer layer];
-    CALayer *bottomLayer = [CALayer layer];
-    topLayer.frame = CGRectMake(0, 0, viewSize.width, borderHeight);
-    bottomLayer.frame = CGRectMake(0, viewSize.height - borderHeight, viewSize.width, borderHeight);
-    topLayer.backgroundColor = [UIColor whiteColor].CGColor;
-    bottomLayer.backgroundColor = [UIColor whiteColor].CGColor;
-    topLayer.opacity = 0.7;
-    bottomLayer.opacity = 0.7;
-    [self.mapView.layer addSublayer:topLayer];
-    [self.mapView.layer addSublayer:bottomLayer];
 }
 
 #pragma mark Text Input Handling
