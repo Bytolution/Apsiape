@@ -8,8 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum  {
+    BYPullScrollViewEdgeTypeTop = 0,
+    BYPullScrollViewEdgeTypeLeft,
+    BYPullScrollViewEdgeTypeBottom,
+    BYPullScrollViewEdgeTypeRight
+} BYPullScrollViewEdgeType;
+
+@protocol BYPullScrollViewDelegate <NSObject>
+
+- (void)pullScrollView:(UIScrollView*)pullScrollView didScrollToPage:(NSInteger)page;
+- (void)pullScrollView:(UIScrollView*)pullScrollView didDetectPullingAtEdge:(BYPullScrollViewEdgeType)edge;
+
+@end
+
 @interface BYPullScrollView : UIScrollView
 
 @property (nonatomic, strong) UIScrollView *childScrollView;
+@property (nonatomic) id <BYPullScrollViewDelegate> pullScrollViewDelegate;
 
 @end

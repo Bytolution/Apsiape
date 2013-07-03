@@ -13,8 +13,9 @@
 #import "Expense.h"
 #import "BYStorage.h"
 #import "BYCursorLabel.h"
+#import "BYPullScrollView.h"
 
-@interface BYNewExpenseViewController () <BYQuickShotViewDelegate, BYExpenseKeyboardDelegate, UIScrollViewDelegate>
+@interface BYNewExpenseViewController () <BYQuickShotViewDelegate, BYExpenseKeyboardDelegate, BYPullScrollViewDelegate>
 
 @property (nonatomic, strong) UINavigationBar *headerBar;
 @property (nonatomic, strong) UIImage *capturedPhoto;
@@ -26,7 +27,6 @@
 @property (nonatomic, strong) MKMapView *mapView;
 
 - (void)dismiss;
-- (void)prepareScrollViews;
 
 @end
 
@@ -34,77 +34,31 @@
 
 #define KEYBOARD_HEIGHT 240
 
-- (void)prepareScrollViews
-{
-    if (!self.mainScrollView) self.mainScrollView = [[UIScrollView alloc]initWithFrame:self.view.bounds];
-    if (!self.pagingScrollView) self.pagingScrollView = [[UIScrollView alloc]initWithFrame:self.mainScrollView.bounds];
-    
-    self.pagingScrollView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
-    self.mainScrollView.frame = self.view.bounds;
-    self.mainScrollView.contentSize = self.mainScrollView.frame.size;
-    self.pagingScrollView.frame = self.mainScrollView.bounds;
-    self.pagingScrollView.pagingEnabled = YES;
-    self.pagingScrollView.contentSize = CGSizeMake(self.mainScrollView.frame.size.width * 3, self.mainScrollView.frame.size.height);
-    self.pagingScrollView.showsHorizontalScrollIndicator = NO;
-    self.mainScrollView.alwaysBounceVertical = YES;
-    self.mainScrollView.delegate = self;
-    [self.view addSubview:self.mainScrollView];
-    [self.mainScrollView addSubview:self.pagingScrollView];
-    self.mainScrollView.layer.cornerRadius = 10;
-    self.mainScrollView.layer.masksToBounds = YES;
-    
-    UIColor *lightGreen = [UIColor colorWithRed:0.4 green:0.9 blue:0.4 alpha:1];
-    UIColor *lightRed = [UIColor colorWithRed:0.9 green:0.4 blue:0.4 alpha:1];
-    
-    CGFloat pullViewHeight = 800;
-    UIView *topPullView = [[UIView alloc]initWithFrame:CGRectMake(0, - pullViewHeight, self.mainScrollView.frame.size.width, pullViewHeight)];
-    topPullView.backgroundColor = lightGreen;
-    CALayer *checkmarkLayer = [CALayer layer];
-    checkmarkLayer.frame = CGRectMake(130, 720, 60, 60);
-    checkmarkLayer.contents = (__bridge id)([[UIImage imageNamed:@"add.png"] CGImage]);
-    CABasicAnimation* rotationAnimation;
-    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0];
-    rotationAnimation.duration = 1;
-    rotationAnimation.cumulative = YES;
-    rotationAnimation.repeatCount = HUGE_VALF;
-    rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-    [checkmarkLayer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
-    
-    [topPullView.layer addSublayer:checkmarkLayer];
-    [self.mainScrollView addSubview:topPullView];
-    UIView *bottomPullView = [[UIView alloc]initWithFrame:CGRectMake(0, self.mainScrollView.contentSize.height, self.mainScrollView.frame.size.width, pullViewHeight)];
-    bottomPullView.backgroundColor = lightRed;
-    [self.mainScrollView addSubview:bottomPullView];
-    UIView *rightPullView = [[UIView alloc]initWithFrame:CGRectMake(self.pagingScrollView.contentSize.width, 0, pullViewHeight, self.pagingScrollView.contentSize.height)];
-    rightPullView.backgroundColor = lightGreen;
-    [self.pagingScrollView addSubview:rightPullView];
-    UIView *leftPullView = [[UIView alloc]initWithFrame:CGRectMake(- pullViewHeight, 0, pullViewHeight, self.pagingScrollView.contentSize.height)];
-    leftPullView.backgroundColor = lightRed;
-    [self.pagingScrollView addSubview:leftPullView];
-}
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
     self.view.backgroundColor = [UIColor blackColor];
+        
+    BYPullScrollView *pullScrollView = [[BYPullScrollView alloc]initWithFrame:self.view.bounds];
+    pullScrollView.delegate = self;
     
-    [self prepareScrollViews];
-    
+    [self.view addSubview:pullScrollView];
     self.expenseValue = [[NSMutableString alloc]initWithCapacity:30];
     BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - KEYBOARD_HEIGHT, 320, KEYBOARD_HEIGHT)];
     self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 10, 300, 80)];
-    [self.pagingScrollView addSubview:self.expenseValueLabel];
+    [pullScrollView.childScrollView addSubview:self.expenseValueLabel];
     keyboard.delegate = self;
-    [self.pagingScrollView addSubview:keyboard];
+    [pullScrollView.childScrollView addSubview:keyboard];
     
-    self.quickShotView = [[BYQuickShotView alloc]initWithFrame:CGRectMake(320, 0, self.pagingScrollView.frame.size.width, self.pagingScrollView.frame.size.height)];
+    self.quickShotView = [[BYQuickShotView alloc]initWithFrame:CGRectMake(320, 0, pullScrollView.childScrollView.frame.size.width, pullScrollView.childScrollView.frame.size.height)];
     self.quickShotView.delegate = self;
-    [self.pagingScrollView addSubview:self.quickShotView];
+    [pullScrollView.childScrollView addSubview:self.quickShotView];
     
-    if (!self.mapView) self.mapView = [[MKMapView alloc]initWithFrame:CGRectMake(self.pagingScrollView.contentSize.width * (2.0f/3.0f), 0, self.pagingScrollView.bounds.size.width, self.pagingScrollView.bounds.size.height)];
-    [self.pagingScrollView addSubview:self.mapView];
+    if (!self.mapView) self.mapView = [[MKMapView alloc]initWithFrame:CGRectMake(pullScrollView.childScrollView.contentSize.width * (2.0f/3.0f), 0, pullScrollView.childScrollView.bounds.size.width, pullScrollView.childScrollView.bounds.size.height)];
     self.mapView.showsUserLocation = YES;
+    self.mapView.userInteractionEnabled = NO;
+    [pullScrollView.childScrollView addSubview:self.mapView];
 }
 
 #pragma mark Text Input Handling
