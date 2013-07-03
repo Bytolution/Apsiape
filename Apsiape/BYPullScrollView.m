@@ -12,11 +12,18 @@
 
 @interface BYPullScrollView () <UIScrollViewDelegate>
 
+@property (nonatomic) BYPullScrollViewEdgeType currentPullingEdge;
 
+- (void)handleVerticalPullWithOffset:(CGFloat)offset;
+- (void)handleHorizontalPullWithOffset:(CGFloat)offset;
+
+- (void)pullingDetectedForEdge:(BYPullScrollViewEdgeType)edge;
 
 @end
 
 @implementation BYPullScrollView
+
+#define MIN_PULL_VALUE 80
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -29,9 +36,12 @@
 
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
+    self.currentPullingEdge = 0;
+    
     if (!self.childScrollView) self.childScrollView = [[UIScrollView alloc]initWithFrame:self.bounds];
     
     self.delegate = self;
+    self.childScrollView.delegate = self;
     
     self.childScrollView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:1];
     self.contentSize = self.frame.size;
@@ -78,15 +88,66 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     //check contentOffset for responsive pullView modification
+    if (scrollView == self) {
+        [self handleVerticalPullWithOffset:scrollView.contentOffset.y];
+    } else if (scrollView == self.childScrollView) {
+        [self handleHorizontalPullWithOffset:scrollView.contentOffset.x];
+    }
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    //check contentOffset to determine current page
+    //check contentOffset to DETERMINE CURRENT PAGE
     //maybe start animation on pullview
 }
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    //check position when finger lifts up to see if it was a a valid pull gesture
+    if (self.currentPullingEdge != BYPullScrollViewEdgeTypeNone) {
+        [self pullingDetectedForEdge:self.currentPullingEdge];
+    }
+}
+
+#pragma mark Pull gesture handling
+
+- (void)handleVerticalPullWithOffset:(CGFloat)offset
+{
+    if (offset < - MIN_PULL_VALUE) {
+        if (self.currentPullingEdge == BYPullScrollViewEdgeTypeNone) {
+            self.currentPullingEdge = BYPullScrollViewEdgeTypeTop;
+        }
+    } else if (offset > MIN_PULL_VALUE) {
+        if (self.currentPullingEdge == BYPullScrollViewEdgeTypeNone) {
+            self.currentPullingEdge = BYPullScrollViewEdgeTypeBottom;
+        }
+    } else if ((offset < -MIN_PULL_VALUE || offset < MIN_PULL_VALUE)){
+        self.currentPullingEdge = BYPullScrollViewEdgeTypeNone;
+    }
+}
+
+- (void)handleHorizontalPullWithOffset:(CGFloat)offset
+{
+    CGFloat lastPageOffset = self.childScrollView.contentSize.width * (2.0f/3.0f);
+    
+    if (offset < - MIN_PULL_VALUE) {
+        if (self.currentPullingEdge == BYPullScrollViewEdgeTypeNone) {
+            self.currentPullingEdge = BYPullScrollViewEdgeTypeLeft;
+        }
+    } else if (offset > MIN_PULL_VALUE + lastPageOffset) {
+        if (self.currentPullingEdge == BYPullScrollViewEdgeTypeNone) {
+            self.currentPullingEdge = BYPullScrollViewEdgeTypeRight;
+        }
+    } else if (offset < -MIN_PULL_VALUE || offset < (MIN_PULL_VALUE + lastPageOffset)){
+        self.currentPullingEdge = BYPullScrollViewEdgeTypeNone;
+    }
+}
+
+- (void)pullingDetectedForEdge:(BYPullScrollViewEdgeType)edge
+{
+    if ([self.pullScrollViewDelegate respondsToSelector:@selector(pullScrollView:didDetectPullingAtEdge:)]) {
+        [self.pullScrollViewDelegate pullScrollView:self didDetectPullingAtEdge:self.currentPullingEdge];
+    }
 }
 
 @end
+
+
+

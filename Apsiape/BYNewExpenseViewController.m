@@ -41,7 +41,7 @@
     self.view.backgroundColor = [UIColor blackColor];
         
     BYPullScrollView *pullScrollView = [[BYPullScrollView alloc]initWithFrame:self.view.bounds];
-    pullScrollView.delegate = self;
+    pullScrollView.pullScrollViewDelegate = self;
     
     [self.view addSubview:pullScrollView];
     self.expenseValue = [[NSMutableString alloc]initWithCapacity:30];
@@ -105,7 +105,7 @@
     [self.view removeFromSuperview];
 }
 
-#pragma mark Delegation
+#pragma mark Delegation (QuickShotView)
 
 - (void)didTakeSnapshot:(UIImage *)img
 {
@@ -116,6 +116,17 @@
     self.capturedPhoto = nil;
 }
 - (void)quickShotViewDidFinishPreparation:(BYQuickShotView *)quickShotView
+{
+    
+}
+
+#pragma mark Delegation (PullScrollView)
+
+- (void)pullScrollView:(UIScrollView *)pullScrollView didDetectPullingAtEdge:(BYPullScrollViewEdgeType)edge
+{
+    NSLog(@"Edge pulled");
+}
+- (void)pullScrollView:(UIScrollView *)pullScrollView didScrollToPage:(NSInteger)page
 {
     
 }

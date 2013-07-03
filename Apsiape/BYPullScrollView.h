@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 typedef enum  {
-    BYPullScrollViewEdgeTypeTop = 0,
+    BYPullScrollViewEdgeTypeNone = 0,
+    BYPullScrollViewEdgeTypeTop,
     BYPullScrollViewEdgeTypeLeft,
     BYPullScrollViewEdgeTypeBottom,
     BYPullScrollViewEdgeTypeRight
