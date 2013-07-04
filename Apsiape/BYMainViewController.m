@@ -18,6 +18,8 @@
 
 @property (nonatomic, strong) NSMutableArray *collectionViewData;
 
+@property (nonatomic, strong) UICollectionView *collectionView;
+
 - (void)updateCollectionViewData;
 
 @end
@@ -65,6 +67,13 @@
         [self.view addSubview:self.collectionView];
     }
 }
+
+//// TODO
+
+// add pan + swipe gest. rec.
+//track position of gesture on screen
+
+////
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
