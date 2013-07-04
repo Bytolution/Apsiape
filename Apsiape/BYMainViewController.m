@@ -42,6 +42,7 @@
     NSManagedObjectContext *context = [[BYStorage sharedStorage] managedObjectContext];
     NSError *error;
     self.collectionViewData = [[context executeFetchRequest:fetchR error:&error] mutableCopy];
+    for (Expense *expense in self.collectionViewData) NSLog(@"expense: %@", expense.value);
     [self.collectionView reloadData];
 }
 

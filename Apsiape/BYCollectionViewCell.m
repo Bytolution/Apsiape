@@ -18,7 +18,7 @@
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImageView *foregroundImageView;
 
-- (void)gestureRecognized:(UISwipeGestureRecognizer*)gRecognizer;
+//- (void)gestureRecognized:(UISwipeGestureRecognizer*)gRecognizer;
 
 @end
 
@@ -29,21 +29,21 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.label = [[UILabel alloc]initWithFrame:CGRectZero];
-        self.label.textAlignment = NSTextAlignmentRight;
+        self.label.textAlignment = NSTextAlignmentLeft;
         self.label.backgroundColor = [UIColor clearColor];
         self.label.textColor = [UIColor blackColor];
         self.label.font = [UIFont fontWithName:@"Miso" size:48];
         
         self.imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
-        self.imageView.backgroundColor = [UIColor clearColor];
+        self.imageView.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
         self.imageView.layer.masksToBounds = YES;
         
         [self.contentView addSubview:self.imageView];
         [self.contentView addSubview:self.foregroundImageView];
         [self.contentView addSubview:self.label];
         
-        UISwipeGestureRecognizer *sgr = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(gestureRecognized:)];
-        [self.contentView addGestureRecognizer:sgr];
+//        UISwipeGestureRecognizer *sgr = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(gestureRecognized:)];
+//        [self.contentView addGestureRecognizer:sgr];
         
         self.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
     }
@@ -66,8 +66,9 @@
 {
     CGRect rect = self.contentView.bounds;
     rect.size.height = self.contentView.bounds.size.height/2;
+    rect.origin.x = self.frame.size.height;
     self.label.frame = CGRectInset(rect, 10, 10);
-    self.imageView.frame = self.contentView.bounds;
+    self.imageView.frame = CGRectMake(0, 0, self.frame.size.height, self.frame.size.height);
     self.foregroundImageView.frame = self.contentView.bounds;
     
     CALayer *borderLayer = [CALayer layer];
@@ -78,8 +79,6 @@
 }
 
 @end
-
-
 
 
 

@@ -125,6 +125,11 @@
 - (void)pullScrollView:(UIScrollView *)pullScrollView didDetectPullingAtEdge:(BYPullScrollViewEdgeType)edge
 {
     NSLog(@"Edge pulled");
+    [UIView animateWithDuration:0.5 animations:^{
+        self.view.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.view removeFromSuperview];
+    }];
 }
 - (void)pullScrollView:(UIScrollView *)pullScrollView didScrollToPage:(NSInteger)page
 {

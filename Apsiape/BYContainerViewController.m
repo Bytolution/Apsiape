@@ -20,8 +20,6 @@
 @property (nonatomic) BOOL mainViewControllerVisible;
 @property (nonatomic, strong) UIWindow *backgroundWindow;
 
-- (void)mapButtonTapped;
-
 @end
 
 @implementation BYContainerViewController 
