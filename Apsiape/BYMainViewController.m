@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 
 - (void)updateCollectionViewData;
+- (void)gestureRecognized:(UISwipeGestureRecognizer*)gesture;
 
 @end
 
@@ -64,17 +65,16 @@
         self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
         self.collectionView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
+        UISwipeGestureRecognizer *sgr = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(gestureRecognized:)];
+        [self.collectionView addGestureRecognizer:sgr];
         [self.view addSubview:self.collectionView];
     }
 }
 
-//// TODO
-
-// add pan + swipe gest. rec.
-// track position of gesture on screen
-// see notes
-
-////
+- (void)gestureRecognized:(UISwipeGestureRecognizer *)gesture
+{
+    NSLog(@"%i", [self.collectionView indexPathForItemAtPoint:[gesture locationInView:self.collectionView]].row);
+}
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
