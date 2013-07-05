@@ -41,10 +41,6 @@
         [self.contentView addSubview:self.imageView];
         [self.contentView addSubview:self.foregroundImageView];
         [self.contentView addSubview:self.label];
-        
-//        UISwipeGestureRecognizer *sgr = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(gestureRecognized:)];
-//        [self.contentView addGestureRecognizer:sgr];
-        
         self.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
     }
     return self;

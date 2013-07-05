@@ -71,7 +71,8 @@
 //// TODO
 
 // add pan + swipe gest. rec.
-//track position of gesture on screen
+// track position of gesture on screen
+// see notes
 
 ////
 
