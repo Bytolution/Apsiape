@@ -25,15 +25,6 @@
 
 #define MIN_PULL_VALUE 80
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    }
-    return self;
-}
-
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     self.currentPullingEdge = 0;
@@ -87,7 +78,6 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    //check contentOffset for responsive pullView modification
     if (scrollView == self) {
         [self handleVerticalPullWithOffset:scrollView.contentOffset.y];
     } else if (scrollView == self.childScrollView) {
@@ -96,8 +86,7 @@
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    //check contentOffset to DETERMINE CURRENT PAGE
-    //maybe start animation on pullview
+    
 }
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {

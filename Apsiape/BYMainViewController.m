@@ -45,7 +45,6 @@
     NSManagedObjectContext *context = [[BYStorage sharedStorage] managedObjectContext];
     NSError *error;
     self.collectionViewData = [[context executeFetchRequest:fetchR error:&error] mutableCopy];
-    for (Expense *expense in self.collectionViewData) NSLog(@"expense: %@", expense.value);
     [self.collectionView reloadData];
 }
 
@@ -66,6 +65,7 @@
         self.collectionView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
         UISwipeGestureRecognizer *sgr = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(gestureRecognized:)];
+        sgr.direction = UISwipeGestureRecognizerDirectionLeft;
         [self.collectionView addGestureRecognizer:sgr];
         [self.view addSubview:self.collectionView];
     }
