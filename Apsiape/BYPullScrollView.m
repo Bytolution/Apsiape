@@ -95,6 +95,7 @@
     }
 }
 
+
 #pragma mark Pull gesture handling
 
 - (void)handleVerticalPullWithOffset:(CGFloat)offset
@@ -107,7 +108,7 @@
         if (self.currentPullingEdge == BYPullScrollViewEdgeTypeNone) {
             self.currentPullingEdge = BYPullScrollViewEdgeTypeBottom;
         }
-    } else if ((offset < -MIN_PULL_VALUE || offset < MIN_PULL_VALUE)){
+    } else if ((offset < - MIN_PULL_VALUE || offset < MIN_PULL_VALUE)){
         self.currentPullingEdge = BYPullScrollViewEdgeTypeNone;
     }
 }

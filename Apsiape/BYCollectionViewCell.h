@@ -18,4 +18,6 @@
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) NSString *title;
 
+@property (nonatomic) BOOL bgIsGreen;
+
 @end

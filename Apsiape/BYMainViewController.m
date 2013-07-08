@@ -17,11 +17,13 @@
 @interface BYMainViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) NSMutableArray *collectionViewData;
-
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) UISwipeGestureRecognizer *swipeGesture;
+@property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 
 - (void)updateCollectionViewData;
-- (void)gestureRecognized:(UISwipeGestureRecognizer*)gesture;
+- (void)swipeGestureRecognized:(UISwipeGestureRecognizer*)gesture;
+- (void)panGestureRecognized:(UIPanGestureRecognizer*)pan;
 
 @end
 
@@ -39,6 +41,7 @@
     return self;
 }
 
+
 - (void)updateCollectionViewData
 {
     NSFetchRequest *fetchR = [NSFetchRequest fetchRequestWithEntityName:@"Expense"];
@@ -54,7 +57,7 @@
     
     if (!self.collectionView) {
         UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-        flowLayout.itemSize = CGSizeMake(320, 140);
+        flowLayout.itemSize = CGSizeMake(320, 120);
         flowLayout.minimumInteritemSpacing = 0;
         flowLayout.minimumLineSpacing = 8;
         self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
@@ -64,17 +67,36 @@
         self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
         self.collectionView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
-        UISwipeGestureRecognizer *sgr = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(gestureRecognized:)];
-        sgr.direction = UISwipeGestureRecognizerDirectionLeft;
-        [self.collectionView addGestureRecognizer:sgr];
         [self.view addSubview:self.collectionView];
+        self.swipeGesture = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeGestureRecognized:)];
+        self.swipeGesture.direction = UISwipeGestureRecognizerDirectionLeft;
+        [self.collectionView addGestureRecognizer:self.swipeGesture];
+        self.panGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognized:)];
+        self.panGesture.enabled = NO;
+        [self.collectionView addGestureRecognizer:self.panGesture];
     }
 }
 
-- (void)gestureRecognized:(UISwipeGestureRecognizer *)gesture
+- (void)swipeGestureRecognized:(UISwipeGestureRecognizer *)gesture
 {
-    NSLog(@"%i", [self.collectionView indexPathForItemAtPoint:[gesture locationInView:self.collectionView]].row);
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    NSIndexPath *swipeCellIndexPath = [self.collectionView indexPathForItemAtPoint:[gesture locationInView:self.collectionView]];
+    BYCollectionViewCell *cell = (BYCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:swipeCellIndexPath];
+    self.swipeGesture.enabled = NO;
+    self.panGesture.enabled = YES;
+    
 }
+
+- (void)panGestureRecognized:(UIPanGestureRecognizer *)pan
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
+//- (BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+//shouldRecognizeSimultaneouslyWithGestureRecognizer:
+//(UIGestureRecognizer *)otherGestureRecognizer {
+//    return YES;
+//}
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
@@ -87,6 +109,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"%s (%i )", __PRETTY_FUNCTION__, indexPath.row);
     BYCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID" forIndexPath:indexPath];
     Expense *expense = self.collectionViewData[indexPath.row];
     cell.title = expense.value;

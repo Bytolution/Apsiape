@@ -18,7 +18,8 @@
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImageView *foregroundImageView;
 
-//- (void)gestureRecognized:(UISwipeGestureRecognizer*)gRecognizer;
+
+- (void)gestureRecognized:(UISwipeGestureRecognizer*)gRecognizer;
 
 @end
 
@@ -46,6 +47,11 @@
     return self;
 }
 
+- (void)gestureRecognized:(UISwipeGestureRecognizer *)gRecognizer
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
 - (void)setTitle:(NSString *)title
 {
     _title = title;
@@ -58,6 +64,11 @@
     self.imageView.image = _image;
 }
 
+- (void)setBgIsGreen:(BOOL)bgIsGreen
+{
+    if (bgIsGreen) self.contentView.backgroundColor = [UIColor colorWithRed:1 green:0.2 blue:0.2 alpha:1]; else self.backgroundColor = [UIColor whiteColor];
+}
+
 - (void)didMoveToSuperview
 {
     CGRect rect = self.contentView.bounds;
@@ -66,6 +77,8 @@
     self.label.frame = CGRectInset(rect, 10, 10);
     self.imageView.frame = CGRectMake(0, 0, self.frame.size.height, self.frame.size.height);
     self.foregroundImageView.frame = self.contentView.bounds;
+    
+    if (self.bgIsGreen) self.contentView.backgroundColor = [UIColor colorWithRed:1 green:0.2 blue:0.2 alpha:1];
     
     CALayer *borderLayer = [CALayer layer];
     borderLayer.borderColor = [UIColor blackColor].CGColor;
