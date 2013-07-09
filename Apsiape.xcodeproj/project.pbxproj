@@ -155,8 +155,8 @@
 				A310311316E3AC9E00B163DC /* BYContainerViewController.m */,
 				A310311B16E3E37C00B163DC /* BYMainViewController.h */,
 				A310311C16E3E37C00B163DC /* BYMainViewController.m */,
-				A373763716F6306B00611FC6 /* Expense Creation */,
 				A37526DC16F5201D0079C94A /* CollectionView */,
+				A373763716F6306B00611FC6 /* Expense Creation */,
 				A3832F0D16E0F6FD00D64DC1 /* Core Data */,
 				A307E81916DE8A0D00C9425A /* Supporting Files */,
 			);

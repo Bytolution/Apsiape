@@ -12,14 +12,14 @@
 
 #pragma mark ––– UICollectionViewCellContentView implementation
 
-@interface BYCollectionViewCell ()
+@interface BYCollectionViewCell () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImageView *foregroundImageView;
+@property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 
-
-- (void)gestureRecognized:(UISwipeGestureRecognizer*)gRecognizer;
+- (void)handleGesture:(UIGestureRecognizer*)gestureRecognizer;
 
 @end
 
@@ -42,9 +42,29 @@
         [self.contentView addSubview:self.imageView];
         [self.contentView addSubview:self.foregroundImageView];
         [self.contentView addSubview:self.label];
-        self.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+        self.backgroundColor = [UIColor colorWithWhite:0.93 alpha:1];
+        
+        self.panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handleGesture:)];
+        self.panRecognizer.delegate = self;
+        [self addGestureRecognizer:self.panRecognizer];
     }
     return self;
+}
+
+
+-(BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)panGestureRecognizer {
+    // We only want to deal with the gesture of it's a pan gesture
+    if ([panGestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
+        CGPoint translation = [panGestureRecognizer translationInView:[self superview]];
+        return (fabs(translation.x) / fabs(translation.y) > 1) ? YES : NO;
+    } else {
+        return NO;
+    }
+}
+
+- (void)handleGesture:(UIGestureRecognizer *)gestureRecognizer
+{
+    NSLog(@"%@", NSStringFromCGPoint([gestureRecognizer locationInView:self]));
 }
 
 - (void)gestureRecognized:(UISwipeGestureRecognizer *)gRecognizer
@@ -84,7 +104,7 @@
     borderLayer.borderColor = [UIColor blackColor].CGColor;
     borderLayer.borderWidth = 0.5;
     borderLayer.frame = self.bounds;
-    [self.contentView.layer addSublayer:borderLayer];
+//    [self.contentView.layer addSublayer:borderLayer];
 }
 
 @end
