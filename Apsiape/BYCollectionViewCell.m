@@ -52,25 +52,29 @@
 }
 
 
--(BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)panGestureRecognizer {
-    // We only want to deal with the gesture of it's a pan gesture
+-(BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)panGestureRecognizer
+{
     if ([panGestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
         CGPoint translation = [panGestureRecognizer translationInView:[self superview]];
+        NSLog(@"%@" ,NSStringFromCGPoint(translation));
         return (fabs(translation.x) / fabs(translation.y) > 1) ? YES : NO;
     } else {
         return NO;
     }
 }
 
-- (void)handleGesture:(UIGestureRecognizer *)gestureRecognizer
+- (void)handleGesture:(UIPanGestureRecognizer *)gestureRecognizer
 {
-    NSLog(@"%@", NSStringFromCGPoint([gestureRecognizer locationInView:self]));
+    CGPoint translation = [gestureRecognizer translationInView:gestureRecognizer.view];
+    CGPoint velocity = [gestureRecognizer velocityInView:gestureRecognizer.view];
+    CGFloat panOffset = translation.x;
+    CGFloat width = CGRectGetWidth(self.frame);
+    CGFloat offset = abs(translation.x);
+    panOffset = (offset * 0.55f * width) / (offset * 0.55f + width);
+    panOffset *= translation.x < 0 ? -1.0f : 1.0f;
+    self.contentView.frame = CGRectOffset(self.contentView.bounds, panOffset, 0);
 }
 
-- (void)gestureRecognized:(UISwipeGestureRecognizer *)gRecognizer
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-}
 
 - (void)setTitle:(NSString *)title
 {
