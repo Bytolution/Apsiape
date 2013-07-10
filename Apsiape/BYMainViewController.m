@@ -20,6 +20,7 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeGesture;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
+@property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 
 - (void)updateCollectionViewData;
 - (void)swipeGestureRecognized:(UISwipeGestureRecognizer*)gesture;
@@ -54,47 +55,40 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     if (!self.collectionView) {
-        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-        flowLayout.itemSize = CGSizeMake(320, 120);
-        flowLayout.minimumInteritemSpacing = 0;
-        flowLayout.minimumLineSpacing = 4;
-        self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
+        self.flowLayout = [[UICollectionViewFlowLayout alloc]init];
+        self.flowLayout.itemSize = CGSizeMake(320, 80);
+        self.flowLayout.minimumInteritemSpacing = 0;
+        self.flowLayout.minimumLineSpacing = 1;
+        self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:self.flowLayout];
         self.collectionView.alwaysBounceVertical = YES;
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
         self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
-        // BG
-        self.collectionView.backgroundColor = [UIColor colorWithWhite:0.96 alpha:1];
-        // BG
+        self.collectionView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1];
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
         [self.view addSubview:self.collectionView];
     }
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-{
-//    NSLog(@"%s", __PRETTY_FUNCTION__);
-    return YES;
-}
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    return UIEdgeInsetsMake(8, 0, 6, 0);
-}
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return [self.collectionViewData count];
 }
-
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     BYCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID" forIndexPath:indexPath];
     Expense *expense = self.collectionViewData[indexPath.row];
     cell.title = expense.value;
     cell.image = expense.image;
+//    NSLog(@"Cell dequeued for index: %i", indexPath.row);
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.flowLayout.itemSize = CGSizeMake(159.5, 159.5);
+    [self.flowLayout invalidateLayout];
 }
 
 //----------------------------------------------------------------------Pull control implementation------------------------------------------------------------------------//
