@@ -33,7 +33,6 @@
 
 @implementation BYCollectionViewCell
 
-#define THRESHOLD 80
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -75,6 +74,8 @@
     }
 }
 
+#define THRESHOLD 80
+
 -(void)handlePanGesture:(UIPanGestureRecognizer *)panGestureRecognizer {
     if (panGestureRecognizer.state == UIGestureRecognizerStateBegan || panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [panGestureRecognizer translationInView:panGestureRecognizer.view];
@@ -84,9 +85,16 @@
         } else {
             deltaX = (translation.x - self.lastOffset) * .8;
         }
-        
         self.lastOffset = translation.x;
         self.contentView.frame = CGRectOffset(self.contentView.frame, deltaX, 0);
+    } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        if (fabs(CGRectGetMinX(self.contentView.frame)) > THRESHOLD && CGRectGetMinX(self.contentView.frame) < 0) {
+            // animate delete position
+            NSLog(@"Delete pos");
+        } else if (fabs(CGRectGetMinX(self.contentView.frame)) > THRESHOLD && CGRectGetMinX(self.contentView.frame) > 0) {
+            // animate alternate position
+            NSLog(@"Alt pos");
+        }
     }
 }
 
@@ -120,24 +128,19 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     CGRect rect = self.contentView.bounds;
     rect.size.height = self.contentView.bounds.size.height/1.5f;
     rect.origin.x = self.frame.size.height;
     self.label.frame = CGRectInset(rect, 10, 10);
     self.imageView.frame = CGRectMake(0, 0, self.frame.size.height, self.frame.size.height);
     self.imageView.frame = CGRectInset(self.imageView.frame, 5, 5);
-    self.imageView.layer.cornerRadius = 5;
-        
-    CALayer *borderLayer = [CALayer layer];
-    borderLayer.borderColor = [UIColor blackColor].CGColor;
-    borderLayer.borderWidth = 0.5;
-    borderLayer.frame = self.bounds;
-//    [self.contentView.layer addSublayer:borderLayer];
+    self.imageView.layer.cornerRadius = (self.imageView.frame.size.height/6);
 }
 
-- (void)didMoveToSuperview
+- (void)prepareForReuse
 {
-    
+    [self layoutSubviews];
 }
 
 @end
