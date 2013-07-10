@@ -78,7 +78,13 @@
 -(void)handlePanGesture:(UIPanGestureRecognizer *)panGestureRecognizer {
     if (panGestureRecognizer.state == UIGestureRecognizerStateBegan || panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [panGestureRecognizer translationInView:panGestureRecognizer.view];
-        CGFloat deltaX = (translation.x - self.lastOffset) * .5;
+        CGFloat deltaX;
+        if (fabs(translation.x) > 80) {
+            deltaX = (translation.x - self.lastOffset) * .2;
+        } else {
+            deltaX = (translation.x - self.lastOffset) * .8;
+        }
+        
         self.lastOffset = translation.x;
         self.contentView.frame = CGRectOffset(self.contentView.frame, deltaX, 0);
     }
