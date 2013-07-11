@@ -108,9 +108,8 @@
 
 - (void)cellDidRecieveAction:(BYCollectionViewCell *)cell
 {
-    NSIndexPath *cellIndex = [self.collectionView indexPathForCell:cell];
     [self.collectionViewData removeObjectAtIndex:[self.collectionView indexPathForCell:cell].row];
-    [self.collectionView deleteItemsAtIndexPaths:[NSIndexSet indexSetWithIndex:cellIndex]];
+    [self.collectionView deleteItemsAtIndexPaths:@[[self.collectionView indexPathForCell:cell]]];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
