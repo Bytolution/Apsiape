@@ -84,7 +84,7 @@
         CGPoint translation = [panGestureRecognizer translationInView:panGestureRecognizer.view];
         CGFloat deltaX;
         if (fabs(self.contentView.frame.origin.x) > 80) {
-            deltaX = (translation.x - self.lastOffset) * .2;
+            deltaX = (translation.x - self.lastOffset) * .05;
         } else {
             deltaX = (translation.x - self.lastOffset) * .8;
         }
