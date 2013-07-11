@@ -20,6 +20,7 @@ typedef enum {
 @protocol BYCollectionViewCellDelegate <NSObject>
 
 - (void)cell:(BYCollectionViewCell*)cell didEnterStateWithAnimation:(BYCollectionViewCellState)state;
+- (void)cellDidRecieveAction:(BYCollectionViewCell*)cell;
 
 @end
 
