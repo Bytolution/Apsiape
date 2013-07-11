@@ -14,7 +14,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "Expense.h"
 
-@interface BYMainViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIGestureRecognizerDelegate>
+@interface BYMainViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate>
 
 @property (nonatomic, strong) NSMutableArray *collectionViewData;
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -23,8 +23,6 @@
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 
 - (void)updateCollectionViewData;
-- (void)swipeGestureRecognized:(UISwipeGestureRecognizer*)gesture;
-- (void)panGestureRecognized:(UIPanGestureRecognizer*)pan;
 
 @end
 
@@ -45,10 +43,17 @@
 
 - (void)updateCollectionViewData
 {
+    if (!self.collectionViewData) self.collectionViewData = [[NSMutableArray alloc]init];
+    [self.collectionViewData removeAllObjects];
     NSFetchRequest *fetchR = [NSFetchRequest fetchRequestWithEntityName:@"Expense"];
     NSManagedObjectContext *context = [[BYStorage sharedStorage] managedObjectContext];
     NSError *error;
-    self.collectionViewData = [[context executeFetchRequest:fetchR error:&error] mutableCopy];
+    NSArray *fetchDataArray = [[context executeFetchRequest:fetchR error:&error] mutableCopy];
+    for (Expense *expense in fetchDataArray) {
+        NSMutableDictionary *mutableCellInfo = [[NSMutableDictionary alloc]initWithDictionary:@{@"expense": expense, @"cellState" : [NSNumber numberWithInt:BYCollectionViewCellStateDefault]}];
+        [self.collectionViewData addObject:mutableCellInfo];
+    }
+    NSLog(@"collectionViewData: %@", self.collectionViewData);
     [self.collectionView reloadData];
 }
 
@@ -59,13 +64,13 @@
         self.flowLayout = [[UICollectionViewFlowLayout alloc]init];
         self.flowLayout.itemSize = CGSizeMake(320, 80);
         self.flowLayout.minimumInteritemSpacing = 0;
-        self.flowLayout.minimumLineSpacing = 1;
+        self.flowLayout.minimumLineSpacing = 0;
         self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:self.flowLayout];
         self.collectionView.alwaysBounceVertical = YES;
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
         self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
-        self.collectionView.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1];
+        self.collectionView.backgroundColor = [UIColor whiteColor];
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
         [self.view addSubview:self.collectionView];
     }
@@ -78,16 +83,33 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     BYCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID" forIndexPath:indexPath];
-    Expense *expense = self.collectionViewData[indexPath.row];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    Expense *expense = [self.collectionViewData[indexPath.row] objectForKey:@"expense"];
     cell.title = expense.value;
     cell.image = expense.image;
-//    NSLog(@"Cell dequeued for index: %i", indexPath.row);
+    cell.delegate = self;
+    cell.cellState = [[self.collectionViewData[indexPath.row] objectForKey:@"cellState"] intValue];
+    [cell layoutSubviews];
     return cell;
+}
+
+- (void)cell:(BYCollectionViewCell *)cell didEnterStateWithAnimation:(BYCollectionViewCellState)state
+{
+    if (state == BYCollectionViewCellStateRightSideRevealed) {
+        NSMutableDictionary *cellInfo = [self.collectionViewData objectAtIndex:[self.collectionView indexPathForCell:cell].row];
+        [cellInfo setObject:[NSNumber numberWithInt:BYCollectionViewCellStateRightSideRevealed] forKey:@"cellState"];
+    } else if (state == BYCollectionViewCellStateLeftSideRevealed) {
+        NSMutableDictionary *cellInfo = [self.collectionViewData objectAtIndex:[self.collectionView indexPathForCell:cell].row];
+        [cellInfo setObject:[NSNumber numberWithInt:BYCollectionViewCellStateLeftSideRevealed] forKey:@"cellState"];
+    } else if (state == BYCollectionViewCellStateDefault) {
+        NSMutableDictionary *cellInfo = [self.collectionViewData objectAtIndex:[self.collectionView indexPathForCell:cell].row];
+        [cellInfo setObject:[NSNumber numberWithInt:BYCollectionViewCellStateDefault] forKey:@"cellState"];
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.flowLayout.itemSize = CGSizeMake(159.5, 159.5);
+//    self.flowLayout.itemSize = CGSizeMake(159.5, 159.5);
     [self.flowLayout invalidateLayout];
 }
 

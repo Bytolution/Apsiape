@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "BYCollectionViewCell.h"
 #import "Expense.h"
+#import "InterfaceDefinitions.h"
 
 #pragma mark ––– UICollectionViewCellContentView implementation
 
@@ -21,18 +22,16 @@
 @property (nonatomic, readwrite) BOOL panIsElastic;
 @property (nonatomic, readwrite) CGFloat panElasticityStartingPoint;
 @property (nonatomic, readwrite) CGFloat lastOffset;
+@property (nonatomic, strong) CALayer *borderLayer;
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)panGestureRecognizer;
-- (void)didStartSwiping;
-- (void)animateContentViewForPoint:(CGPoint)point velocity:(CGPoint)velocity;
-- (void)resetCellFromPoint:(CGPoint)point velocity:(CGPoint)velocity;
-- (void)changeContentViewPositionForPanningOffset:(CGFloat)offset;
-- (void)changeCellStateForCurrentOffset:(CGFloat)offset;
+- (void)animateViewToDeletePosition;
+- (void)animateViewToDefaultPosition;
+- (void)animateViewToSecondPosition;
 
 @end
 
 @implementation BYCollectionViewCell
-
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -51,7 +50,8 @@
         [self.contentView addSubview:self.imageView];
         [self.contentView addSubview:self.foregroundImageView];
         [self.contentView addSubview:self.label];
-        self.backgroundColor = [UIColor colorWithWhite:0.93 alpha:1];
+        self.backgroundColor = COLOR_ALERT_RED;
+        self.contentView.backgroundColor = [UIColor whiteColor];
         
         self.panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
         self.panRecognizer.delegate = self;
@@ -59,6 +59,11 @@
         
         self.panIsElastic = YES;
         self.panElasticityStartingPoint = 80;
+        
+        self.borderLayer = [CALayer layer];
+        self.borderLayer.borderWidth = 0.25;
+        self.borderLayer.borderColor = [UIColor grayColor].CGColor;
+        [self.contentView.layer addSublayer:self.borderLayer];
     }
     return self;
 }
@@ -80,7 +85,7 @@
     if (panGestureRecognizer.state == UIGestureRecognizerStateBegan || panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
         CGPoint translation = [panGestureRecognizer translationInView:panGestureRecognizer.view];
         CGFloat deltaX;
-        if (fabs(translation.x) > 80) {
+        if (fabs(self.contentView.frame.origin.x) > 80) {
             deltaX = (translation.x - self.lastOffset) * .2;
         } else {
             deltaX = (translation.x - self.lastOffset) * .8;
@@ -89,13 +94,43 @@
         self.contentView.frame = CGRectOffset(self.contentView.frame, deltaX, 0);
     } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
         if (fabs(CGRectGetMinX(self.contentView.frame)) > THRESHOLD && CGRectGetMinX(self.contentView.frame) < 0) {
-            // animate delete position
+            [self animateViewToDeletePosition];
             NSLog(@"Delete pos");
         } else if (fabs(CGRectGetMinX(self.contentView.frame)) > THRESHOLD && CGRectGetMinX(self.contentView.frame) > 0) {
-            // animate alternate position
+            [self animateViewToSecondPosition];
             NSLog(@"Alt pos");
+        } else {
+            [self animateViewToDefaultPosition];
         }
+        self.lastOffset = 0.0f;
     }
+}
+
+- (void)animateViewToDeletePosition
+{
+    [UIView animateWithDuration:0.2 animations:^{
+        self.contentView.frame = CGRectMake(- THRESHOLD, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+    } completion:^(BOOL finished) {
+        [self.delegate cell:self didEnterStateWithAnimation:BYCollectionViewCellStateRightSideRevealed];
+    }];
+}
+
+- (void)animateViewToSecondPosition
+{
+    [UIView animateWithDuration:0.2 animations:^{
+        self.contentView.frame = CGRectMake(THRESHOLD, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+    } completion:^(BOOL finished) {
+        [self.delegate cell:self didEnterStateWithAnimation:BYCollectionViewCellStateLeftSideRevealed];
+    }];
+}
+
+- (void)animateViewToDefaultPosition
+{
+    [UIView animateWithDuration:0.2 animations:^{
+        self.contentView.frame = CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+    } completion:^(BOOL finished) {
+        [self.delegate cell:self didEnterStateWithAnimation:BYCollectionViewCellStateDefault];
+    }];
 }
 
 - (void)changeContentViewPositionForPanningOffset:(CGFloat)offset
@@ -107,28 +142,38 @@
 {
     NSLog(@"Möp");
 }
-
 - (void)setTitle:(NSString *)title
 {
     _title = title;
     self.label.text = _title;
 }
-
+- (void)didMoveToSuperview
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
 - (void)setImage:(UIImage *)image
 {
     _image = image;
     self.imageView.image = _image;
 }
-
 - (void)setBgIsGreen:(BOOL)bgIsGreen
 {
     if (bgIsGreen) self.contentView.backgroundColor = [UIColor colorWithRed:1 green:0.2 blue:0.2 alpha:1]; else self.backgroundColor = [UIColor whiteColor];
 }
-
 - (void)layoutSubviews
+{    
+    [self prepareLayout];
+}
+- (void)prepareLayout
 {
+    if (self.cellState == BYCollectionViewCellStateRightSideRevealed) {
+        self.contentView.frame = CGRectMake(- THRESHOLD, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+    } else if (self.cellState == BYCollectionViewCellStateLeftSideRevealed) {
+        self.contentView.frame = CGRectMake(THRESHOLD, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+    } else {
+        self.contentView.frame = CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+    }
     [super layoutSubviews];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     CGRect rect = self.contentView.bounds;
     rect.size.height = self.contentView.bounds.size.height/1.5f;
     rect.origin.x = self.frame.size.height;
@@ -136,11 +181,7 @@
     self.imageView.frame = CGRectMake(0, 0, self.frame.size.height, self.frame.size.height);
     self.imageView.frame = CGRectInset(self.imageView.frame, 5, 5);
     self.imageView.layer.cornerRadius = (self.imageView.frame.size.height/6);
-}
-
-- (void)prepareForReuse
-{
-    [self layoutSubviews];
+    self.borderLayer.frame = self.contentView.bounds;
 }
 
 @end

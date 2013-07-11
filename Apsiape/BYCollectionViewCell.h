@@ -9,15 +9,27 @@
 #import <UIKit/UIKit.h>
 #import "BYCollectionViewCell.h"
 
-#define CELL_CONTENT_INSET 5
-
 @class BYCollectionViewCell;
+
+typedef enum {
+    BYCollectionViewCellStateDefault,
+    BYCollectionViewCellStateLeftSideRevealed,
+    BYCollectionViewCellStateRightSideRevealed
+}BYCollectionViewCellState;
+
+@protocol BYCollectionViewCellDelegate <NSObject>
+
+- (void)cell:(BYCollectionViewCell*)cell didEnterStateWithAnimation:(BYCollectionViewCellState)state;
+
+@end
 
 @interface BYCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) NSString *title;
+@property (nonatomic, readwrite) BYCollectionViewCellState cellState;
+@property (nonatomic, strong) id <BYCollectionViewCellDelegate> delegate;
 
-@property (nonatomic) BOOL bgIsGreen;
+- (void)prepareLayout;
 
 @end
