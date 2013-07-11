@@ -25,9 +25,7 @@
 @property (nonatomic, strong) CALayer *borderLayer;
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)panGestureRecognizer;
-- (void)animateViewToDeletePosition;
-- (void)animateViewToDefaultPosition;
-- (void)animateViewToSecondPosition;
+- (void)animateCellContentForState:(BYCollectionViewCellState)state;
 
 @end
 
@@ -94,54 +92,37 @@
         self.contentView.frame = CGRectOffset(self.contentView.frame, deltaX, 0);
     } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
         if (fabs(CGRectGetMinX(self.contentView.frame)) > THRESHOLD && CGRectGetMinX(self.contentView.frame) < 0) {
-            [self animateViewToDeletePosition];
-            NSLog(@"Delete pos");
+            [self animateCellContentForState:BYCollectionViewCellStateRightSideRevealed];
         } else if (fabs(CGRectGetMinX(self.contentView.frame)) > THRESHOLD && CGRectGetMinX(self.contentView.frame) > 0) {
-            [self animateViewToSecondPosition];
-            NSLog(@"Alt pos");
+            [self animateCellContentForState:BYCollectionViewCellStateLeftSideRevealed];
         } else {
-            [self animateViewToDefaultPosition];
+            [self animateCellContentForState:BYCollectionViewCellStateDefault];
         }
         self.lastOffset = 0.0f;
     }
 }
 
-- (void)animateViewToDeletePosition
+- (void)animateCellContentForState:(BYCollectionViewCellState)state
 {
-    [UIView animateWithDuration:0.2 animations:^{
-        self.contentView.frame = CGRectMake(- THRESHOLD, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-    } completion:^(BOOL finished) {
-        [self.delegate cell:self didEnterStateWithAnimation:BYCollectionViewCellStateRightSideRevealed];
-    }];
+    void (^delegateCall) (BOOL) = ^(BOOL finished) {
+        [self.delegate cell:self didEnterStateWithAnimation:state];
+    };
+    
+    if (state == BYCollectionViewCellStateDefault) {
+        [UIView animateWithDuration:0.2 animations:^{
+                self.contentView.frame = CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+        } completion:delegateCall];
+    } else if (state == BYCollectionViewCellStateLeftSideRevealed) {
+        [UIView animateWithDuration:0.2 animations:^{
+                self.contentView.frame = CGRectMake(THRESHOLD, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+            } completion:delegateCall];
+    } else if (state == BYCollectionViewCellStateRightSideRevealed) {
+        [UIView animateWithDuration:0.2 animations:^{
+                self.contentView.frame = CGRectMake(- THRESHOLD, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
+            } completion:delegateCall];
+    }
 }
 
-- (void)animateViewToSecondPosition
-{
-    [UIView animateWithDuration:0.2 animations:^{
-        self.contentView.frame = CGRectMake(THRESHOLD, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-    } completion:^(BOOL finished) {
-        [self.delegate cell:self didEnterStateWithAnimation:BYCollectionViewCellStateLeftSideRevealed];
-    }];
-}
-
-- (void)animateViewToDefaultPosition
-{
-    [UIView animateWithDuration:0.2 animations:^{
-        self.contentView.frame = CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-    } completion:^(BOOL finished) {
-        [self.delegate cell:self didEnterStateWithAnimation:BYCollectionViewCellStateDefault];
-    }];
-}
-
-- (void)changeContentViewPositionForPanningOffset:(CGFloat)offset
-{
-    self.contentView.frame = CGRectOffset(self.contentView.bounds, offset, 0);
-}
-
-- (void)changeCellStateForCurrentOffset:(CGFloat)offset
-{
-    NSLog(@"Möp");
-}
 - (void)setTitle:(NSString *)title
 {
     _title = title;

@@ -53,7 +53,6 @@
         NSMutableDictionary *mutableCellInfo = [[NSMutableDictionary alloc]initWithDictionary:@{@"expense": expense, @"cellState" : [NSNumber numberWithInt:BYCollectionViewCellStateDefault]}];
         [self.collectionViewData addObject:mutableCellInfo];
     }
-    NSLog(@"collectionViewData: %@", self.collectionViewData);
     [self.collectionView reloadData];
 }
 
