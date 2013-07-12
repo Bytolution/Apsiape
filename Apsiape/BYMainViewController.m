@@ -40,7 +40,6 @@
     return self;
 }
 
-
 - (void)updateCollectionViewData
 {
     if (!self.collectionViewData) self.collectionViewData = [[NSMutableArray alloc]init];
@@ -68,7 +67,7 @@
         self.collectionView.alwaysBounceVertical = YES;
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
-        self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+        self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleBlack;
         self.collectionView.backgroundColor = [UIColor whiteColor];
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
         [self.view addSubview:self.collectionView];
@@ -79,30 +78,32 @@
 {
     return [self.collectionViewData count];
 }
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     BYCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID" forIndexPath:indexPath];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
     Expense *expense = [self.collectionViewData[indexPath.row] objectForKey:@"expense"];
     cell.title = expense.value;
     cell.image = expense.image;
     cell.delegate = self;
     cell.cellState = [[self.collectionViewData[indexPath.row] objectForKey:@"cellState"] intValue];
-    [cell layoutSubviews];
+    [cell prepareLayout];
     return cell;
 }
+
+
 
 - (void)cell:(BYCollectionViewCell *)cell didEnterStateWithAnimation:(BYCollectionViewCellState)state
 {
     if (state == BYCollectionViewCellStateRightSideRevealed) {
         NSMutableDictionary *cellInfo = [self.collectionViewData objectAtIndex:[self.collectionView indexPathForCell:cell].row];
-        [cellInfo setObject:[NSNumber numberWithInt:BYCollectionViewCellStateRightSideRevealed] forKey:@"cellState"];
+        [cellInfo setObject:[NSNumber numberWithInt:state] forKey:@"cellState"];
     } else if (state == BYCollectionViewCellStateLeftSideRevealed) {
         NSMutableDictionary *cellInfo = [self.collectionViewData objectAtIndex:[self.collectionView indexPathForCell:cell].row];
-        [cellInfo setObject:[NSNumber numberWithInt:BYCollectionViewCellStateLeftSideRevealed] forKey:@"cellState"];
+        [cellInfo setObject:[NSNumber numberWithInt:state] forKey:@"cellState"];
     } else if (state == BYCollectionViewCellStateDefault) {
         NSMutableDictionary *cellInfo = [self.collectionViewData objectAtIndex:[self.collectionView indexPathForCell:cell].row];
-        [cellInfo setObject:[NSNumber numberWithInt:BYCollectionViewCellStateDefault] forKey:@"cellState"];
+        [cellInfo setObject:[NSNumber numberWithInt:state] forKey:@"cellState"];
     }
 }
 
@@ -117,17 +118,14 @@
             [indexSetForDeletion addIndex:i];
         }
     }
-    
     [self.collectionViewData removeObjectsAtIndexes:indexSetForDeletion];
     [self.collectionView deleteItemsAtIndexPaths:indexesForDeletion];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.flowLayout.itemSize = CGSizeMake(159.5, 159.5);
+//    self.flowLayout.itemSize = CGSizeMake((self.collectionView.frame.size.width/3.0f), (self.collectionView.frame.size.width/3.0f));
 }
-
-//----------------------------------------------------------------------Pull control implementation------------------------------------------------------------------------//
 
 #define PULL_WIDTH 80
 

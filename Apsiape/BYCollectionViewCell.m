@@ -144,23 +144,12 @@
     _title = title;
     self.label.text = _title;
 }
-- (void)didMoveToSuperview
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-}
 - (void)setImage:(UIImage *)image
 {
     _image = image;
     self.imageView.image = _image;
 }
-- (void)setBgIsGreen:(BOOL)bgIsGreen
-{
-    if (bgIsGreen) self.contentView.backgroundColor = [UIColor colorWithRed:1 green:0.2 blue:0.2 alpha:1]; else self.backgroundColor = [UIColor whiteColor];
-}
-- (void)layoutSubviews
-{    
-    [self prepareLayout];
-}
+
 - (void)prepareLayout
 {
     [super layoutSubviews];
