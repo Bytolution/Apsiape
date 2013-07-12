@@ -46,8 +46,6 @@
     txtRect.size.width = 50;
     
     [currString drawInRect:txtRect withFont:[UIFont fontWithName:@"Miso-Light" size:65] lineBreakMode:NSLineBreakByCharWrapping alignment:NSTextAlignmentRight];
-    
-    // TODO: implementation for all currencies
 }
 
 

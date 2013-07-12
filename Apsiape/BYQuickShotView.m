@@ -28,8 +28,6 @@
 
 @end
 
-#define PREVIEW_LAYER_INSET 8
-#define BUTTON_SIZE 50
 
 @implementation BYQuickShotView
 
@@ -66,7 +64,6 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.layer insertSublayer:self.prevLayer atIndex:0];
                 self.prevLayer.frame = self.bounds;
-                //Always check!
                 if ([self.delegate respondsToSelector:@selector(quickShotViewDidFinishPreparation:)]) {
                     [self.delegate quickShotViewDidFinishPreparation:self];
                 }
@@ -86,8 +83,6 @@
     }
     return _imagePreView;
 }
-
-//This method returns the AVCaptureDevice we want to use as an input for our AVCaptureSession
 
 - (AVCaptureDevice *)rearCamera {
     NSArray *videoDevices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
@@ -131,7 +126,6 @@
 
 - (void)captureImage
 {
-    //Before we can take a snapshot, we need to determine the specific connection to be used
     NSArray *connections = [self.stillImageOutput connections];
     AVCaptureConnection *stillImageConnection;
     for ( AVCaptureConnection *connection in connections ) {

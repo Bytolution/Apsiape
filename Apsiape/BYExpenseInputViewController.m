@@ -47,16 +47,6 @@
     [self setSubviewColors];
 }
 
-
-- (void)setSubviewColors
-{
-    self.decimalKeyboard.backgroundColor = [UIColor whiteColor];
-    self.expenseInputView.backgroundColor = [UIColor whiteColor];
-    self.expenseInputView.fontColor = [UIColor blackColor];
-    self.decimalKeyboard.fontColor = [UIColor darkGrayColor];
-}
-
-
 - (void)numberKeyTapped:(NSString *)numberString
 {
     NSLog(@"key tapped");

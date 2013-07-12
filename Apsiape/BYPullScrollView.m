@@ -63,6 +63,8 @@
     rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     [checkmarkLayer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
     
+    #warning make two overlapping views
+    
     [topPullView.layer addSublayer:checkmarkLayer];
     [self addSubview:topPullView];
     UIView *bottomPullView = [[UIView alloc]initWithFrame:CGRectMake(0, self.contentSize.height, self.frame.size.width, pullViewHeight)];
@@ -86,7 +88,7 @@
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    
+    #warning Needs implementation (-didScrollToPage)
 }
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
@@ -95,8 +97,7 @@
     }
 }
 
-
-#pragma mark Pull gesture handling
+#pragma mark - Pull gesture handling
 
 - (void)handleVerticalPullWithOffset:(CGFloat)offset
 {
