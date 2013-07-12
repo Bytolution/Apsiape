@@ -108,14 +108,23 @@
 
 - (void)cellDidRecieveAction:(BYCollectionViewCell *)cell
 {
-    [self.collectionViewData removeObjectAtIndex:[self.collectionView indexPathForCell:cell].row];
-    [self.collectionView deleteItemsAtIndexPaths:@[[self.collectionView indexPathForCell:cell]]];
+    NSMutableArray *indexesForDeletion = [[NSMutableArray alloc]initWithCapacity:self.collectionViewData.count];
+    NSMutableIndexSet *indexSetForDeletion = [[NSMutableIndexSet alloc]init];
+    for (int i = 0; i < self.collectionViewData.count; i++) {
+        NSMutableDictionary *cellInfo = self.collectionViewData[i];
+        if ([[cellInfo objectForKey:@"cellState"] isEqual:[NSNumber numberWithInt:BYCollectionViewCellStateRightSideRevealed]]) {
+            [indexesForDeletion addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+            [indexSetForDeletion addIndex:i];
+        }
+    }
+    
+    [self.collectionViewData removeObjectsAtIndexes:indexSetForDeletion];
+    [self.collectionView deleteItemsAtIndexPaths:indexesForDeletion];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-//    self.flowLayout.itemSize = CGSizeMake(159.5, 159.5);
-    [self.flowLayout invalidateLayout];
+    self.flowLayout.itemSize = CGSizeMake(159.5, 159.5);
 }
 
 //----------------------------------------------------------------------Pull control implementation------------------------------------------------------------------------//
