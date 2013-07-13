@@ -74,7 +74,7 @@
 
 - (void)saveDocument {
     [self.document saveToURL:self.document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
-        if (success) NSLog(@"document was saved successfully in '-saveDocument'");
+        if (success) NSLog(@"document was saved successfully");
         [[NSNotificationCenter defaultCenter]postNotificationName:@"UIDocumentSavedSuccessfullyNotification" object:nil];
     }];
 }

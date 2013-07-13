@@ -13,6 +13,7 @@
 #import "BYContainerViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Expense.h"
+#import "UIImage+Adjustments.h"
 
 @interface BYMainViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate>
 
@@ -50,6 +51,8 @@
     NSArray *fetchDataArray = [[context executeFetchRequest:fetchR error:&error] mutableCopy];
     for (Expense *expense in fetchDataArray) {
         NSMutableDictionary *mutableCellInfo = [[NSMutableDictionary alloc]initWithDictionary:@{@"expense": expense, @"cellState" : [NSNumber numberWithInt:BYCollectionViewCellStateDefault]}];
+        [mutableCellInfo setObject:[NSNumber numberWithInt:BYCollectionViewCellStateDefault] forKey:@"cellState"];
+        [mutableCellInfo setObject:expense forKey:@"expense"];
         [self.collectionViewData addObject:mutableCellInfo];
     }
     [self.collectionView reloadData];
@@ -60,7 +63,7 @@
     [super viewWillAppear:animated];
     if (!self.collectionView) {
         self.flowLayout = [[UICollectionViewFlowLayout alloc]init];
-        self.flowLayout.itemSize = CGSizeMake(320, 80);
+        self.flowLayout.itemSize = CGSizeMake(320, 100);
         self.flowLayout.minimumInteritemSpacing = 0;
         self.flowLayout.minimumLineSpacing = 0;
         self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:self.flowLayout];
@@ -114,12 +117,14 @@
         if ([[cellInfo objectForKey:@"cellState"] isEqual:[NSNumber numberWithInt:BYCollectionViewCellStateRightSideRevealed]]) {
             [indexesForDeletion addObject:[NSIndexPath indexPathForRow:i inSection:0]];
             [indexSetForDeletion addIndex:i];
+            NSManagedObjectContext *context = [BYStorage sharedStorage].managedObjectContext;
+            [context deleteObject:[cellInfo objectForKey:@"expense"]];
         }
     }
+    [[BYStorage sharedStorage] saveDocument];
+    
     [self.collectionViewData removeObjectsAtIndexes:indexSetForDeletion];
     [self.collectionView deleteItemsAtIndexPaths:indexesForDeletion];
-    //delete from DB
-    
 }
 
 #define PULL_WIDTH 80

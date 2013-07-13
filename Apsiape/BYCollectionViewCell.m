@@ -163,10 +163,10 @@
     CGRect rect = self.contentView.bounds;
     rect.size.height = self.contentView.bounds.size.height/1.5f;
     rect.origin.x = self.frame.size.height;
-    self.label.frame = CGRectInset(rect, 10, 10);
+    self.label.frame = CGRectInset(rect, 15, 15);
     self.imageView.frame = CGRectMake(0, 0, self.frame.size.height, self.frame.size.height);
-    self.imageView.frame = CGRectInset(self.imageView.frame, 5, 5);
-    self.imageView.layer.cornerRadius = (self.imageView.frame.size.height/6);
+    self.imageView.frame = CGRectInset(self.imageView.frame, 10, 10);
+    self.imageView.layer.cornerRadius = (self.imageView.frame.size.height/4);
     self.borderLayer.frame = self.contentView.bounds;
     self.rightSideActionButton.frame = CGRectMake(self.frame.size.width - THRESHOLD, 0, THRESHOLD, self.frame.size.height);
 }

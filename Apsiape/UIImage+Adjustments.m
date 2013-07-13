@@ -41,7 +41,7 @@
     
     CIContext *context = [CIContext contextWithOptions:nil];
     CGImageRef cgiimage = [context createCGImage:output fromRect:output.extent];
-    UIImage *newImage = [UIImage imageWithCGImage:cgiimage];
+    UIImage *newImage = [UIImage imageWithCGImage:cgiimage scale:1.0 orientation:self.imageOrientation];
     
     CGImageRelease(cgiimage);
     

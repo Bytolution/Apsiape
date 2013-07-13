@@ -114,7 +114,7 @@
     [super viewWillDisappear:animated];
     if (self.expenseValueRawString.length != 0) {
         Expense *newExpense = [NSEntityDescription insertNewObjectForEntityForName:@"Expense" inManagedObjectContext:[[BYStorage sharedStorage]managedObjectContext]];
-        newExpense.value = self.expenseValueRawString;
+        newExpense.value = self.expenseValueCurrencyFormattedString;
         newExpense.image = self.capturedPhoto;
         [[BYStorage sharedStorage]saveDocument];
     }
