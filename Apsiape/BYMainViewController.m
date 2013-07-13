@@ -77,6 +77,11 @@
     }
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.flowLayout.itemSize = CGSizeMake(320, 320);
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return [self.collectionViewData count];

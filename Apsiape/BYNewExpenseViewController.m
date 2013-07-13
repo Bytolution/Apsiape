@@ -55,11 +55,16 @@
     keyboard.delegate = self;
     [pullScrollView.childScrollView addSubview:keyboard];
     
-    self.quickShotView = [[BYQuickShotView alloc]initWithFrame:CGRectMake(320, 0, pullScrollView.childScrollView.frame.size.width, pullScrollView.childScrollView.frame.size.height)];
+    CGRect rect = CGRectInset(pullScrollView.bounds, 0, ((pullScrollView.frame.size.height - pullScrollView.frame.size.width) / 2));
+    rect.origin.x = (pullScrollView.frame.size.width);
+    
+    self.quickShotView = [[BYQuickShotView alloc]initWithFrame:rect];
     self.quickShotView.delegate = self;
     [pullScrollView.childScrollView addSubview:self.quickShotView];
     
-    if (!self.mapView) self.mapView = [[MKMapView alloc]initWithFrame:CGRectMake(pullScrollView.childScrollView.contentSize.width * (2.0f/3.0f), 0, pullScrollView.childScrollView.bounds.size.width, pullScrollView.childScrollView.bounds.size.height)];
+    rect.origin.x = (pullScrollView.frame.size.width * 2);
+    
+    if (!self.mapView) self.mapView = [[MKMapView alloc]initWithFrame:rect];
     self.mapView.showsUserLocation = YES;
     self.mapView.userInteractionEnabled = NO;
     [pullScrollView.childScrollView addSubview:self.mapView];

@@ -103,24 +103,15 @@
 
 - (void)didMoveToSuperview {
     self.prevLayer.frame = self.bounds;
-    [self addSubview:self.imagePreView];
-    
-    CGSize viewSize = self.frame.size;
-    if (viewSize.height > viewSize.width) {
-        CGFloat borderHeight = ((viewSize.height-viewSize.width)/2);
-        CALayer *topLayer = [CALayer layer];
-        CALayer *bottomLayer = [CALayer layer];
-        topLayer.frame = CGRectMake(0, 0, viewSize.width, borderHeight);
-        bottomLayer.frame = CGRectMake(0, viewSize.height - borderHeight, viewSize.width, borderHeight);
-        topLayer.backgroundColor = [UIColor whiteColor].CGColor;
-        bottomLayer.backgroundColor = [UIColor whiteColor].CGColor;
-        topLayer.opacity = 0.7;
-        bottomLayer.opacity = 0.7;
-        [self.layer addSublayer:topLayer];
-        [self.layer addSublayer:bottomLayer];
-        self.centerRect = CGRectMake(0, borderHeight, viewSize.width, viewSize.height - (2*borderHeight));
+    CGFloat border;
+    if (self.bounds.size.width < self.bounds.size.height) {
+        border = ((self.bounds.size.height - self.bounds.size.width)/2.0f);
+        self.imagePreView.frame = CGRectMake(0, border, self.frame.size.width, self.frame.size.width);
+    } else {
+        border = ((self.bounds.size.width - self.bounds.size.height)/2.0f);
+        self.imagePreView.frame = CGRectMake(border, 0, self.frame.size.width, self.frame.size.width);
     }
-    
+    [self addSubview:self.imagePreView];
 }
 
 - (void)captureImage
@@ -144,11 +135,10 @@
                capturedImage = [UIImage imageWithData:imgData];
                UIImage *croppedImg = [capturedImage cropWithSquareRatio];
                self.imagePreView.image = croppedImg;
-               self.imagePreView.frame = self.centerRect;
                [self.delegate didTakeSnapshot:croppedImg];
                [self animateFlash];
            } else if (error) {
-//               NSLog(@"%@", error.description);
+               NSLog(@"%@", error.description);
            }
        }];
     }
@@ -175,6 +165,5 @@
         [flashView removeFromSuperview];
     }];
 }
-
 
 @end
