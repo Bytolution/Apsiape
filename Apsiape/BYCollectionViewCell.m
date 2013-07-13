@@ -41,7 +41,7 @@
         self.label.textAlignment = NSTextAlignmentLeft;
         self.label.backgroundColor = [UIColor clearColor];
         self.label.textColor = [UIColor blackColor];
-        self.label.font = [UIFont fontWithName:@"Miso" size:44];
+        self.label.font = [UIFont fontWithName:@"Miso-Light" size:40];
         
         self.imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
         self.imageView.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];

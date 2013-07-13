@@ -16,7 +16,6 @@
 
 - (void)handleVerticalPullWithOffset:(CGFloat)offset;
 - (void)handleHorizontalPullWithOffset:(CGFloat)offset;
-
 - (void)pullingDetectedForEdge:(BYPullScrollViewEdgeType)edge;
 
 @end
@@ -86,10 +85,12 @@
         [self handleHorizontalPullWithOffset:scrollView.contentOffset.x];
     }
 }
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     #warning Needs implementation (-didScrollToPage)
 }
+
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (self.currentPullingEdge != BYPullScrollViewEdgeTypeNone) {

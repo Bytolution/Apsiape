@@ -49,7 +49,7 @@
 {
     [super viewWillAppear:animated];
         
-    self.view.backgroundColor = [UIColor darkGrayColor];
+    self.view.backgroundColor = [UIColor blackColor];
     
     [self addChildViewController:self.mainViewController];
     self.mainViewController.view.frame = CGRectMake(0, HEADER_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - (HEADER_HEIGHT/* + FOOTER_HEIGHT*/));

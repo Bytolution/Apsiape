@@ -91,8 +91,6 @@
     return cell;
 }
 
-
-
 - (void)cell:(BYCollectionViewCell *)cell didEnterStateWithAnimation:(BYCollectionViewCellState)state
 {
     if (state == BYCollectionViewCellStateRightSideRevealed) {
@@ -120,11 +118,8 @@
     }
     [self.collectionViewData removeObjectsAtIndexes:indexSetForDeletion];
     [self.collectionView deleteItemsAtIndexPaths:indexesForDeletion];
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-//    self.flowLayout.itemSize = CGSizeMake((self.collectionView.frame.size.width/3.0f), (self.collectionView.frame.size.width/3.0f));
+    //delete from DB
+    
 }
 
 #define PULL_WIDTH 80

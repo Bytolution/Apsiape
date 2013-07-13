@@ -7,6 +7,7 @@
 //
 
 #import "BYQuickShotView.h"
+#import "UIImage+Adjustments.h"
 #import <AVFoundation/AVFoundation.h>
 #import <CoreMedia/CoreMedia.h>
 #import <QuartzCore/QuartzCore.h>
@@ -16,7 +17,6 @@
 
 - (AVCaptureDevice*)rearCamera;
 - (void)captureImage;
-- (UIImage*)cropImage:(UIImage*)imageToCrop;
 - (void)animateFlash;
 - (void)tapDetected;
 
@@ -39,12 +39,11 @@
         
         AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.rearCamera error:nil];
         AVCaptureStillImageOutput *newStillImageOutput = [[AVCaptureStillImageOutput alloc] init];
-        NSDictionary *outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                        AVVideoCodecJPEG, AVVideoCodecKey,
-                                        nil];
+        NSDictionary *outputSettings = @{ AVVideoCodecKey : AVVideoCodecJPEG};
         [newStillImageOutput setOutputSettings:outputSettings];
         
         AVCaptureSession *newCaptureSession = [[AVCaptureSession alloc] init];
+        newCaptureSession.sessionPreset = AVCaptureSessionPresetPhoto;
         
         if ([newCaptureSession canAddInput:newVideoInput]) {
             [newCaptureSession addInput:newVideoInput];
@@ -143,13 +142,13 @@
            if (imageDataSampleBuffer != NULL) {
                NSData *imgData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
                capturedImage = [UIImage imageWithData:imgData];
-               UIImage *croppedImg = [self cropImage:capturedImage];
+               UIImage *croppedImg = [capturedImage cropWithSquareRatio];
                self.imagePreView.image = croppedImg;
                self.imagePreView.frame = self.centerRect;
                [self.delegate didTakeSnapshot:croppedImg];
                [self animateFlash];
            } else if (error) {
-               NSLog(@"%@", error.description);
+//               NSLog(@"%@", error.description);
            }
        }];
     }
@@ -177,23 +176,5 @@
     }];
 }
 
-- (UIImage *)cropImage:(UIImage *)imageToCrop {
-    CGSize size = [imageToCrop size];
-    int padding = 0;
-    int pictureSize;
-    int startCroppingPosition;
-    if (size.height > size.width) {
-        pictureSize = size.width - (2.0 * padding);
-        startCroppingPosition = (size.height - pictureSize) / 2.0;
-    } else {
-        pictureSize = size.height - (2.0 * padding);
-        startCroppingPosition = (size.width - pictureSize) / 2.0;
-    }
-    CGRect cropRect = CGRectMake(startCroppingPosition, padding, pictureSize, pictureSize);
-    CGImageRef imageRef = CGImageCreateWithImageInRect([imageToCrop CGImage], cropRect);
-    UIImage *newImage = [UIImage imageWithCGImage:imageRef scale:1.0 orientation:imageToCrop.imageOrientation];
-    CGImageRelease(imageRef);
-    return newImage;
-}
 
 @end

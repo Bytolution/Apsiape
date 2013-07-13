@@ -20,13 +20,15 @@
 @property (nonatomic, strong) UINavigationBar *headerBar;
 @property (nonatomic, strong) UIImage *capturedPhoto;
 @property (nonatomic, strong) BYQuickShotView *quickShotView;
-@property (nonatomic, strong) NSMutableString *expenseValue;
+@property (nonatomic, strong) NSMutableString *expenseValueRawString;
 @property (nonatomic, strong) BYCursorLabel *expenseValueLabel;
-@property (nonatomic, strong) UIScrollView *mainScrollView;
-@property (nonatomic, strong) UIScrollView *pagingScrollView;
 @property (nonatomic, strong) MKMapView *mapView;
 
+- (NSString*)expenseValueCurrencyFormattedString;
+- (NSNumber*)expenseValueDecimalNumber;
+
 - (void)dismiss;
+- (void)tap;
 
 @end
 
@@ -44,7 +46,9 @@
     pullScrollView.pullScrollViewDelegate = self;
     
     [self.view addSubview:pullScrollView];
-    self.expenseValue = [[NSMutableString alloc]initWithCapacity:30];
+    
+    self.expenseValueRawString = [[NSMutableString alloc]initWithCapacity:30];
+    
     BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - KEYBOARD_HEIGHT, 320, KEYBOARD_HEIGHT)];
     self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 10, 300, 80)];
     [pullScrollView.childScrollView addSubview:self.expenseValueLabel];
@@ -59,31 +63,48 @@
     self.mapView.showsUserLocation = YES;
     self.mapView.userInteractionEnabled = NO;
     [pullScrollView.childScrollView addSubview:self.mapView];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap)];
+    [self.view addGestureRecognizer:tap];
 }
 
 #pragma mark Text Input Handling
 
+- (NSNumber*)expenseValueDecimalNumber
+{
+    return [NSNumber numberWithFloat:self.expenseValueRawString.floatValue];
+}
+
+- (NSString *)expenseValueCurrencyFormattedString
+{
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+    formatter.decimalSeparator = @".";
+    formatter.numberStyle = NSNumberFormatterCurrencyStyle;
+    return [formatter stringFromNumber:[NSNumber numberWithFloat:self.expenseValueRawString.floatValue]];
+}
+
 - (void)numberKeyTapped:(NSString *)numberString
 {
-    NSRange decSeparatorRange = [self.expenseValue rangeOfString:@"."];
+    NSRange decSeparatorRange = [self.expenseValueRawString rangeOfString:@"."];
     if (decSeparatorRange.length == 1) {
-        if (decSeparatorRange.location < self.expenseValue.length - 2) return;
+        if (decSeparatorRange.location < self.expenseValueRawString.length - 2) return;
         if ([numberString isEqualToString:@"."]) return;
     }
-    if (self.expenseValue.length == 7) return;
+    if (self.expenseValueRawString.length == 9) return;
+    [self.expenseValueRawString appendString:numberString];
     
-    [self.expenseValue appendString:numberString];
-    self.expenseValueLabel.text = self.expenseValue;
+    self.expenseValueLabel.text = self.expenseValueCurrencyFormattedString;
 }
+
 - (void)deleteKeyTapped
 {
-    if (self.expenseValue.length < 1) {
+    if (self.expenseValueRawString.length < 1) {
         return;
     } else {
-        NSRange range = NSMakeRange(self.expenseValue.length - 1, 1);
-        [self.expenseValue deleteCharactersInRange:range];
+        NSRange range = NSMakeRange(self.expenseValueRawString.length - 1, 1);
+        [self.expenseValueRawString deleteCharactersInRange:range];
     }
-    self.expenseValueLabel.text = self.expenseValue;
+    self.expenseValueLabel.text = self.expenseValueCurrencyFormattedString;
 }
 
 #pragma mark Cleanup methods
@@ -91,14 +112,14 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    if (self.expenseValue.length != 0) {
+    if (self.expenseValueRawString.length != 0) {
         Expense *newExpense = [NSEntityDescription insertNewObjectForEntityForName:@"Expense" inManagedObjectContext:[[BYStorage sharedStorage]managedObjectContext]];
-        newExpense.value = self.expenseValue;
+        newExpense.value = self.expenseValueRawString;
         newExpense.image = self.capturedPhoto;
         [[BYStorage sharedStorage]saveDocument];
     }
     self.capturedPhoto = nil;
-    self.expenseValue = nil;
+    self.expenseValueRawString = nil;
 }
 - (void)dismiss
 {
@@ -124,7 +145,6 @@
 
 - (void)pullScrollView:(UIScrollView *)pullScrollView didDetectPullingAtEdge:(BYPullScrollViewEdgeType)edge
 {
-    NSLog(@"Edge pulled");
     [UIView animateWithDuration:0.5 animations:^{
         self.view.alpha = 0;
     } completion:^(BOOL finished) {
