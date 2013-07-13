@@ -8,6 +8,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <MapKit/MapKit.h>
 #import "BYNewExpenseViewController.h"
+#import "UIImage+Adjustments.h"
 #import "BYQuickShotView.h"
 #import "BYExpenseKeyboard.h"
 #import "Expense.h"
@@ -26,9 +27,6 @@
 
 - (NSString*)expenseValueCurrencyFormattedString;
 - (NSNumber*)expenseValueDecimalNumber;
-
-- (void)dismiss;
-- (void)tap;
 
 @end
 
@@ -68,9 +66,6 @@
     self.mapView.showsUserLocation = YES;
     self.mapView.userInteractionEnabled = NO;
     [pullScrollView.childScrollView addSubview:self.mapView];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap)];
-    [self.view addGestureRecognizer:tap];
 }
 
 #pragma mark Text Input Handling
@@ -120,15 +115,11 @@
     if (self.expenseValueRawString.length != 0) {
         Expense *newExpense = [NSEntityDescription insertNewObjectForEntityForName:@"Expense" inManagedObjectContext:[[BYStorage sharedStorage]managedObjectContext]];
         newExpense.value = self.expenseValueCurrencyFormattedString;
-        newExpense.image = self.capturedPhoto;
+        newExpense.image = [self.capturedPhoto cropWithSquareRatioAndResolution:160];
         [[BYStorage sharedStorage]saveDocument];
     }
     self.capturedPhoto = nil;
     self.expenseValueRawString = nil;
-}
-- (void)dismiss
-{
-    [self.view removeFromSuperview];
 }
 
 #pragma mark Delegation (QuickShotView)
