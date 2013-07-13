@@ -25,6 +25,7 @@
 @property (nonatomic, strong) UIImageView *imagePreView;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *prevLayer;
 @property (nonatomic) CGRect centerRect;
+@property (nonatomic, strong) UIImage *fullResCapturedImage;
 
 @end
 
@@ -127,15 +128,13 @@
 	}
     if (self.rearCamera) {
         [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:stillImageConnection
-                                                           completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error)
-        {
-           UIImage *capturedImage;
+                                                           completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
            if (imageDataSampleBuffer != NULL) {
                NSData *imgData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-               capturedImage = [UIImage imageWithData:imgData];
-               UIImage *croppedImg = [capturedImage cropWithSquareRatio];
+               self.fullResCapturedImage = [[UIImage imageWithData:imgData] cropWithSquareRatioAndResolution:0];
+               UIImage *croppedImg = [self.fullResCapturedImage cropWithSquareRatioAndResolution:self.bounds.size.width * [[UIScreen mainScreen] scale]];
                self.imagePreView.image = croppedImg;
-               [self.delegate didTakeSnapshot:croppedImg];
+               [self.delegate didTakeSnapshot:self.fullResCapturedImage];
                [self animateFlash];
            } else if (error) {
                NSLog(@"%@", error.description);
@@ -146,11 +145,12 @@
 
 - (void)tapDetected
 {
-    if (!self.imagePreView.image) {
+    if (!self.fullResCapturedImage) {
         [self captureImage];
     } else {
         [self.delegate didDiscardLastImage];
         self.imagePreView.image = nil;
+        self.fullResCapturedImage = nil;
     }
 }
 

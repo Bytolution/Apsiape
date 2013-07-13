@@ -11,11 +11,10 @@
 
 @implementation UIImage (Adjustments)
 
-- (UIImage *)cropWithSquareRatio
+- (UIImage *)cropWithSquareRatioAndResolution:(CGFloat)resolution
 {
     UIImage *sourceImg = (UIImage*)self;
     CGSize size = [sourceImg size];
-    NSLog(@"%@", NSStringFromCGSize(size));
     int padding = 0;
     int pictureSize;
     int startCroppingPosition;
@@ -26,14 +25,37 @@
         pictureSize = size.height - (2.0 * padding);
         startCroppingPosition = (size.width - pictureSize) / 2.0;
     }
-    CGRect cropRect = CGRectMake(startCroppingPosition, padding, pictureSize, pictureSize);
+    if (resolution == 0) resolution = sourceImg.size.width;
+    CGRect cropRect = CGRectMake(startCroppingPosition, padding, pictureSize, pictureSize);    
+    CGRect newRect = CGRectIntegral(CGRectMake(0, 0,resolution, resolution));
     CGImageRef imageRef = CGImageCreateWithImageInRect([sourceImg CGImage], cropRect);
-    UIImage *newImage = [UIImage imageWithCGImage:imageRef scale:1.0 orientation:sourceImg.imageOrientation];
-    CGImageRelease(imageRef);
+    
+    // Build a context that's the same dimensions as the new size
+    CGContextRef bitmap = CGBitmapContextCreate(NULL,
+                                                newRect.size.width,
+                                                newRect.size.height,
+                                                CGImageGetBitsPerComponent(imageRef),
+                                                0,
+                                                CGImageGetColorSpace(imageRef),
+                                                CGImageGetBitmapInfo(imageRef));
+        
+    // Set the quality level to use when rescaling
+    CGContextSetInterpolationQuality(bitmap, kCGInterpolationHigh);
+    
+    // Draw into the context; this scales the image
+    CGContextDrawImage(bitmap, newRect, imageRef);
+    
+    // Get the resized image from the context and a UIImage
+    CGImageRef newImageRef = CGBitmapContextCreateImage(bitmap);
+    UIImage *newImage = [UIImage imageWithCGImage:newImageRef scale:1.0 orientation:self.imageOrientation];
+    
+    // Clean up
+    CGContextRelease(bitmap);
+    CGImageRelease(newImageRef);
     return newImage;
 }
 
-- (UIImage *)makeMonochrome
+- (UIImage *)monochromeImage
 {
     CIImage *beginImage = [CIImage imageWithCGImage:self.CGImage];
     

@@ -10,7 +10,7 @@
 
 @interface UIImage (Adjustments)
 
-- (UIImage*)cropWithSquareRatio;
-- (UIImage*)makeMonochrome;
+- (UIImage*)cropWithSquareRatioAndResolution:(CGFloat)resolution;
+- (UIImage*)monochromeImage;
 
 @end
