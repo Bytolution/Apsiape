@@ -22,5 +22,6 @@
 @interface BYQuickShotView : UIView
 
 @property (nonatomic, strong) id <BYQuickShotViewDelegate> delegate;
+@property (nonatomic, strong) UIImage *fullResCapturedImage;
 
 @end

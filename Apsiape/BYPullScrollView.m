@@ -22,6 +22,7 @@
 
 @implementation BYPullScrollView
 
+#define NUMBER_OF_PAGES 2.0f
 #define MIN_PULL_VALUE 80
 
 - (void)willMoveToSuperview:(UIView *)newSuperview
@@ -37,7 +38,7 @@
     self.contentSize = self.frame.size;
     self.childScrollView.frame = self.bounds;
     self.childScrollView.pagingEnabled = YES;
-    self.childScrollView.contentSize = CGSizeMake(self.frame.size.width * 3, self.frame.size.height);
+    self.childScrollView.contentSize = CGSizeMake(self.frame.size.width * NUMBER_OF_PAGES, self.frame.size.height);
     self.childScrollView.showsHorizontalScrollIndicator = NO;
     self.alwaysBounceVertical = YES;
     [self addSubview:self.childScrollView];
@@ -117,7 +118,7 @@
 
 - (void)handleHorizontalPullWithOffset:(CGFloat)offset
 {
-    CGFloat lastPageOffset = self.childScrollView.contentSize.width * (2.0f/3.0f);
+    CGFloat lastPageOffset = self.childScrollView.contentSize.width * ((NUMBER_OF_PAGES - 1)/(NUMBER_OF_PAGES));
     
     if (offset < - MIN_PULL_VALUE) {
         if (self.currentPullingEdge == BYPullScrollViewEdgeTypeNone) {

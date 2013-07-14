@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
 #import <QuartzCore/QuartzCore.h>
-#import <MapKit/MapKit.h>
 #import "BYContainerViewController.h"
 #import "BYNewExpenseViewController.h"
 #import "UIImage+Adjustments.h"
@@ -20,11 +19,9 @@
 @interface BYNewExpenseViewController () <BYQuickShotViewDelegate, BYExpenseKeyboardDelegate, BYPullScrollViewDelegate>
 
 @property (nonatomic, strong) UINavigationBar *headerBar;
-@property (nonatomic, strong) UIImage *capturedPhoto;
 @property (nonatomic, strong) BYQuickShotView *quickShotView;
 @property (nonatomic, strong) NSMutableString *expenseValueRawString;
 @property (nonatomic, strong) BYCursorLabel *expenseValueLabel;
-@property (nonatomic, strong) MKMapView *mapView;
 
 - (NSString*)expenseValueCurrencyFormattedString;
 - (NSNumber*)expenseValueDecimalNumber;
@@ -62,11 +59,6 @@
     [pullScrollView.childScrollView addSubview:self.quickShotView];
     
     rect.origin.x = (pullScrollView.frame.size.width * 2);
-    
-    if (!self.mapView) self.mapView = [[MKMapView alloc]initWithFrame:rect];
-    self.mapView.showsUserLocation = YES;
-    self.mapView.userInteractionEnabled = NO;
-    [pullScrollView.childScrollView addSubview:self.mapView];
 }
 
 #pragma mark Text Input Handling
@@ -114,9 +106,8 @@
 {
     [super viewWillDisappear:animated];
     if (self.expenseValueRawString.length != 0) {
-        [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString numberValue:self.expenseValueDecimalNumber fullResImage:self.capturedPhoto locationData:nil completion:nil];
+        [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString numberValue:self.expenseValueDecimalNumber fullResImage:self.quickShotView.fullResCapturedImage locationData:nil completion:nil];
     }
-    self.capturedPhoto = nil;
     self.expenseValueRawString = nil;
 }
 
@@ -124,11 +115,11 @@
 
 - (void)didTakeSnapshot:(UIImage *)img
 {
-    self.capturedPhoto = img;
+    
 }
 - (void)didDiscardLastImage
 {
-    self.capturedPhoto = nil;
+    
 }
 - (void)quickShotViewDidFinishPreparation:(BYQuickShotView *)quickShotView
 {

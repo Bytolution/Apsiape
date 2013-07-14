@@ -25,7 +25,6 @@
 @property (nonatomic, strong) UIImageView *imagePreView;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *prevLayer;
 @property (nonatomic) CGRect centerRect;
-@property (nonatomic, strong) UIImage *fullResCapturedImage;
 
 @end
 
