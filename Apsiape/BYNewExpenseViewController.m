@@ -7,6 +7,7 @@
 //
 #import <QuartzCore/QuartzCore.h>
 #import <MapKit/MapKit.h>
+#import "BYContainerViewController.h"
 #import "BYNewExpenseViewController.h"
 #import "UIImage+Adjustments.h"
 #import "BYQuickShotView.h"
@@ -113,10 +114,7 @@
 {
     [super viewWillDisappear:animated];
     if (self.expenseValueRawString.length != 0) {
-        Expense *newExpense = [NSEntityDescription insertNewObjectForEntityForName:@"Expense" inManagedObjectContext:[[BYStorage sharedStorage]managedObjectContext]];
-        newExpense.value = self.expenseValueCurrencyFormattedString;
-        newExpense.image = [self.capturedPhoto cropWithSquareRatioAndResolution:160];
-        [[BYStorage sharedStorage]saveDocument];
+        [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString numberValue:self.expenseValueDecimalNumber fullResImage:self.capturedPhoto locationData:nil completion:nil];
     }
     self.capturedPhoto = nil;
     self.expenseValueRawString = nil;
@@ -141,11 +139,7 @@
 
 - (void)pullScrollView:(UIScrollView *)pullScrollView didDetectPullingAtEdge:(BYPullScrollViewEdgeType)edge
 {
-    [UIView animateWithDuration:0.5 animations:^{
-        self.view.alpha = 0;
-    } completion:^(BOOL finished) {
-        [self.view removeFromSuperview];
-    }];
+    [[BYContainerViewController sharedContainerViewController] dismissExpenseCreationViewController];
 }
 - (void)pullScrollView:(UIScrollView *)pullScrollView didScrollToPage:(NSInteger)page
 {

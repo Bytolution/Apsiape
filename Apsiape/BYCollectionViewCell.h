@@ -30,6 +30,7 @@ typedef enum {
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, readwrite) BYCollectionViewCellState cellState;
 @property (nonatomic, strong) id <BYCollectionViewCellDelegate> delegate;
+@property (nonatomic, readwrite) BOOL topCell;
 
 - (void)prepareLayout;
 

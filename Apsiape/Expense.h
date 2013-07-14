@@ -2,7 +2,7 @@
 //  Expense.h
 //  Apsiape
 //
-//  Created by Dario Lass on 15.04.13.
+//  Created by Dario Lass on 14.07.13.
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
 
@@ -12,9 +12,14 @@
 
 @interface Expense : NSManagedObject
 
-@property (nonatomic, retain) id image;
 @property (nonatomic, retain) NSData * location;
-@property (nonatomic, retain) NSDate * time;
-@property (nonatomic, retain) NSString * value;
+@property (nonatomic, retain) NSDate * date;
+@property (nonatomic, retain) NSString * stringValue;
+@property (nonatomic, retain) NSString * fullResolutionImagePath;
+@property (nonatomic, retain) NSString * screenResolutionImagePath;
+@property (nonatomic, retain) NSString * thumbnailResolutionImagePath;
+@property (nonatomic, retain) NSString * screenResolutionMonochromeImagePath;
+@property (nonatomic, retain) NSString * thumbnailResolutionMonochromeImagePath;
+@property (nonatomic, retain) NSNumber * numberValue;
 
 @end

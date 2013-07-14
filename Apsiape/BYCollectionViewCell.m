@@ -24,6 +24,7 @@
 @property (nonatomic, readwrite) CGFloat lastOffset;
 @property (nonatomic, strong) CALayer *borderLayer;
 @property (nonatomic, strong) UIButton *rightSideActionButton;
+@property (nonatomic, strong) CALayer *topSeparator;
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)panGestureRecognizer;
 - (void)animateCellContentForState:(BYCollectionViewCellState)state;
@@ -38,10 +39,10 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.label = [[UILabel alloc]initWithFrame:CGRectZero];
-        self.label.textAlignment = NSTextAlignmentLeft;
+        self.label.textAlignment = NSTextAlignmentRight;
         self.label.backgroundColor = [UIColor clearColor];
         self.label.textColor = [UIColor blackColor];
-        self.label.font = [UIFont fontWithName:@"Miso-Light" size:40];
+        self.label.font = [UIFont fontWithName:@"Miso-Light" size:46];
         
         self.imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
         self.imageView.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
@@ -53,7 +54,6 @@
         [self.rightSideActionButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
         
         self.backgroundView = [[UIView alloc]initWithFrame:self.bounds];
-        
         
         [self.contentView addSubview:self.imageView];
         [self.contentView addSubview:self.foregroundImageView];
@@ -70,8 +70,8 @@
         self.panElasticityStartingPoint = 80;
         
         self.borderLayer = [CALayer layer];
-        self.borderLayer.borderWidth = 0.25;
-        self.borderLayer.borderColor = [UIColor grayColor].CGColor;
+        self.borderLayer.borderWidth = 10;
+        self.borderLayer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
         [self.contentView.layer addSublayer:self.borderLayer];
     }
     return self;
@@ -161,14 +161,24 @@
         self.contentView.frame = CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
     }
     CGRect rect = self.contentView.bounds;
-    rect.size.height = self.contentView.bounds.size.height/1.5f;
+    rect.size.height = self.contentView.bounds.size.height;
     rect.origin.x = self.frame.size.height;
+    rect.size.width -= self.frame.size.height;
     self.label.frame = CGRectInset(rect, 15, 15);
     self.imageView.frame = CGRectMake(0, 0, self.frame.size.height, self.frame.size.height);
-    self.imageView.frame = CGRectInset(self.imageView.frame, 10, 10);
-    self.imageView.layer.cornerRadius = (self.imageView.frame.size.height/4);
-    self.borderLayer.frame = self.contentView.bounds;
+    self.imageView.frame = CGRectInset(self.imageView.frame, 6, 6);
+    self.imageView.layer.cornerRadius = 4;
+    self.borderLayer.frame = CGRectMake(0, self.contentView.frame.size.height - 1, self.contentView.frame.size.width, 1);
     self.rightSideActionButton.frame = CGRectMake(self.frame.size.width - THRESHOLD, 0, THRESHOLD, self.frame.size.height);
+    // ---
+    if (self.topCell) {
+        CALayer *topSeparator = [CALayer layer];
+        topSeparator.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
+        topSeparator.frame = CGRectMake(0, 0, self.contentView.frame.size.width, 1);
+        [self.contentView.layer addSublayer:topSeparator];
+    } else {
+        self.topSeparator = nil;
+    }
 }
 
 @end

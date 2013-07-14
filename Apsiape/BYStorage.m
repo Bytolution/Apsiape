@@ -5,17 +5,14 @@
 //  Created by Dario Lass on 18.03.13.
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
-
-#import "BYStorage.h"
-#import "BYAppDelegate.h"
-#import "BYContainerViewController.h"
 #import <CoreData/CoreData.h>
-#import <CoreLocation/CoreLocation.h>
+#import "BYStorage.h"
+#import "UIImage+Adjustments.h"
+#import "Expense.h"
 
-@interface BYStorage () <CLLocationManagerDelegate>
+@interface BYStorage ()
 
 @property (strong, nonatomic) UIManagedDocument *document;
-@property (nonatomic, strong) CLLocationManager *locationManager;
 
 - (void)docStateChanged;
 - (void)openDocument;
@@ -39,16 +36,24 @@
     return self.document.managedObjectContext;
 }
 
-
 - (id)init
 {
     self = [super init];
     if (self) {
         [self openDocument];
+        
+        NSDate *currentDate = [NSDate date];
+        
+        NSDateFormatter *dateFormatter;
+        dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd-HH-mm-SS"];
+        
+        NSString *timeStamp = [dateFormatter stringFromDate:currentDate];
+        NSLog(@"%@", timeStamp);
     }
     return self;
 }
-//-----------------------------UIDocument code---------------------------------//
+
 - (void)openDocument {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(docStateChanged) name:UIDocumentStateChangedNotification object:nil];
     
@@ -98,10 +103,54 @@
             break;
     }
 }
-//-----------------------------------------------------------------------------//
 
+- (void)saveExpenseObjectWithStringValue:(NSString *)stringValue numberValue:(NSNumber *)numberValue fullResImage:(UIImage *)fullResImg locationData:(NSData *)locData completion:(void (^)(BOOL))completionHandler
+{
+    Expense *newExpense = [NSEntityDescription insertNewObjectForEntityForName:@"Expense" inManagedObjectContext:self.document.managedObjectContext];
+    
+    NSDate *currentDate = [NSDate date];
+    NSDateFormatter *dateFormatter;
+    dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd-HH-mm-SS"];
+    NSString *timeStamp = [dateFormatter stringFromDate:currentDate];
+    
+    NSString *documentsDirectoryPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    
+    NSString *fullResolutionImagePath = [NSString stringWithFormat:@"%@/%@image_fullRes.jpg", documentsDirectoryPath, timeStamp];
+    NSString *screenResolutionImagePath = [NSString stringWithFormat:@"%@/%@image_screenRes.jpg", documentsDirectoryPath, timeStamp];
+    NSString *thumbnailResolutionImagePath = [NSString stringWithFormat:@"%@/%@image_thumbRes.jpg", documentsDirectoryPath, timeStamp];
+    NSString *screenResolutionMonochromeImagePath = [NSString stringWithFormat:@"%@/%@image_screenRes_monochrome.jpg", documentsDirectoryPath, timeStamp];
+    NSString *thumbnailResolutionMonochromeImagePath = [NSString stringWithFormat:@"%@/%@image_thumbRes_monochrome.jpg", documentsDirectoryPath, timeStamp];
+    
+    dispatch_queue_t saveQueue = dispatch_queue_create("User data fetcher", NULL);
+    dispatch_async(saveQueue, ^{
+        NSData *fullResolutionImageData = UIImageJPEGRepresentation(fullResImg, 1.0);
+        [fullResolutionImageData writeToFile:fullResolutionImagePath atomically:NO];
+        fullResolutionImageData = nil;
+        NSData *screenResolutionImageData = UIImageJPEGRepresentation([fullResImg cropWithSquareRatioAndResolution:640], 1.0);
+        [screenResolutionImageData writeToFile:screenResolutionImagePath atomically:NO];
+        NSData *thumbnailResolutionImageData = UIImageJPEGRepresentation([fullResImg cropWithSquareRatioAndResolution:160], 1.0);
+        [thumbnailResolutionImageData writeToFile:thumbnailResolutionImagePath atomically:NO];
+        NSData *screenResolutionMonochromeImageData = UIImageJPEGRepresentation([[fullResImg cropWithSquareRatioAndResolution:640] monochromeImage], 1.0);
+        [screenResolutionMonochromeImageData writeToFile:screenResolutionMonochromeImagePath atomically:NO];
+        NSData *thumbnailResolutionMonochromeImageData = UIImageJPEGRepresentation([[fullResImg cropWithSquareRatioAndResolution:160] monochromeImage], 1.0);
+        [thumbnailResolutionMonochromeImageData writeToFile:thumbnailResolutionMonochromeImagePath atomically:NO];
+        
+        [self.managedObjectContext performBlock:^{
+            newExpense.date = [NSDate date];
+            newExpense.fullResolutionImagePath = fullResolutionImagePath;
+            newExpense.screenResolutionImagePath = screenResolutionImagePath;
+            newExpense.screenResolutionMonochromeImagePath = screenResolutionMonochromeImagePath;
+            newExpense.thumbnailResolutionImagePath = thumbnailResolutionImagePath;
+            newExpense.thumbnailResolutionMonochromeImagePath = thumbnailResolutionMonochromeImagePath;
+            newExpense.stringValue = stringValue;
+            newExpense.numberValue = numberValue;
+            
+            [self saveDocument];
+        }];
+    });
+}
 
-//------------------------------Misc-------------------------------------------//
 + (NSString *)appFontName {
     return @"Helvetica";
 }

@@ -64,16 +64,24 @@
 
 - (void)displayExpenseCreationViewController
 {
-    self.expenseVC = [[BYNewExpenseViewController alloc]initWithNibName:nil bundle:nil];
+    if (!self.expenseVC) self.expenseVC = [[BYNewExpenseViewController alloc]initWithNibName:nil bundle:nil];
     self.expenseVC.view.frame = self.view.bounds;
+    self.expenseVC.view.alpha = 0;
     [self.view addSubview:self.expenseVC.view];
-    
+    [UIView animateWithDuration:0.5 animations:^{
+        self.expenseVC.view.alpha = 1;
+    }];
 }
 
 - (void)dismissExpenseCreationViewController
 {
-    [self.expenseVC.view removeFromSuperview];
-    [self.navBar pushNavigationItem:nil animated:YES];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.expenseVC.view.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        [self.expenseVC.view removeFromSuperview];
+        self.expenseVC = nil;
+    }];
+    
 }
 
 - (void)splitAnimationOverlayViewDidFinishOpeningAnimation

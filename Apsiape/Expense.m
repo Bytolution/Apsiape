@@ -2,7 +2,7 @@
 //  Expense.m
 //  Apsiape
 //
-//  Created by Dario Lass on 15.04.13.
+//  Created by Dario Lass on 14.07.13.
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
 
@@ -11,9 +11,14 @@
 
 @implementation Expense
 
-@dynamic image;
 @dynamic location;
-@dynamic time;
-@dynamic value;
+@dynamic date;
+@dynamic stringValue;
+@dynamic fullResolutionImagePath;
+@dynamic screenResolutionImagePath;
+@dynamic thumbnailResolutionImagePath;
+@dynamic screenResolutionMonochromeImagePath;
+@dynamic thumbnailResolutionMonochromeImagePath;
+@dynamic numberValue;
 
 @end

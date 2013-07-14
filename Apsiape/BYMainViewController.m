@@ -79,7 +79,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    self.flowLayout.itemSize = CGSizeMake(320, 320);
+//    self.flowLayout.itemSize = CGSizeMake(320, 320);
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -91,10 +91,11 @@
 {
     BYCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID" forIndexPath:indexPath];
     Expense *expense = [self.collectionViewData[indexPath.row] objectForKey:@"expense"];
-    cell.title = expense.value;
-    cell.image = expense.image;
+    cell.title = expense.stringValue;
+    cell.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:expense.thumbnailResolutionMonochromeImagePath]];
     cell.delegate = self;
     cell.cellState = [[self.collectionViewData[indexPath.row] objectForKey:@"cellState"] intValue];
+    cell.topCell = indexPath.row == 0 ? YES : NO;
     [cell prepareLayout];
     return cell;
 }
@@ -122,6 +123,14 @@
         if ([[cellInfo objectForKey:@"cellState"] isEqual:[NSNumber numberWithInt:BYCollectionViewCellStateRightSideRevealed]]) {
             [indexesForDeletion addObject:[NSIndexPath indexPathForRow:i inSection:0]];
             [indexSetForDeletion addIndex:i];
+            Expense *expense = [cellInfo objectForKey:@"expense"];
+            NSError *error;
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            [fileManager removeItemAtPath:expense.fullResolutionImagePath error:&error];
+            [fileManager removeItemAtPath:expense.screenResolutionImagePath error:&error];
+            [fileManager removeItemAtPath:expense.screenResolutionMonochromeImagePath error:&error];
+            [fileManager removeItemAtPath:expense.thumbnailResolutionImagePath error:&error];
+            [fileManager removeItemAtPath:expense.thumbnailResolutionMonochromeImagePath error:&error];
             NSManagedObjectContext *context = [BYStorage sharedStorage].managedObjectContext;
             [context deleteObject:[cellInfo objectForKey:@"expense"]];
         }
