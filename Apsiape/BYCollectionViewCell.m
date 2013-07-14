@@ -24,7 +24,6 @@
 @property (nonatomic, readwrite) CGFloat lastOffset;
 @property (nonatomic, strong) CALayer *borderLayer;
 @property (nonatomic, strong) UIButton *rightSideActionButton;
-@property (nonatomic, strong) CALayer *topSeparator;
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)panGestureRecognizer;
 - (void)animateCellContentForState:(BYCollectionViewCellState)state;
@@ -170,15 +169,6 @@
     self.imageView.layer.cornerRadius = 4;
     self.borderLayer.frame = CGRectMake(0, self.contentView.frame.size.height - 1, self.contentView.frame.size.width, 1);
     self.rightSideActionButton.frame = CGRectMake(self.frame.size.width - THRESHOLD, 0, THRESHOLD, self.frame.size.height);
-    // ---
-    if (self.topCell) {
-        CALayer *topSeparator = [CALayer layer];
-        topSeparator.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
-        topSeparator.frame = CGRectMake(0, 0, self.contentView.frame.size.width, 1);
-        [self.contentView.layer addSublayer:topSeparator];
-    } else {
-        self.topSeparator = nil;
-    }
 }
 
 @end

@@ -11,6 +11,5 @@
 @interface UIImage (ImageFromView)
 
 + (UIImage*)imageFromView:(UIView*)view;
-+ (UIImage*)monochromeImageFromImage:(UIImage*)sourceImg;
 
 @end

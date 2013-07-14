@@ -95,7 +95,6 @@
     cell.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:expense.thumbnailResolutionMonochromeImagePath]];
     cell.delegate = self;
     cell.cellState = [[self.collectionViewData[indexPath.row] objectForKey:@"cellState"] intValue];
-    cell.topCell = indexPath.row == 0 ? YES : NO;
     [cell prepareLayout];
     return cell;
 }

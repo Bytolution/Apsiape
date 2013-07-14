@@ -106,7 +106,11 @@
 {
     [super viewWillDisappear:animated];
     if (self.expenseValueRawString.length != 0) {
-        [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString numberValue:self.expenseValueDecimalNumber fullResImage:self.quickShotView.fullResCapturedImage locationData:nil completion:nil];
+        [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString
+                                                        numberValue:self.expenseValueDecimalNumber
+                                                       fullResImage:self.quickShotView.fullResCapturedImage
+                                                       locationData:nil
+                                                         completion:nil];
     }
     self.expenseValueRawString = nil;
 }

@@ -63,7 +63,7 @@
     rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     [checkmarkLayer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
     
-    #warning make two overlapping views
+    // make two overlapping views
     
     [topPullView.layer addSublayer:checkmarkLayer];
     [self addSubview:topPullView];
@@ -89,7 +89,7 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    #warning Needs implementation (-didScrollToPage)
+    
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
