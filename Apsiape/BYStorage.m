@@ -95,7 +95,7 @@
     }];
 }
 
-- (void)saveExpenseObjectWithStringValue:(NSString *)stringValue numberValue:(NSNumber *)numberValue fullResImage:(UIImage *)fullResImg locationData:(NSData *)locData completion:(void (^)(BOOL))completionHandler
+- (void)saveExpenseObjectWithStringValue:(NSString *)stringValue numberValue:(NSNumber *)numberValue fullResImage:(UIImage *)fullResImg completion:(void (^)(BOOL))completionHandler
 {
     Expense *newExpense = [NSEntityDescription insertNewObjectForEntityForName:@"Expense" inManagedObjectContext:self.document.managedObjectContext];
     
@@ -112,7 +112,18 @@
     NSString *thumbnailResolutionImagePath = [NSString stringWithFormat:@"%@/%@image_thumbRes.jpg", documentsDirectoryPath, timeStamp];
     NSString *screenResolutionMonochromeImagePath = [NSString stringWithFormat:@"%@/%@image_screenRes_monochrome.jpg", documentsDirectoryPath, timeStamp];
     NSString *thumbnailResolutionMonochromeImagePath = [NSString stringWithFormat:@"%@/%@image_thumbRes_monochrome.jpg", documentsDirectoryPath, timeStamp];
-    
+    [self.managedObjectContext performBlock:^{
+        newExpense.date = [NSDate date];
+        newExpense.fullResolutionImagePath = fullResolutionImagePath;
+        newExpense.screenResolutionImagePath = screenResolutionImagePath;
+        newExpense.screenResolutionMonochromeImagePath = screenResolutionMonochromeImagePath;
+        newExpense.thumbnailResolutionImagePath = thumbnailResolutionImagePath;
+        newExpense.thumbnailResolutionMonochromeImagePath = thumbnailResolutionMonochromeImagePath;
+        newExpense.stringValue = stringValue;
+        newExpense.numberValue = numberValue;
+        newExpense.location = [NSKeyedArchiver archivedDataWithRootObject:self.location];
+        [self saveDocument];
+    }];
     dispatch_queue_t saveQueue = dispatch_queue_create("User data fetcher", NULL);
     dispatch_async(saveQueue, ^{
         NSData *fullResolutionImageData = UIImageJPEGRepresentation(fullResImg, 1.0);
@@ -126,19 +137,6 @@
         [screenResolutionMonochromeImageData writeToFile:screenResolutionMonochromeImagePath atomically:NO];
         NSData *thumbnailResolutionMonochromeImageData = UIImageJPEGRepresentation([[fullResImg cropWithSquareRatioAndResolution:160] monochromeImage], 1.0);
         [thumbnailResolutionMonochromeImageData writeToFile:thumbnailResolutionMonochromeImagePath atomically:NO];
-        
-        [self.managedObjectContext performBlock:^{
-            newExpense.date = [NSDate date];
-            newExpense.fullResolutionImagePath = fullResolutionImagePath;
-            newExpense.screenResolutionImagePath = screenResolutionImagePath;
-            newExpense.screenResolutionMonochromeImagePath = screenResolutionMonochromeImagePath;
-            newExpense.thumbnailResolutionImagePath = thumbnailResolutionImagePath;
-            newExpense.thumbnailResolutionMonochromeImagePath = thumbnailResolutionMonochromeImagePath;
-            newExpense.stringValue = stringValue;
-            newExpense.numberValue = numberValue;
-            
-            [self saveDocument];
-        }];
     });
 }
 

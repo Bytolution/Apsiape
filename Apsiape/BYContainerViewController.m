@@ -81,20 +81,8 @@
         [(UIWindow*)self.view.superview makeKeyWindow];
         self.expenseWindow.alpha = 0.0;
     } completion:^(BOOL finished) {
-        
         self.expenseWindow = nil;
-        
     }];
 }
-
-- (void)splitAnimationOverlayViewDidFinishOpeningAnimation
-{
-    
-}
-- (void)splitAnimationOverlayViewDidFinishClosingAnimation
-{
-    
-}
-
 
 @end

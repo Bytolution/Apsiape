@@ -109,7 +109,6 @@
         [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString
                                                         numberValue:self.expenseValueDecimalNumber
                                                        fullResImage:self.quickShotView.fullResCapturedImage
-                                                       locationData:nil
                                                          completion:nil];
     }
     self.expenseValueRawString = nil;
