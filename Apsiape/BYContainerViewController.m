@@ -5,16 +5,16 @@
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 
 #import "BYContainerViewController.h"
-#import "BYMainViewController.h"
+#import "BYCollectionViewController.h"
 #import "UIImage+ImageFromView.h"
 #import <QuartzCore/QuartzCore.h>
 #import <MapKit/MapKit.h>
-#import "BYNewExpenseViewController.h"
+#import "BYNewExpenseWindow.h"
 
 @interface BYContainerViewController () 
 
-@property (nonatomic, strong) BYMainViewController *mainViewController;
-@property (nonatomic, strong) BYNewExpenseViewController *expenseVC;
+@property (nonatomic, strong) BYCollectionViewController *mainViewController;
+@property (nonatomic, strong) BYNewExpenseWindow *expenseWindow;
 @property (nonatomic, strong) UINavigationBar *navBar;
 @property (nonatomic, strong) UIToolbar *toolBar;
 @property (nonatomic) BOOL mainViewControllerVisible;
@@ -40,8 +40,8 @@
     return sharedInstance;
 }
 
-- (BYMainViewController *)mainViewController {
-    if (!_mainViewController) _mainViewController = [[BYMainViewController alloc]init];
+- (BYCollectionViewController *)mainViewController {
+    if (!_mainViewController) _mainViewController = [[BYCollectionViewController alloc]init];
     return _mainViewController; 
 }
 
@@ -64,24 +64,26 @@
 
 - (void)displayExpenseCreationViewController
 {
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    if (!self.expenseVC) self.expenseVC = [[BYNewExpenseViewController alloc]initWithNibName:nil bundle:nil];
-    self.expenseVC.view.frame = [[UIScreen mainScreen]applicationFrame];
-    self.expenseVC.view.alpha = 0;
-    [self.view addSubview:self.expenseVC.view];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+    if (!self.expenseWindow) self.expenseWindow = [[BYNewExpenseWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+    self.expenseWindow.alpha = 0;
+    self.expenseWindow.windowLevel = UIWindowLevelAlert;
+    [self.expenseWindow makeKeyAndVisible];
     [UIView animateWithDuration:0.5 animations:^{
-        self.expenseVC.view.alpha = 1;
+        self.expenseWindow.alpha = 1;
     }];
 }
 
 - (void)dismissExpenseCreationViewController
 {
     [UIView animateWithDuration:0.5 animations:^{
-        self.expenseVC.view.alpha = 0.0;
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+        [(UIWindow*)self.view.superview makeKeyWindow];
+        self.expenseWindow.alpha = 0.0;
     } completion:^(BOOL finished) {
-        [self.expenseVC.view removeFromSuperview];
-        self.expenseVC = nil;
-        [[UIApplication sharedApplication] setStatusBarHidden:YES];
+        
+        self.expenseWindow = nil;
+        
     }];
 }
 

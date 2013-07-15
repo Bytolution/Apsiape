@@ -1,5 +1,5 @@
 //
-//  BYNewExpenseViewController.h
+//  BYNewExpenseWindow.h
 //  Apsiape
 //
 //  Created by Dario Lass on 28.05.13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BYNewExpenseViewController : UIViewController
+@interface BYNewExpenseWindow : UIWindow
 
 @end

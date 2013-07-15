@@ -6,16 +6,21 @@
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
 #import <CoreData/CoreData.h>
+#import <CoreLocation/CoreLocation.h>
 #import "BYStorage.h"
 #import "UIImage+Adjustments.h"
 #import "Expense.h"
 
-@interface BYStorage ()
+
+@interface BYStorage () <CLLocationManagerDelegate>
 
 @property (strong, nonatomic) UIManagedDocument *document;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) CLLocation *location;
 
 - (void)docStateChanged;
 - (void)openDocument;
+- (void)startLocationServices;
 
 @end
 
@@ -41,15 +46,6 @@
     self = [super init];
     if (self) {
         [self openDocument];
-        
-        NSDate *currentDate = [NSDate date];
-        
-        NSDateFormatter *dateFormatter;
-        dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd-HH-mm-SS"];
-        
-        NSString *timeStamp = [dateFormatter stringFromDate:currentDate];
-        NSLog(@"%@", timeStamp);
     }
     return self;
 }
@@ -72,9 +68,24 @@
         } else if (self.document.documentState == UIDocumentStateClosed) {
             [self.document openWithCompletionHandler:^(BOOL success) {
                 NSLog(@"Document opened %s", success ? "successfully":"unsuccessfully");
+                [self startLocationServices];
             }];
         }
     }
+}
+
+- (void)startLocationServices
+{
+    if (!self.locationManager) self.locationManager = [[CLLocationManager alloc]init];
+    self.locationManager.pausesLocationUpdatesAutomatically = YES;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    self.location = locations[0];
 }
 
 - (void)saveDocument {
@@ -82,26 +93,6 @@
         if (success) NSLog(@"document was saved successfully");
         [[NSNotificationCenter defaultCenter]postNotificationName:@"UIDocumentSavedSuccessfullyNotification" object:nil];
     }];
-}
-
-- (void)docStateChanged {
-    switch (self.document.documentState) {
-        case UIDocumentStateNormal:
-            NSLog(@"document state OPEN");
-            break;
-        case UIDocumentStateClosed:
-            NSLog(@"document state CLOSED");
-            break;
-        case UIDocumentStateInConflict:
-            NSLog(@"document state IN CONFLICT");
-            break;
-        case UIDocumentStateEditingDisabled:
-            NSLog(@"document state DISABLED");
-            break;
-        case UIDocumentStateSavingError:
-            NSLog(@"document state SAVING ERROR");
-            break;
-    }
 }
 
 - (void)saveExpenseObjectWithStringValue:(NSString *)stringValue numberValue:(NSNumber *)numberValue fullResImage:(UIImage *)fullResImg locationData:(NSData *)locData completion:(void (^)(BOOL))completionHandler
@@ -149,6 +140,26 @@
             [self saveDocument];
         }];
     });
+}
+
+- (void)docStateChanged {
+    switch (self.document.documentState) {
+        case UIDocumentStateNormal:
+            NSLog(@"document state OPEN");
+            break;
+        case UIDocumentStateClosed:
+            NSLog(@"document state CLOSED");
+            break;
+        case UIDocumentStateInConflict:
+            NSLog(@"document state IN CONFLICT");
+            break;
+        case UIDocumentStateEditingDisabled:
+            NSLog(@"document state DISABLED");
+            break;
+        case UIDocumentStateSavingError:
+            NSLog(@"document state SAVING ERROR");
+            break;
+    }
 }
 
 + (NSString *)appFontName {

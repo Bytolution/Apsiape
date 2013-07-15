@@ -19,7 +19,7 @@
 		A307E82716DE8A0D00C9425A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A307E82616DE8A0D00C9425A /* Default@2x.png */; };
 		A307E82916DE8A0D00C9425A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A307E82816DE8A0D00C9425A /* Default-568h@2x.png */; };
 		A310311416E3AC9E00B163DC /* BYContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311316E3AC9E00B163DC /* BYContainerViewController.m */; };
-		A310311E16E3E37C00B163DC /* BYMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311C16E3E37C00B163DC /* BYMainViewController.m */; };
+		A310311E16E3E37C00B163DC /* BYCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311C16E3E37C00B163DC /* BYCollectionViewController.m */; };
 		A337965016E52A4C00C55116 /* BYCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */; };
 		A353B08D1733FE5300C5D868 /* UIImage+ImageFromView.m in Sources */ = {isa = PBXBuildFile; fileRef = A353B08C1733FE5300C5D868 /* UIImage+ImageFromView.m */; };
 		A35758EB17934DAA007C21AF /* BYStatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35758EA17934DAA007C21AF /* BYStatsViewController.m */; };
@@ -31,7 +31,7 @@
 		A3832F0C16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3832F0A16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld */; };
 		A384A4AF16F0FA11008FC8DC /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A384A4AD16F0FA11008FC8DC /* search@2x.png */; };
 		A38E2E4817836C4400E1EBBC /* BYPullScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A38E2E4717836C4400E1EBBC /* BYPullScrollView.m */; };
-		A390843F1755518F0076168C /* BYNewExpenseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A390843D1755518F0076168C /* BYNewExpenseViewController.m */; };
+		A390843F1755518F0076168C /* BYNewExpenseWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = A390843D1755518F0076168C /* BYNewExpenseWindow.m */; };
 		A39162B11703667F00B3F9FF /* BYQuickShotView.m in Sources */ = {isa = PBXBuildFile; fileRef = A39162B01703667F00B3F9FF /* BYQuickShotView.m */; };
 		A39162B31703A5AD00B3F9FF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39162B21703A5AD00B3F9FF /* AVFoundation.framework */; };
 		A39162B51703A75700B3F9FF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39162B41703A75700B3F9FF /* CoreMedia.framework */; };
@@ -63,8 +63,8 @@
 		A307E82816DE8A0D00C9425A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A310311216E3AC9E00B163DC /* BYContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYContainerViewController.h; sourceTree = "<group>"; };
 		A310311316E3AC9E00B163DC /* BYContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYContainerViewController.m; sourceTree = "<group>"; };
-		A310311B16E3E37C00B163DC /* BYMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYMainViewController.h; sourceTree = "<group>"; };
-		A310311C16E3E37C00B163DC /* BYMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYMainViewController.m; sourceTree = "<group>"; };
+		A310311B16E3E37C00B163DC /* BYCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionViewController.h; sourceTree = "<group>"; };
+		A310311C16E3E37C00B163DC /* BYCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionViewController.m; sourceTree = "<group>"; };
 		A337964E16E52A4C00C55116 /* BYCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionViewCell.h; sourceTree = "<group>"; };
 		A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionViewCell.m; sourceTree = "<group>"; };
 		A34A3271178E15BD00F95328 /* InterfaceDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceDefinitions.h; sourceTree = "<group>"; };
@@ -82,8 +82,8 @@
 		A384A4AD16F0FA11008FC8DC /* search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search@2x.png"; sourceTree = "<group>"; };
 		A38E2E4617836C4400E1EBBC /* BYPullScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYPullScrollView.h; sourceTree = "<group>"; };
 		A38E2E4717836C4400E1EBBC /* BYPullScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYPullScrollView.m; sourceTree = "<group>"; };
-		A390843C1755518F0076168C /* BYNewExpenseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYNewExpenseViewController.h; sourceTree = "<group>"; };
-		A390843D1755518F0076168C /* BYNewExpenseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYNewExpenseViewController.m; sourceTree = "<group>"; wrapsLines = 0; };
+		A390843C1755518F0076168C /* BYNewExpenseWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYNewExpenseWindow.h; sourceTree = "<group>"; };
+		A390843D1755518F0076168C /* BYNewExpenseWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYNewExpenseWindow.m; sourceTree = "<group>"; wrapsLines = 0; };
 		A39162AF1703667F00B3F9FF /* BYQuickShotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYQuickShotView.h; sourceTree = "<group>"; };
 		A39162B01703667F00B3F9FF /* BYQuickShotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYQuickShotView.m; sourceTree = "<group>"; };
 		A39162B21703A5AD00B3F9FF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -128,7 +128,6 @@
 		A307E80616DE8A0D00C9425A = {
 			isa = PBXGroup;
 			children = (
-				A35758EE17941594007C21AF /* CFNetwork.framework */,
 				A307E81816DE8A0D00C9425A /* Apsiape */,
 				A307E81116DE8A0D00C9425A /* Frameworks */,
 				A307E81016DE8A0D00C9425A /* Products */,
@@ -146,6 +145,7 @@
 		A307E81116DE8A0D00C9425A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A35758EE17941594007C21AF /* CFNetwork.framework */,
 				A35758F217941689007C21AF /* Reveal.framework */,
 				A3C2AB411790BCEE0070C53E /* CoreImage.framework */,
 				A35DDD7A1737F7C2003C287E /* MapKit.framework */,
@@ -206,8 +206,8 @@
 			children = (
 				A310311216E3AC9E00B163DC /* BYContainerViewController.h */,
 				A310311316E3AC9E00B163DC /* BYContainerViewController.m */,
-				A310311B16E3E37C00B163DC /* BYMainViewController.h */,
-				A310311C16E3E37C00B163DC /* BYMainViewController.m */,
+				A310311B16E3E37C00B163DC /* BYCollectionViewController.h */,
+				A310311C16E3E37C00B163DC /* BYCollectionViewController.m */,
 				A35758E917934DAA007C21AF /* BYStatsViewController.h */,
 				A35758EA17934DAA007C21AF /* BYStatsViewController.m */,
 			);
@@ -224,8 +224,8 @@
 		A373763716F6306B00611FC6 /* Expense Creation */ = {
 			isa = PBXGroup;
 			children = (
-				A390843C1755518F0076168C /* BYNewExpenseViewController.h */,
-				A390843D1755518F0076168C /* BYNewExpenseViewController.m */,
+				A390843C1755518F0076168C /* BYNewExpenseWindow.h */,
+				A390843D1755518F0076168C /* BYNewExpenseWindow.m */,
 				A3EAF9BE1725BD7900DE0116 /* Supporting View */,
 			);
 			name = "Expense Creation";
@@ -339,13 +339,13 @@
 				A307E82316DE8A0D00C9425A /* BYAppDelegate.m in Sources */,
 				A3832F0C16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld in Sources */,
 				A310311416E3AC9E00B163DC /* BYContainerViewController.m in Sources */,
-				A310311E16E3E37C00B163DC /* BYMainViewController.m in Sources */,
+				A310311E16E3E37C00B163DC /* BYCollectionViewController.m in Sources */,
 				A337965016E52A4C00C55116 /* BYCollectionViewCell.m in Sources */,
 				A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */,
 				A3F7FAC716FA36D1002F58AA /* BYExpenseKeyboard.m in Sources */,
 				A39162B11703667F00B3F9FF /* BYQuickShotView.m in Sources */,
 				A353B08D1733FE5300C5D868 /* UIImage+ImageFromView.m in Sources */,
-				A390843F1755518F0076168C /* BYNewExpenseViewController.m in Sources */,
+				A390843F1755518F0076168C /* BYNewExpenseWindow.m in Sources */,
 				A3D60C78177FA1DC004D5A54 /* BYCursorLabel.m in Sources */,
 				A38E2E4817836C4400E1EBBC /* BYPullScrollView.m in Sources */,
 				A3C2AB401790B41A0070C53E /* UIImage+Adjustments.m in Sources */,

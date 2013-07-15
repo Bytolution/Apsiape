@@ -1,5 +1,5 @@
 //
-//  BYMainViewController.h
+//  BYCollectionViewController.h
 //  Apsiape
 //
 //  Created by Dario Lass on 03.03.13.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface BYMainViewController : UIViewController 
+@interface BYCollectionViewController : UIViewController 
 
 
 @end

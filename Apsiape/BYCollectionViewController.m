@@ -1,5 +1,5 @@
 //
-//  BYMainViewController.m
+//  BYCollectionViewController.m
 //  Apsiape
 //
 //  Created by Dario Lass on 03.03.13.
@@ -7,7 +7,7 @@
 //
 
 #import <CoreData/CoreData.h>
-#import "BYMainViewController.h"
+#import "BYCollectionViewController.h"
 #import "BYCollectionViewCell.h"
 #import "BYStorage.h"
 #import "BYContainerViewController.h"
@@ -15,7 +15,7 @@
 #import "Expense.h"
 #import "UIImage+Adjustments.h"
 
-@interface BYMainViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate>
+@interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate>
 
 @property (nonatomic, strong) NSMutableArray *collectionViewData;
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -29,7 +29,7 @@
 
 #define REFRESH_HEADER_HEIGHT 50
 
-@implementation BYMainViewController
+@implementation BYCollectionViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

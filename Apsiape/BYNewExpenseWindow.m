@@ -1,5 +1,5 @@
 //
-//  BYNewExpenseViewController.m
+//  BYNewExpenseWindow.m
 //  Apsiape
 //
 //  Created by Dario Lass on 28.05.13.
@@ -7,7 +7,7 @@
 //
 #import <QuartzCore/QuartzCore.h>
 #import "BYContainerViewController.h"
-#import "BYNewExpenseViewController.h"
+#import "BYNewExpenseWindow.h"
 #import "UIImage+Adjustments.h"
 #import "BYQuickShotView.h"
 #import "BYExpenseKeyboard.h"
@@ -16,7 +16,7 @@
 #import "BYCursorLabel.h"
 #import "BYPullScrollView.h"
 
-@interface BYNewExpenseViewController () <BYQuickShotViewDelegate, BYExpenseKeyboardDelegate, BYPullScrollViewDelegate>
+@interface BYNewExpenseWindow () <BYQuickShotViewDelegate, BYExpenseKeyboardDelegate, BYPullScrollViewDelegate>
 
 @property (nonatomic, strong) UINavigationBar *headerBar;
 @property (nonatomic, strong) BYQuickShotView *quickShotView;
@@ -28,25 +28,24 @@
 
 @end
 
-@implementation BYNewExpenseViewController
+@implementation BYNewExpenseWindow
 
 #define KEYBOARD_HEIGHT 240
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)layoutSubviews
 {
-    [super viewWillAppear:animated];
-    
-    self.view.backgroundColor = [UIColor blackColor];
+    self.backgroundColor = [UIColor blackColor];
         
-    BYPullScrollView *pullScrollView = [[BYPullScrollView alloc]initWithFrame:self.view.bounds];
+    BYPullScrollView *pullScrollView = [[BYPullScrollView alloc]initWithFrame:self.bounds];
     pullScrollView.pullScrollViewDelegate = self;
     
-    [self.view addSubview:pullScrollView];
+    [self addSubview:pullScrollView];
     
     self.expenseValueRawString = [[NSMutableString alloc]initWithCapacity:30];
     
-    BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - KEYBOARD_HEIGHT, 320, KEYBOARD_HEIGHT)];
+    BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.frame.size.height - KEYBOARD_HEIGHT, 320, KEYBOARD_HEIGHT)];
     self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 10, 300, 80)];
+    self.expenseValueLabel.backgroundColor = [UIColor clearColor];
     [pullScrollView.childScrollView addSubview:self.expenseValueLabel];
     keyboard.delegate = self;
     [pullScrollView.childScrollView addSubview:keyboard];
@@ -59,6 +58,7 @@
     [pullScrollView.childScrollView addSubview:self.quickShotView];
     
     rect.origin.x = (pullScrollView.frame.size.width * 2);
+
 }
 
 #pragma mark Text Input Handling
@@ -102,9 +102,9 @@
 
 #pragma mark Cleanup methods
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void)resignKeyWindow
 {
-    [super viewWillDisappear:animated];
+    [super resignKeyWindow];
     if (self.expenseValueRawString.length != 0) {
         [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString
                                                         numberValue:self.expenseValueDecimalNumber
