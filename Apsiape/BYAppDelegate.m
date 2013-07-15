@@ -23,6 +23,10 @@
     [self.window makeKeyAndVisible];
     return YES;
 }
+- (void)application:(UIApplication *)application willChangeStatusBarFrame:(CGRect)newStatusBarFrame
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {

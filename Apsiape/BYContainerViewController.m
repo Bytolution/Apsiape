@@ -64,8 +64,9 @@
 
 - (void)displayExpenseCreationViewController
 {
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     if (!self.expenseVC) self.expenseVC = [[BYNewExpenseViewController alloc]initWithNibName:nil bundle:nil];
-    self.expenseVC.view.frame = self.view.bounds;
+    self.expenseVC.view.frame = [[UIScreen mainScreen]applicationFrame];
     self.expenseVC.view.alpha = 0;
     [self.view addSubview:self.expenseVC.view];
     [UIView animateWithDuration:0.5 animations:^{
@@ -80,8 +81,8 @@
     } completion:^(BOOL finished) {
         [self.expenseVC.view removeFromSuperview];
         self.expenseVC = nil;
+        [[UIApplication sharedApplication] setStatusBarHidden:YES];
     }];
-    
 }
 
 - (void)splitAnimationOverlayViewDidFinishOpeningAnimation
@@ -92,5 +93,6 @@
 {
     
 }
+
 
 @end
