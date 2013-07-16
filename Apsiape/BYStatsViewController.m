@@ -7,6 +7,7 @@
 //
 
 #import "BYStatsViewController.h"
+#import "BYStatsView.h"
 
 @interface BYStatsViewController ()
 
@@ -26,7 +27,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    [self.view addSubview:[[BYStatsView alloc] initWithFrame:self.view.bounds]];
 }
 
 - (void)didReceiveMemoryWarning

@@ -20,8 +20,8 @@
 
 + (BYContainerViewController*)sharedContainerViewController;
 
-- (void)displayExpenseCreationViewController;
-- (void)dismissExpenseCreationViewController;
+- (void)displayExpenseCreationWindow;
+- (void)dismissExpenseCreationWindow;
 
 //- (void)displayMapView;
 //- (void)dismissMapView;

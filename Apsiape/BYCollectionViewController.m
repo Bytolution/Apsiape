@@ -145,7 +145,7 @@
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (scrollView.contentOffset.y < - PULL_WIDTH && scrollView.contentOffset.y < 0) {
-        [[BYContainerViewController sharedContainerViewController] displayExpenseCreationViewController];
+        [[BYContainerViewController sharedContainerViewController] displayExpenseCreationWindow];
     }
 }
 

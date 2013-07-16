@@ -133,7 +133,7 @@
 
 - (void)pullScrollView:(UIScrollView *)pullScrollView didDetectPullingAtEdge:(BYPullScrollViewEdgeType)edge
 {
-    [[BYContainerViewController sharedContainerViewController] dismissExpenseCreationViewController];
+    [[BYContainerViewController sharedContainerViewController] dismissExpenseCreationWindow];
 }
 - (void)pullScrollView:(UIScrollView *)pullScrollView didScrollToPage:(NSInteger)page
 {

@@ -10,6 +10,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import <MapKit/MapKit.h>
 #import "BYNewExpenseWindow.h"
+#import "BYStatsViewController.h"
+#import "BYStatsView.h"
 
 @interface BYContainerViewController () 
 
@@ -62,7 +64,7 @@
     self.navBar.tintColor = [UIColor colorWithWhite:0.8 alpha:1];
 }
 
-- (void)displayExpenseCreationViewController
+- (void)displayExpenseCreationWindow
 {
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     if (!self.expenseWindow) self.expenseWindow = [[BYNewExpenseWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
@@ -74,7 +76,7 @@
     }];
 }
 
-- (void)dismissExpenseCreationViewController
+- (void)dismissExpenseCreationWindow
 {
     [UIView animateWithDuration:0.5 animations:^{
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
@@ -83,6 +85,30 @@
     } completion:^(BOOL finished) {
         self.expenseWindow = nil;
     }];
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    if (fromInterfaceOrientation == UIInterfaceOrientationPortrait) {
+//        BYStatsViewController *statsController = [[BYStatsViewController alloc]initWithNibName:nil bundle:nil];
+//        statsController.view.frame = self.view.bounds;
+//        [self.view addSubview:statsController.view];
+        self.backgroundWindow = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+        self.backgroundWindow.backgroundColor = [UIColor whiteColor];
+        self.backgroundWindow.windowLevel = UIWindowLevelAlert;
+        [self.backgroundWindow addSubview:[[BYStatsView alloc] initWithFrame:self.backgroundWindow.bounds]];
+        [self.backgroundWindow makeKeyAndVisible];
+    }
+}
+- (void)didRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    
+    
 }
 
 @end

@@ -122,7 +122,6 @@
         newExpense.stringValue = stringValue;
         newExpense.numberValue = numberValue;
         newExpense.location = [NSKeyedArchiver archivedDataWithRootObject:self.location];
-        [self saveDocument];
     }];
     dispatch_queue_t saveQueue = dispatch_queue_create("User data fetcher", NULL);
     dispatch_async(saveQueue, ^{
@@ -137,6 +136,9 @@
         [screenResolutionMonochromeImageData writeToFile:screenResolutionMonochromeImagePath atomically:NO];
         NSData *thumbnailResolutionMonochromeImageData = UIImageJPEGRepresentation([[fullResImg cropWithSquareRatioAndResolution:160] monochromeImage], 1.0);
         [thumbnailResolutionMonochromeImageData writeToFile:thumbnailResolutionMonochromeImagePath atomically:NO];
+        [self.managedObjectContext performBlock:^{
+            [self saveDocument];
+        }];
     });
 }
 
