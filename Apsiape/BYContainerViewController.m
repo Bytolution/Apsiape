@@ -95,19 +95,16 @@
 {
     NSLog(@"%s", __PRETTY_FUNCTION__);
     if (fromInterfaceOrientation == UIInterfaceOrientationPortrait) {
-//        BYStatsViewController *statsController = [[BYStatsViewController alloc]initWithNibName:nil bundle:nil];
-//        statsController.view.frame = self.view.bounds;
-//        [self.view addSubview:statsController.view];
-        self.backgroundWindow = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
-        self.backgroundWindow.backgroundColor = [UIColor whiteColor];
-        self.backgroundWindow.windowLevel = UIWindowLevelAlert;
-        [self.backgroundWindow addSubview:[[BYStatsView alloc] initWithFrame:self.backgroundWindow.bounds]];
-        [self.backgroundWindow makeKeyAndVisible];
+//        self.backgroundWindow = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+//        self.backgroundWindow.backgroundColor = [UIColor whiteColor];
+//        self.backgroundWindow.windowLevel = UIWindowLevelAlert;
+//        [self.backgroundWindow addSubview:[[BYStatsView alloc] initWithFrame:self.backgroundWindow.bounds]];
+//        [self.backgroundWindow makeKeyAndVisible];
+        [self.view addSubview:[[BYStatsView alloc]initWithFrame:self.view.bounds]];
     }
 }
 - (void)didRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    
     
 }
 

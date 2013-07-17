@@ -74,6 +74,8 @@
         self.collectionView.backgroundColor = [UIColor whiteColor];
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
         [self.view addSubview:self.collectionView];
+        
+        self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     }
 }
 

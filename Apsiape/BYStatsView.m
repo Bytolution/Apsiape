@@ -29,35 +29,37 @@
 
 - (void)didMoveToSuperview
 {
+    self.backgroundColor = [UIColor whiteColor];
     self.beamContainer = [CALayer layer];
     CGRect frame = CGRectInset(self.bounds, 20, 20);
     self.beamContainer.frame = frame;
-    self.beamContainer.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1].CGColor;
+    self.beamContainer.backgroundColor = [UIColor colorWithWhite:0.98 alpha:1].CGColor;
     float maxValue = [[self.values valueForKeyPath:@"@max.floatValue"] floatValue];
     for (int i = 0; i < self.values.count; i++) {
         CALayer *beam = [CALayer layer];
         CGFloat beamHeight = ([self.values[i] floatValue] * frame.size.height) / maxValue;
-        CGRect beamRect = CGRectZero;
-        beamRect.origin.x = frame.size.width * ((float)i/(float)self.values.count);
-        beamRect.origin.y = 0;
-        beamRect.size.width = frame.size.width / (float)self.values.count;
-        beamRect.size.height = 5;
-        beam.frame = CGRectInset(beamRect, 5, 0);
-        beam.backgroundColor = [UIColor blueColor].CGColor;
-        beam.anchorPoint = CGPointMake(beam.anchorPoint.x, 0);
         
-        CGRect newBounds = CGRectMake(0, 0, beam.frame.size.width, beamHeight);
-        
+        beam.backgroundColor = [UIColor colorWithRed:0.5 green:0.6 blue:1 alpha:1].CGColor;
+        beam.anchorPoint = CGPointMake(0, 0);
+        beam.position = CGPointMake(frame.size.width * ((float)i/(float)self.values.count), 0);
+        CGRect endBounds = CGRectMake(0, 0, frame.size.width /(float)self.values.count, beamHeight);
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"bounds"];
-        animation.fromValue = [NSValue valueWithCGRect:beam.bounds];
-        animation.toValue = [NSValue valueWithCGRect:newBounds];
-        animation.duration = 1;
-        animation.beginTime = CACurrentMediaTime() + ((float)i * 0.1);
+        animation.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, frame.size.width /(float)self.values.count, 5)];
+        animation.toValue = [NSValue valueWithCGRect:endBounds];
+        animation.duration = .5;
+        animation.beginTime = CACurrentMediaTime() + ((float)i * 2);
         [beam addAnimation:animation forKey:@"beamAnimation"];
-        beam.bounds = newBounds;
+        
         [self.beamContainer addSublayer:beam];
+        beam.bounds = endBounds;
     }
     [self.layer addSublayer:self.beamContainer];
 }
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    
+}
+
 
 @end
