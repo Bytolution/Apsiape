@@ -48,6 +48,7 @@
         CGRect toBounds = CGRectMake(0, 0, baseFrame.size.width, beamHeight);
         
         beam.backgroundColor = [UIColor colorWithRed:0.5 green:0.6 blue:1 alpha:1].CGColor;
+        beam.cornerRadius = 3;
         beam.anchorPoint = CGPointMake(0, 0);
         beam.position = baseFrame.origin;
         beam.bounds = fromBounds;
