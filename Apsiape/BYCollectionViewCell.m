@@ -68,10 +68,16 @@
         self.panIsElastic = YES;
         self.panElasticityStartingPoint = 80;
         
+        CALayer *lightBorder = [CALayer layer];
+        lightBorder.frame = self.bounds;
+        lightBorder.borderColor = [UIColor colorWithWhite:0.9 alpha:1].CGColor;
+        lightBorder.borderWidth = 1;
+        [self.layer addSublayer:lightBorder];
+        
         self.borderLayer = [CALayer layer];
         self.borderLayer.borderWidth = 10;
         self.borderLayer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
-        [self.contentView.layer addSublayer:self.borderLayer];
+        [self.layer addSublayer:self.borderLayer];
     }
     return self;
 }
@@ -165,10 +171,12 @@
     rect.size.width -= self.frame.size.height;
     self.label.frame = CGRectInset(rect, 15, 15);
     self.imageView.frame = CGRectMake(0, 0, self.frame.size.height, self.frame.size.height);
-    self.imageView.frame = CGRectInset(self.imageView.frame, 6, 6);
+    self.imageView.frame = CGRectInset(self.imageView.frame, CELL_IMAGE_PADDING, CELL_IMAGE_PADDING);
     self.imageView.layer.cornerRadius = 4;
     self.borderLayer.frame = CGRectMake(0, self.contentView.frame.size.height - 1, self.contentView.frame.size.width, 1);
     self.rightSideActionButton.frame = CGRectMake(self.frame.size.width - THRESHOLD, 0, THRESHOLD, self.frame.size.height);
+    
+    
 }
 
 @end

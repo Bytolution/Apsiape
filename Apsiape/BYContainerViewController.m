@@ -28,7 +28,7 @@
 
 #pragma mark - initial
 
-#define HEADER_HEIGHT 70
+#define HEADER_HEIGHT 0
 
 + (BYContainerViewController *)sharedContainerViewController {
     static BYContainerViewController *sharedInstance = nil;
@@ -65,7 +65,6 @@
 
 - (void)displayExpenseCreationWindow
 {
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     if (!self.expenseWindow) self.expenseWindow = [[BYNewExpenseWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
     self.expenseWindow.alpha = 0;
     self.expenseWindow.windowLevel = UIWindowLevelAlert;
@@ -77,7 +76,6 @@
 - (void)dismissExpenseCreationWindow
 {
     [UIView animateWithDuration:0.5 animations:^{
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
         [(UIWindow*)self.view.superview makeKeyWindow];
         self.expenseWindow.alpha = 0.0;
     } completion:^(BOOL finished) {

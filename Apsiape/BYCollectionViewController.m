@@ -14,6 +14,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "Expense.h"
 #import "UIImage+Adjustments.h"
+#import "InterfaceDefinitions.h"
 
 @interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate>
 
@@ -27,7 +28,6 @@
 
 @end
 
-#define REFRESH_HEADER_HEIGHT 50
 
 @implementation BYCollectionViewController
 
@@ -68,26 +68,21 @@
     [super viewWillAppear:animated];
     if (!self.collectionView) {
         self.flowLayout = [[UICollectionViewFlowLayout alloc]init];
-        self.flowLayout.itemSize = CGSizeMake(self.view.frame.size.width, 100);
+        self.flowLayout.itemSize = CGSizeMake(self.view.frame.size.width - (CELL_PADDING*2), 100);
         self.flowLayout.minimumInteritemSpacing = 0;
-        self.flowLayout.minimumLineSpacing = 0;
+        self.flowLayout.minimumLineSpacing = ROW_PADDING;
         self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:self.flowLayout];
         self.collectionView.alwaysBounceVertical = YES;
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
         self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleBlack;
-        self.collectionView.backgroundColor = [UIColor whiteColor];
+        self.collectionView.backgroundColor = [UIColor colorWithWhite:0.98 alpha:1];
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
         self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self.view addSubview:self.collectionView];
         
         self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     }
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-//    self.flowLayout.itemSize = CGSizeMake(320, 320);
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -146,6 +141,11 @@
     
     [self.collectionViewData removeObjectsAtIndexes:indexSetForDeletion];
     [self.collectionView deleteItemsAtIndexPaths:indexesForDeletion];
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(25, 0, 5, 0);
 }
 
 #define PULL_WIDTH 80

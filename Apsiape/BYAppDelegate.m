@@ -18,6 +18,7 @@
     // Override point for customization after application launch.
     [BYStorage sharedStorage];
     self.containerViewController = [BYContainerViewController sharedContainerViewController];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     self.window.rootViewController = self.containerViewController;
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
