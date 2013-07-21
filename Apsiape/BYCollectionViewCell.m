@@ -78,6 +78,8 @@
         self.borderLayer.borderWidth = 10;
         self.borderLayer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
         [self.layer addSublayer:self.borderLayer];
+        
+        self.layer.masksToBounds = YES;
     }
     return self;
 }
@@ -175,8 +177,6 @@
     self.imageView.layer.cornerRadius = 4;
     self.borderLayer.frame = CGRectMake(0, self.contentView.frame.size.height - 1, self.contentView.frame.size.width, 1);
     self.rightSideActionButton.frame = CGRectMake(self.frame.size.width - THRESHOLD, 0, THRESHOLD, self.frame.size.height);
-    
-    
 }
 
 @end

@@ -40,7 +40,8 @@
     self.childScrollView.pagingEnabled = YES;
     self.childScrollView.contentSize = CGSizeMake(self.frame.size.width * NUMBER_OF_PAGES, self.frame.size.height);
     self.childScrollView.showsHorizontalScrollIndicator = NO;
-    self.alwaysBounceVertical = YES;
+    //set this back to YES to allow the pul gesture on all edges
+    self.alwaysBounceVertical = NO;
     [self addSubview:self.childScrollView];
     self.layer.cornerRadius = 10;
     self.layer.masksToBounds = YES;
