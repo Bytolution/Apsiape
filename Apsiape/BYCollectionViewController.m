@@ -41,6 +41,11 @@
     return self;
 }
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self.flowLayout invalidateLayout];
+}
+
 - (void)updateCollectionViewData
 {
     if (!self.collectionViewData) self.collectionViewData = [[NSMutableArray alloc]init];
@@ -63,7 +68,7 @@
     [super viewWillAppear:animated];
     if (!self.collectionView) {
         self.flowLayout = [[UICollectionViewFlowLayout alloc]init];
-        self.flowLayout.itemSize = CGSizeMake(320, 100);
+        self.flowLayout.itemSize = CGSizeMake(self.view.frame.size.width, 100);
         self.flowLayout.minimumInteritemSpacing = 0;
         self.flowLayout.minimumLineSpacing = 0;
         self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:self.flowLayout];
@@ -73,6 +78,7 @@
         self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleBlack;
         self.collectionView.backgroundColor = [UIColor whiteColor];
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
+        self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self.view addSubview:self.collectionView];
         
         self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;

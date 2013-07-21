@@ -26,10 +26,9 @@
 
 @implementation BYContainerViewController 
 
-#define HEADER_HEIGHT 50
-#define FOOTER_HEIGHT 40
-#define SHADOW_HEIGHT 30
-#define MAP_HEIGHT 280
+#pragma mark - initial
+
+#define HEADER_HEIGHT 70
 
 + (BYContainerViewController *)sharedContainerViewController {
     static BYContainerViewController *sharedInstance = nil;
@@ -41,17 +40,15 @@
     
     return sharedInstance;
 }
-
 - (BYCollectionViewController *)mainViewController {
     if (!_mainViewController) _mainViewController = [[BYCollectionViewController alloc]init];
     return _mainViewController; 
 }
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
         
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     [self addChildViewController:self.mainViewController];
     self.mainViewController.view.frame = CGRectMake(0, HEADER_HEIGHT, self.view.bounds.size.width, self.view.bounds.size.height - (HEADER_HEIGHT/* + FOOTER_HEIGHT*/));
@@ -64,6 +61,8 @@
     self.navBar.tintColor = [UIColor colorWithWhite:0.8 alpha:1];
 }
 
+#pragma mark - handling of window (dis-)appearing
+
 - (void)displayExpenseCreationWindow
 {
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
@@ -75,7 +74,6 @@
         self.expenseWindow.alpha = 1;
     }];
 }
-
 - (void)dismissExpenseCreationWindow
 {
     [UIView animateWithDuration:0.5 animations:^{
@@ -87,25 +85,21 @@
     }];
 }
 
-- (BOOL)shouldAutorotate
+#pragma mark - Stats display handling
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    return YES;
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
+        [UIView animateWithDuration:duration animations:^{
+            self.mainViewController.view.frame = CGRectMake(0, 50, 568, 250);
+            self.mainViewController.view.alpha = 0;
+            self.navBar.alpha = 0;
+        }];
+    }
 }
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    if (fromInterfaceOrientation == UIInterfaceOrientationPortrait) {
-//        self.backgroundWindow = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
-//        self.backgroundWindow.backgroundColor = [UIColor whiteColor];
-//        self.backgroundWindow.windowLevel = UIWindowLevelAlert;
-//        [self.backgroundWindow addSubview:[[BYStatsView alloc] initWithFrame:self.backgroundWindow.bounds]];
-//        [self.backgroundWindow makeKeyAndVisible];
-        [self.view addSubview:[[BYStatsView alloc]initWithFrame:self.view.bounds]];
-    }
-}
-- (void)didRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    
+    [self.view insertSubview:[[BYStatsView alloc]initWithFrame:self.view.bounds] belowSubview:self.mainViewController.view];
 }
 
 @end
