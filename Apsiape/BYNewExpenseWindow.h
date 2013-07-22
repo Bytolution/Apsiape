@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class BYNewExpenseWindow;
+
+@protocol BYNewExpenseWindowDelegate <NSObject>
+
+- (void)windowShouldDisappear:(BYNewExpenseWindow*)window;
+
+@end
+
 @interface BYNewExpenseWindow : UIWindow
+
+@property (nonatomic, strong) id <BYNewExpenseWindowDelegate> windowDelegate;
 
 @end

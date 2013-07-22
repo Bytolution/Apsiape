@@ -46,11 +46,8 @@
     
     // Clean up
     CGContextRelease(bitmap);
-    CFRelease(bitmap);
     CGImageRelease(newImageRef);
-    CFRelease(newImageRef);
     CGImageRelease(imageRef);
-    CFRelease(imageRef);
     
     return newImage;
 }

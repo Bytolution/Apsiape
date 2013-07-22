@@ -130,12 +130,16 @@
         fullResolutionImageData = nil;
         NSData *screenResolutionImageData = UIImageJPEGRepresentation([fullResImg cropWithSquareRatioAndResolution:640], 1.0);
         [screenResolutionImageData writeToFile:screenResolutionImagePath atomically:NO];
+        screenResolutionImageData = nil;
         NSData *thumbnailResolutionImageData = UIImageJPEGRepresentation([fullResImg cropWithSquareRatioAndResolution:160], 1.0);
         [thumbnailResolutionImageData writeToFile:thumbnailResolutionImagePath atomically:NO];
+        thumbnailResolutionImageData = nil;
         NSData *screenResolutionMonochromeImageData = UIImageJPEGRepresentation([[fullResImg cropWithSquareRatioAndResolution:640] monochromeImage], 1.0);
         [screenResolutionMonochromeImageData writeToFile:screenResolutionMonochromeImagePath atomically:NO];
+        screenResolutionMonochromeImageData = nil;
         NSData *thumbnailResolutionMonochromeImageData = UIImageJPEGRepresentation([[fullResImg cropWithSquareRatioAndResolution:160] monochromeImage], 1.0);
         [thumbnailResolutionMonochromeImageData writeToFile:thumbnailResolutionMonochromeImagePath atomically:NO];
+        thumbnailResolutionMonochromeImageData = nil;
         [self.managedObjectContext performBlock:^{
             [self saveDocument];
         }];

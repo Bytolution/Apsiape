@@ -10,18 +10,18 @@
 #import "BYCollectionViewController.h"
 #import "BYCollectionViewCell.h"
 #import "BYStorage.h"
-#import <QuartzCore/QuartzCore.h>
 #import "Expense.h"
-#import "UIImage+Adjustments.h"
 #import "InterfaceDefinitions.h"
+#import "BYNewExpenseWindow.h"
 
-@interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate>
+@interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate, BYNewExpenseWindowDelegate>
 
 @property (nonatomic, strong) NSMutableArray *collectionViewData;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeGesture;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
+@property (nonatomic, strong) BYNewExpenseWindow *expenseWindow;
 
 - (void)updateCollectionViewData;
 
@@ -152,8 +152,25 @@
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (scrollView.contentOffset.y < - PULL_WIDTH && scrollView.contentOffset.y < 0) {
-
+        if (!self.expenseWindow) self.expenseWindow = [[BYNewExpenseWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
+        self.expenseWindow.alpha = 0;
+        self.expenseWindow.windowLevel = UIWindowLevelAlert;
+        self.expenseWindow.windowDelegate = self;
+        [self.expenseWindow makeKeyAndVisible];
+        [UIView animateWithDuration:0.5 animations:^{
+            self.expenseWindow.alpha = 1;
+        }];
     }
+}
+
+- (void)windowShouldDisappear:(BYNewExpenseWindow *)window
+{
+    [UIView animateWithDuration:0.5 animations:^{
+        [(UIWindow*)self.view.superview makeKeyWindow];
+        self.expenseWindow.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        self.expenseWindow = nil;
+    }];
 }
 
 @end

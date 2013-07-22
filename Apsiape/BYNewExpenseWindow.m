@@ -14,10 +14,10 @@
 #import "BYStorage.h"
 #import "BYCursorLabel.h"
 #import "BYPullScrollView.h"
+#import "BYCollectionViewController.h"
 
 @interface BYNewExpenseWindow () <BYQuickShotViewDelegate, BYExpenseKeyboardDelegate, BYPullScrollViewDelegate>
 
-@property (nonatomic, strong) UINavigationBar *headerBar;
 @property (nonatomic, strong) BYQuickShotView *quickShotView;
 @property (nonatomic, strong) NSMutableString *expenseValueRawString;
 @property (nonatomic, strong) BYCursorLabel *expenseValueLabel;
@@ -104,12 +104,14 @@
 - (void)resignKeyWindow
 {
     [super resignKeyWindow];
+    NSLog(@"%s", __PRETTY_FUNCTION__);
     if (self.expenseValueRawString.length != 0) {
         [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString
                                                         numberValue:self.expenseValueDecimalNumber
                                                        fullResImage:self.quickShotView.fullResCapturedImage
                                                          completion:nil];
     }
+    [self.quickShotView willMoveToSuperview:nil];
     self.expenseValueRawString = nil;
     self.quickShotView = nil;
 }
@@ -118,7 +120,7 @@
 
 - (void)didTakeSnapshot:(UIImage *)img
 {
-    
+    img = nil;
 }
 - (void)didDiscardLastImage
 {
@@ -133,7 +135,7 @@
 
 - (void)pullScrollView:(UIScrollView *)pullScrollView didDetectPullingAtEdge:(BYPullScrollViewEdgeType)edge
 {
-    
+    [self.windowDelegate windowShouldDisappear:self];
 }
 - (void)pullScrollView:(UIScrollView *)pullScrollView didScrollToPage:(NSInteger)page
 {
