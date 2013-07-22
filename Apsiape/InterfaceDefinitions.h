@@ -15,5 +15,7 @@
 #define CELL_IMAGE_PADDING 6
 #define CELL_PADDING 8
 #define ROW_PADDING 8
+#define CELL_HEIGHT 100
+
 
 #endif

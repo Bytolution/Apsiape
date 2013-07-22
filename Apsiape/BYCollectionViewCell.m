@@ -24,6 +24,7 @@
 @property (nonatomic, readwrite) CGFloat lastOffset;
 @property (nonatomic, strong) CALayer *borderLayer;
 @property (nonatomic, strong) UIButton *rightSideActionButton;
+@property (nonatomic, strong) UILabel *subtitleLabel;
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)panGestureRecognizer;
 - (void)animateCellContentForState:(BYCollectionViewCellState)state;
@@ -32,6 +33,7 @@
 @end
 
 @implementation BYCollectionViewCell
+
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -78,6 +80,14 @@
         self.borderLayer.borderWidth = 10;
         self.borderLayer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
         [self.layer addSublayer:self.borderLayer];
+        
+        self.subtitleLabel = [[UILabel alloc]init];
+        self.subtitleLabel.text = @"Create new";
+        self.subtitleLabel.textColor = [UIColor darkGrayColor];
+        self.subtitleLabel.backgroundColor = [UIColor clearColor];
+        self.subtitleLabel.font = [UIFont fontWithName:@"Helvetica-Light" size:14];
+        self.subtitleLabel.textAlignment = NSTextAlignmentRight;
+        [self.contentView addSubview:self.subtitleLabel];
         
         self.layer.masksToBounds = YES;
     }
@@ -156,6 +166,11 @@
     _image = image;
     self.imageView.image = _image;
 }
+- (void)setSubtitle:(NSString *)subtitle
+{
+    _subtitle = subtitle;
+    self.subtitleLabel.text = _subtitle;
+}
 
 - (void)prepareLayout
 {
@@ -171,15 +186,18 @@
     rect.size.height = self.contentView.bounds.size.height;
     rect.origin.x = self.frame.size.height;
     rect.size.width -= self.frame.size.height;
+    rect.size.height -= 20;
     self.label.frame = CGRectInset(rect, 15, 15);
     self.imageView.frame = CGRectMake(0, 0, self.frame.size.height, self.frame.size.height);
     self.imageView.frame = CGRectInset(self.imageView.frame, CELL_IMAGE_PADDING, CELL_IMAGE_PADDING);
     self.imageView.layer.cornerRadius = 4;
     self.borderLayer.frame = CGRectMake(0, self.contentView.frame.size.height - 1, self.contentView.frame.size.width, 1);
+    rect.size.height = 20;
+    rect.origin.y = 70;
+    rect.size.width -= 10;
+    self.subtitleLabel.frame = rect;
     self.rightSideActionButton.frame = CGRectMake(self.frame.size.width - THRESHOLD, 0, THRESHOLD, self.frame.size.height);
 }
 
 @end
-
-
 

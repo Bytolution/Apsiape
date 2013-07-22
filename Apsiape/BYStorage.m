@@ -10,6 +10,7 @@
 #import "BYStorage.h"
 #import "UIImage+Adjustments.h"
 #import "Expense.h"
+#import <AddressBookUI/AddressBookUI.h>
 
 
 @interface BYStorage () <CLLocationManagerDelegate>
@@ -57,7 +58,6 @@
         NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
         url = [url URLByAppendingPathComponent:@"appStorage"];
         self.document = [[UIManagedDocument alloc] initWithFileURL:url];
-        
         if (![[NSFileManager defaultManager]fileExistsAtPath:[self.document.fileURL path]]) {
             [self.document saveToURL:self.document.fileURL forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
                 NSLog(@"File got saved");
@@ -143,6 +143,19 @@
         [self.managedObjectContext performBlock:^{
             [self saveDocument];
         }];
+        dispatch_queue_t saveQueue = dispatch_get_main_queue();
+        dispatch_async(saveQueue, ^{
+            CLGeocoder *geocoder = [[CLGeocoder alloc]init];
+            [geocoder reverseGeocodeLocation:self.location completionHandler:^(NSArray *placemarks, NSError *error) {
+                if ([placemarks objectAtIndex:0]) {
+                    CLPlacemark *placemark = placemarks[0];
+                    newExpense.locationString = placemark.addressDictionary[@"City"];
+                    [self.managedObjectContext performBlock:^{
+                        [self saveDocument];
+                    }];
+        }
+            }];
+        });
     });
 }
 

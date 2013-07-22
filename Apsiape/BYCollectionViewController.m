@@ -68,7 +68,7 @@
     [super viewWillAppear:animated];
     if (!self.collectionView) {
         self.flowLayout = [[UICollectionViewFlowLayout alloc]init];
-        self.flowLayout.itemSize = CGSizeMake(self.view.frame.size.width - (CELL_PADDING*2), 100);
+        self.flowLayout.itemSize = CGSizeMake(self.view.frame.size.width - (CELL_PADDING*2), CELL_HEIGHT);
         self.flowLayout.minimumInteritemSpacing = 0;
         self.flowLayout.minimumLineSpacing = ROW_PADDING;
         self.collectionView = [[UICollectionView alloc]initWithFrame:self.view.bounds collectionViewLayout:self.flowLayout];
@@ -109,6 +109,7 @@
     cell.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:expense.thumbnailResolutionMonochromeImagePath]];
     cell.delegate = self;
     cell.cellState = [[self.collectionViewData[indexPath.row] objectForKey:@"cellState"] intValue];
+    cell.subtitle = expense.locationString ? expense.locationString : @"--";
     [cell prepareLayout];
     return cell;
 }
