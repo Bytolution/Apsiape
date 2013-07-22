@@ -10,7 +10,6 @@
 #import "BYCollectionViewController.h"
 #import "BYCollectionViewCell.h"
 #import "BYStorage.h"
-#import "BYContainerViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "Expense.h"
 #import "UIImage+Adjustments.h"
@@ -153,7 +152,7 @@
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (scrollView.contentOffset.y < - PULL_WIDTH && scrollView.contentOffset.y < 0) {
-        [[BYContainerViewController sharedContainerViewController] displayExpenseCreationWindow];
+
     }
 }
 

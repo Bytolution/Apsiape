@@ -7,7 +7,7 @@
 //
 
 #import "BYAppDelegate.h"
-#import "BYContainerViewController.h"
+#import "BYCollectionViewController.h"
 #import "BYStorage.h"
 
 @implementation BYAppDelegate
@@ -17,9 +17,8 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     [BYStorage sharedStorage];
-    self.containerViewController = [BYContainerViewController sharedContainerViewController];
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    self.window.rootViewController = self.containerViewController;
+    self.window.rootViewController = [[BYCollectionViewController alloc]initWithNibName:nil bundle:nil];
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
     return YES;

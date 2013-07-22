@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
 #import <QuartzCore/QuartzCore.h>
-#import "BYContainerViewController.h"
 #import "BYNewExpenseWindow.h"
 #import "UIImage+Adjustments.h"
 #import "BYQuickShotView.h"
@@ -112,6 +111,7 @@
                                                          completion:nil];
     }
     self.expenseValueRawString = nil;
+    self.quickShotView = nil;
 }
 
 #pragma mark Delegation (QuickShotView)
@@ -133,7 +133,7 @@
 
 - (void)pullScrollView:(UIScrollView *)pullScrollView didDetectPullingAtEdge:(BYPullScrollViewEdgeType)edge
 {
-    [[BYContainerViewController sharedContainerViewController] dismissExpenseCreationWindow];
+    
 }
 - (void)pullScrollView:(UIScrollView *)pullScrollView didScrollToPage:(NSInteger)page
 {
