@@ -32,7 +32,6 @@
 		A39162B31703A5AD00B3F9FF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39162B21703A5AD00B3F9FF /* AVFoundation.framework */; };
 		A39162B51703A75700B3F9FF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39162B41703A75700B3F9FF /* CoreMedia.framework */; };
 		A39C59BE16F6165800A68679 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39C59BD16F6165800A68679 /* QuartzCore.framework */; };
-		A3B93AFF179CBBE800205606 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3B93AFE179CBBE800205606 /* CFNetwork.framework */; };
 		A3C2AB421790BCEE0070C53E /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C2AB411790BCEE0070C53E /* CoreImage.framework */; };
 		A3D60C78177FA1DC004D5A54 /* BYCursorLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */; };
 		A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DAA96416F778CC00C22671 /* BYStorage.m */; };
@@ -81,7 +80,8 @@
 		A39162B21703A5AD00B3F9FF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		A39162B41703A75700B3F9FF /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		A39C59BD16F6165800A68679 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		A3B93AFE179CBBE800205606 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CFNetwork.framework; sourceTree = "<group>"; };
+		A3B9D0D1179DF9960052D79D /* BYLocalizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BYLocalizer.h; sourceTree = "<group>"; };
+		A3B9D0D2179DF9960052D79D /* BYLocalizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BYLocalizer.m; sourceTree = "<group>"; };
 		A3C2AB411790BCEE0070C53E /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		A3D60C76177FA1DC004D5A54 /* BYCursorLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCursorLabel.h; sourceTree = "<group>"; };
 		A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCursorLabel.m; sourceTree = "<group>"; };
@@ -102,7 +102,6 @@
 			files = (
 				A3E8A22D179DC28100F0822C /* AddressBookUI.framework in Frameworks */,
 				A3C2AB421790BCEE0070C53E /* CoreImage.framework in Frameworks */,
-				A3B93AFF179CBBE800205606 /* CFNetwork.framework in Frameworks */,
 				A35DDD7B1737F7C2003C287E /* MapKit.framework in Frameworks */,
 				A3598064170E42F700FA8872 /* CoreLocation.framework in Frameworks */,
 				A39162B51703A75700B3F9FF /* CoreMedia.framework in Frameworks */,
@@ -139,7 +138,6 @@
 			isa = PBXGroup;
 			children = (
 				A3E8A22C179DC28100F0822C /* AddressBookUI.framework */,
-				A3B93AFE179CBBE800205606 /* CFNetwork.framework */,
 				A3C2AB411790BCEE0070C53E /* CoreImage.framework */,
 				A35DDD7A1737F7C2003C287E /* MapKit.framework */,
 				A3598063170E42F700FA8872 /* CoreLocation.framework */,
@@ -218,6 +216,8 @@
 				A310311C16E3E37C00B163DC /* BYCollectionViewController.m */,
 				A337964E16E52A4C00C55116 /* BYCollectionViewCell.h */,
 				A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */,
+				A3B9D0D1179DF9960052D79D /* BYLocalizer.h */,
+				A3B9D0D2179DF9960052D79D /* BYLocalizer.m */,
 			);
 			name = CollectionView;
 			sourceTree = "<group>";
