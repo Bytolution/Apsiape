@@ -104,13 +104,6 @@
 - (void)resignKeyWindow
 {
     [super resignKeyWindow];
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    if (self.expenseValueRawString.length != 0) {
-        [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString
-                                                        numberValue:self.expenseValueDecimalNumber
-                                                       fullResImage:self.quickShotView.fullResCapturedImage
-                                                         completion:nil];
-    }
     [self.quickShotView willMoveToSuperview:nil];
     self.expenseValueRawString = nil;
     self.quickShotView = nil;
@@ -135,7 +128,15 @@
 
 - (void)pullScrollView:(UIScrollView *)pullScrollView didDetectPullingAtEdge:(BYPullScrollViewEdgeType)edge
 {
-    [self.windowDelegate windowShouldDisappear:self];
+    if (edge == BYPullScrollViewEdgeTypeBottom || edge == BYPullScrollViewEdgeTypeLeft) {
+        [self.windowDelegate windowShouldDisappear:self];
+    } else if ((edge == BYPullScrollViewEdgeTypeRight || edge == BYPullScrollViewEdgeTypeTop) && self.expenseValueRawString.length != 0){
+        [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString
+                                                        numberValue:self.expenseValueDecimalNumber
+                                                       fullResImage:self.quickShotView.fullResCapturedImage
+                                                         completion:nil];
+        [self.windowDelegate windowShouldDisappear:self];
+    }
 }
 - (void)pullScrollView:(UIScrollView *)pullScrollView didScrollToPage:(NSInteger)page
 {

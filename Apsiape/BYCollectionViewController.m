@@ -27,6 +27,7 @@
 
 @end
 
+#define PULL_WIDTH 80
 
 @implementation BYCollectionViewController
 
@@ -80,6 +81,17 @@
         self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self.view addSubview:self.collectionView];
         
+        UIView *topPullView = [[UIView alloc]initWithFrame:CGRectMake(0, -300, 320, 300)];
+        topPullView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:1];
+        UILabel *label = [UILabel new];
+        label.text = @"Create new";
+        label.frame = CGRectMake(0, -80, 320, 80);
+        label.textColor = [UIColor whiteColor];
+        label.backgroundColor = [UIColor clearColor];
+        label.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:26];
+        label.textAlignment = NSTextAlignmentCenter;
+        [self.collectionView addSubview:topPullView];
+        [self.collectionView addSubview:label];
         self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     }
 }
@@ -147,7 +159,6 @@
     return UIEdgeInsetsMake(25, 0, 5, 0);
 }
 
-#define PULL_WIDTH 80
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
