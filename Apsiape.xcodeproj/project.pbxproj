@@ -18,6 +18,7 @@
 		A307E82716DE8A0D00C9425A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A307E82616DE8A0D00C9425A /* Default@2x.png */; };
 		A307E82916DE8A0D00C9425A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A307E82816DE8A0D00C9425A /* Default-568h@2x.png */; };
 		A310311E16E3E37C00B163DC /* BYCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311C16E3E37C00B163DC /* BYCollectionViewController.m */; };
+		A32AD31A179DFBD100726CDE /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A32AD319179DFBD100726CDE /* CFNetwork.framework */; };
 		A337965016E52A4C00C55116 /* BYCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */; };
 		A353B08D1733FE5300C5D868 /* UIImage+ImageFromView.m in Sources */ = {isa = PBXBuildFile; fileRef = A353B08C1733FE5300C5D868 /* UIImage+ImageFromView.m */; };
 		A35758EB17934DAA007C21AF /* BYStatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35758EA17934DAA007C21AF /* BYStatsViewController.m */; };
@@ -36,7 +37,6 @@
 		A3D60C78177FA1DC004D5A54 /* BYCursorLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */; };
 		A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DAA96416F778CC00C22671 /* BYStorage.m */; };
 		A3E7570216E295F400AE2AF7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3E7570116E295F400AE2AF7 /* CoreData.framework */; };
-		A3E8A22D179DC28100F0822C /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3E8A22C179DC28100F0822C /* AddressBookUI.framework */; };
 		A3F7FAC716FA36D1002F58AA /* BYExpenseKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F7FAC616FA36D1002F58AA /* BYExpenseKeyboard.m */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +57,7 @@
 		A307E82816DE8A0D00C9425A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A310311B16E3E37C00B163DC /* BYCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionViewController.h; sourceTree = "<group>"; };
 		A310311C16E3E37C00B163DC /* BYCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionViewController.m; sourceTree = "<group>"; };
+		A32AD319179DFBD100726CDE /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		A337964E16E52A4C00C55116 /* BYCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionViewCell.h; sourceTree = "<group>"; };
 		A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionViewCell.m; sourceTree = "<group>"; };
 		A34A3271178E15BD00F95328 /* InterfaceDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceDefinitions.h; sourceTree = "<group>"; };
@@ -100,7 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A3E8A22D179DC28100F0822C /* AddressBookUI.framework in Frameworks */,
+				A32AD31A179DFBD100726CDE /* CFNetwork.framework in Frameworks */,
 				A3C2AB421790BCEE0070C53E /* CoreImage.framework in Frameworks */,
 				A35DDD7B1737F7C2003C287E /* MapKit.framework in Frameworks */,
 				A3598064170E42F700FA8872 /* CoreLocation.framework in Frameworks */,
@@ -137,6 +138,7 @@
 		A307E81116DE8A0D00C9425A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A32AD319179DFBD100726CDE /* CFNetwork.framework */,
 				A3E8A22C179DC28100F0822C /* AddressBookUI.framework */,
 				A3C2AB411790BCEE0070C53E /* CoreImage.framework */,
 				A35DDD7A1737F7C2003C287E /* MapKit.framework */,
