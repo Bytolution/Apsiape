@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+@class CLLocation;
+
 @interface BYLocalizer : NSObject
+
++ (NSLocale*)currentLocaleBasedOnLocation:(CLLocation*)location;
++ (NSLocale*)defaultAppLocale;
 
 @end

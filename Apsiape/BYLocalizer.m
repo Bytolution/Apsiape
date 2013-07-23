@@ -7,7 +7,18 @@
 //
 
 #import "BYLocalizer.h"
+#import <CoreLocation/CoreLocation.h>
 
 @implementation BYLocalizer
+
++ (NSLocale*)currentLocaleBasedOnLocation:(CLLocation*)location
+{
+    
+}
+
++ (NSLocale*)defaultAppLocale
+{
+    
+}
 
 @end
