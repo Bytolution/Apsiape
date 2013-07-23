@@ -70,6 +70,7 @@
 - (NSString *)expenseValueCurrencyFormattedString
 {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
+    
     formatter.decimalSeparator = @".";
     formatter.numberStyle = NSNumberFormatterCurrencyStyle;
     return [formatter stringFromNumber:[NSNumber numberWithFloat:self.expenseValueRawString.floatValue]];

@@ -47,6 +47,10 @@
     self = [super init];
     if (self) {
         [self openDocument];
+        //--------------------------------------------------------PROVE OF CONCEPT---------------------------------------------------------------//
+        NSLocale *locale = [[NSLocale alloc]initWithLocaleIdentifier:[NSLocale localeIdentifierFromComponents:@{NSLocaleCountryCode: @"DE"}]];
+        NSLog(@"%@", [locale objectForKey:NSLocaleCurrencySymbol]);
+        //---------------------------------------------------------------------------------------------------------------------------------------//
     }
     return self;
 }
@@ -150,10 +154,11 @@
                 if ([placemarks objectAtIndex:0]) {
                     CLPlacemark *placemark = placemarks[0];
                     newExpense.locationString = placemark.addressDictionary[@"City"];
+                    NSLog(@"%@", placemark.addressDictionary);
                     [self.managedObjectContext performBlock:^{
                         [self saveDocument];
                     }];
-        }
+                }
             }];
         });
     });
