@@ -15,6 +15,7 @@
 #import "BYCursorLabel.h"
 #import "BYPullScrollView.h"
 #import "BYCollectionViewController.h"
+#import "BYLocalizer.h"
 
 @interface BYNewExpenseWindow () <BYQuickShotViewDelegate, BYExpenseKeyboardDelegate, BYPullScrollViewDelegate>
 
@@ -70,7 +71,7 @@
 - (NSString *)expenseValueCurrencyFormattedString
 {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
-    
+    [formatter setLocale:[BYLocalizer currentAppLocale]];
     formatter.decimalSeparator = @".";
     formatter.numberStyle = NSNumberFormatterCurrencyStyle;
     return [formatter stringFromNumber:[NSNumber numberWithFloat:self.expenseValueRawString.floatValue]];

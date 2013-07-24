@@ -11,13 +11,13 @@
 #import "UIImage+Adjustments.h"
 #import "Expense.h"
 #import <AddressBookUI/AddressBookUI.h>
-
+#import "BYLocalizer.h"
 
 @interface BYStorage () <CLLocationManagerDelegate>
 
 @property (strong, nonatomic) UIManagedDocument *document;
 @property (nonatomic, strong) CLLocationManager *locationManager;
-@property (nonatomic, strong) CLLocation *location;
+@property (nonatomic) BOOL localeUpdated;
 
 - (void)docStateChanged;
 - (void)openDocument;
@@ -32,7 +32,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[BYStorage alloc] init];
-        NSLog(@"SINGLETON: BYStorage now exists.");
+//        NSLog(@"SINGLETON: BYStorage now exists.");
     });
     
     return sharedInstance;
@@ -47,10 +47,6 @@
     self = [super init];
     if (self) {
         [self openDocument];
-        //--------------------------------------------------------PROVE OF CONCEPT---------------------------------------------------------------//
-        NSLocale *locale = [[NSLocale alloc]initWithLocaleIdentifier:[NSLocale localeIdentifierFromComponents:@{NSLocaleCountryCode: @"DE"}]];
-        NSLog(@"%@", [locale objectForKey:NSLocaleCurrencySymbol]);
-        //---------------------------------------------------------------------------------------------------------------------------------------//
     }
     return self;
 }
@@ -89,8 +85,12 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    self.location = locations[0];
+    if (manager.location.horizontalAccuracy < 1000 && !self.localeUpdated) {
+        [BYLocalizer determineCurrentLocaleWithLocation:manager.location];
+        self.localeUpdated = YES;
+    }
 }
+
 
 - (void)saveDocument {
     [self.document saveToURL:self.document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
@@ -125,7 +125,8 @@
         newExpense.thumbnailResolutionMonochromeImagePath = thumbnailResolutionMonochromeImagePath;
         newExpense.stringValue = stringValue;
         newExpense.numberValue = numberValue;
-        newExpense.location = [NSKeyedArchiver archivedDataWithRootObject:self.location];
+        newExpense.location = [NSKeyedArchiver archivedDataWithRootObject:self.locationManager.location];
+        newExpense.localeIdentifier = [BYLocalizer currentAppLocale].localeIdentifier;
     }];
     dispatch_queue_t saveQueue = dispatch_queue_create("User data fetcher", NULL);
     dispatch_async(saveQueue, ^{
@@ -146,21 +147,21 @@
         thumbnailResolutionMonochromeImageData = nil;
         [self.managedObjectContext performBlock:^{
             [self saveDocument];
-        }];
-        dispatch_queue_t saveQueue = dispatch_get_main_queue();
-        dispatch_async(saveQueue, ^{
             CLGeocoder *geocoder = [[CLGeocoder alloc]init];
-            [geocoder reverseGeocodeLocation:self.location completionHandler:^(NSArray *placemarks, NSError *error) {
-                if ([placemarks objectAtIndex:0]) {
-                    CLPlacemark *placemark = placemarks[0];
-                    newExpense.locationString = placemark.addressDictionary[@"City"];
-                    NSLog(@"%@", placemark.addressDictionary);
-                    [self.managedObjectContext performBlock:^{
-                        [self saveDocument];
-                    }];
+            [geocoder reverseGeocodeLocation:self.locationManager.location completionHandler:^(NSArray *placemarks, NSError *error) {
+                CLPlacemark *addressPlacemark = placemarks[0];
+                if (addressPlacemark) {
+                    if (addressPlacemark.addressDictionary[@"City"]) {
+                        newExpense.locationString = addressPlacemark.addressDictionary[@"City"];
+                    } else {
+                        newExpense.locationString = addressPlacemark.addressDictionary[@"Country"];
+                    }
+                    [self saveDocument];
+                } else {
+                    NSLog(@"%@", error);
                 }
             }];
-        });
+        }];
     });
 }
 

@@ -101,6 +101,8 @@
     [self addGestureRecognizer:tgr];
     if (!newSuperview) {
         NSLog(@"%s", __PRETTY_FUNCTION__);
+        self.imagePreView = nil;
+        self.fullResCapturedImage = nil;
     }
 }
 

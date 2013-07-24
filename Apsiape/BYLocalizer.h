@@ -12,7 +12,8 @@
 
 @interface BYLocalizer : NSObject
 
-+ (NSLocale*)currentLocaleBasedOnLocation:(CLLocation*)location;
++ (void)determineCurrentLocaleWithLocation:(CLLocation*)location;
++ (NSLocale*)currentAppLocale;
 + (NSLocale*)defaultAppLocale;
 
 @end
