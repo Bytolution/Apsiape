@@ -41,7 +41,8 @@
     self.childScrollView.contentSize = CGSizeMake(self.frame.size.width * NUMBER_OF_PAGES, self.frame.size.height);
     self.childScrollView.showsHorizontalScrollIndicator = NO;
     //set this back to YES to allow the pul gesture on all edges
-    self.alwaysBounceVertical = NO;
+    self.alwaysBounceVertical = YES;
+    self.childScrollView.alwaysBounceHorizontal = NO;
     [self addSubview:self.childScrollView];
     self.layer.cornerRadius = 10;
     self.layer.masksToBounds = YES;
@@ -54,8 +55,8 @@
     topPullView.backgroundColor = lightGreen;
     CALayer *checkmarkLayer = [CALayer layer];
     checkmarkLayer.frame = CGRectMake(130, 720, 60, 60);
-    checkmarkLayer.contents = (__bridge id)([[UIImage imageNamed:@"add.png"] CGImage]);
-    CABasicAnimation* rotationAnimation;
+//    checkmarkLayer.contents = (__bridge id)([[UIImage imageNamed:@"add.png"] CGImage]);
+    CABasicAnimation *rotationAnimation;
     rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0];
     rotationAnimation.duration = 1;
@@ -63,8 +64,6 @@
     rotationAnimation.repeatCount = HUGE_VALF;
     rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     [checkmarkLayer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
-    
-    // make two overlapping views
     
     [topPullView.layer addSublayer:checkmarkLayer];
     [self addSubview:topPullView];

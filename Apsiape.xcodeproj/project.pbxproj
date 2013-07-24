@@ -61,6 +61,8 @@
 		A32587F417A040FF009390BC /* SimulatedLocation.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SimulatedLocation.gpx; path = ../SimulatedLocation.gpx; sourceTree = "<group>"; };
 		A32587F617A0594F009390BC /* Expense.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Expense.h; sourceTree = "<group>"; };
 		A32587F717A0594F009390BC /* Expense.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Expense.m; sourceTree = "<group>"; };
+		A32587F817A08BCE009390BC /* BYMenuBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BYMenuBar.h; sourceTree = "<group>"; };
+		A32587F917A08BCE009390BC /* BYMenuBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BYMenuBar.m; sourceTree = "<group>"; };
 		A337964E16E52A4C00C55116 /* BYCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionViewCell.h; sourceTree = "<group>"; };
 		A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionViewCell.m; sourceTree = "<group>"; };
 		A34A3271178E15BD00F95328 /* InterfaceDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceDefinitions.h; sourceTree = "<group>"; };
@@ -102,15 +104,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A307E81516DE8A0D00C9425A /* Foundation.framework in Frameworks */,
 				A3C2AB421790BCEE0070C53E /* CoreImage.framework in Frameworks */,
 				A35DDD7B1737F7C2003C287E /* MapKit.framework in Frameworks */,
+				A3E7570216E295F400AE2AF7 /* CoreData.framework in Frameworks */,
 				A3598064170E42F700FA8872 /* CoreLocation.framework in Frameworks */,
-				A39162B51703A75700B3F9FF /* CoreMedia.framework in Frameworks */,
 				A39C59BE16F6165800A68679 /* QuartzCore.framework in Frameworks */,
 				A39162B31703A5AD00B3F9FF /* AVFoundation.framework in Frameworks */,
-				A3E7570216E295F400AE2AF7 /* CoreData.framework in Frameworks */,
+				A39162B51703A75700B3F9FF /* CoreMedia.framework in Frameworks */,
 				A307E81316DE8A0D00C9425A /* UIKit.framework in Frameworks */,
-				A307E81516DE8A0D00C9425A /* Foundation.framework in Frameworks */,
 				A307E81716DE8A0D00C9425A /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -218,6 +220,8 @@
 			children = (
 				A310311B16E3E37C00B163DC /* BYCollectionViewController.h */,
 				A310311C16E3E37C00B163DC /* BYCollectionViewController.m */,
+				A32587F817A08BCE009390BC /* BYMenuBar.h */,
+				A32587F917A08BCE009390BC /* BYMenuBar.m */,
 				A337964E16E52A4C00C55116 /* BYCollectionViewCell.h */,
 				A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */,
 			);

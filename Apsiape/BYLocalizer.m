@@ -27,9 +27,25 @@
     [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
         if ([placemarks objectAtIndex:0]) {
             CLPlacemark *placemark = placemarks[0];
-            NSLog(@"placemark: %@", placemark.addressDictionary);
             NSLocale *locale = [[NSLocale alloc]initWithLocaleIdentifier:[NSLocale localeIdentifierFromComponents:@{NSLocaleCountryCode : placemark.addressDictionary[@"CountryCode"]}]];
             [[NSUserDefaults standardUserDefaults] setObject:locale.localeIdentifier forKey:@"currentAppLocaleIdentifier"];
+        }
+    }];
+}
+
++ (void)geocodeInfoStringForLocation:(CLLocation *)location completion:(void (^)(NSString *))completionHandler
+{
+    CLGeocoder *geocoder = [[CLGeocoder alloc]init];
+    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+        CLPlacemark *addressPlacemark = placemarks[0];
+        if (addressPlacemark) {
+            if (addressPlacemark.addressDictionary[@"City"]) {
+                completionHandler(addressPlacemark.addressDictionary[@"City"]);
+            } else {
+                completionHandler(addressPlacemark.addressDictionary[@"Country"]);
+            }
+        } else {
+            NSLog(@"%@", error);
         }
     }];
 }

@@ -146,21 +146,10 @@
         [thumbnailResolutionMonochromeImageData writeToFile:thumbnailResolutionMonochromeImagePath atomically:NO];
         thumbnailResolutionMonochromeImageData = nil;
         [self.managedObjectContext performBlock:^{
-            [self saveDocument];
-            CLGeocoder *geocoder = [[CLGeocoder alloc]init];
-            [geocoder reverseGeocodeLocation:self.locationManager.location completionHandler:^(NSArray *placemarks, NSError *error) {
-                CLPlacemark *addressPlacemark = placemarks[0];
-                if (addressPlacemark) {
-                    if (addressPlacemark.addressDictionary[@"City"]) {
-                        newExpense.locationString = addressPlacemark.addressDictionary[@"City"];
-                    } else {
-                        newExpense.locationString = addressPlacemark.addressDictionary[@"Country"];
-                    }
-                    [self saveDocument];
-                } else {
-                    NSLog(@"%@", error);
-                }
+            [BYLocalizer geocodeInfoStringForLocation:self.locationManager.location completion:^(NSString *infoString) {
+                newExpense.locationString = infoString;
             }];
+            [self saveDocument];
         }];
     });
 }

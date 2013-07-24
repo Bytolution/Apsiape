@@ -24,6 +24,7 @@
 @property (nonatomic, strong) BYNewExpenseWindow *expenseWindow;
 
 - (void)updateCollectionViewData;
+- (void)prepareCollectionView;
 
 @end
 
@@ -39,11 +40,6 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCollectionViewData) name:@"UIDocumentSavedSuccessfullyNotification" object:nil];
     }
     return self;
-}
-
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    [self.flowLayout invalidateLayout];
 }
 
 - (void)updateCollectionViewData
@@ -66,6 +62,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self prepareCollectionView];
+}
+
+#pragma mark - Collection View
+
+- (void)prepareCollectionView
+{
     if (!self.collectionView) {
         self.flowLayout = [[UICollectionViewFlowLayout alloc]init];
         self.flowLayout.itemSize = CGSizeMake(self.view.frame.size.width - (CELL_PADDING*2), CELL_HEIGHT);
@@ -80,7 +83,6 @@
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
         self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self.view addSubview:self.collectionView];
-        
         UIView *topPullView = [[UIView alloc]initWithFrame:CGRectMake(0, -300, 320, 300)];
         topPullView.backgroundColor = [UIColor colorWithWhite:0.6 alpha:1];
         UIView *statusBarBG = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 20)];
@@ -94,12 +96,7 @@
         label.textAlignment = NSTextAlignmentCenter;
         [self.collectionView addSubview:topPullView];
         [self.collectionView addSubview:label];
-        self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self.view addSubview:statusBarBG];
-        
-        [UIView animateWithDuration:5 animations:^{
-            self.collectionView.contentInset = UIEdgeInsetsMake(200, 0, 0, 0);
-        }];
     }
 }
 
@@ -167,7 +164,6 @@
     return UIEdgeInsetsMake(8, 0, 5, 0);
 }
 
-
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (scrollView.contentOffset.y < - PULL_WIDTH && scrollView.contentOffset.y < 0) {
@@ -181,6 +177,8 @@
         }];
     }
 }
+
+#pragma mark - Window Delegate
 
 - (void)windowShouldDisappear:(BYNewExpenseWindow *)window
 {
