@@ -13,6 +13,7 @@
 #import "Expense.h"
 #import "InterfaceDefinitions.h"
 #import "BYNewExpenseWindow.h"
+#import "BYMenuBar.h"
 
 @interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate, BYNewExpenseWindowDelegate>
 
@@ -22,9 +23,13 @@
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 @property (nonatomic, strong) BYNewExpenseWindow *expenseWindow;
+@property (nonatomic, strong) BYMenuBar *menuBar;
+@property (nonatomic, strong) UIView *statusBarBG;
+@property (nonatomic) BOOL menuBarIsVisible;
 
 - (void)updateCollectionViewData;
 - (void)prepareCollectionView;
+- (void)repositionMenuBarWithOffset:(CGFloat)yOffset;
 
 @end
 
@@ -62,7 +67,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.statusBarBG = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 20)];
+    self.statusBarBG.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+    [self.view addSubview:self.statusBarBG];
     [self prepareCollectionView];
+    
+    self.menuBar = [[BYMenuBar alloc]initWithFrame:CGRectMake(0, - PULL_WIDTH, 320, PULL_WIDTH)];
+    [self.view addSubview:self.menuBar];
 }
 
 #pragma mark - Collection View
@@ -85,18 +96,15 @@
         [self.view addSubview:self.collectionView];
         UIView *topPullView = [[UIView alloc]initWithFrame:CGRectMake(0, -300, 320, 300)];
         topPullView.backgroundColor = [UIColor colorWithWhite:0.6 alpha:1];
-        UIView *statusBarBG = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 20)];
-        statusBarBG.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
         UILabel *label = [UILabel new];
         label.text = @"Create new";
-        label.frame = CGRectMake(0, -60, 320, 60);
+        label.frame = CGRectMake(0, - PULL_WIDTH, 320, PULL_WIDTH);
         label.textColor = [UIColor whiteColor];
         label.backgroundColor = [UIColor clearColor];
         label.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30];
         label.textAlignment = NSTextAlignmentCenter;
         [self.collectionView addSubview:topPullView];
         [self.collectionView addSubview:label];
-        [self.view addSubview:statusBarBG];
     }
 }
 
@@ -164,20 +172,25 @@
     return UIEdgeInsetsMake(8, 0, 5, 0);
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+#pragma mark - Scroll View Delegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (scrollView.contentOffset.y < - PULL_WIDTH && scrollView.contentOffset.y < 0) {
-        if (!self.expenseWindow) self.expenseWindow = [[BYNewExpenseWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
-        self.expenseWindow.alpha = 0;
-        self.expenseWindow.windowLevel = UIWindowLevelAlert;
-        self.expenseWindow.windowDelegate = self;
-        [self.expenseWindow makeKeyAndVisible];
-        [UIView animateWithDuration:0.5 animations:^{
-            self.expenseWindow.alpha = 1;
-        }];
+    if (scrollView.contentOffset.y < 0 && scrollView.contentOffset.y > - PULL_WIDTH) {
+        self.menuBar.frame = CGRectMake(0, scrollView.contentOffset.y - PULL_WIDTH, 320, PULL_WIDTH);
+        NSLog(@"%s", __PRETTY_FUNCTION__);
     }
 }
 
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (scrollView.contentOffset.y < -PULL_WIDTH) {
+        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+            [scrollView setContentInset:UIEdgeInsetsMake(PULL_WIDTH, 0, 0, 0)];
+        }
+        completion:Nil];
+    }
+}
 #pragma mark - Window Delegate
 
 - (void)windowShouldDisappear:(BYNewExpenseWindow *)window

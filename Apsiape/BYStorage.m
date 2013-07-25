@@ -127,6 +127,8 @@
         newExpense.numberValue = numberValue;
         newExpense.location = [NSKeyedArchiver archivedDataWithRootObject:self.locationManager.location];
         newExpense.localeIdentifier = [BYLocalizer currentAppLocale].localeIdentifier;
+        [self saveDocument];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"UIDocumentSavedSuccessfullyNotification" object:nil];
     }];
     dispatch_queue_t saveQueue = dispatch_queue_create("User data fetcher", NULL);
     dispatch_async(saveQueue, ^{
@@ -145,11 +147,13 @@
         NSData *thumbnailResolutionMonochromeImageData = UIImageJPEGRepresentation([[fullResImg cropWithSquareRatioAndResolution:160] monochromeImage], 1.0);
         [thumbnailResolutionMonochromeImageData writeToFile:thumbnailResolutionMonochromeImagePath atomically:NO];
         thumbnailResolutionMonochromeImageData = nil;
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"UIDocumentSavedSuccessfullyNotification" object:nil];
         [self.managedObjectContext performBlock:^{
+            [self saveDocument];
             [BYLocalizer geocodeInfoStringForLocation:self.locationManager.location completion:^(NSString *infoString) {
                 newExpense.locationString = infoString;
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"UIDocumentSavedSuccessfullyNotification" object:nil];
             }];
-            [self saveDocument];
         }];
     });
 }
