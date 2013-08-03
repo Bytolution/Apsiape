@@ -71,7 +71,6 @@
     self.statusBarBG.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
     [self.view addSubview:self.statusBarBG];
     [self prepareCollectionView];
-    
     self.menuBar = [[BYMenuBar alloc]initWithFrame:CGRectMake(0, - PULL_WIDTH, 320, PULL_WIDTH)];
     [self.view addSubview:self.menuBar];
 }
@@ -177,18 +176,21 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView.contentOffset.y < 0 && scrollView.contentOffset.y > - PULL_WIDTH) {
-        self.menuBar.frame = CGRectMake(0, scrollView.contentOffset.y - PULL_WIDTH, 320, PULL_WIDTH);
-        NSLog(@"%s", __PRETTY_FUNCTION__);
+        
     }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    if (scrollView.contentOffset.y < -PULL_WIDTH) {
-        [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-            [scrollView setContentInset:UIEdgeInsetsMake(PULL_WIDTH, 0, 0, 0)];
-        }
-        completion:Nil];
+    if (scrollView.contentOffset.y < - PULL_WIDTH) {
+        self.expenseWindow = [[BYNewExpenseWindow alloc]initWithFrame:[[UIScreen mainScreen] bounds]];
+        self.expenseWindow.windowLevel = UIWindowLevelAlert;
+        self.expenseWindow.windowDelegate = self;
+        self.expenseWindow.alpha = 0;
+        [self.expenseWindow makeKeyAndVisible];
+        [UIView animateWithDuration:0.5 animations:^{
+            self.expenseWindow.alpha = 1;
+        }];
     }
 }
 #pragma mark - Window Delegate
