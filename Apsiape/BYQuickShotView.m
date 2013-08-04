@@ -100,7 +100,6 @@
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapDetected)];
     [self addGestureRecognizer:tgr];
     if (!newSuperview) {
-        NSLog(@"%s", __PRETTY_FUNCTION__);
         self.imagePreView = nil;
         self.fullResCapturedImage = nil;
     }

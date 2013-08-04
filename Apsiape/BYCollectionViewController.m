@@ -15,12 +15,10 @@
 #import "BYNewExpenseWindow.h"
 #import "BYMenuBar.h"
 
-@interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate, BYNewExpenseWindowDelegate>
+@interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate, BYNewExpenseWindowDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *collectionViewData;
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) UISwipeGestureRecognizer *swipeGesture;
-@property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 @property (nonatomic, strong) BYNewExpenseWindow *expenseWindow;
 @property (nonatomic, strong) BYMenuBar *menuBar;
@@ -30,6 +28,7 @@
 - (void)updateCollectionViewData;
 - (void)prepareCollectionView;
 - (void)repositionMenuBarWithOffset:(CGFloat)yOffset;
+- (void)panRecognized:(UIPanGestureRecognizer*)pan;
 
 @end
 

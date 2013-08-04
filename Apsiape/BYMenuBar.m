@@ -24,9 +24,7 @@
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     self.backgroundColor = [UIColor whiteColor];
-    
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    
+        
     self.switchButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.switchButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.switchButton = [UIButton buttonWithType:UIButtonTypeCustom];

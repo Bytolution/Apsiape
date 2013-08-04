@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationUsageDescription</key>
-	<string>This App relies on the ability to locate you, we won't do anything nasty. Really.'</string>
+	<string>This App relies on the ability to locate you, we won&apos;t do anything nasty. Really.</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>CFBundleDevelopmentRegion</key>

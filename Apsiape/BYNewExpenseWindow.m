@@ -72,7 +72,6 @@
 {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     [formatter setLocale:[BYLocalizer currentAppLocale]];
-    formatter.decimalSeparator = @".";
     formatter.numberStyle = NSNumberFormatterCurrencyStyle;
     return [formatter stringFromNumber:[NSNumber numberWithFloat:self.expenseValueRawString.floatValue]];
 }
@@ -81,12 +80,10 @@
 {
     NSRange decSeparatorRange = [self.expenseValueRawString rangeOfString:@"."];
     if (decSeparatorRange.length == 1) {
-        if (decSeparatorRange.location < self.expenseValueRawString.length - 2) return;
+        if (decSeparatorRange.location == self.expenseValueRawString.length - 3) return;
         if ([numberString isEqualToString:@"."]) return;
     }
-    if (self.expenseValueRawString.length == 9) return;
     [self.expenseValueRawString appendString:numberString];
-    
     self.expenseValueLabel.text = self.expenseValueCurrencyFormattedString;
 }
 
@@ -115,7 +112,7 @@
 
 - (void)didTakeSnapshot:(UIImage *)img
 {
-    img = nil;
+    
 }
 - (void)didDiscardLastImage
 {
