@@ -15,19 +15,17 @@
 #import "BYNewExpenseWindow.h"
 #import "BYMenuBar.h"
 
-@interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate, BYNewExpenseWindowDelegate, UIGestureRecognizerDelegate>
+@interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate, BYNewExpenseWindowDelegate>
 
 @property (nonatomic, strong) NSMutableArray *collectionViewData;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 @property (nonatomic, strong) BYNewExpenseWindow *expenseWindow;
-@property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
 @property (nonatomic, strong) UIView *statusBarBG;
 @property (nonatomic) BOOL menuBarIsVisible;
 
 - (void)updateCollectionViewData;
 - (void)prepareCollectionView;
-- (void)panRecognized:(UIPanGestureRecognizer*)pan;
 
 @end
 
@@ -69,10 +67,6 @@
     self.statusBarBG.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
     [self.view addSubview:self.statusBarBG];
     [self prepareCollectionView];
-    
-    self.panGesture = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panRecognized:)];
-    self.panGesture.delegate = self;
-    [self.view addGestureRecognizer:self.panGesture];
 }
 
 #pragma mark - Collection View
@@ -104,22 +98,6 @@
         label.textAlignment = NSTextAlignmentCenter;
         [self.collectionView addSubview:topPullView];
         [self.collectionView addSubview:label];
-    }
-}
-
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
-{
-    if ([(UIPanGestureRecognizer*)gestureRecognizer locationInView:gestureRecognizer.view].x < 30) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
-
-- (void)panRecognized:(UIPanGestureRecognizer *)pan
-{
-    if (pan.state == UIGestureRecognizerStateBegan) {
-        NSLog(@"Pam gesture began");
     }
 }
 

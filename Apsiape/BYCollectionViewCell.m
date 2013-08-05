@@ -78,7 +78,7 @@
         
         self.borderLayer = [CALayer layer];
         self.borderLayer.borderWidth = 10;
-        self.borderLayer.borderColor = [UIColor colorWithWhite:0.7 alpha:1].CGColor;
+        self.borderLayer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
         [self.layer addSublayer:self.borderLayer];
         
         self.subtitleLabel = [[UILabel alloc]init];
