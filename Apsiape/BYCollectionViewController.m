@@ -189,13 +189,6 @@
 
 #pragma mark - Scroll View Delegate
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (scrollView.contentOffset.y < 0 && scrollView.contentOffset.y > - PULL_WIDTH) {
-        
-    }
-}
-
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (scrollView.contentOffset.y < - PULL_WIDTH) {

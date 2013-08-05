@@ -25,6 +25,9 @@
 		A35758EB17934DAA007C21AF /* BYStatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35758EA17934DAA007C21AF /* BYStatsViewController.m */; };
 		A3598064170E42F700FA8872 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3598063170E42F700FA8872 /* CoreLocation.framework */; };
 		A35DDD7B1737F7C2003C287E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A35DDD7A1737F7C2003C287E /* MapKit.framework */; };
+		A35FB72517B037E400447747 /* BYPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35FB72017B036AC00447747 /* BYPreferencesViewController.m */; };
+		A35FB72617B037ED00447747 /* BYContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35FB71E17B0368300447747 /* BYContainerViewController.m */; };
+		A35FB72717B037F600447747 /* BYMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35FB72217B036D100447747 /* BYMapViewController.m */; };
 		A3602A22179CB58B00FADA48 /* UIImage+Adjustments.m in Sources */ = {isa = PBXBuildFile; fileRef = A3602A20179CB58B00FADA48 /* UIImage+Adjustments.m */; };
 		A376B5891794BFB90008A141 /* BYStatsView.m in Sources */ = {isa = PBXBuildFile; fileRef = A376B5881794BFB90008A141 /* BYStatsView.m */; };
 		A3832F0C16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3832F0A16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld */; };
@@ -73,6 +76,12 @@
 		A35758EA17934DAA007C21AF /* BYStatsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYStatsViewController.m; sourceTree = "<group>"; };
 		A3598063170E42F700FA8872 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A35DDD7A1737F7C2003C287E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		A35FB71D17B0368300447747 /* BYContainerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BYContainerViewController.h; sourceTree = "<group>"; };
+		A35FB71E17B0368300447747 /* BYContainerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BYContainerViewController.m; sourceTree = "<group>"; };
+		A35FB71F17B036AC00447747 /* BYPreferencesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BYPreferencesViewController.h; sourceTree = "<group>"; };
+		A35FB72017B036AC00447747 /* BYPreferencesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BYPreferencesViewController.m; sourceTree = "<group>"; };
+		A35FB72117B036D100447747 /* BYMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BYMapViewController.h; sourceTree = "<group>"; };
+		A35FB72217B036D100447747 /* BYMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BYMapViewController.m; sourceTree = "<group>"; };
 		A3602A20179CB58B00FADA48 /* UIImage+Adjustments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Adjustments.m"; sourceTree = "<group>"; };
 		A3602A21179CB58B00FADA48 /* UIImage+Adjustments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Adjustments.h"; sourceTree = "<group>"; };
 		A376B5871794BFB90008A141 /* BYStatsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYStatsView.h; sourceTree = "<group>"; };
@@ -159,7 +168,11 @@
 		A307E81816DE8A0D00C9425A /* Apsiape */ = {
 			isa = PBXGroup;
 			children = (
+				A35FB71D17B0368300447747 /* BYContainerViewController.h */,
+				A35FB71E17B0368300447747 /* BYContainerViewController.m */,
 				A37526DC16F5201D0079C94A /* CollectionView */,
+				A35FB72317B036E200447747 /* PreferencesView */,
+				A35FB72417B036F100447747 /* MapView */,
 				A35758E8179338EA007C21AF /* Stats */,
 				A373763716F6306B00611FC6 /* Expense Creation */,
 				A3832F0D16E0F6FD00D64DC1 /* Core Data */,
@@ -204,6 +217,24 @@
 				A376B5881794BFB90008A141 /* BYStatsView.m */,
 			);
 			name = Stats;
+			sourceTree = "<group>";
+		};
+		A35FB72317B036E200447747 /* PreferencesView */ = {
+			isa = PBXGroup;
+			children = (
+				A35FB71F17B036AC00447747 /* BYPreferencesViewController.h */,
+				A35FB72017B036AC00447747 /* BYPreferencesViewController.m */,
+			);
+			name = PreferencesView;
+			sourceTree = "<group>";
+		};
+		A35FB72417B036F100447747 /* MapView */ = {
+			isa = PBXGroup;
+			children = (
+				A35FB72117B036D100447747 /* BYMapViewController.h */,
+				A35FB72217B036D100447747 /* BYMapViewController.m */,
+			);
+			name = MapView;
 			sourceTree = "<group>";
 		};
 		A373763716F6306B00611FC6 /* Expense Creation */ = {
@@ -322,6 +353,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A35FB72717B037F600447747 /* BYMapViewController.m in Sources */,
+				A35FB72617B037ED00447747 /* BYContainerViewController.m in Sources */,
+				A35FB72517B037E400447747 /* BYPreferencesViewController.m in Sources */,
 				A32587FA17A09D4E009390BC /* BYMenuBar.m in Sources */,
 				A3B9D0D3179DFFCA0052D79D /* BYLocalizer.m in Sources */,
 				A307E81F16DE8A0D00C9425A /* main.m in Sources */,

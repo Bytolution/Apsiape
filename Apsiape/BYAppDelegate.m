@@ -7,7 +7,7 @@
 //
 
 #import "BYAppDelegate.h"
-#import "BYCollectionViewController.h"
+#import "BYContainerViewController.h"
 #import "BYStorage.h"
 
 @implementation BYAppDelegate
@@ -18,7 +18,7 @@
     // Override point for customization after application launch.
     [BYStorage sharedStorage];
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    self.window.rootViewController = [[BYCollectionViewController alloc]initWithNibName:nil bundle:nil];
+    self.window.rootViewController = [[BYContainerViewController alloc]initWithNibName:nil bundle:nil];
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
     return YES;
