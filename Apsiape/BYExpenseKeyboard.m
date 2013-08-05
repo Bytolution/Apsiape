@@ -82,7 +82,6 @@
 
 - (void)prepareButtons;
 - (void)buttonPressed:(UIButton*)sender;
-- (void)buttonReleased:(UIButton*)sender;
 
 @end
 

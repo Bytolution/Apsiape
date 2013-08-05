@@ -207,7 +207,7 @@
 - (void)windowShouldDisappear:(BYNewExpenseWindow *)window
 {
     [UIView animateWithDuration:0.5 animations:^{
-        [(UIWindow*)self.view.superview makeKeyWindow];
+        [(UIWindow*)self.view.window makeKeyWindow];
         self.expenseWindow.alpha = 0.0;
     } completion:^(BOOL finished) {
         self.expenseWindow = nil;
