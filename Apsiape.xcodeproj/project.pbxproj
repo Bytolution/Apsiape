@@ -18,7 +18,6 @@
 		A307E82716DE8A0D00C9425A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A307E82616DE8A0D00C9425A /* Default@2x.png */; };
 		A307E82916DE8A0D00C9425A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A307E82816DE8A0D00C9425A /* Default-568h@2x.png */; };
 		A310311E16E3E37C00B163DC /* BYCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311C16E3E37C00B163DC /* BYCollectionViewController.m */; };
-		A32587F517A040FF009390BC /* SimulatedLocation.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A32587F417A040FF009390BC /* SimulatedLocation.gpx */; };
 		A32587FA17A09D4E009390BC /* BYMenuBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A32587F917A08BCE009390BC /* BYMenuBar.m */; };
 		A337965016E52A4C00C55116 /* BYCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */; };
 		A353B08D1733FE5300C5D868 /* UIImage+ImageFromView.m in Sources */ = {isa = PBXBuildFile; fileRef = A353B08C1733FE5300C5D868 /* UIImage+ImageFromView.m */; };
@@ -28,6 +27,7 @@
 		A35FB72517B037E400447747 /* BYPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35FB72017B036AC00447747 /* BYPreferencesViewController.m */; };
 		A35FB72617B037ED00447747 /* BYContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35FB71E17B0368300447747 /* BYContainerViewController.m */; };
 		A35FB72717B037F600447747 /* BYMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35FB72217B036D100447747 /* BYMapViewController.m */; };
+		A35FB72917B03B7D00447747 /* SimulatedLocation.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A35FB72817B03B7D00447747 /* SimulatedLocation.gpx */; };
 		A3602A22179CB58B00FADA48 /* UIImage+Adjustments.m in Sources */ = {isa = PBXBuildFile; fileRef = A3602A20179CB58B00FADA48 /* UIImage+Adjustments.m */; };
 		A376B5891794BFB90008A141 /* BYStatsView.m in Sources */ = {isa = PBXBuildFile; fileRef = A376B5881794BFB90008A141 /* BYStatsView.m */; };
 		A3832F0C16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3832F0A16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld */; };
@@ -62,7 +62,6 @@
 		A307E82816DE8A0D00C9425A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A310311B16E3E37C00B163DC /* BYCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionViewController.h; sourceTree = "<group>"; };
 		A310311C16E3E37C00B163DC /* BYCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionViewController.m; sourceTree = "<group>"; };
-		A32587F417A040FF009390BC /* SimulatedLocation.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SimulatedLocation.gpx; path = ../SimulatedLocation.gpx; sourceTree = "<group>"; };
 		A32587F617A0594F009390BC /* Expense.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Expense.h; sourceTree = "<group>"; };
 		A32587F717A0594F009390BC /* Expense.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Expense.m; sourceTree = "<group>"; };
 		A32587F817A08BCE009390BC /* BYMenuBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BYMenuBar.h; sourceTree = "<group>"; };
@@ -82,6 +81,7 @@
 		A35FB72017B036AC00447747 /* BYPreferencesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BYPreferencesViewController.m; sourceTree = "<group>"; };
 		A35FB72117B036D100447747 /* BYMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BYMapViewController.h; sourceTree = "<group>"; };
 		A35FB72217B036D100447747 /* BYMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BYMapViewController.m; sourceTree = "<group>"; };
+		A35FB72817B03B7D00447747 /* SimulatedLocation.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SimulatedLocation.gpx; sourceTree = "<group>"; };
 		A3602A20179CB58B00FADA48 /* UIImage+Adjustments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Adjustments.m"; sourceTree = "<group>"; };
 		A3602A21179CB58B00FADA48 /* UIImage+Adjustments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Adjustments.h"; sourceTree = "<group>"; };
 		A376B5871794BFB90008A141 /* BYStatsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYStatsView.h; sourceTree = "<group>"; };
@@ -201,9 +201,9 @@
 				A307E81E16DE8A0D00C9425A /* main.m */,
 				A307E82016DE8A0D00C9425A /* Apsiape-Prefix.pch */,
 				A307E82416DE8A0D00C9425A /* Default.png */,
+				A35FB72817B03B7D00447747 /* SimulatedLocation.gpx */,
 				A307E82616DE8A0D00C9425A /* Default@2x.png */,
 				A307E82816DE8A0D00C9425A /* Default-568h@2x.png */,
-				A32587F417A040FF009390BC /* SimulatedLocation.gpx */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -340,7 +340,7 @@
 				A307E81D16DE8A0D00C9425A /* InfoPlist.strings in Resources */,
 				A307E82516DE8A0D00C9425A /* Default.png in Resources */,
 				A307E82716DE8A0D00C9425A /* Default@2x.png in Resources */,
-				A32587F517A040FF009390BC /* SimulatedLocation.gpx in Resources */,
+				A35FB72917B03B7D00447747 /* SimulatedLocation.gpx in Resources */,
 				A307E82916DE8A0D00C9425A /* Default-568h@2x.png in Resources */,
 				A302945516FB554F009BBF6D /* miso-light.ttf in Resources */,
 			);
