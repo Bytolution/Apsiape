@@ -177,6 +177,8 @@
         [self.expenseWindow makeKeyAndVisible];
         [UIView animateWithDuration:0.5 animations:^{
             self.expenseWindow.alpha = 1;
+        } completion:^(BOOL finished) {
+            self.view.hidden = YES;
         }];
     }
 }
@@ -184,6 +186,7 @@
 
 - (void)windowShouldDisappear:(BYNewExpenseWindow *)window
 {
+    self.view.hidden = NO;
     [UIView animateWithDuration:0.5 animations:^{
         [(UIWindow*)self.view.window makeKeyWindow];
         self.expenseWindow.alpha = 0.0;

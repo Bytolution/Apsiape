@@ -1,13 +1,7 @@
-//
-//  BYAppDelegate.m
-//  Apsiape
-//
-//  Created by Dario Lass on 27.02.13.
-//  Copyright (c) 2013 Bytolution. All rights reserved.
-//
 
 #import "BYAppDelegate.h"
-#import "BYContainerViewController.h"
+#import "BYNavigationController.h"
+#import "BYCollectionViewController.h"
 #import "BYStorage.h"
 
 @implementation BYAppDelegate
@@ -18,7 +12,7 @@
     // Override point for customization after application launch.
     [BYStorage sharedStorage];
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    self.window.rootViewController = [[BYContainerViewController alloc]initWithNibName:nil bundle:nil];
+    self.window.rootViewController = [[BYNavigationController alloc]initWithRootViewController:[[BYCollectionViewController alloc]initWithNibName:nil bundle:nil]];
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
     return YES;

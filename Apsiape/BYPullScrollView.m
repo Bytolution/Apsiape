@@ -8,15 +8,15 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "BYPullScrollView.h"
-
+#import "InterfaceDefinitions.h"
 
 @interface BYPullScrollView () <UIScrollViewDelegate>
 
-@property (nonatomic) BYPullScrollViewEdgeType currentPullingEdge;
+@property (nonatomic, readwrite) BYEdgeType currentPullingEdge;
 
 - (void)handleVerticalPullWithOffset:(CGFloat)offset;
 - (void)handleHorizontalPullWithOffset:(CGFloat)offset;
-- (void)pullingDetectedForEdge:(BYPullScrollViewEdgeType)edge;
+- (void)pullingDetectedForEdge:(BYEdgeType)edge;
 
 @end
 
@@ -92,7 +92,7 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    if (self.currentPullingEdge != BYPullScrollViewEdgeTypeNone) {
+    if (self.currentPullingEdge != BYEdgeTypeNone) {
         [self pullingDetectedForEdge:self.currentPullingEdge];
     }
 }
@@ -102,15 +102,15 @@
 - (void)handleVerticalPullWithOffset:(CGFloat)offset
 {
     if (offset < - MIN_PULL_VALUE) {
-        if (self.currentPullingEdge == BYPullScrollViewEdgeTypeNone) {
-            self.currentPullingEdge = BYPullScrollViewEdgeTypeTop;
+        if (self.currentPullingEdge == BYEdgeTypeNone) {
+            self.currentPullingEdge = BYEdgeTypeTop;
         }
     } else if (offset > MIN_PULL_VALUE) {
-        if (self.currentPullingEdge == BYPullScrollViewEdgeTypeNone) {
-            self.currentPullingEdge = BYPullScrollViewEdgeTypeBottom;
+        if (self.currentPullingEdge == BYEdgeTypeNone) {
+            self.currentPullingEdge = BYEdgeTypeBottom;
         }
     } else if ((offset < - MIN_PULL_VALUE || offset < MIN_PULL_VALUE)){
-        self.currentPullingEdge = BYPullScrollViewEdgeTypeNone;
+        self.currentPullingEdge = BYEdgeTypeNone;
     }
 }
 
@@ -119,19 +119,19 @@
     CGFloat lastPageOffset = self.childScrollView.contentSize.width * ((NUMBER_OF_PAGES - 1)/(NUMBER_OF_PAGES));
     
     if (offset < - MIN_PULL_VALUE) {
-        if (self.currentPullingEdge == BYPullScrollViewEdgeTypeNone) {
-            self.currentPullingEdge = BYPullScrollViewEdgeTypeLeft;
+        if (self.currentPullingEdge == BYEdgeTypeNone) {
+            self.currentPullingEdge = BYEdgeTypeLeft;
         }
     } else if (offset > MIN_PULL_VALUE + lastPageOffset) {
-        if (self.currentPullingEdge == BYPullScrollViewEdgeTypeNone) {
-            self.currentPullingEdge = BYPullScrollViewEdgeTypeRight;
+        if (self.currentPullingEdge == BYEdgeTypeNone) {
+            self.currentPullingEdge = BYEdgeTypeRight;
         }
     } else if (offset < -MIN_PULL_VALUE || offset < (MIN_PULL_VALUE + lastPageOffset)){
-        self.currentPullingEdge = BYPullScrollViewEdgeTypeNone;
+        self.currentPullingEdge = BYEdgeTypeNone;
     }
 }
 
-- (void)pullingDetectedForEdge:(BYPullScrollViewEdgeType)edge
+- (void)pullingDetectedForEdge:(BYEdgeType)edge
 {
     if ([self.pullScrollViewDelegate respondsToSelector:@selector(pullScrollView:didDetectPullingAtEdge:)]) {
         [self.pullScrollViewDelegate pullScrollView:self didDetectPullingAtEdge:self.currentPullingEdge];
@@ -139,6 +139,3 @@
 }
 
 @end
-
-
-

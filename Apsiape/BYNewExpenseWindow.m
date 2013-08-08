@@ -16,7 +16,7 @@
 #import "BYPullScrollView.h"
 #import "BYCollectionViewController.h"
 #import "BYLocalizer.h"
-
+#import "InterfaceDefinitions.h"
 @interface BYNewExpenseWindow () <BYQuickShotViewDelegate, BYExpenseKeyboardDelegate, BYPullScrollViewDelegate>
 
 @property (nonatomic, strong) BYQuickShotView *quickShotView;
@@ -125,11 +125,11 @@
 
 #pragma mark Delegation (PullScrollView)
 
-- (void)pullScrollView:(UIScrollView *)pullScrollView didDetectPullingAtEdge:(BYPullScrollViewEdgeType)edge
+- (void)pullScrollView:(UIScrollView *)pullScrollView didDetectPullingAtEdge:(BYEdgeType)edge
 {
-    if (edge == BYPullScrollViewEdgeTypeBottom || edge == BYPullScrollViewEdgeTypeLeft) {
+    if (edge == BYEdgeTypeBottom || edge == BYEdgeTypeLeft) {
         [self.windowDelegate windowShouldDisappear:self];
-    } else if ((edge == BYPullScrollViewEdgeTypeRight || edge == BYPullScrollViewEdgeTypeTop) && self.expenseValueRawString.length != 0){
+    } else if ((edge == BYEdgeTypeRight || edge == BYEdgeTypeTop) && self.expenseValueRawString.length != 0){
         [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString
                                                         numberValue:self.expenseValueDecimalNumber
                                                        fullResImage:self.quickShotView.fullResCapturedImage

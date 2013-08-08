@@ -1,5 +1,5 @@
 //
-//  BYContainerViewController.h
+//  BYNavigationController.h
 //  Apsiape
 //
 //  Created by Dario Lass on 05.08.13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BYContainerViewController : UIViewController
+@interface BYNavigationController : UINavigationController
 
 @end

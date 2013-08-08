@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class MKMapView;
+
 @interface BYMapViewController : UIViewController
+
+@property (nonatomic, strong) MKMapView *mapView;
 
 @end

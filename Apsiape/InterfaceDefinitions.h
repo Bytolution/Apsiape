@@ -18,4 +18,12 @@
 #define CELL_HEIGHT 100
 
 
+typedef enum  {
+    BYEdgeTypeNone = 0,
+    BYEdgeTypeTop,
+    BYEdgeTypeLeft,
+    BYEdgeTypeBottom,
+    BYEdgeTypeRight
+} BYEdgeType;
+
 #endif
