@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BYNavigationController : UINavigationController
+@class BYViewController;
+
+@interface BYNavigationController : UIViewController
+
+- (void)pushViewController:(BYViewController*)viewController animated:(BOOL)animated;
+- (void)popViewController:(BYViewController*)viewController animated:(BOOL)animated;
 
 @end

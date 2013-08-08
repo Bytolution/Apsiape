@@ -21,6 +21,8 @@
 @property (nonatomic, strong) BYPreferencesViewController *preferencesViewController;
 @property (nonatomic, strong) UIView *mapGestureOverlayView;
 
+@property (nonatomic, strong) NSMutableArray *viewControllerStack;
+
 @property (nonatomic, readwrite) BOOL mapViewVisible;
 @property (nonatomic, readwrite) BOOL preferencesViewVisible;
 @property (nonatomic, readwrite) CGFloat lastHorizontalPanPosition;
@@ -77,7 +79,19 @@
     self.mapGestureOverlayView.backgroundColor = [UIColor colorWithWhite:1 alpha:.5];
 }
 
-#pragma mark - Gesture Handlinge
+#pragma mark - Custom Navigation controller
+
+- (void)pushViewController:(BYViewController *)viewController animated:(BOOL)animated
+{
+    
+}
+
+- (void)popViewController:(BYViewController *)viewController animated:(BOOL)animated
+{
+    
+}
+
+#pragma mark - Gesture Handling
 
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer*)gestureRecognizer
 {
@@ -95,7 +109,6 @@
         return NO;
     }
 }
-
 - (void)panRecognized:(UIPanGestureRecognizer *)pan
 {
     CGFloat xLocation = [pan locationInView:pan.view].x;
@@ -135,7 +148,6 @@
         self.panGestureEdge = BYEdgeTypeNone;
     }
 }
-
 - (void)transitionWithLeftViewControllerWithHorizontalDelta:(CGFloat)deltaX velocity:(CGFloat)velocity state:(UIGestureRecognizerState)gState
 {
     self.mapViewController.view.frame = CGRectOffset(self.mapViewController.view.frame, deltaX, 0);
@@ -159,7 +171,6 @@
         }];
     }
 }
-
 - (void)transitionWithRightViewControllerWithHorizontalDelta:(CGFloat)deltaX velocity:(CGFloat)velocity state:(UIGestureRecognizerState)gState
 {
     self.preferencesViewController.view.frame = CGRectOffset(self.preferencesViewController.view.frame, deltaX, 0);
@@ -183,12 +194,10 @@
         }];
     }
 }
-
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return NO;
 }
-
 - (void)setMapViewVisible:(BOOL)mapViewVisible
 {
     _mapViewVisible = mapViewVisible;

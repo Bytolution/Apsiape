@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BYViewController.h"
 
 @class MKMapView;
 
-@interface BYMapViewController : UIViewController
+@interface BYMapViewController : BYViewController
 
 @property (nonatomic, strong) MKMapView *mapView;
 

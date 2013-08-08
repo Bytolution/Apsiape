@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BYViewController.h"
 
-@interface BYPreferencesViewController : UIViewController
+@interface BYPreferencesViewController : BYViewController
 
 @end

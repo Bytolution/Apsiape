@@ -39,6 +39,7 @@
 		A39C59BE16F6165800A68679 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39C59BD16F6165800A68679 /* QuartzCore.framework */; };
 		A3B9D0D3179DFFCA0052D79D /* BYLocalizer.m in Sources */ = {isa = PBXBuildFile; fileRef = A3B9D0D2179DF9960052D79D /* BYLocalizer.m */; };
 		A3BDCB3817B3C84100216889 /* BYBlurredBGView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3BDCB3717B3C84100216889 /* BYBlurredBGView.m */; };
+		A3BDCB3B17B3CB5C00216889 /* BYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3BDCB3A17B3CB5C00216889 /* BYViewController.m */; };
 		A3C2AB421790BCEE0070C53E /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C2AB411790BCEE0070C53E /* CoreImage.framework */; };
 		A3D60C78177FA1DC004D5A54 /* BYCursorLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */; };
 		A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DAA96416F778CC00C22671 /* BYStorage.m */; };
@@ -101,6 +102,8 @@
 		A3B9D0D2179DF9960052D79D /* BYLocalizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BYLocalizer.m; sourceTree = "<group>"; };
 		A3BDCB3617B3C84100216889 /* BYBlurredBGView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYBlurredBGView.h; sourceTree = "<group>"; };
 		A3BDCB3717B3C84100216889 /* BYBlurredBGView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYBlurredBGView.m; sourceTree = "<group>"; };
+		A3BDCB3917B3CB5C00216889 /* BYViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYViewController.h; sourceTree = "<group>"; };
+		A3BDCB3A17B3CB5C00216889 /* BYViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYViewController.m; sourceTree = "<group>"; };
 		A3C2AB411790BCEE0070C53E /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		A3D60C76177FA1DC004D5A54 /* BYCursorLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCursorLabel.h; sourceTree = "<group>"; };
 		A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCursorLabel.m; sourceTree = "<group>"; };
@@ -187,6 +190,8 @@
 		A307E81916DE8A0D00C9425A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A3BDCB3917B3CB5C00216889 /* BYViewController.h */,
+				A3BDCB3A17B3CB5C00216889 /* BYViewController.m */,
 				A34A3271178E15BD00F95328 /* InterfaceDefinitions.h */,
 				A353B08B1733FE5300C5D868 /* UIImage+ImageFromView.h */,
 				A353B08C1733FE5300C5D868 /* UIImage+ImageFromView.m */,
@@ -373,6 +378,7 @@
 				A39162B11703667F00B3F9FF /* BYQuickShotView.m in Sources */,
 				A353B08D1733FE5300C5D868 /* UIImage+ImageFromView.m in Sources */,
 				A390843F1755518F0076168C /* BYNewExpenseWindow.m in Sources */,
+				A3BDCB3B17B3CB5C00216889 /* BYViewController.m in Sources */,
 				A3602A22179CB58B00FADA48 /* UIImage+Adjustments.m in Sources */,
 				A3D60C78177FA1DC004D5A54 /* BYCursorLabel.m in Sources */,
 				A3BDCB3817B3C84100216889 /* BYBlurredBGView.m in Sources */,
