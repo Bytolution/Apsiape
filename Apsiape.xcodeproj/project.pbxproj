@@ -40,6 +40,7 @@
 		A3B9D0D3179DFFCA0052D79D /* BYLocalizer.m in Sources */ = {isa = PBXBuildFile; fileRef = A3B9D0D2179DF9960052D79D /* BYLocalizer.m */; };
 		A3BDCB3817B3C84100216889 /* BYBlurredBGView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3BDCB3717B3C84100216889 /* BYBlurredBGView.m */; };
 		A3BDCB3B17B3CB5C00216889 /* BYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3BDCB3A17B3CB5C00216889 /* BYViewController.m */; };
+		A3BDCB3E17B3D0E900216889 /* BYNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A3BDCB3D17B3D0E900216889 /* BYNavigationBar.m */; };
 		A3C2AB421790BCEE0070C53E /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C2AB411790BCEE0070C53E /* CoreImage.framework */; };
 		A3D60C78177FA1DC004D5A54 /* BYCursorLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */; };
 		A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DAA96416F778CC00C22671 /* BYStorage.m */; };
@@ -68,6 +69,7 @@
 		A32587F717A0594F009390BC /* Expense.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Expense.m; sourceTree = "<group>"; };
 		A32587F817A08BCE009390BC /* BYMenuBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BYMenuBar.h; sourceTree = "<group>"; };
 		A32587F917A08BCE009390BC /* BYMenuBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BYMenuBar.m; sourceTree = "<group>"; };
+		A327271F17B3E3270091A846 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		A337964E16E52A4C00C55116 /* BYCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionViewCell.h; sourceTree = "<group>"; };
 		A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionViewCell.m; sourceTree = "<group>"; };
 		A34A3271178E15BD00F95328 /* InterfaceDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceDefinitions.h; sourceTree = "<group>"; };
@@ -104,6 +106,8 @@
 		A3BDCB3717B3C84100216889 /* BYBlurredBGView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYBlurredBGView.m; sourceTree = "<group>"; };
 		A3BDCB3917B3CB5C00216889 /* BYViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYViewController.h; sourceTree = "<group>"; };
 		A3BDCB3A17B3CB5C00216889 /* BYViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYViewController.m; sourceTree = "<group>"; };
+		A3BDCB3C17B3D0E900216889 /* BYNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYNavigationBar.h; sourceTree = "<group>"; };
+		A3BDCB3D17B3D0E900216889 /* BYNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYNavigationBar.m; sourceTree = "<group>"; };
 		A3C2AB411790BCEE0070C53E /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		A3D60C76177FA1DC004D5A54 /* BYCursorLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCursorLabel.h; sourceTree = "<group>"; };
 		A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCursorLabel.m; sourceTree = "<group>"; };
@@ -156,6 +160,7 @@
 		A307E81116DE8A0D00C9425A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A327271F17B3E3270091A846 /* Accelerate.framework */,
 				A3E8A22C179DC28100F0822C /* AddressBookUI.framework */,
 				A3C2AB411790BCEE0070C53E /* CoreImage.framework */,
 				A35DDD7A1737F7C2003C287E /* MapKit.framework */,
@@ -176,6 +181,8 @@
 			children = (
 				A35FB71D17B0368300447747 /* BYNavigationController.h */,
 				A35FB71E17B0368300447747 /* BYNavigationController.m */,
+				A3BDCB3C17B3D0E900216889 /* BYNavigationBar.h */,
+				A3BDCB3D17B3D0E900216889 /* BYNavigationBar.m */,
 				A37526DC16F5201D0079C94A /* CollectionView */,
 				A35FB72317B036E200447747 /* PreferencesView */,
 				A35FB72417B036F100447747 /* MapView */,
@@ -371,6 +378,7 @@
 				A307E81F16DE8A0D00C9425A /* main.m in Sources */,
 				A307E82316DE8A0D00C9425A /* BYAppDelegate.m in Sources */,
 				A3832F0C16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld in Sources */,
+				A3BDCB3E17B3D0E900216889 /* BYNavigationBar.m in Sources */,
 				A310311E16E3E37C00B163DC /* BYCollectionViewController.m in Sources */,
 				A337965016E52A4C00C55116 /* BYCollectionViewCell.m in Sources */,
 				A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */,

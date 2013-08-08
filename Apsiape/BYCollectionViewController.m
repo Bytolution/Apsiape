@@ -14,6 +14,7 @@
 #import "InterfaceDefinitions.h"
 #import "BYNewExpenseWindow.h"
 #import "BYMenuBar.h"
+#import "BYStatsViewController.h"
 
 @interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate, BYNewExpenseWindowDelegate>
 
@@ -21,7 +22,6 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 @property (nonatomic, strong) BYNewExpenseWindow *expenseWindow;
-@property (nonatomic, strong) UIView *statusBarBG;
 @property (nonatomic) BOOL menuBarIsVisible;
 
 - (void)updateCollectionViewData;
@@ -29,7 +29,7 @@
 
 @end
 
-#define PULL_WIDTH 80
+#define PULL_WIDTH 64
 
 @implementation BYCollectionViewController
 
@@ -63,10 +63,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.statusBarBG = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 20)];
-    self.statusBarBG.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
-    [self.view addSubview:self.statusBarBG];
     [self prepareCollectionView];
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self updateCollectionViewData];
 }
 
 #pragma mark - Collection View
@@ -78,7 +79,7 @@
         self.flowLayout.itemSize = CGSizeMake(self.view.frame.size.width - (CELL_PADDING*2), CELL_HEIGHT);
         self.flowLayout.minimumInteritemSpacing = 0;
         self.flowLayout.minimumLineSpacing = ROW_PADDING;
-        self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 20, 320, self.view.bounds.size.height-20) collectionViewLayout:self.flowLayout];
+        self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, 320, self.view.bounds.size.height) collectionViewLayout:self.flowLayout];
         self.collectionView.alwaysBounceVertical = YES;
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
@@ -87,16 +88,13 @@
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
         self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self.view addSubview:self.collectionView];
-        UIView *topPullView = [[UIView alloc]initWithFrame:CGRectMake(0, -300, 320, 300)];
-        topPullView.backgroundColor = [UIColor colorWithWhite:0.6 alpha:1];
         UILabel *label = [UILabel new];
         label.text = @"Create new";
-        label.frame = CGRectMake(0, - PULL_WIDTH, 320, PULL_WIDTH);
-        label.textColor = [UIColor whiteColor];
+        label.frame = CGRectMake(0, 10, 320, NAVBAR_HEIGHT);
+        label.textColor = [UIColor blackColor];
         label.backgroundColor = [UIColor clearColor];
         label.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30];
         label.textAlignment = NSTextAlignmentCenter;
-        [self.collectionView addSubview:topPullView];
         [self.collectionView addSubview:label];
     }
 }
@@ -160,9 +158,14 @@
     [self.collectionView deleteItemsAtIndexPaths:indexesForDeletion];
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.navigationController pushViewController:[[BYCollectionViewController alloc]initWithNibName:nil bundle:nil] animated:YES];
+}
+
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(8, 0, 5, 0);
+    return UIEdgeInsetsMake(NAVBAR_HEIGHT + 8, 0, 5, 0);
 }
 
 #pragma mark - Scroll View Delegate

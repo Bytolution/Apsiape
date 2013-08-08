@@ -15,7 +15,7 @@
 {
     NSString *currentAppLocaleIdentifier = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentAppLocaleIdentifier"];
     if (currentAppLocaleIdentifier) {
-        return [NSLocale localeWithLocaleIdentifier:currentAppLocaleIdentifier];
+        return [[NSLocale alloc]initWithLocaleIdentifier:currentAppLocaleIdentifier];
     } else {
         return [NSLocale currentLocale];
     }

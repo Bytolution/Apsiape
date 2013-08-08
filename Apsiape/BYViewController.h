@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class BYNavigationController;
+#import "BYNavigationController.h"
 
 @interface BYViewController : UIViewController
 
