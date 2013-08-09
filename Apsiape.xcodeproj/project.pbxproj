@@ -20,6 +20,7 @@
 		A310311E16E3E37C00B163DC /* BYCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311C16E3E37C00B163DC /* BYCollectionViewController.m */; };
 		A32587FA17A09D4E009390BC /* BYMenuBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A32587F917A08BCE009390BC /* BYMenuBar.m */; };
 		A337965016E52A4C00C55116 /* BYCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */; };
+		A33A15F617B53F1F00507954 /* BYTableViewCellBGView.m in Sources */ = {isa = PBXBuildFile; fileRef = A33A15F517B53F1F00507954 /* BYTableViewCellBGView.m */; };
 		A353B08D1733FE5300C5D868 /* UIImage+ImageFromView.m in Sources */ = {isa = PBXBuildFile; fileRef = A353B08C1733FE5300C5D868 /* UIImage+ImageFromView.m */; };
 		A35758EB17934DAA007C21AF /* BYStatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35758EA17934DAA007C21AF /* BYStatsViewController.m */; };
 		A3598064170E42F700FA8872 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3598063170E42F700FA8872 /* CoreLocation.framework */; };
@@ -72,6 +73,8 @@
 		A327271F17B3E3270091A846 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		A337964E16E52A4C00C55116 /* BYCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionViewCell.h; sourceTree = "<group>"; };
 		A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionViewCell.m; sourceTree = "<group>"; };
+		A33A15F417B53F1F00507954 /* BYTableViewCellBGView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYTableViewCellBGView.h; sourceTree = "<group>"; };
+		A33A15F517B53F1F00507954 /* BYTableViewCellBGView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYTableViewCellBGView.m; sourceTree = "<group>"; };
 		A34A3271178E15BD00F95328 /* InterfaceDefinitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceDefinitions.h; sourceTree = "<group>"; };
 		A353B08B1733FE5300C5D868 /* UIImage+ImageFromView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageFromView.h"; sourceTree = "<group>"; };
 		A353B08C1733FE5300C5D868 /* UIImage+ImageFromView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageFromView.m"; sourceTree = "<group>"; };
@@ -197,6 +200,8 @@
 		A307E81916DE8A0D00C9425A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A33A15F417B53F1F00507954 /* BYTableViewCellBGView.h */,
+				A33A15F517B53F1F00507954 /* BYTableViewCellBGView.m */,
 				A3BDCB3917B3CB5C00216889 /* BYViewController.h */,
 				A3BDCB3A17B3CB5C00216889 /* BYViewController.m */,
 				A34A3271178E15BD00F95328 /* InterfaceDefinitions.h */,
@@ -391,6 +396,7 @@
 				A3D60C78177FA1DC004D5A54 /* BYCursorLabel.m in Sources */,
 				A3BDCB3817B3C84100216889 /* BYBlurredBGView.m in Sources */,
 				A38E2E4817836C4400E1EBBC /* BYPullScrollView.m in Sources */,
+				A33A15F617B53F1F00507954 /* BYTableViewCellBGView.m in Sources */,
 				A35758EB17934DAA007C21AF /* BYStatsViewController.m in Sources */,
 				A376B5891794BFB90008A141 /* BYStatsView.m in Sources */,
 			);
