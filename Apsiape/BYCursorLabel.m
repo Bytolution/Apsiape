@@ -17,8 +17,6 @@
 
 @implementation BYCursorLabel
 
-#warning Animation stops, when application reenters foreground
-
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     [super willMoveToSuperview:newSuperview];

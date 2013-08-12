@@ -30,6 +30,11 @@
     [self.view addSubview:[[BYStatsView alloc] initWithFrame:self.view.bounds]];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

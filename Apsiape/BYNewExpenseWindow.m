@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
 #import <QuartzCore/QuartzCore.h>
-#import "BYContainerViewController.h"
 #import "BYNewExpenseWindow.h"
 #import "UIImage+Adjustments.h"
 #import "BYQuickShotView.h"
@@ -15,10 +14,11 @@
 #import "BYStorage.h"
 #import "BYCursorLabel.h"
 #import "BYPullScrollView.h"
-
+#import "BYCollectionViewController.h"
+#import "BYLocalizer.h"
+#import "InterfaceDefinitions.h"
 @interface BYNewExpenseWindow () <BYQuickShotViewDelegate, BYExpenseKeyboardDelegate, BYPullScrollViewDelegate>
 
-@property (nonatomic, strong) UINavigationBar *headerBar;
 @property (nonatomic, strong) BYQuickShotView *quickShotView;
 @property (nonatomic, strong) NSMutableString *expenseValueRawString;
 @property (nonatomic, strong) BYCursorLabel *expenseValueLabel;
@@ -71,7 +71,7 @@
 - (NSString *)expenseValueCurrencyFormattedString
 {
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
-    formatter.decimalSeparator = @".";
+    [formatter setLocale:[BYLocalizer currentAppLocale]];
     formatter.numberStyle = NSNumberFormatterCurrencyStyle;
     return [formatter stringFromNumber:[NSNumber numberWithFloat:self.expenseValueRawString.floatValue]];
 }
@@ -80,12 +80,10 @@
 {
     NSRange decSeparatorRange = [self.expenseValueRawString rangeOfString:@"."];
     if (decSeparatorRange.length == 1) {
-        if (decSeparatorRange.location < self.expenseValueRawString.length - 2) return;
+        if (decSeparatorRange.location == self.expenseValueRawString.length - 3) return;
         if ([numberString isEqualToString:@"."]) return;
     }
-    if (self.expenseValueRawString.length == 9) return;
     [self.expenseValueRawString appendString:numberString];
-    
     self.expenseValueLabel.text = self.expenseValueCurrencyFormattedString;
 }
 
@@ -105,13 +103,9 @@
 - (void)resignKeyWindow
 {
     [super resignKeyWindow];
-    if (self.expenseValueRawString.length != 0) {
-        [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString
-                                                        numberValue:self.expenseValueDecimalNumber
-                                                       fullResImage:self.quickShotView.fullResCapturedImage
-                                                         completion:nil];
-    }
+    [self.quickShotView willMoveToSuperview:nil];
     self.expenseValueRawString = nil;
+    self.quickShotView = nil;
 }
 
 #pragma mark Delegation (QuickShotView)
@@ -131,9 +125,17 @@
 
 #pragma mark Delegation (PullScrollView)
 
-- (void)pullScrollView:(UIScrollView *)pullScrollView didDetectPullingAtEdge:(BYPullScrollViewEdgeType)edge
+- (void)pullScrollView:(UIScrollView *)pullScrollView didDetectPullingAtEdge:(BYEdgeType)edge
 {
-    [[BYContainerViewController sharedContainerViewController] dismissExpenseCreationWindow];
+    if (edge == BYEdgeTypeBottom || edge == BYEdgeTypeLeft) {
+        [self.windowDelegate windowShouldDisappear:self];
+    } else if ((edge == BYEdgeTypeRight || edge == BYEdgeTypeTop) && self.expenseValueRawString.length != 0){
+        [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString
+                                                        numberValue:self.expenseValueDecimalNumber
+                                                       fullResImage:self.quickShotView.fullResCapturedImage
+                                                         completion:nil];
+        [self.windowDelegate windowShouldDisappear:self];
+    }
 }
 - (void)pullScrollView:(UIScrollView *)pullScrollView didScrollToPage:(NSInteger)page
 {

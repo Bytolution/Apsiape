@@ -43,7 +43,7 @@
         [newStillImageOutput setOutputSettings:outputSettings];
         
         AVCaptureSession *newCaptureSession = [[AVCaptureSession alloc] init];
-        newCaptureSession.sessionPreset = AVCaptureSessionPresetPhoto;
+        newCaptureSession.sessionPreset = AVCaptureSessionPreset1920x1080;
         
         if ([newCaptureSession canAddInput:newVideoInput]) {
             [newCaptureSession addInput:newVideoInput];
@@ -99,6 +99,10 @@
 - (void)willMoveToSuperview:(UIView *)newSuperview {
     UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapDetected)];
     [self addGestureRecognizer:tgr];
+    if (!newSuperview) {
+        self.imagePreView = nil;
+        self.fullResCapturedImage = nil;
+    }
 }
 
 - (void)didMoveToSuperview {
@@ -151,6 +155,13 @@
         self.imagePreView.image = nil;
         self.fullResCapturedImage = nil;
     }
+}
+
+- (void)dealloc
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    self.imagePreView = nil;
+    self.fullResCapturedImage = nil;
 }
 
 - (void)animateFlash {

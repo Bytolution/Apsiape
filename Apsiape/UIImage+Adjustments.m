@@ -38,20 +38,17 @@
                                                 0,
                                                 CGImageGetColorSpace(imageRef),
                                                 CGImageGetBitmapInfo(imageRef));
-        
-    // Set the quality level to use when rescaling
+
     CGContextSetInterpolationQuality(bitmap, kCGInterpolationHigh);
-    
-    // Draw into the context; this scales the image
     CGContextDrawImage(bitmap, newRect, imageRef);
-    
-    // Get the resized image from the context and a UIImage
     CGImageRef newImageRef = CGBitmapContextCreateImage(bitmap);
     UIImage *newImage = [UIImage imageWithCGImage:newImageRef scale:1.0 orientation:self.imageOrientation];
     
     // Clean up
     CGContextRelease(bitmap);
     CGImageRelease(newImageRef);
+    CGImageRelease(imageRef);
+    
     return newImage;
 }
 
@@ -65,7 +62,6 @@
     CGImageRef cgiimage = [context createCGImage:output fromRect:output.extent];
     UIImage *newImage = [UIImage imageWithCGImage:cgiimage scale:1.0 orientation:self.imageOrientation];
     CGImageRelease(cgiimage);
-    
     return newImage;
 }
 

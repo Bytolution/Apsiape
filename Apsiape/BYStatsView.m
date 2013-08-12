@@ -13,8 +13,6 @@
 @property (nonatomic, strong) NSArray *values;
 @property (nonatomic, strong) CALayer *beamContainer;
 
-- (void)executeBlockWithTimer:(NSTimer*)timer;
-
 @end
 
 @implementation BYStatsView
@@ -68,11 +66,6 @@
         [self.beamContainer addSublayer:beam];
     }
     [self.layer addSublayer:self.beamContainer];
-}
-
-- (void)executeBlockWithTimer:(NSTimer *)timer
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 @end

@@ -10,13 +10,14 @@
 #import "BYStorage.h"
 #import "UIImage+Adjustments.h"
 #import "Expense.h"
-
+#import <AddressBookUI/AddressBookUI.h>
+#import "BYLocalizer.h"
 
 @interface BYStorage () <CLLocationManagerDelegate>
 
 @property (strong, nonatomic) UIManagedDocument *document;
 @property (nonatomic, strong) CLLocationManager *locationManager;
-@property (nonatomic, strong) CLLocation *location;
+@property (nonatomic) BOOL localeUpdated;
 
 - (void)docStateChanged;
 - (void)openDocument;
@@ -31,7 +32,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedInstance = [[BYStorage alloc] init];
-        NSLog(@"SINGLETON: BYStorage now exists.");
+//        NSLog(@"SINGLETON: BYStorage now exists.");
     });
     
     return sharedInstance;
@@ -57,7 +58,6 @@
         NSURL *url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
         url = [url URLByAppendingPathComponent:@"appStorage"];
         self.document = [[UIManagedDocument alloc] initWithFileURL:url];
-        
         if (![[NSFileManager defaultManager]fileExistsAtPath:[self.document.fileURL path]]) {
             [self.document saveToURL:self.document.fileURL forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
                 NSLog(@"File got saved");
@@ -85,8 +85,12 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    self.location = locations[0];
+    if (manager.location.horizontalAccuracy < 1000 && !self.localeUpdated) {
+        [BYLocalizer determineCurrentLocaleWithLocation:manager.location];
+        self.localeUpdated = YES;
+    }
 }
+
 
 - (void)saveDocument {
     [self.document saveToURL:self.document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
@@ -121,7 +125,8 @@
         newExpense.thumbnailResolutionMonochromeImagePath = thumbnailResolutionMonochromeImagePath;
         newExpense.stringValue = stringValue;
         newExpense.numberValue = numberValue;
-        newExpense.location = [NSKeyedArchiver archivedDataWithRootObject:self.location];
+        newExpense.location = [NSKeyedArchiver archivedDataWithRootObject:self.locationManager.location];
+        newExpense.localeIdentifier = [BYLocalizer currentAppLocale].localeIdentifier;
     }];
     dispatch_queue_t saveQueue = dispatch_queue_create("User data fetcher", NULL);
     dispatch_async(saveQueue, ^{
@@ -130,14 +135,21 @@
         fullResolutionImageData = nil;
         NSData *screenResolutionImageData = UIImageJPEGRepresentation([fullResImg cropWithSquareRatioAndResolution:640], 1.0);
         [screenResolutionImageData writeToFile:screenResolutionImagePath atomically:NO];
+        screenResolutionImageData = nil;
         NSData *thumbnailResolutionImageData = UIImageJPEGRepresentation([fullResImg cropWithSquareRatioAndResolution:160], 1.0);
         [thumbnailResolutionImageData writeToFile:thumbnailResolutionImagePath atomically:NO];
+        thumbnailResolutionImageData = nil;
         NSData *screenResolutionMonochromeImageData = UIImageJPEGRepresentation([[fullResImg cropWithSquareRatioAndResolution:640] monochromeImage], 1.0);
         [screenResolutionMonochromeImageData writeToFile:screenResolutionMonochromeImagePath atomically:NO];
+        screenResolutionMonochromeImageData = nil;
         NSData *thumbnailResolutionMonochromeImageData = UIImageJPEGRepresentation([[fullResImg cropWithSquareRatioAndResolution:160] monochromeImage], 1.0);
         [thumbnailResolutionMonochromeImageData writeToFile:thumbnailResolutionMonochromeImagePath atomically:NO];
+        thumbnailResolutionMonochromeImageData = nil;
         [self.managedObjectContext performBlock:^{
-            [self saveDocument];
+            [BYLocalizer geocodeInfoStringForLocation:self.locationManager.location completion:^(NSString *infoString) {
+                newExpense.locationString = infoString;
+                [self saveDocument];
+            }];
         }];
     });
 }

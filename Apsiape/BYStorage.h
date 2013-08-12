@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class BYContainerViewController;
+@class BYNavigationController;
 
 @interface BYStorage : NSObject
 
