@@ -13,7 +13,6 @@
 #import "Expense.h"
 #import "InterfaceDefinitions.h"
 #import "BYNewExpenseWindow.h"
-#import "BYMenuBar.h"
 #import "BYStatsViewController.h"
 
 @interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate, BYNewExpenseWindowDelegate>
@@ -37,6 +36,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.title = @"Overview";
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCollectionViewData) name:UIDocumentStateChangedNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCollectionViewData) name:@"UIDocumentSavedSuccessfullyNotification" object:nil];
     }
@@ -79,7 +79,7 @@
         self.flowLayout.itemSize = CGSizeMake(self.view.frame.size.width - (CELL_PADDING*2), CELL_HEIGHT);
         self.flowLayout.minimumInteritemSpacing = 0;
         self.flowLayout.minimumLineSpacing = ROW_PADDING;
-        self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, 320, self.view.bounds.size.height) collectionViewLayout:self.flowLayout];
+        self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, 320, CGRectGetMaxY(self.view.frame)) collectionViewLayout:self.flowLayout];
         self.collectionView.alwaysBounceVertical = YES;
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
@@ -90,7 +90,7 @@
         [self.view addSubview:self.collectionView];
         UILabel *label = [UILabel new];
         label.text = @"Create new";
-        label.frame = CGRectMake(0, 10, 320, NAVBAR_HEIGHT);
+        label.frame = CGRectMake(0, - NAVBAR_HEIGHT, 320, NAVBAR_HEIGHT);
         label.textColor = [UIColor blackColor];
         label.backgroundColor = [UIColor clearColor];
         label.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30];
@@ -165,14 +165,14 @@
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(NAVBAR_HEIGHT + 8, 0, 5, 0);
+    return UIEdgeInsetsMake(6, 0, 5, 0);
 }
 
 #pragma mark - Scroll View Delegate
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    if (scrollView.contentOffset.y < - PULL_WIDTH) {
+    if (scrollView.contentOffset.y < - 60) {
         self.expenseWindow = [[BYNewExpenseWindow alloc]initWithFrame:[[UIScreen mainScreen] bounds]];
         self.expenseWindow.windowLevel = UIWindowLevelAlert;
         self.expenseWindow.windowDelegate = self;

@@ -11,6 +11,5 @@
 
 @interface BYViewController : UIViewController
 
-@property (nonatomic, strong) BYNavigationController *navigationController;
 
 @end

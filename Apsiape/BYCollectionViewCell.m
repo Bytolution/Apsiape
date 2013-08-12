@@ -42,7 +42,7 @@
         self.label = [[UILabel alloc]initWithFrame:CGRectZero];
         self.label.textAlignment = NSTextAlignmentRight;
         self.label.backgroundColor = [UIColor clearColor];
-        self.label.textColor = [UIColor blackColor];
+        self.label.textColor = [UIColor colorWithRed:0.1 green:0.3 blue:0.7 alpha:1];
         self.label.font = [UIFont fontWithName:@"Miso-Light" size:46];
         
         self.imageView = [[UIImageView alloc]initWithFrame:CGRectZero];

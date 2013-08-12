@@ -7,7 +7,6 @@
 //
 #import "InterfaceDefinitions.h"
 #import "BYPreferencesViewController.h"
-#import "BYTableViewCellBGView.h"
 
 @interface BYPreferencesViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -62,30 +61,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //TODO: Use modified TVPGroupedTableViewCell w/out REUSE(!!!)
-    BYTableViewCellBGViewCellPosition cellPos = 0;
-    static NSString *cellIdentifier = nil;
-    if (indexPath.row == 0 && [tableView numberOfRowsInSection:indexPath.section] == 1) {
-        // single cell
-        cellIdentifier = @"CELL_ID_single";
-        cellPos = BYTableViewCellBGViewCellPositionSingle;
-    } else if (indexPath.row == 0 && [tableView numberOfRowsInSection:indexPath.section] > 1) {
-        // top cell
-        cellIdentifier = @"CELL_ID_top";
-        cellPos = BYTableViewCellBGViewCellPositionTop;
-    } else if (indexPath.row == ([tableView numberOfRowsInSection:indexPath.section] - 1)) {
-        //bottom cell
-        cellIdentifier = @"CELL_ID_bottom";
-        cellPos = BYTableViewCellBGViewCellPositionBottom;
-    } else {
-        //middle cell
-        cellIdentifier = @"CELL_ID_middle";
-        cellPos = BYTableViewCellBGViewCellPositionMiddle;
-    }
+    static NSString *cellIdentifier = @"CELL_ID";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    cell.backgroundView = [[BYTableViewCellBGView alloc]initWithFrame:cell.bounds cellPosition:cellPos];
     cell.textLabel.text = @"UITableViewCell";
     cell.textLabel.backgroundColor = [UIColor clearColor];
     return cell;

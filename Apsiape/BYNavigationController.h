@@ -10,9 +10,9 @@
 
 @class BYViewController;
 
-@interface BYNavigationController : UIViewController
+@interface BYNavigationController : UINavigationController
 
-- (void)pushViewController:(BYViewController*)viewController animated:(BOOL)animated;
+//- (void)pushViewController:(BYViewController*)viewController animated:(BOOL)animated;
 - (void)popCurrentlyVisibleViewControllerAnimated:(BOOL)animated;
 
 @end

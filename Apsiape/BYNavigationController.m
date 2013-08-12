@@ -11,16 +11,14 @@
 #import "BYMapViewController.h"
 #import "BYPreferencesViewController.h"
 #import "InterfaceDefinitions.h"
-#import "BYNavigationBar.h"
 
-@interface BYNavigationController () <UIGestureRecognizerDelegate, BYNavigationBarDelegate>
+@interface BYNavigationController () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 @property (nonatomic, strong) BYCollectionViewController *collectionViewController;
 @property (nonatomic, strong) BYMapViewController *mapViewController;
 @property (nonatomic, strong) BYPreferencesViewController *preferencesViewController;
 @property (nonatomic, strong) UIView *mapGestureOverlayView;
-@property (nonatomic, strong) BYNavigationBar *navigationBar;
 
 @property (nonatomic, strong) NSMutableArray *viewControllerStack;
 
@@ -49,10 +47,10 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        
         if (!self.collectionViewController) self.collectionViewController = [[BYCollectionViewController alloc]initWithNibName:nil bundle:nil];
         if (!self.mapViewController) self.mapViewController = [[BYMapViewController alloc]initWithNibName:nil bundle:nil];
         if (!self.preferencesViewController) self.preferencesViewController = [[BYPreferencesViewController alloc]initWithNibName:nil bundle:nil];
-        if (!self.navigationBar) self.navigationBar = [[BYNavigationBar alloc]initWithFrame:CGRectMake(0, 0, 320, NAVBAR_HEIGHT)];
         
         if (!self.mapGestureOverlayView) self.mapGestureOverlayView = [[UIView alloc]initWithFrame:CGRectZero];
         
@@ -72,33 +70,33 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self.collectionViewController willMoveToParentViewController:self];
-    [self addChildViewController:self.collectionViewController];
-    self.collectionViewController.view.frame = CGRectOffset(self.view.bounds, 0, 0);
-    [self.view addSubview:self.collectionViewController.view];
-    [self.collectionViewController didMoveToParentViewController:self];
-    self.collectionViewController.navigationController = self;
-    [self setRootViewController:self.collectionViewController];
+//    [self.collectionViewController willMoveToParentViewController:self];
+//    [self addChildViewController:self.collectionViewController];
+//    self.collectionViewController.view.frame = CGRectOffset(self.view.bounds, 0, 0);
+//    [self.view addSubview:self.collectionViewController.view];
+//    [self.collectionViewController didMoveToParentViewController:self];
+//    self.collectionViewController.navigationController = self;
+//    [self setRootViewController:self.collectionViewController];
+//    
+//    [self.mapViewController willMoveToParentViewController:self];
+//    [self addChildViewController:self.mapViewController];
+//    self.mapViewController.view.frame = CGRectOffset(self.view.bounds, - 320, 0);
+//    [self.view addSubview:self.mapViewController.view];
+//    [self.mapViewController didMoveToParentViewController:self];
+//    
+//    [self.preferencesViewController willMoveToParentViewController:self];
+//    [self addChildViewController:self.preferencesViewController];
+//    self.preferencesViewController.view.frame = CGRectOffset(self.view.bounds, 320, 0);
+//    [self.view addSubview:self.preferencesViewController.view];
+//    [self.preferencesViewController didMoveToParentViewController:self];
+//    
+//    [self.view addSubview:self.mapGestureOverlayView];
+//    self.mapGestureOverlayView.frame = CGRectMake(290, 0, 30, 568);
+//    self.mapGestureOverlayView.backgroundColor = [UIColor clearColor];
     
-    [self.mapViewController willMoveToParentViewController:self];
-    [self addChildViewController:self.mapViewController];
-    self.mapViewController.view.frame = CGRectOffset(self.view.bounds, - 320, 0);
-    [self.view addSubview:self.mapViewController.view];
-    [self.mapViewController didMoveToParentViewController:self];
-    
-    [self.preferencesViewController willMoveToParentViewController:self];
-    [self addChildViewController:self.preferencesViewController];
-    self.preferencesViewController.view.frame = CGRectOffset(self.view.bounds, 320, 0);
-    [self.view addSubview:self.preferencesViewController.view];
-    [self.preferencesViewController didMoveToParentViewController:self];
-    
-    [self.view addSubview:self.mapGestureOverlayView];
-    self.mapGestureOverlayView.frame = CGRectMake(290, 0, 30, 568);
-    self.mapGestureOverlayView.backgroundColor = [UIColor clearColor];
-    
-    [self.view addSubview:self.navigationBar];
-    self.navigationBar.backgroundColor = [UIColor colorWithWhite:1 alpha:0.9];
-    self.navigationBar.delegate = self;
+//    [self.view addSubview:self.navigationBar];
+//    self.navigationBar.backgroundColor = [UIColor colorWithWhite:1 alpha:0.9];
+//    self.navigationBar.delegate = self;
    
 }
 
@@ -142,52 +140,52 @@
     return [self.viewControllerStack lastObject];
 }
 
-- (void)pushViewController:(BYViewController *)viewController animated:(BOOL)animated
-{
-    [viewController willMoveToParentViewController:self];
-    [self addChildViewController:viewController];
-    viewController.view.frame = CGRectOffset(self.view.bounds, CGRectGetMaxX(self.view.frame), 0);
-    [self.view insertSubview:viewController.view belowSubview:self.navigationBar];
-    [UIView animateWithDuration:0.4 animations:^{
-        viewController.view.frame = self.view.bounds;
-    } completion:^(BOOL finished) {
-        [viewController didMoveToParentViewController:self];
-        BYViewController *belowVC = self.visibleViewController;
-        [belowVC willMoveToParentViewController:nil];
-        [belowVC.view removeFromSuperview];
-        [belowVC removeFromParentViewController];
-        viewController.navigationController = self;
-        [self addViewControllerToStack:viewController];
-    }];
-}
+//- (void)pushViewController:(BYViewController *)viewController animated:(BOOL)animated
+//{
+//    [viewController willMoveToParentViewController:self];
+//    [self addChildViewController:viewController];
+//    viewController.view.frame = CGRectOffset(self.view.bounds, CGRectGetMaxX(self.view.frame), 0);
+//    [self.view insertSubview:viewController.view belowSubview:self.navigationBar];
+//    [UIView animateWithDuration:0.4 animations:^{
+//        viewController.view.frame = self.view.bounds;
+//    } completion:^(BOOL finished) {
+//        [viewController didMoveToParentViewController:self];
+//        BYViewController *belowVC = self.visibleViewController;
+//        [belowVC willMoveToParentViewController:nil];
+//        [belowVC.view removeFromSuperview];
+//        [belowVC removeFromParentViewController];
+//        viewController.navigationController = self;
+//        [self addViewControllerToStack:viewController];
+//    }];
+//}
 
-- (void)popCurrentlyVisibleViewControllerAnimated:(BOOL)animated
-{
-    if (self.viewControllerStack.count >= 2) {
-        BYViewController *topVC = self.visibleViewController;
-        BYViewController *belowVC = [self.viewControllerStack objectAtIndex:self.viewControllerStack.count - 2];
-        
-        [belowVC willMoveToParentViewController:self];
-        [self addChildViewController:belowVC];
-        belowVC.view.frame = self.view.bounds;
-        [self.view insertSubview:belowVC.view belowSubview:topVC.view];
-        [belowVC didMoveToParentViewController:self];
-        
-        [UIView animateWithDuration:0.4 animations:^{
-            topVC.view.frame = CGRectOffset(self.view.bounds, CGRectGetMaxX(self.view.bounds), 0);
-        } completion:^(BOOL finished) {
-            [topVC willMoveToParentViewController:nil];
-            [topVC.view removeFromSuperview];
-            [topVC removeFromParentViewController];
-            [self removeLastViewControllerFromStack];
-        }];
-        
-    } else if (self.viewControllerStack.count == 1) {
-        return;
-    } else if (self.viewControllerStack.count == 0) {
-        [NSException raise:@"BYNavigationControllerException" format:@"The view controller stack should not be empty"];
-    }
-}
+//- (void)popCurrentlyVisibleViewControllerAnimated:(BOOL)animated
+//{
+//    if (self.viewControllerStack.count >= 2) {
+//        BYViewController *topVC = self.visibleViewController;
+//        BYViewController *belowVC = [self.viewControllerStack objectAtIndex:self.viewControllerStack.count - 2];
+//        
+//        [belowVC willMoveToParentViewController:self];
+//        [self addChildViewController:belowVC];
+//        belowVC.view.frame = self.view.bounds;
+//        [self.view insertSubview:belowVC.view belowSubview:topVC.view];
+//        [belowVC didMoveToParentViewController:self];
+//        
+//        [UIView animateWithDuration:0.4 animations:^{
+//            topVC.view.frame = CGRectOffset(self.view.bounds, CGRectGetMaxX(self.view.bounds), 0);
+//        } completion:^(BOOL finished) {
+//            [topVC willMoveToParentViewController:nil];
+//            [topVC.view removeFromSuperview];
+//            [topVC removeFromParentViewController];
+//            [self removeLastViewControllerFromStack];
+//        }];
+//        
+//    } else if (self.viewControllerStack.count == 1) {
+//        return;
+//    } else if (self.viewControllerStack.count == 0) {
+//        [NSException raise:@"BYNavigationControllerException" format:@"The view controller stack should not be empty"];
+//    }
+//}
 
 - (void)leftButtonTapped
 {
