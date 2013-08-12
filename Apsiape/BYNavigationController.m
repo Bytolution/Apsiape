@@ -252,13 +252,13 @@
 - (void)transitionWithLeftViewControllerWithHorizontalDelta:(CGFloat)deltaX velocity:(CGFloat)velocity state:(UIGestureRecognizerState)gState
 {
     self.mapViewController.view.frame = CGRectOffset(self.mapViewController.view.frame, deltaX, 0);
-//    self.collectionViewController.view.frame = CGRectOffset(self.collectionViewController.view.frame, deltaX, 0);
+    self.collectionViewController.view.frame = CGRectOffset(self.collectionViewController.view.frame, deltaX, 0);
     
     if (gState == UIGestureRecognizerStateEnded && velocity > 0) {
         // GOTO maps
         [UIView animateWithDuration:.2 animations:^{
             self.mapViewController.view.frame = CGRectMake(0, 0, 320, 568);
-//            self.collectionViewController.view.frame = CGRectMake(320, 0, 320, 568);
+            self.collectionViewController.view.frame = CGRectMake(320, 0, 320, 568);
         } completion:^(BOOL finished) {
             self.mapViewVisible = YES;
         }];
@@ -266,7 +266,7 @@
         // GOTO collection view
         [UIView animateWithDuration:.2 animations:^{
             self.mapViewController.view.frame = CGRectMake(-320, 0, 320, 568);
-//            self.collectionViewController.view.frame = CGRectMake(0, 0, 320, 568);
+            self.collectionViewController.view.frame = CGRectMake(0, 0, 320, 568);
         } completion:^(BOOL finished) {
             self.mapViewVisible = NO;
         }];
@@ -275,13 +275,13 @@
 - (void)transitionWithRightViewControllerWithHorizontalDelta:(CGFloat)deltaX velocity:(CGFloat)velocity state:(UIGestureRecognizerState)gState
 {
     self.preferencesViewController.view.frame = CGRectOffset(self.preferencesViewController.view.frame, deltaX, 0);
-//    self.collectionViewController.view.frame = CGRectOffset(self.collectionViewController.view.frame, deltaX, 0);
+    self.collectionViewController.view.frame = CGRectOffset(self.collectionViewController.view.frame, deltaX, 0);
     
     if (gState == UIGestureRecognizerStateEnded && velocity > 0) {
         // GOTO collection view
         [UIView animateWithDuration:.2 animations:^{
             self.preferencesViewController.view.frame = CGRectMake(320, 0, 320, 568);
-//            self.collectionViewController.view.frame = CGRectMake(0, 0, 320, 568);
+            self.collectionViewController.view.frame = CGRectMake(0, 0, 320, 568);
         } completion:^(BOOL finished) {
             self.preferencesViewVisible = NO;
         }];
@@ -289,7 +289,7 @@
         // GOTO pref view
         [UIView animateWithDuration:.2 animations:^{
             self.preferencesViewController.view.frame = CGRectMake(0, 0, 320, 568);
-//            self.collectionViewController.view.frame = CGRectMake(- 320, 0, 320, 568);
+            self.collectionViewController.view.frame = CGRectMake(- 320, 0, 320, 568);
         } completion:^(BOOL finished) {
             self.preferencesViewVisible = YES;
         }];
