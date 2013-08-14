@@ -105,7 +105,6 @@
 		A3DAA96316F778CC00C22671 /* BYStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYStorage.h; sourceTree = "<group>"; };
 		A3DAA96416F778CC00C22671 /* BYStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYStorage.m; sourceTree = "<group>"; };
 		A3E7570116E295F400AE2AF7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		A3E8A22C179DC28100F0822C /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		A3F7FAC516FA36D1002F58AA /* BYExpenseKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYExpenseKeyboard.h; sourceTree = "<group>"; };
 		A3F7FAC616FA36D1002F58AA /* BYExpenseKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYExpenseKeyboard.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -152,7 +151,6 @@
 			isa = PBXGroup;
 			children = (
 				A327271F17B3E3270091A846 /* Accelerate.framework */,
-				A3E8A22C179DC28100F0822C /* AddressBookUI.framework */,
 				A3C2AB411790BCEE0070C53E /* CoreImage.framework */,
 				A35DDD7A1737F7C2003C287E /* MapKit.framework */,
 				A3598063170E42F700FA8872 /* CoreLocation.framework */,
@@ -186,9 +184,9 @@
 		A307E81916DE8A0D00C9425A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A34A3271178E15BD00F95328 /* InterfaceDefinitions.h */,
 				A3BDCB3917B3CB5C00216889 /* BYViewController.h */,
 				A3BDCB3A17B3CB5C00216889 /* BYViewController.m */,
-				A34A3271178E15BD00F95328 /* InterfaceDefinitions.h */,
 				A353B08B1733FE5300C5D868 /* UIImage+ImageFromView.h */,
 				A353B08C1733FE5300C5D868 /* UIImage+ImageFromView.m */,
 				A3602A21179CB58B00FADA48 /* UIImage+Adjustments.h */,
@@ -459,7 +457,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Apsiape/Apsiape-Prefix.pch";
 				INFOPLIST_FILE = "Apsiape/Apsiape-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -477,7 +475,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Apsiape/Apsiape-Prefix.pch";
 				INFOPLIST_FILE = "Apsiape/Apsiape-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;

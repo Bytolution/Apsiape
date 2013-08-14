@@ -17,13 +17,10 @@
 - (NSManagedObjectContext*)managedObjectContext;
 
 - (void)saveDocument;
+
 - (void)saveExpenseObjectWithStringValue:(NSString*)stringValue
                              numberValue:(NSNumber*)numberValue
                             fullResImage:(UIImage*)fullResImg
                               completion:(void(^)(BOOL success))completionHandler;
-
-+ (NSString*)appFontName;
-+ (NSString*)secondAppFontName;
-+ (UIFont*)tableViewFont;
 
 @end

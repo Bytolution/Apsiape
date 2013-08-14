@@ -22,6 +22,7 @@
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 @property (nonatomic, strong) BYNewExpenseWindow *expenseWindow;
 @property (nonatomic) BOOL menuBarIsVisible;
+@property (nonatomic, strong) NSMutableArray *cellStates;
 
 - (void)updateCollectionViewData;
 - (void)prepareCollectionView;
@@ -37,6 +38,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Overview";
+        if (!self.collectionViewData) self.collectionViewData = [[NSMutableArray alloc]init];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCollectionViewData) name:UIDocumentStateChangedNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCollectionViewData) name:@"UIDocumentSavedSuccessfullyNotification" object:nil];
     }
@@ -45,17 +47,18 @@
 
 - (void)updateCollectionViewData
 {
-    if (!self.collectionViewData) self.collectionViewData = [[NSMutableArray alloc]init];
     [self.collectionViewData removeAllObjects];
     NSFetchRequest *fetchR = [NSFetchRequest fetchRequestWithEntityName:@"Expense"];
     NSManagedObjectContext *context = [[BYStorage sharedStorage] managedObjectContext];
     NSError *error;
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"date" ascending:NO];
+    fetchR.sortDescriptors = @[sortDescriptor];
     NSArray *fetchDataArray = [[context executeFetchRequest:fetchR error:&error] mutableCopy];
-    for (Expense *expense in fetchDataArray) {
-        NSMutableDictionary *mutableCellInfo = [[NSMutableDictionary alloc]initWithDictionary:@{@"expense": expense, @"cellState" : [NSNumber numberWithInt:BYCollectionViewCellStateDefault]}];
-        [mutableCellInfo setObject:[NSNumber numberWithInt:BYCollectionViewCellStateDefault] forKey:@"cellState"];
-        [mutableCellInfo setObject:expense forKey:@"expense"];
-        [self.collectionViewData addObject:mutableCellInfo];
+    self.collectionViewData = [fetchDataArray mutableCopy];
+    if (!self.cellStates) self.cellStates = [[NSMutableArray alloc]init];
+    [self.cellStates removeAllObjects];
+    for (int i = 0; i < self.collectionViewData.count; i++) {
+        [self.cellStates addObject:[NSNumber numberWithInt:BYCollectionViewCellStateDefault]];
     }
     [self.collectionView reloadData];
 }
@@ -107,40 +110,34 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     BYCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID" forIndexPath:indexPath];
-    Expense *expense = [self.collectionViewData[indexPath.row] objectForKey:@"expense"];
+    Expense *expense = self.collectionViewData[indexPath.row];
     cell.title = expense.stringValue;
     cell.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:expense.thumbnailResolutionMonochromeImagePath]];
     cell.delegate = self;
-    cell.cellState = [[self.collectionViewData[indexPath.row] objectForKey:@"cellState"] intValue];
-    cell.subtitle = expense.locationString ? expense.locationString : @"--";
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    dateFormatter.timeStyle = NSDateFormatterNoStyle;
+    dateFormatter.dateStyle = NSDateFormatterShortStyle;
+    NSString *dateString = [dateFormatter stringFromDate:expense.date];
+    cell.cellState = [self.cellStates[indexPath.row] intValue];
+    cell.subtitle = [NSString stringWithFormat:@"%@%@ %@", expense.locationString, expense.locationString ? @"," : @"", dateString];
     [cell prepareLayout];
     return cell;
 }
 
 - (void)cell:(BYCollectionViewCell *)cell didEnterStateWithAnimation:(BYCollectionViewCellState)state
 {
-    if (state == BYCollectionViewCellStateRightSideRevealed) {
-        NSMutableDictionary *cellInfo = [self.collectionViewData objectAtIndex:[self.collectionView indexPathForCell:cell].row];
-        [cellInfo setObject:[NSNumber numberWithInt:state] forKey:@"cellState"];
-    } else if (state == BYCollectionViewCellStateLeftSideRevealed) {
-        NSMutableDictionary *cellInfo = [self.collectionViewData objectAtIndex:[self.collectionView indexPathForCell:cell].row];
-        [cellInfo setObject:[NSNumber numberWithInt:state] forKey:@"cellState"];
-    } else if (state == BYCollectionViewCellStateDefault) {
-        NSMutableDictionary *cellInfo = [self.collectionViewData objectAtIndex:[self.collectionView indexPathForCell:cell].row];
-        [cellInfo setObject:[NSNumber numberWithInt:state] forKey:@"cellState"];
-    }
+    [self.cellStates replaceObjectAtIndex:[self.collectionView indexPathForCell:cell].row withObject:[NSNumber numberWithInt:state]];
 }
 
 - (void)cellDidRecieveAction:(BYCollectionViewCell *)cell
 {
     NSMutableArray *indexesForDeletion = [[NSMutableArray alloc]initWithCapacity:self.collectionViewData.count];
     NSMutableIndexSet *indexSetForDeletion = [[NSMutableIndexSet alloc]init];
-    for (int i = 0; i < self.collectionViewData.count; i++) {
-        NSMutableDictionary *cellInfo = self.collectionViewData[i];
-        if ([[cellInfo objectForKey:@"cellState"] isEqual:[NSNumber numberWithInt:BYCollectionViewCellStateRightSideRevealed]]) {
+    for (int i = 0; i < self.cellStates.count; i++) {
+        if ([self.cellStates[i] isEqual:[NSNumber numberWithInt:BYCollectionViewCellStateRightSideRevealed]]) {
             [indexesForDeletion addObject:[NSIndexPath indexPathForRow:i inSection:0]];
             [indexSetForDeletion addIndex:i];
-            Expense *expense = [cellInfo objectForKey:@"expense"];
+            Expense *expense = self.collectionViewData[i];
             NSError *error;
             NSFileManager *fileManager = [NSFileManager defaultManager];
             [fileManager removeItemAtPath:expense.fullResolutionImagePath error:&error];
@@ -149,12 +146,13 @@
             [fileManager removeItemAtPath:expense.thumbnailResolutionImagePath error:&error];
             [fileManager removeItemAtPath:expense.thumbnailResolutionMonochromeImagePath error:&error];
             NSManagedObjectContext *context = [BYStorage sharedStorage].managedObjectContext;
-            [context deleteObject:[cellInfo objectForKey:@"expense"]];
+            [context deleteObject:expense];
         }
     }
     [[BYStorage sharedStorage] saveDocument];
     
     [self.collectionViewData removeObjectsAtIndexes:indexSetForDeletion];
+    [self.cellStates removeObjectsAtIndexes:indexSetForDeletion];
     [self.collectionView deleteItemsAtIndexPaths:indexesForDeletion];
 }
 
