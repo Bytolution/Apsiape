@@ -41,6 +41,7 @@
 		A3BDCB3B17B3CB5C00216889 /* BYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3BDCB3A17B3CB5C00216889 /* BYViewController.m */; };
 		A3C2AB421790BCEE0070C53E /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C2AB411790BCEE0070C53E /* CoreImage.framework */; };
 		A3D60C78177FA1DC004D5A54 /* BYCursorLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */; };
+		A3D620B717BED88F00A82655 /* Expense.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D620B617BED88F00A82655 /* Expense.m */; };
 		A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DAA96416F778CC00C22671 /* BYStorage.m */; };
 		A3E7570216E295F400AE2AF7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3E7570116E295F400AE2AF7 /* CoreData.framework */; };
 		A3F7FAC716FA36D1002F58AA /* BYExpenseKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F7FAC616FA36D1002F58AA /* BYExpenseKeyboard.m */; };
@@ -63,8 +64,6 @@
 		A307E82816DE8A0D00C9425A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A310311B16E3E37C00B163DC /* BYCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionViewController.h; sourceTree = "<group>"; };
 		A310311C16E3E37C00B163DC /* BYCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionViewController.m; sourceTree = "<group>"; };
-		A32587F617A0594F009390BC /* Expense.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Expense.h; sourceTree = "<group>"; };
-		A32587F717A0594F009390BC /* Expense.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Expense.m; sourceTree = "<group>"; };
 		A327271F17B3E3270091A846 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		A3322CB117BDA8E300DC5F10 /* BYTableViewCellBGView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYTableViewCellBGView.h; sourceTree = "<group>"; };
 		A3322CB217BDA8E300DC5F10 /* BYTableViewCellBGView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYTableViewCellBGView.m; sourceTree = "<group>"; };
@@ -105,6 +104,8 @@
 		A3C2AB411790BCEE0070C53E /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		A3D60C76177FA1DC004D5A54 /* BYCursorLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCursorLabel.h; sourceTree = "<group>"; };
 		A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCursorLabel.m; sourceTree = "<group>"; };
+		A3D620B517BED88F00A82655 /* Expense.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Expense.h; sourceTree = "<group>"; };
+		A3D620B617BED88F00A82655 /* Expense.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Expense.m; sourceTree = "<group>"; };
 		A3DAA96316F778CC00C22671 /* BYStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYStorage.h; sourceTree = "<group>"; };
 		A3DAA96416F778CC00C22671 /* BYStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYStorage.m; sourceTree = "<group>"; };
 		A3E7570116E295F400AE2AF7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -268,9 +269,9 @@
 		A3832F0D16E0F6FD00D64DC1 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				A3D620B517BED88F00A82655 /* Expense.h */,
+				A3D620B617BED88F00A82655 /* Expense.m */,
 				A3832F0A16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld */,
-				A32587F617A0594F009390BC /* Expense.h */,
-				A32587F717A0594F009390BC /* Expense.m */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -370,6 +371,7 @@
 				A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */,
 				A3F7FAC716FA36D1002F58AA /* BYExpenseKeyboard.m in Sources */,
 				A39162B11703667F00B3F9FF /* BYQuickShotView.m in Sources */,
+				A3D620B717BED88F00A82655 /* Expense.m in Sources */,
 				A353B08D1733FE5300C5D868 /* UIImage+ImageFromView.m in Sources */,
 				A390843F1755518F0076168C /* BYNewExpenseWindow.m in Sources */,
 				A3322CB317BDA8E300DC5F10 /* BYTableViewCellBGView.m in Sources */,

@@ -21,6 +21,7 @@
 - (void)docStateChanged;
 - (void)openDocument;
 - (void)startLocationServices;
+- (void)writeImageToDisk:(UIImage *)fullResImg forBasePath:(NSString*)basePath completion:(void (^)(BOOL success))completionHandler;
 
 @end
 
@@ -63,20 +64,25 @@
                 NSLog(@"File got saved");
                 if (success) [self.document openWithCompletionHandler:^(BOOL success) {
                     NSLog(@"Document opened %s", success ? "successfully":"unsuccessfully");
+                    [[NSNotificationCenter defaultCenter]postNotificationName:@"BYStorageContentChangedNotification" object:nil];
                 }];
             }];
         } else if (self.document.documentState == UIDocumentStateClosed) {
             [self.document openWithCompletionHandler:^(BOOL success) {
                 NSLog(@"Document opened %s", success ? "successfully":"unsuccessfully");
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"BYStorageContentChangedNotification" object:nil];
                 [self startLocationServices];
+                
             }];
         }
     }
 }
 - (void)saveDocument {
-    [self.document saveToURL:self.document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
-        if (success) NSLog(@"document was saved successfully");
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"UIDocumentSavedSuccessfullyNotification" object:nil];
+    [self.managedObjectContext performBlock:^{
+        [self.document saveToURL:self.document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
+            if (success) NSLog(@"document was saved successfully");
+//            [[NSNotificationCenter defaultCenter]postNotificationName:@"BYStorageContentChangedNotification" object:nil];
+        }];
     }];
 }
 - (void)docStateChanged {
@@ -110,45 +116,74 @@
     dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd-HH-mm-SS"];
     NSString *timeStamp = [dateFormatter stringFromDate:currentDate];
-    
     NSString *documentsDirectoryPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    NSString *basePath = [NSString stringWithFormat:@"%@/%@image_", documentsDirectoryPath, timeStamp];
     
-    NSString *fullResolutionImagePath = [NSString stringWithFormat:@"%@/%@image_fullRes.jpg", documentsDirectoryPath, timeStamp];
-    NSString *screenResolutionImagePath = [NSString stringWithFormat:@"%@/%@image_screenRes.jpg", documentsDirectoryPath, timeStamp];
-    NSString *thumbnailResolutionImagePath = [NSString stringWithFormat:@"%@/%@image_thumbRes.jpg", documentsDirectoryPath, timeStamp];
-    NSString *screenResolutionMonochromeImagePath = [NSString stringWithFormat:@"%@/%@image_screenRes_monochrome.jpg", documentsDirectoryPath, timeStamp];
-    NSString *thumbnailResolutionMonochromeImagePath = [NSString stringWithFormat:@"%@/%@image_thumbRes_monochrome.jpg", documentsDirectoryPath, timeStamp];
     [self.managedObjectContext performBlock:^{
         newExpense.date = [NSDate date];
-        newExpense.fullResolutionImagePath = fullResolutionImagePath;
-        newExpense.screenResolutionImagePath = screenResolutionImagePath;
-        newExpense.screenResolutionMonochromeImagePath = screenResolutionMonochromeImagePath;
-        newExpense.thumbnailResolutionImagePath = thumbnailResolutionImagePath;
-        newExpense.thumbnailResolutionMonochromeImagePath = thumbnailResolutionMonochromeImagePath;
         newExpense.stringValue = stringValue;
         newExpense.numberValue = numberValue;
         newExpense.location = [NSKeyedArchiver archivedDataWithRootObject:self.locationManager.location];
         newExpense.localeIdentifier = [BYLocalizer currentAppLocale].localeIdentifier;
+        newExpense.baseFilePath = basePath;
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"BYStorageContentChangedNotification" object:nil];
     }];
+    
+    // check which thread is already finished
+    __block BOOL locationStringDetermined = NO;
+    __block BOOL filesSaved = NO;
+    
+    if (fullResImg) {
+        [self writeImageToDisk:fullResImg forBasePath:basePath completion:^(BOOL success){
+            NSLog(@"Files %@saved to disk", success ? @"" : @"not ");
+            filesSaved = YES;
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"BYStorageContentChangedNotification" object:nil];
+            NSLog(@"images");
+            if (locationStringDetermined) {
+                completionHandler(YES);
+                [self saveDocument];
+            }
+        }];
+    }
+    if (self.locationManager.location) {
+        [BYLocalizer geocodeInfoStringForLocation:self.locationManager.location completion:^(NSString *infoString) {
+            [self.managedObjectContext performBlock:^{
+                newExpense.locationString = infoString;
+                locationStringDetermined = YES;
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"BYStorageContentChangedNotification" object:nil];
+                NSLog(@"location");
+                if (filesSaved) {
+                    completionHandler(YES);
+                    [self saveDocument];
+                }
+            }];
+        }];
+    }
+}
+
+- (void)writeImageToDisk:(UIImage *)fullResImg forBasePath:(NSString*)basePath completion:(void (^)(BOOL success))completionHandler
+{
     dispatch_queue_t saveQueue = dispatch_queue_create("User data fetcher", NULL);
     dispatch_async(saveQueue, ^{
         NSData *fullResolutionImageData = UIImageJPEGRepresentation(fullResImg, 1.0);
-        [fullResolutionImageData writeToFile:fullResolutionImagePath atomically:NO];
+        BOOL fullResWriteSuccesfull = [fullResolutionImageData writeToFile:[NSString stringWithFormat:@"%@full.jpg", basePath] atomically:NO];
         NSData *screenResolutionImageData = UIImageJPEGRepresentation([fullResImg cropWithSquareRatioAndResolution:640], 1.0);
-        [screenResolutionImageData writeToFile:screenResolutionImagePath atomically:NO];
+        BOOL screenResSuccessfull = [screenResolutionImageData writeToFile:[NSString stringWithFormat:@"%@screen.jpg", basePath] atomically:NO];
         NSData *thumbnailResolutionImageData = UIImageJPEGRepresentation([fullResImg cropWithSquareRatioAndResolution:160], 1.0);
-        [thumbnailResolutionImageData writeToFile:thumbnailResolutionImagePath atomically:NO];
+        BOOL thumbResWriteSuccesfull = [thumbnailResolutionImageData writeToFile:[NSString stringWithFormat:@"%@thumb.jpg", basePath] atomically:NO];
         NSData *screenResolutionMonochromeImageData = UIImageJPEGRepresentation([[fullResImg cropWithSquareRatioAndResolution:640] monochromeImage], 1.0);
-        [screenResolutionMonochromeImageData writeToFile:screenResolutionMonochromeImagePath atomically:NO];
+        BOOL screenResMonoWriteSuccesfull = [screenResolutionMonochromeImageData writeToFile:[NSString stringWithFormat:@"%@screen-mono.jpg", basePath] atomically:NO];
         NSData *thumbnailResolutionMonochromeImageData = UIImageJPEGRepresentation([[fullResImg cropWithSquareRatioAndResolution:160] monochromeImage], 1.0);
-        [thumbnailResolutionMonochromeImageData writeToFile:thumbnailResolutionMonochromeImagePath atomically:NO];
+        BOOL thumbResMonoWriteSuccesfull = [thumbnailResolutionMonochromeImageData writeToFile:[NSString stringWithFormat:@"%@thumb-mono.jpg", basePath] atomically:NO];
         [self.managedObjectContext performBlock:^{
-            [BYLocalizer geocodeInfoStringForLocation:self.locationManager.location completion:^(NSString *infoString) {
-                newExpense.locationString = infoString;
-                [self saveDocument];
-            }];
+            if (fullResWriteSuccesfull && screenResMonoWriteSuccesfull && screenResSuccessfull && thumbResMonoWriteSuccesfull && thumbResWriteSuccesfull){
+                completionHandler(YES);
+            } else {
+                completionHandler(NO);
+            }
         }];
     });
+
 }
 - (void)deleteExpenseObject:(Expense *)expense completion:(void (^)())completionHandler
 {
@@ -163,9 +198,7 @@
         [fileManager removeItemAtPath:expense.thumbnailResolutionMonochromeImagePath error:&error];
         [self.managedObjectContext performBlock:^{
             [self.managedObjectContext deleteObject:expense];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completionHandler();
-            });
+            completionHandler();
         }];
     });
 }

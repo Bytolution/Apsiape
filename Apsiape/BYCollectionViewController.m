@@ -43,8 +43,7 @@
     if (self) {
         self.title = @"Overview";
         if (!self.collectionViewData) self.collectionViewData = [[NSMutableArray alloc]init];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCollectionViewData) name:UIDocumentStateChangedNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCollectionViewData) name:@"UIDocumentSavedSuccessfullyNotification" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCollectionViewData) name:@"BYStorageContentChangedNotification" object:nil];
     }
     return self;
 }
@@ -132,14 +131,14 @@
     BYCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID" forIndexPath:indexPath];
     Expense *expense = self.collectionViewData[indexPath.row];
     cell.title = expense.stringValue;
-    cell.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:expense.thumbnailResolutionMonochromeImagePath]];
+    cell.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@thumb-mono.jpg", expense.baseFilePath]]];
     cell.delegate = self;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     dateFormatter.timeStyle = NSDateFormatterNoStyle;
     dateFormatter.dateStyle = NSDateFormatterShortStyle;
     NSString *dateString = [dateFormatter stringFromDate:expense.date];
     cell.cellState = [self.cellStates[indexPath.row] intValue];
-    cell.subtitle = [NSString stringWithFormat:@"%@%@ %@", expense.locationString, expense.locationString ? @"," : @"", dateString];
+    cell.subtitle = [NSString stringWithFormat:@"%@%@ %@", expense.locationString ? expense.locationString : @"", expense.locationString ? @"," : @"", dateString];
     [cell prepareLayout];
     return cell;
 }

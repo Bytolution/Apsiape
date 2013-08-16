@@ -133,7 +133,9 @@
         [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString
                                                         numberValue:self.expenseValueDecimalNumber
                                                        fullResImage:self.quickShotView.fullResCapturedImage
-                                                         completion:nil];
+                                                         completion:^(BOOL success) {
+                                                             NSLog(@"Expense saving completion handler called");
+                                                         }];
         [self.windowDelegate windowShouldDisappear:self];
     }
 }
