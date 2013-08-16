@@ -14,6 +14,7 @@
 #import "InterfaceDefinitions.h"
 #import "BYNewExpenseWindow.h"
 #import "BYStatsViewController.h"
+#import "BYTableViewCellBGView.h"
 
 @interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate, BYNewExpenseWindowDelegate>
 
@@ -23,6 +24,9 @@
 @property (nonatomic, strong) BYNewExpenseWindow *expenseWindow;
 @property (nonatomic) BOOL menuBarIsVisible;
 @property (nonatomic, strong) NSMutableArray *cellStates;
+@property (nonatomic, strong) UILabel *pullControlLabel;
+@property (nonatomic, readwrite) BOOL scrollViewOffsetExceedsPullThreshold;
+@property (nonatomic, readwrite) BOOL pullControlLabelTextChangeAnimationInProgress;
 
 - (void)updateCollectionViewData;
 - (void)prepareCollectionView;
@@ -87,18 +91,18 @@
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
         self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleBlack;
-        self.collectionView.backgroundColor = [UIColor colorWithWhite:0.98 alpha:1];
+        self.collectionView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
         self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self.view addSubview:self.collectionView];
-        UILabel *label = [UILabel new];
-        label.text = @"Create new";
-        label.frame = CGRectMake(0, - NAVBAR_HEIGHT, 320, NAVBAR_HEIGHT);
-        label.textColor = [UIColor blackColor];
-        label.backgroundColor = [UIColor clearColor];
-        label.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30];
-        label.textAlignment = NSTextAlignmentCenter;
-        [self.collectionView addSubview:label];
+        self.pullControlLabel = [UILabel new];
+        self.pullControlLabel.text = @"Create new";
+        self.pullControlLabel.frame = CGRectMake(0, - NAVBAR_HEIGHT, 320, NAVBAR_HEIGHT);
+        self.pullControlLabel.textColor = [UIColor blackColor];
+        self.pullControlLabel.backgroundColor = [UIColor clearColor];
+        self.pullControlLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30];
+        self.pullControlLabel.textAlignment = NSTextAlignmentCenter;
+        [self.collectionView addSubview:self.pullControlLabel];
     }
 }
 
@@ -109,6 +113,22 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    BYTableViewCellBGViewCellPosition cellPos = 0;
+    if (indexPath.row == 0 && [collectionView numberOfItemsInSection:indexPath.section] == 1) {
+        // single cell
+        cellPos = BYTableViewCellBGViewCellPositionSingle;
+    } else if (indexPath.row == 0 && [collectionView numberOfItemsInSection:indexPath.section] > 1) {
+        // top cell
+        cellPos = BYTableViewCellBGViewCellPositionTop;
+    } else if (indexPath.row == ([collectionView numberOfItemsInSection:indexPath.section] - 1)) {
+        //bottom cell
+        cellPos = BYTableViewCellBGViewCellPositionBottom;
+    } else {
+        //middle cell
+        cellPos = BYTableViewCellBGViewCellPositionMiddle;
+    }
+    //FIXME: too many separator views on one cell -> glitch
+    NSLog(@"%s, %@", __PRETTY_FUNCTION__, indexPath);
     BYCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID" forIndexPath:indexPath];
     Expense *expense = self.collectionViewData[indexPath.row];
     cell.title = expense.stringValue;
@@ -131,29 +151,17 @@
 
 - (void)cellDidRecieveAction:(BYCollectionViewCell *)cell
 {
-    NSMutableArray *indexesForDeletion = [[NSMutableArray alloc]initWithCapacity:self.collectionViewData.count];
-    NSMutableIndexSet *indexSetForDeletion = [[NSMutableIndexSet alloc]init];
     for (int i = 0; i < self.cellStates.count; i++) {
         if ([self.cellStates[i] isEqual:[NSNumber numberWithInt:BYCollectionViewCellStateRightSideRevealed]]) {
-            [indexesForDeletion addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-            [indexSetForDeletion addIndex:i];
             Expense *expense = self.collectionViewData[i];
-            NSError *error;
-            NSFileManager *fileManager = [NSFileManager defaultManager];
-            [fileManager removeItemAtPath:expense.fullResolutionImagePath error:&error];
-            [fileManager removeItemAtPath:expense.screenResolutionImagePath error:&error];
-            [fileManager removeItemAtPath:expense.screenResolutionMonochromeImagePath error:&error];
-            [fileManager removeItemAtPath:expense.thumbnailResolutionImagePath error:&error];
-            [fileManager removeItemAtPath:expense.thumbnailResolutionMonochromeImagePath error:&error];
-            NSManagedObjectContext *context = [BYStorage sharedStorage].managedObjectContext;
-            [context deleteObject:expense];
+            [[BYStorage sharedStorage] deleteExpenseObject:expense completion:^{
+                [self.collectionViewData removeObjectAtIndex:i];
+                [self.cellStates removeObjectAtIndex:i];
+                [self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:i inSection:0]]];
+            }];
         }
     }
     [[BYStorage sharedStorage] saveDocument];
-    
-    [self.collectionViewData removeObjectsAtIndexes:indexSetForDeletion];
-    [self.cellStates removeObjectsAtIndexes:indexSetForDeletion];
-    [self.collectionView deleteItemsAtIndexPaths:indexesForDeletion];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -163,14 +171,15 @@
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(6, 0, 5, 0);
+    return UIEdgeInsetsMake(0, 0, 5, 0);
 }
 
 #pragma mark - Scroll View Delegate
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    if (scrollView.contentOffset.y < - 60) {
+    NSLog(@"%@", NSStringFromCGPoint(scrollView.contentOffset));
+    if (self.scrollViewOffsetExceedsPullThreshold) {
         self.expenseWindow = [[BYNewExpenseWindow alloc]initWithFrame:[[UIScreen mainScreen] bounds]];
         self.expenseWindow.windowLevel = UIWindowLevelAlert;
         self.expenseWindow.windowDelegate = self;
@@ -183,6 +192,48 @@
         }];
     }
 }
+
+- (void)setScrollViewOffsetExceedsPullThreshold:(BOOL)scrollViewOffsetExceedsPullThreshold
+{
+    _scrollViewOffsetExceedsPullThreshold = scrollViewOffsetExceedsPullThreshold;
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.y < - 140 && !self.scrollViewOffsetExceedsPullThreshold) {
+        self.scrollViewOffsetExceedsPullThreshold = YES;
+    } else if (scrollView.contentOffset.y > - 140 && self.scrollViewOffsetExceedsPullThreshold) {
+        self.scrollViewOffsetExceedsPullThreshold = NO;
+    }
+    
+    if (self.scrollViewOffsetExceedsPullThreshold && [self.pullControlLabel.text isEqualToString:@"Create new"] && !self.pullControlLabelTextChangeAnimationInProgress) {
+        [UIView animateWithDuration:0.15 animations:^{
+            self.pullControlLabel.alpha = 0;
+            self.pullControlLabelTextChangeAnimationInProgress = YES;
+        } completion:^(BOOL finished) {
+            self.pullControlLabel.text = @"Release";
+            [UIView animateWithDuration:0.15 animations:^{
+                self.pullControlLabel.alpha = 1;
+            } completion:^(BOOL finished) {
+                self.pullControlLabelTextChangeAnimationInProgress = NO;
+            }];
+        }];
+    } else if (!self.scrollViewOffsetExceedsPullThreshold && [self.pullControlLabel.text isEqualToString:@"Release"] && !self.pullControlLabelTextChangeAnimationInProgress) {
+        [UIView animateWithDuration:0.15 animations:^{
+            self.pullControlLabel.alpha = 0;
+            self.pullControlLabelTextChangeAnimationInProgress = YES;
+        } completion:^(BOOL finished) {
+            self.pullControlLabel.text = @"Create new";
+            [UIView animateWithDuration:0.15 animations:^{
+                self.pullControlLabel.alpha = 1;
+            } completion:^(BOOL finished) {
+                self.pullControlLabelTextChangeAnimationInProgress = NO;
+            }];
+        }];
+    }
+}
+
 #pragma mark - Window Delegate
 
 - (void)windowShouldDisappear:(BYNewExpenseWindow *)window

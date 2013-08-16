@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class BYNavigationController;
+@class BYNavigationController, Expense ;
 
 @interface BYStorage : NSObject
 
@@ -22,5 +22,7 @@
                              numberValue:(NSNumber*)numberValue
                             fullResImage:(UIImage*)fullResImg
                               completion:(void(^)(BOOL success))completionHandler;
+
+- (void)deleteExpenseObject:(Expense*)expense completion:(void(^)())completionHandler;
 
 @end

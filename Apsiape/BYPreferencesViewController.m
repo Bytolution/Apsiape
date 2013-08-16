@@ -60,7 +60,6 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //TODO: Use modified TVPGroupedTableViewCell w/out REUSE(!!!)
     static NSString *cellIdentifier = @"CELL_ID";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {

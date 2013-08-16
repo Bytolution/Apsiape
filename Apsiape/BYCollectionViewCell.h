@@ -31,6 +31,7 @@ typedef enum {
 @property (nonatomic, strong) NSString *subtitle;
 @property (nonatomic, readwrite) BYCollectionViewCellState cellState;
 @property (nonatomic, strong) id <BYCollectionViewCellDelegate> delegate;
+@property (nonatomic, strong) NSIndexPath *indexPathForLayout;
 
 - (void)prepareLayout;
 

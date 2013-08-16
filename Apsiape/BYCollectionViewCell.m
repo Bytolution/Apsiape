@@ -10,7 +10,7 @@
 #import "BYCollectionViewCell.h"
 #import "Expense.h"
 #import "InterfaceDefinitions.h"
-
+#import "BYTableViewCellBGView.h"
 #pragma mark ––– UICollectionViewCellContentView implementation
 
 @interface BYCollectionViewCell () <UIGestureRecognizerDelegate>
@@ -25,6 +25,7 @@
 @property (nonatomic, strong) CALayer *borderLayer;
 @property (nonatomic, strong) UIButton *rightSideActionButton;
 @property (nonatomic, strong) UILabel *subtitleLabel;
+@property (nonatomic, strong) BYTableViewCellBGView *separatorView;
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)panGestureRecognizer;
 - (void)animateCellContentForState:(BYCollectionViewCellState)state;
@@ -74,12 +75,12 @@
         lightBorder.frame = self.bounds;
         lightBorder.borderColor = [UIColor colorWithWhite:0.9 alpha:1].CGColor;
         lightBorder.borderWidth = 1;
-        [self.layer addSublayer:lightBorder];
+//        [self.layer addSublayer:lightBorder];
         
         self.borderLayer = [CALayer layer];
         self.borderLayer.borderWidth = 10;
         self.borderLayer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
-        [self.layer addSublayer:self.borderLayer];
+//        [self.layer addSublayer:self.borderLayer];
         
         self.subtitleLabel = [[UILabel alloc]init];
         self.subtitleLabel.text = @"Create new";
@@ -173,8 +174,26 @@
 }
 
 - (void)prepareLayout
-{
-    [super layoutSubviews];
+{    
+    self.separatorView.frame = self.contentView.bounds;
+    //FIXME: too many separator views on one cell -> glitch
+    [self.separatorView removeFromSuperview];
+    [self.contentView addSubview:self.separatorView];
+//    
+//    if (indexPath.row == 0 && [self.indexPathForLayout] == 1) {
+//        // single cell
+//        cellPos = BYTableViewCellBGViewCellPositionSingle;
+//    } else if (indexPath.row == 0 && [collectionView numberOfItemsInSection:indexPath.section] > 1) {
+//        // top cell
+//        cellPos = BYTableViewCellBGViewCellPositionTop;
+//    } else if (indexPath.row == ([collectionView numberOfItemsInSection:indexPath.section] - 1)) {
+//        //bottom cell
+//        cellPos = BYTableViewCellBGViewCellPositionBottom;
+//    } else {
+//        //middle cell
+//        cellPos = BYTableViewCellBGViewCellPositionMiddle;
+//    }
+    
     if (self.cellState == BYCollectionViewCellStateRightSideRevealed) {
         self.contentView.frame = CGRectMake(- THRESHOLD, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
     } else if (self.cellState == BYCollectionViewCellStateLeftSideRevealed) {
@@ -190,7 +209,7 @@
     self.label.frame = CGRectInset(rect, 15, 15);
     self.imageView.frame = CGRectMake(0, 0, self.frame.size.height, self.frame.size.height);
     self.imageView.frame = CGRectInset(self.imageView.frame, CELL_IMAGE_PADDING, CELL_IMAGE_PADDING);
-    self.imageView.layer.cornerRadius = 4;
+    self.imageView.layer.cornerRadius = CGRectGetMaxX(self.imageView.bounds)/2;
     self.borderLayer.frame = CGRectMake(0, self.contentView.frame.size.height - 1, self.contentView.frame.size.width, 1);
     rect.size.height = 20;
     rect.origin.y = 70;
