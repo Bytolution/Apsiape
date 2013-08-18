@@ -320,6 +320,11 @@
 				CLASSPREFIX = BY;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = Bytolution;
+				TargetAttributes = {
+					A307E80E16DE8A0D00C9425A = {
+						DevelopmentTeam = AN6VRTK6TB;
+					};
+				};
 			};
 			buildConfigurationList = A307E80A16DE8A0D00C9425A /* Build configuration list for PBXProject "Apsiape" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -457,6 +462,8 @@
 		A307E83316DE8A0D00C9425A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Apsiape\"",
@@ -467,6 +474,7 @@
 				INFOPLIST_FILE = "Apsiape/Apsiape-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -475,6 +483,8 @@
 		A307E83416DE8A0D00C9425A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Apsiape\"",
@@ -485,6 +495,7 @@
 				INFOPLIST_FILE = "Apsiape/Apsiape-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

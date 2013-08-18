@@ -112,21 +112,6 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    BYTableViewCellBGViewCellPosition cellPos = 0;
-    if (indexPath.row == 0 && [collectionView numberOfItemsInSection:indexPath.section] == 1) {
-        // single cell
-        cellPos = BYTableViewCellBGViewCellPositionSingle;
-    } else if (indexPath.row == 0 && [collectionView numberOfItemsInSection:indexPath.section] > 1) {
-        // top cell
-        cellPos = BYTableViewCellBGViewCellPositionTop;
-    } else if (indexPath.row == ([collectionView numberOfItemsInSection:indexPath.section] - 1)) {
-        //bottom cell
-        cellPos = BYTableViewCellBGViewCellPositionBottom;
-    } else {
-        //middle cell
-        cellPos = BYTableViewCellBGViewCellPositionMiddle;
-    }
-    //FIXME: too many separator views on one cell -> glitch
     NSLog(@"%s, %@", __PRETTY_FUNCTION__, indexPath);
     BYCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID" forIndexPath:indexPath];
     Expense *expense = self.collectionViewData[indexPath.row];
@@ -150,17 +135,20 @@
 
 - (void)cellDidRecieveAction:(BYCollectionViewCell *)cell
 {
+    NSMutableIndexSet *deletionIndexSet = [[NSMutableIndexSet alloc]init];
+    NSMutableArray *deletionIndexesForCollectionView = [[NSMutableArray alloc]init];
     for (int i = 0; i < self.cellStates.count; i++) {
         if ([self.cellStates[i] isEqual:[NSNumber numberWithInt:BYCollectionViewCellStateRightSideRevealed]]) {
             Expense *expense = self.collectionViewData[i];
-            [[BYStorage sharedStorage] deleteExpenseObject:expense completion:^{
-                [self.collectionViewData removeObjectAtIndex:i];
-                [self.cellStates removeObjectAtIndex:i];
-                [self.collectionView deleteItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:i inSection:0]]];
-            }];
+            //FIXME: deletion must happen in bunches
+            [[BYStorage sharedStorage] deleteExpenseObject:expense completion:nil];
+            [deletionIndexSet addIndex:i];
+            [deletionIndexesForCollectionView addObject:[NSIndexPath indexPathForItem:i inSection:0]];
         }
     }
-    [[BYStorage sharedStorage] saveDocument];
+    [self.collectionViewData removeObjectsAtIndexes:deletionIndexSet];
+    [self.cellStates removeObjectsAtIndexes:deletionIndexSet];
+    [self.collectionView deleteItemsAtIndexPaths:deletionIndexesForCollectionView];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -207,24 +195,24 @@
     }
     
     if (self.scrollViewOffsetExceedsPullThreshold && [self.pullControlLabel.text isEqualToString:@"Create new"] && !self.pullControlLabelTextChangeAnimationInProgress) {
-        [UIView animateWithDuration:0.15 animations:^{
+        [UIView animateWithDuration:0.1 animations:^{
             self.pullControlLabel.alpha = 0;
             self.pullControlLabelTextChangeAnimationInProgress = YES;
         } completion:^(BOOL finished) {
             self.pullControlLabel.text = @"Release";
-            [UIView animateWithDuration:0.15 animations:^{
+            [UIView animateWithDuration:0.1 animations:^{
                 self.pullControlLabel.alpha = 1;
             } completion:^(BOOL finished) {
                 self.pullControlLabelTextChangeAnimationInProgress = NO;
             }];
         }];
     } else if (!self.scrollViewOffsetExceedsPullThreshold && [self.pullControlLabel.text isEqualToString:@"Release"] && !self.pullControlLabelTextChangeAnimationInProgress) {
-        [UIView animateWithDuration:0.15 animations:^{
+        [UIView animateWithDuration:0.1 animations:^{
             self.pullControlLabel.alpha = 0;
             self.pullControlLabelTextChangeAnimationInProgress = YES;
         } completion:^(BOOL finished) {
             self.pullControlLabel.text = @"Create new";
-            [UIView animateWithDuration:0.15 animations:^{
+            [UIView animateWithDuration:0.1 animations:^{
                 self.pullControlLabel.alpha = 1;
             } completion:^(BOOL finished) {
                 self.pullControlLabelTextChangeAnimationInProgress = NO;

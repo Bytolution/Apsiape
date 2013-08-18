@@ -198,7 +198,7 @@
         [fileManager removeItemAtPath:expense.thumbnailResolutionMonochromeImagePath error:&error];
         [self.managedObjectContext performBlock:^{
             [self.managedObjectContext deleteObject:expense];
-            completionHandler();
+            if (completionHandler) completionHandler();
         }];
     });
 }
