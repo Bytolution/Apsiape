@@ -90,7 +90,7 @@
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
         self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleBlack;
-        self.collectionView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+        self.collectionView.backgroundColor = [UIColor colorWithRed:0.9 green:0.95 blue:1 alpha:1];
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
         self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self.view addSubview:self.collectionView];
@@ -112,7 +112,6 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%s, %@", __PRETTY_FUNCTION__, indexPath);
     BYCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID" forIndexPath:indexPath];
     Expense *expense = self.collectionViewData[indexPath.row];
     cell.title = expense.stringValue;
@@ -167,15 +166,10 @@
 {
     NSLog(@"%@", NSStringFromCGPoint(scrollView.contentOffset));
     if (self.scrollViewOffsetExceedsPullThreshold) {
-        self.expenseWindow = [[BYNewExpenseWindow alloc]initWithFrame:[[UIScreen mainScreen] bounds]];
-        self.expenseWindow.windowLevel = UIWindowLevelAlert;
-        self.expenseWindow.windowDelegate = self;
-        self.expenseWindow.alpha = 0;
-        [self.expenseWindow makeKeyAndVisible];
         [UIView animateWithDuration:0.5 animations:^{
-            self.expenseWindow.alpha = 1;
+            
         } completion:^(BOOL finished) {
-            self.view.hidden = YES;
+            
         }];
     }
 }
@@ -227,10 +221,9 @@
 {
     self.view.hidden = NO;
     [UIView animateWithDuration:0.5 animations:^{
-        [(UIWindow*)self.view.window makeKeyWindow];
-        self.expenseWindow.alpha = 0.0;
+        
     } completion:^(BOOL finished) {
-        self.expenseWindow = nil;
+        
     }];
 }
 

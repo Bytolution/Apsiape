@@ -11,14 +11,13 @@
 #import "BYMapViewController.h"
 #import "BYPreferencesViewController.h"
 #import "InterfaceDefinitions.h"
+#import "BYPopupVCTransitionController.h";
 
-@interface BYNavigationController () <UIGestureRecognizerDelegate>
+@interface BYNavigationController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 @property (nonatomic, strong) BYCollectionViewController *collectionViewController;
-@property (nonatomic, strong) BYMapViewController *mapViewController;
 @property (nonatomic, strong) BYPreferencesViewController *preferencesViewController;
-@property (nonatomic, strong) UIView *mapGestureOverlayView;
 
 @property (nonatomic, strong) NSMutableArray *viewControllerStack;
 
@@ -26,6 +25,8 @@
 @property (nonatomic, readwrite) BOOL preferencesViewVisible;
 @property (nonatomic, readwrite) CGFloat lastHorizontalPanPosition;
 @property (nonatomic, readwrite) BYEdgeType panGestureEdge;
+
+- (void)displayMap;
 
 @end
 
@@ -38,14 +39,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         
-        if (!self.collectionViewController) self.collectionViewController = [[BYCollectionViewController alloc]initWithNibName:nil bundle:nil];
-        if (!self.mapViewController) self.mapViewController = [[BYMapViewController alloc]initWithNibName:nil bundle:nil];
-        if (!self.preferencesViewController) self.preferencesViewController = [[BYPreferencesViewController alloc]initWithNibName:nil bundle:nil];
-        
-        if (!self.mapGestureOverlayView) self.mapGestureOverlayView = [[UIView alloc]initWithFrame:CGRectZero];
-        
-        if (!self.viewControllerStack) self.viewControllerStack = [[NSMutableArray alloc]init];
-        
         self.view.backgroundColor = [UIColor whiteColor];
     }
     return self;
@@ -56,12 +49,37 @@
     self.panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panRecognized:)];
     self.panRecognizer.delegate = self;
     [self.view addGestureRecognizer:self.panRecognizer];
+    UIBarButtonItem *bbi = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(displayMap)];
+    self.visibleViewController.navigationItem.leftBarButtonItem = bbi;
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)displayMap
 {
-    
+    BYMapViewController *mVC = [[BYMapViewController alloc]initWithNibName:nil bundle:nil];
+    mVC.transitioningDelegate = self;
+    mVC.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:mVC animated:YES completion:^{
+//        NSLog(@"complete");
+    }];
 }
+
+#pragma mark - View Controller Transition delegates
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+    BYPopupVCTransitionController *tController = [[BYPopupVCTransitionController alloc]init];
+    tController.presentedVC = presented;
+    tController.presentingVC = presenting;
+    tController.parentVC = self;
+    tController.duration = 5;
+    return tController;
+}
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+{
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    return nil;
+}
+
 
 #pragma mark - Gesture Handling
 
@@ -95,11 +113,6 @@
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return NO;
-}
-- (void)setMapViewVisible:(BOOL)mapViewVisible
-{
-    _mapViewVisible = mapViewVisible;
-    self.mapGestureOverlayView.hidden = !mapViewVisible;
 }
 
 @end

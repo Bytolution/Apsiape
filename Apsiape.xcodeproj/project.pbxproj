@@ -37,9 +37,11 @@
 		A39162B31703A5AD00B3F9FF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39162B21703A5AD00B3F9FF /* AVFoundation.framework */; };
 		A39162B51703A75700B3F9FF /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39162B41703A75700B3F9FF /* CoreMedia.framework */; };
 		A39C59BE16F6165800A68679 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A39C59BD16F6165800A68679 /* QuartzCore.framework */; };
+		A3AA81D017C2A94B0035E69C /* BYPopupVCTransitionController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3AA81CF17C2A94B0035E69C /* BYPopupVCTransitionController.m */; };
 		A3B9D0D3179DFFCA0052D79D /* BYLocalizer.m in Sources */ = {isa = PBXBuildFile; fileRef = A3B9D0D2179DF9960052D79D /* BYLocalizer.m */; };
 		A3BDCB3B17B3CB5C00216889 /* BYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3BDCB3A17B3CB5C00216889 /* BYViewController.m */; };
 		A3C2AB421790BCEE0070C53E /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3C2AB411790BCEE0070C53E /* CoreImage.framework */; };
+		A3CC160B17C41020002BFD86 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = A3CC160A17C41020002BFD86 /* UIImage+ImageEffects.m */; };
 		A3D60C78177FA1DC004D5A54 /* BYCursorLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */; };
 		A3D620B717BED88F00A82655 /* Expense.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D620B617BED88F00A82655 /* Expense.m */; };
 		A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DAA96416F778CC00C22671 /* BYStorage.m */; };
@@ -97,11 +99,15 @@
 		A39162B21703A5AD00B3F9FF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		A39162B41703A75700B3F9FF /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		A39C59BD16F6165800A68679 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		A3AA81CE17C2A94B0035E69C /* BYPopupVCTransitionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYPopupVCTransitionController.h; sourceTree = "<group>"; };
+		A3AA81CF17C2A94B0035E69C /* BYPopupVCTransitionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYPopupVCTransitionController.m; sourceTree = "<group>"; };
 		A3B9D0D1179DF9960052D79D /* BYLocalizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BYLocalizer.h; sourceTree = "<group>"; };
 		A3B9D0D2179DF9960052D79D /* BYLocalizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BYLocalizer.m; sourceTree = "<group>"; };
 		A3BDCB3917B3CB5C00216889 /* BYViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYViewController.h; sourceTree = "<group>"; };
 		A3BDCB3A17B3CB5C00216889 /* BYViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYViewController.m; sourceTree = "<group>"; };
 		A3C2AB411790BCEE0070C53E /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		A3CC160917C41020002BFD86 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		A3CC160A17C41020002BFD86 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		A3D60C76177FA1DC004D5A54 /* BYCursorLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCursorLabel.h; sourceTree = "<group>"; };
 		A3D60C77177FA1DC004D5A54 /* BYCursorLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCursorLabel.m; sourceTree = "<group>"; };
 		A3D620B517BED88F00A82655 /* Expense.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Expense.h; sourceTree = "<group>"; };
@@ -174,6 +180,8 @@
 			children = (
 				A35FB71D17B0368300447747 /* BYNavigationController.h */,
 				A35FB71E17B0368300447747 /* BYNavigationController.m */,
+				A3AA81CE17C2A94B0035E69C /* BYPopupVCTransitionController.h */,
+				A3AA81CF17C2A94B0035E69C /* BYPopupVCTransitionController.m */,
 				A37526DC16F5201D0079C94A /* CollectionView */,
 				A35FB72317B036E200447747 /* PreferencesView */,
 				A35FB72417B036F100447747 /* MapView */,
@@ -189,6 +197,8 @@
 			isa = PBXGroup;
 			children = (
 				A34A3271178E15BD00F95328 /* InterfaceDefinitions.h */,
+				A3CC160917C41020002BFD86 /* UIImage+ImageEffects.h */,
+				A3CC160A17C41020002BFD86 /* UIImage+ImageEffects.m */,
 				A3322CB117BDA8E300DC5F10 /* BYTableViewCellBGView.h */,
 				A3322CB217BDA8E300DC5F10 /* BYTableViewCellBGView.m */,
 				A3BDCB3917B3CB5C00216889 /* BYViewController.h */,
@@ -372,6 +382,7 @@
 				A307E82316DE8A0D00C9425A /* BYAppDelegate.m in Sources */,
 				A3832F0C16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld in Sources */,
 				A310311E16E3E37C00B163DC /* BYCollectionViewController.m in Sources */,
+				A3CC160B17C41020002BFD86 /* UIImage+ImageEffects.m in Sources */,
 				A337965016E52A4C00C55116 /* BYCollectionViewCell.m in Sources */,
 				A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */,
 				A3F7FAC716FA36D1002F58AA /* BYExpenseKeyboard.m in Sources */,
@@ -382,6 +393,7 @@
 				A3322CB317BDA8E300DC5F10 /* BYTableViewCellBGView.m in Sources */,
 				A3BDCB3B17B3CB5C00216889 /* BYViewController.m in Sources */,
 				A3602A22179CB58B00FADA48 /* UIImage+Adjustments.m in Sources */,
+				A3AA81D017C2A94B0035E69C /* BYPopupVCTransitionController.m in Sources */,
 				A3D60C78177FA1DC004D5A54 /* BYCursorLabel.m in Sources */,
 				A38E2E4817836C4400E1EBBC /* BYPullScrollView.m in Sources */,
 				A35758EB17934DAA007C21AF /* BYStatsViewController.m in Sources */,
@@ -462,6 +474,7 @@
 		A307E83316DE8A0D00C9425A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -483,6 +496,7 @@
 		A307E83416DE8A0D00C9425A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (

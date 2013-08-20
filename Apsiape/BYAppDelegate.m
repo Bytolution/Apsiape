@@ -11,7 +11,6 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     [BYStorage sharedStorage];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     self.window.rootViewController = [[BYNavigationController alloc]initWithRootViewController:[[BYCollectionViewController alloc]initWithNibName:nil bundle:nil]];
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
