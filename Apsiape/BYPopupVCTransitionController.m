@@ -26,22 +26,26 @@
     UIView *fromView = [[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey] view];
     UIView *toView = [[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey] view];
     
-    UIGraphicsBeginImageContextWithOptions(fromView.bounds.size, NO, 0);
+    UIGraphicsBeginImageContextWithOptions(fromView.bounds.size, YES, 0);
     [fromView drawViewHierarchyInRect:containerView.bounds afterScreenUpdates:NO];
     UIImage *snapshotForBlur = UIGraphicsGetImageFromCurrentImageContext();
     
-    UIImageView *lightBlurredImageView = [[UIImageView alloc]initWithImage:[snapshotForBlur applyTintEffectWithColor:[UIColor blackColor]]];
+    UIImageView *lightBlurredImageView = [[UIImageView alloc]initWithImage:[snapshotForBlur applyDarkEffect]];
     lightBlurredImageView.frame = containerView.bounds;
-    [containerView addSubview:lightBlurredImageView];
+    lightBlurredImageView.alpha = 0;
     
-    toView.frame = CGRectInset(containerView.frame, 20, 40);
-    toView.alpha = 0;
+    toView.frame = CGRectOffset(containerView.frame, 0, CGRectGetMaxY(containerView.frame));
     toView.clipsToBounds = YES;
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    
+    // 1.
+    [containerView addSubview:lightBlurredImageView];
+    // 2.
     [containerView addSubview:toView];
     
-    [UIView animateWithDuration:self.duration animations:^{
-        toView.alpha = 1;
+    [UIView animateWithDuration:self.duration delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:1 options:kNilOptions animations:^{
+        toView.frame = containerView.bounds;
+        lightBlurredImageView.alpha = 1;
     } completion:^(BOOL finished) {
         [transitionContext completeTransition:YES];
     }];

@@ -137,7 +137,9 @@
                self.fullResCapturedImage = [[UIImage imageWithData:imgData] cropWithSquareRatioAndResolution:0];
                UIImage *croppedImg = [self.fullResCapturedImage cropWithSquareRatioAndResolution:self.bounds.size.width * [[UIScreen mainScreen] scale]];
                self.imagePreView.image = croppedImg;
-               [self.delegate didTakeSnapshot:self.fullResCapturedImage];
+               if ([self.delegate respondsToSelector:@selector(didTakeSnapshot:)]) {
+                   [self.delegate didTakeSnapshot:self.fullResCapturedImage];
+               }
                [self animateFlash];
            } else if (error) {
                NSLog(@"%@", error.description);
@@ -151,7 +153,9 @@
     if (!self.fullResCapturedImage) {
         [self captureImage];
     } else {
-        [self.delegate didDiscardLastImage];
+        if ([self.delegate respondsToSelector:@selector(didDiscardLastImage:)]) {
+            [self.delegate didDiscardLastImage];
+        }
         self.imagePreView.image = nil;
         self.fullResCapturedImage = nil;
     }

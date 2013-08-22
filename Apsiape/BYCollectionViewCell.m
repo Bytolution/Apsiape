@@ -179,7 +179,7 @@
     //FIXME: too many separator views on one cell -> glitch
     [self.separatorView removeFromSuperview];
     [self.contentView addSubview:self.separatorView];
-//    
+    
 //    if (indexPath.row == 0 && [self.indexPathForLayout] == 1) {
 //        // single cell
 //        cellPos = BYTableViewCellBGViewCellPositionSingle;

@@ -22,7 +22,7 @@
     [super willMoveToSuperview:newSuperview];
     
     self.textAlignment = NSTextAlignmentRight;
-    NSAttributedString *attrString = [[NSAttributedString alloc]initWithString:@"Enter value" attributes:@{NSForegroundColorAttributeName : [UIColor grayColor]}];
+    NSAttributedString *attrString = [[NSAttributedString alloc]initWithString:@"Enter value" attributes:@{NSForegroundColorAttributeName : [UIColor lightTextColor]}];
     self.attributedText = attrString;
     self.font = [UIFont fontWithName:@"Miso-Light" size:60];
     
@@ -35,11 +35,11 @@
     self.fadeAnimation.fromValue = [NSNumber numberWithFloat:1.0];
     self.fadeAnimation.fromValue = [NSNumber numberWithFloat:0.0];
     self.fadeAnimation.autoreverses = YES;
-    self.fadeAnimation.repeatCount = HUGE_VALF;
+    self.fadeAnimation.repeatCount = 5;
     self.fadeAnimation.duration = 0.5;
     [stripeLayer addAnimation:self.fadeAnimation forKey:@"opacityAnimation"];
     
-    [self.layer addSublayer:stripeLayer];
+//    [self.layer addSublayer:stripeLayer];
 }
 
 @end

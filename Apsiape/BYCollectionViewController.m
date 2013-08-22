@@ -12,21 +12,23 @@
 #import "BYStorage.h"
 #import "Expense.h"
 #import "InterfaceDefinitions.h"
-#import "BYNewExpenseWindow.h"
+#import "BYExpenseCreationViewController.h"
 #import "BYStatsViewController.h"
 #import "BYTableViewCellBGView.h"
+#import "BYPopupVCTransitionController.h"
 
-@interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate, BYNewExpenseWindowDelegate>
+@interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate, BYExpenseCreationViewControllerDelegate, UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, strong) NSMutableArray *collectionViewData;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
-@property (nonatomic, strong) BYNewExpenseWindow *expenseWindow;
+@property (nonatomic, strong) BYExpenseCreationViewController *expenseWindow;
 @property (nonatomic) BOOL menuBarIsVisible;
 @property (nonatomic, strong) NSMutableArray *cellStates;
 @property (nonatomic, strong) UILabel *pullControlLabel;
 @property (nonatomic, readwrite) BOOL scrollViewOffsetExceedsPullThreshold;
 @property (nonatomic, readwrite) BOOL pullControlLabelTextChangeAnimationInProgress;
+@property (nonatomic, readwrite) BOOL draggingEndedWithExceededPullThreshold;
 
 - (void)updateCollectionViewData;
 - (void)prepareCollectionView;
@@ -93,6 +95,7 @@
         self.collectionView.backgroundColor = [UIColor colorWithRed:0.9 green:0.95 blue:1 alpha:1];
         [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
         self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        self.collectionView.decelerationRate = UIScrollViewDecelerationRateNormal;
         [self.view addSubview:self.collectionView];
         self.pullControlLabel = [UILabel new];
         self.pullControlLabel.text = @"Create new";
@@ -162,16 +165,33 @@
 
 #pragma mark - Scroll View Delegate
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    NSLog(@"%@", NSStringFromCGPoint(scrollView.contentOffset));
-    if (self.scrollViewOffsetExceedsPullThreshold) {
-        [UIView animateWithDuration:0.5 animations:^{
-            
-        } completion:^(BOOL finished) {
+    if (self.draggingEndedWithExceededPullThreshold) {
+        self.draggingEndedWithExceededPullThreshold = NO;
+        BYExpenseCreationViewController *expenseVC = [[BYExpenseCreationViewController alloc]initWithNibName:nil bundle:nil];
+        expenseVC.transitioningDelegate = self;
+        expenseVC.modalPresentationStyle = UIModalPresentationCustom;
+        [self.navigationController presentViewController:expenseVC animated:YES completion:^{
             
         }];
     }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (self.scrollViewOffsetExceedsPullThreshold) {
+        self.draggingEndedWithExceededPullThreshold = YES;
+    }
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+{
+    BYPopupVCTransitionController *animationController = [[BYPopupVCTransitionController alloc]init];
+    animationController.presentedVC = presented;
+    animationController.presentingVC = presenting;
+    animationController.duration = 0.7;
+    return animationController;
 }
 
 - (void)setScrollViewOffsetExceedsPullThreshold:(BOOL)scrollViewOffsetExceedsPullThreshold
@@ -217,14 +237,9 @@
 
 #pragma mark - Window Delegate
 
-- (void)windowShouldDisappear:(BYNewExpenseWindow *)window
+- (void)windowShouldDisappear:(BYExpenseCreationViewController *)window
 {
-    self.view.hidden = NO;
-    [UIView animateWithDuration:0.5 animations:^{
-        
-    } completion:^(BOOL finished) {
-        
-    }];
+    
 }
 
 @end
