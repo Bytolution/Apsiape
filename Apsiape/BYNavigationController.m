@@ -11,9 +11,9 @@
 #import "BYMapViewController.h"
 #import "BYPreferencesViewController.h"
 #import "InterfaceDefinitions.h"
-#import "BYPopupVCTransitionController.h";
+#import "BYPopupVCTransitionController.h"
 
-@interface BYNavigationController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning, UINavigationControllerDelegate>
+@interface BYNavigationController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 @property (nonatomic, strong) BYCollectionViewController *collectionViewController;

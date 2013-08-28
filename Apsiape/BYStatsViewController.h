@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BYViewController.h"
 
-@interface BYStatsViewController : BYViewController
+@interface BYStatsViewController : UIViewController
 
 @end

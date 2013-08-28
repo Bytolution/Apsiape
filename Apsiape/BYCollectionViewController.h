@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BYViewController.h"
 
-@interface BYCollectionViewController : BYViewController
+@interface BYCollectionViewController : UIViewController
 
 
 
