@@ -49,8 +49,8 @@
     self.panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panRecognized:)];
     self.panRecognizer.delegate = self;
     [self.view addGestureRecognizer:self.panRecognizer];
-    UIBarButtonItem *bbi = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(displayMap)];
-    self.visibleViewController.navigationItem.leftBarButtonItem = bbi;
+//    UIBarButtonItem *bbi = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(displayMap)];
+//    self.visibleViewController.navigationItem.leftBarButtonItem = bbi;
 }
 
 - (void)displayMap

@@ -175,8 +175,8 @@
 		A307E81816DE8A0D00C9425A /* Apsiape */ = {
 			isa = PBXGroup;
 			children = (
-				A37685D617CE6A380005C658 /* Model */,
 				A37685D417CE69B40005C658 /* UI */,
+				A37685D617CE6A380005C658 /* Model */,
 				A307E81916DE8A0D00C9425A /* Supporting Files */,
 			);
 			path = Apsiape;

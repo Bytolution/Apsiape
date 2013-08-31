@@ -10,7 +10,6 @@
 #import "BYCollectionViewCell.h"
 #import "Expense.h"
 #import "InterfaceDefinitions.h"
-#import "BYTableViewCellBGView.h"
 #pragma mark ––– UICollectionViewCellContentView implementation
 
 @interface BYCollectionViewCell () <UIGestureRecognizerDelegate>
@@ -25,7 +24,6 @@
 @property (nonatomic, strong) CALayer *borderLayer;
 @property (nonatomic, strong) UIButton *rightSideActionButton;
 @property (nonatomic, strong) UILabel *subtitleLabel;
-@property (nonatomic, strong) BYTableViewCellBGView *separatorView;
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)panGestureRecognizer;
 - (void)animateCellContentForState:(BYCollectionViewCellState)state;
@@ -174,26 +172,7 @@
 }
 
 - (void)prepareLayout
-{    
-    self.separatorView.frame = self.contentView.bounds;
-    //FIXME: too many separator views on one cell -> glitch
-    [self.separatorView removeFromSuperview];
-    [self.contentView addSubview:self.separatorView];
-    
-//    if (indexPath.row == 0 && [self.indexPathForLayout] == 1) {
-//        // single cell
-//        cellPos = BYTableViewCellBGViewCellPositionSingle;
-//    } else if (indexPath.row == 0 && [collectionView numberOfItemsInSection:indexPath.section] > 1) {
-//        // top cell
-//        cellPos = BYTableViewCellBGViewCellPositionTop;
-//    } else if (indexPath.row == ([collectionView numberOfItemsInSection:indexPath.section] - 1)) {
-//        //bottom cell
-//        cellPos = BYTableViewCellBGViewCellPositionBottom;
-//    } else {
-//        //middle cell
-//        cellPos = BYTableViewCellBGViewCellPositionMiddle;
-//    }
-    
+{        
     if (self.cellState == BYCollectionViewCellStateRightSideRevealed) {
         self.contentView.frame = CGRectMake(- THRESHOLD, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
     } else if (self.cellState == BYCollectionViewCellStateLeftSideRevealed) {

@@ -14,7 +14,7 @@
 #import "InterfaceDefinitions.h"
 #import "BYExpenseCreationViewController.h"
 #import "BYStatsViewController.h"
-#import "BYTableViewCellBGView.h"
+#import "PickerFlowLayout.h"
 #import "BYPopupVCTransitionController.h"
 
 @interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate, BYExpenseCreationViewControllerDelegate, UIViewControllerTransitioningDelegate>
@@ -35,7 +35,6 @@
 
 @end
 
-#define PULL_WIDTH 64
 
 @implementation BYCollectionViewController
 
@@ -83,10 +82,7 @@
 - (void)prepareCollectionView
 {
     if (!self.collectionView) {
-        self.flowLayout = [[UICollectionViewFlowLayout alloc]init];
-        self.flowLayout.itemSize = CGSizeMake(self.view.frame.size.width - (CELL_PADDING*2), CELL_HEIGHT);
-        self.flowLayout.minimumInteritemSpacing = 0;
-        self.flowLayout.minimumLineSpacing = ROW_PADDING;
+        self.flowLayout = [[PickerFlowLayout alloc]init];
         self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, 320, CGRectGetMaxY(self.view.frame)) collectionViewLayout:self.flowLayout];
         self.collectionView.alwaysBounceVertical = YES;
         self.collectionView.dataSource = self;
@@ -97,6 +93,8 @@
         self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.collectionView.decelerationRate = UIScrollViewDecelerationRateNormal;
         [self.view addSubview:self.collectionView];
+        
+        // 'Pull to create' & 'release' label
         self.pullControlLabel = [UILabel new];
         self.pullControlLabel.text = @"Create new";
         self.pullControlLabel.frame = CGRectMake(0, - NAVBAR_HEIGHT, 320, NAVBAR_HEIGHT);
@@ -202,9 +200,9 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (scrollView.contentOffset.y < - 140 && !self.scrollViewOffsetExceedsPullThreshold) {
+    if (scrollView.contentOffset.y < - 130 && !self.scrollViewOffsetExceedsPullThreshold) {
         self.scrollViewOffsetExceedsPullThreshold = YES;
-    } else if (scrollView.contentOffset.y > - 140 && self.scrollViewOffsetExceedsPullThreshold) {
+    } else if (scrollView.contentOffset.y > - 130 && self.scrollViewOffsetExceedsPullThreshold) {
         self.scrollViewOffsetExceedsPullThreshold = NO;
     }
     
