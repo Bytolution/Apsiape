@@ -10,18 +10,17 @@
 #import "BYCollectionViewCell.h"
 #import "Expense.h"
 #import "InterfaceDefinitions.h"
+
 #pragma mark ––– UICollectionViewCellContentView implementation
 
 @interface BYCollectionViewCell () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic, strong) UIImageView *foregroundImageView;
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 @property (nonatomic, readwrite) BOOL panIsElastic;
 @property (nonatomic, readwrite) CGFloat panElasticityStartingPoint;
 @property (nonatomic, readwrite) CGFloat lastOffset;
-@property (nonatomic, strong) CALayer *borderLayer;
 @property (nonatomic, strong) UIButton *rightSideActionButton;
 @property (nonatomic, strong) UILabel *subtitleLabel;
 
@@ -47,20 +46,22 @@
         self.imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
         self.imageView.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
         self.imageView.layer.masksToBounds = YES;
+        self.imageView.layer.borderColor = [UIColor colorWithWhite:0.5 alpha:1].CGColor;
+        self.imageView.layer.borderWidth = 1;
         
         self.rightSideActionButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.rightSideActionButton.backgroundColor = [UIColor clearColor];
         [self.rightSideActionButton setTitle:@"Del" forState:UIControlStateNormal];
         [self.rightSideActionButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
         
-        self.backgroundView = [[UIView alloc]initWithFrame:self.bounds];
+//        self.backgroundView = [[UIView alloc]initWithFrame:self.bounds];
+        self.backgroundView = Nil;
         
         [self.contentView addSubview:self.imageView];
-        [self.contentView addSubview:self.foregroundImageView];
-        [self.contentView addSubview:self.label];
+//        [self.contentView addSubview:self.label];
         [self.backgroundView addSubview:self.rightSideActionButton];
-        self.backgroundColor = COLOR_ALERT_RED;
-        self.contentView.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
+        self.contentView.backgroundColor = [UIColor clearColor];
         
         self.panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
         self.panRecognizer.delegate = self;
@@ -69,24 +70,13 @@
         self.panIsElastic = YES;
         self.panElasticityStartingPoint = 80;
         
-        CALayer *lightBorder = [CALayer layer];
-        lightBorder.frame = self.bounds;
-        lightBorder.borderColor = [UIColor colorWithWhite:0.9 alpha:1].CGColor;
-        lightBorder.borderWidth = 1;
-//        [self.layer addSublayer:lightBorder];
-        
-        self.borderLayer = [CALayer layer];
-        self.borderLayer.borderWidth = 10;
-        self.borderLayer.borderColor = [UIColor colorWithWhite:0.8 alpha:1].CGColor;
-//        [self.layer addSublayer:self.borderLayer];
-        
         self.subtitleLabel = [[UILabel alloc]init];
         self.subtitleLabel.text = @"Create new";
         self.subtitleLabel.textColor = [UIColor darkGrayColor];
         self.subtitleLabel.backgroundColor = [UIColor clearColor];
         self.subtitleLabel.font = [UIFont fontWithName:@"Helvetica-Light" size:14];
         self.subtitleLabel.textAlignment = NSTextAlignmentRight;
-        [self.contentView addSubview:self.subtitleLabel];
+//        [self.contentView addSubview:self.subtitleLabel];
         
         self.layer.masksToBounds = YES;
     }
@@ -172,7 +162,7 @@
 }
 
 - (void)prepareLayout
-{        
+{
     if (self.cellState == BYCollectionViewCellStateRightSideRevealed) {
         self.contentView.frame = CGRectMake(- THRESHOLD, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
     } else if (self.cellState == BYCollectionViewCellStateLeftSideRevealed) {
@@ -189,7 +179,6 @@
     self.imageView.frame = CGRectMake(0, 0, self.frame.size.height, self.frame.size.height);
     self.imageView.frame = CGRectInset(self.imageView.frame, CELL_IMAGE_PADDING, CELL_IMAGE_PADDING);
     self.imageView.layer.cornerRadius = CGRectGetMaxX(self.imageView.bounds)/2;
-    self.borderLayer.frame = CGRectMake(0, self.contentView.frame.size.height - 1, self.contentView.frame.size.width, 1);
     rect.size.height = 20;
     rect.origin.y = 70;
     rect.size.width -= 10;

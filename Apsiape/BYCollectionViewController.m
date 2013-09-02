@@ -21,7 +21,6 @@
 
 @property (nonatomic, strong) NSMutableArray *collectionViewData;
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 @property (nonatomic, strong) BYExpenseCreationViewController *expenseWindow;
 @property (nonatomic) BOOL menuBarIsVisible;
 @property (nonatomic, strong) NSMutableArray *cellStates;
@@ -82,8 +81,7 @@
 - (void)prepareCollectionView
 {
     if (!self.collectionView) {
-        self.flowLayout = [[PickerFlowLayout alloc]init];
-        self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, 320, CGRectGetMaxY(self.view.frame)) collectionViewLayout:self.flowLayout];
+        self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, 320, CGRectGetMaxY(self.view.frame)) collectionViewLayout:[[PickerFlowLayout alloc]init]];
         self.collectionView.alwaysBounceVertical = YES;
         self.collectionView.dataSource = self;
         self.collectionView.delegate = self;
@@ -158,7 +156,7 @@
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(0, 0, 5, 0);
+    return UIEdgeInsetsMake(150, 0, 180, CGRectGetMaxX(collectionView.frame) - [(UICollectionViewFlowLayout*)collectionViewLayout itemSize].width);
 }
 
 #pragma mark - Scroll View Delegate
