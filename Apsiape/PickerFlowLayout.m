@@ -8,78 +8,65 @@
 
 #import "PickerFlowLayout.h"
 
-@interface PickerFlowLayout ()
-
-@end
-
 @implementation PickerFlowLayout
 
-#define ITEM_SIZE 100
-#define ACTIVE_DISTANCE 100
+#define ACTIVE_DISTANCE 200
 #define ZOOM_FACTOR 0.3
 
 -(id)init
 {
     self = [super init];
     if (self) {
-        self.itemSize = CGSizeMake(ITEM_SIZE, ITEM_SIZE);
+        self.itemSize = CGSizeMake(320, 100);
         self.scrollDirection = UICollectionViewScrollDirectionVertical;
-        self.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
-        self.minimumLineSpacing = - 40;
+        self.sectionInset = UIEdgeInsetsZero;
+        self.minimumLineSpacing = 1;
+        self.minimumInteritemSpacing = 0;
     }
     return self;
 }
 
-- (void)prepareLayout
-{
-    [super prepareLayout];
-}
-
-- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)oldBounds
-{
-    return YES;
-}
-
--(NSArray*)layoutAttributesForElementsInRect:(CGRect)rect
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    
-    NSMutableArray* attributeArray = [NSMutableArray array];
-    for (NSInteger i=0 ; i < [self.collectionView numberOfItemsInSection:0]; i++) {
-        NSIndexPath* indexPath = [NSIndexPath indexPathForItem:i inSection:0];
-        [attributeArray addObject:[self layoutAttributesForItemAtIndexPath:indexPath]];
-    }
-
-    CGRect visibleRect;
-    visibleRect.origin = self.collectionView.contentOffset;
-    visibleRect.size = self.collectionView.bounds.size;
-    return attributeArray;
-}
-
-
-
-- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    UICollectionViewLayoutAttributes *attributes = [super layoutAttributesForItemAtIndexPath:indexPath];
-    attributes.zIndex = indexPath.row*(-1);
-    return attributes;
-}
+//- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)oldBounds
+//{
+//    return YES;
+//}
+//
+//-(NSArray*)layoutAttributesForElementsInRect:(CGRect)rect
+//{
+//    NSArray* array = [super layoutAttributesForElementsInRect:rect];
+//    CGRect visibleRect;
+//    visibleRect.origin = self.collectionView.contentOffset;
+//    visibleRect.size = self.collectionView.bounds.size;
+//    
+//    for (UICollectionViewLayoutAttributes* attributes in array) {
+//        if (CGRectIntersectsRect(attributes.frame, rect)) {
+//            CGFloat distance = CGRectGetMidX(visibleRect) - attributes.center.y;
+//            CGFloat normalizedDistance = distance / ACTIVE_DISTANCE;
+//            if (ABS(distance) < ACTIVE_DISTANCE) {
+//                CGFloat zoom = 1 + ZOOM_FACTOR*(1 - ABS(normalizedDistance));
+//                attributes.transform3D = CATransform3DMakeScale(zoom, zoom, 1.0);
+//                attributes.zIndex = 1;
+//            }
+//        }
+//    }
+//    return array;
+//}
 
 //- (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity
 //{
 //    CGFloat offsetAdjustment = MAXFLOAT;
-//    CGFloat verticalCenter = proposedContentOffset.y + (CGRectGetWidth(self.collectionView.bounds) / 2.0);
+//    CGFloat horizontalCenter = proposedContentOffset.x + (CGRectGetWidth(self.collectionView.bounds) / 2.0);
 //    
-//    CGRect targetRect = CGRectMake(0.0, proposedContentOffset.y, self.collectionView.bounds.size.width, self.collectionView.bounds.size.height);
+//    CGRect targetRect = CGRectMake(proposedContentOffset.x, 0.0, self.collectionView.bounds.size.width, self.collectionView.bounds.size.height);
 //    NSArray* array = [super layoutAttributesForElementsInRect:targetRect];
 //    
 //    for (UICollectionViewLayoutAttributes* layoutAttributes in array) {
-//        CGFloat itemVerticalCenter = layoutAttributes.center.y;
-//        if (ABS(itemVerticalCenter - verticalCenter) < ABS(offsetAdjustment)) {
-//            offsetAdjustment = itemVerticalCenter - verticalCenter;
+//        CGFloat itemHorizontalCenter = layoutAttributes.center.x;
+//        if (ABS(itemHorizontalCenter - horizontalCenter) < ABS(offsetAdjustment)) {
+//            offsetAdjustment = itemHorizontalCenter - horizontalCenter;
 //        }
 //    }
-//    return CGPointMake(proposedContentOffset.x, proposedContentOffset.y + offsetAdjustment);
+//    return CGPointMake(proposedContentOffset.x + offsetAdjustment, proposedContentOffset.y);
 //}
+
 @end
