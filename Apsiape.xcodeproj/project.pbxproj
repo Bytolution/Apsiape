@@ -28,7 +28,7 @@
 		A35FB72717B037F600447747 /* BYMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35FB72217B036D100447747 /* BYMapViewController.m */; };
 		A35FB72917B03B7D00447747 /* SimulatedLocation.gpx in Resources */ = {isa = PBXBuildFile; fileRef = A35FB72817B03B7D00447747 /* SimulatedLocation.gpx */; };
 		A3602A22179CB58B00FADA48 /* UIImage+Adjustments.m in Sources */ = {isa = PBXBuildFile; fileRef = A3602A20179CB58B00FADA48 /* UIImage+Adjustments.m */; };
-		A37685D317CE69350005C658 /* PickerFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A37685D217CE69350005C658 /* PickerFlowLayout.m */; };
+		A37685D317CE69350005C658 /* TableFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A37685D217CE69350005C658 /* TableFlowLayout.m */; };
 		A376B5891794BFB90008A141 /* BYStatsView.m in Sources */ = {isa = PBXBuildFile; fileRef = A376B5881794BFB90008A141 /* BYStatsView.m */; };
 		A3832F0C16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3832F0A16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld */; };
 		A38E2E4817836C4400E1EBBC /* BYPullScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A38E2E4717836C4400E1EBBC /* BYPullScrollView.m */; };
@@ -84,8 +84,8 @@
 		A35FB72817B03B7D00447747 /* SimulatedLocation.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = SimulatedLocation.gpx; sourceTree = "<group>"; };
 		A3602A20179CB58B00FADA48 /* UIImage+Adjustments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Adjustments.m"; sourceTree = "<group>"; };
 		A3602A21179CB58B00FADA48 /* UIImage+Adjustments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Adjustments.h"; sourceTree = "<group>"; };
-		A37685D117CE69350005C658 /* PickerFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerFlowLayout.h; sourceTree = "<group>"; };
-		A37685D217CE69350005C658 /* PickerFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickerFlowLayout.m; sourceTree = "<group>"; };
+		A37685D117CE69350005C658 /* TableFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableFlowLayout.h; sourceTree = "<group>"; };
+		A37685D217CE69350005C658 /* TableFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableFlowLayout.m; sourceTree = "<group>"; };
 		A376B5871794BFB90008A141 /* BYStatsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYStatsView.h; sourceTree = "<group>"; };
 		A376B5881794BFB90008A141 /* BYStatsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = BYStatsView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		A3832F0B16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ApsiapeDataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -263,8 +263,8 @@
 				A310311C16E3E37C00B163DC /* BYCollectionViewController.m */,
 				A337964E16E52A4C00C55116 /* BYCollectionViewCell.h */,
 				A337964F16E52A4C00C55116 /* BYCollectionViewCell.m */,
-				A37685D117CE69350005C658 /* PickerFlowLayout.h */,
-				A37685D217CE69350005C658 /* PickerFlowLayout.m */,
+				A37685D117CE69350005C658 /* TableFlowLayout.h */,
+				A37685D217CE69350005C658 /* TableFlowLayout.m */,
 			);
 			name = CollectionView;
 			path = Apsiape;
@@ -392,7 +392,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A37685D317CE69350005C658 /* PickerFlowLayout.m in Sources */,
+				A37685D317CE69350005C658 /* TableFlowLayout.m in Sources */,
 				A35FB72717B037F600447747 /* BYMapViewController.m in Sources */,
 				A35FB72617B037ED00447747 /* BYNavigationController.m in Sources */,
 				A35FB72517B037E400447747 /* BYPreferencesViewController.m in Sources */,

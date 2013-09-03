@@ -1,14 +1,14 @@
 //
-//  PickerFlowLayout.m
+//  TableFlowLayout.m
 //  Apsiape
 //
 //  Created by Dario Lass on 28.08.13.
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
 
-#import "PickerFlowLayout.h"
+#import "TableFlowLayout.h"
 
-@implementation PickerFlowLayout
+@implementation TableFlowLayout
 
 #define ACTIVE_DISTANCE 200
 #define ZOOM_FACTOR 0.3
@@ -26,31 +26,27 @@
     return self;
 }
 
-//- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)oldBounds
-//{
-//    return YES;
-//}
-//
-//-(NSArray*)layoutAttributesForElementsInRect:(CGRect)rect
-//{
-//    NSArray* array = [super layoutAttributesForElementsInRect:rect];
-//    CGRect visibleRect;
-//    visibleRect.origin = self.collectionView.contentOffset;
-//    visibleRect.size = self.collectionView.bounds.size;
-//    
-//    for (UICollectionViewLayoutAttributes* attributes in array) {
-//        if (CGRectIntersectsRect(attributes.frame, rect)) {
-//            CGFloat distance = CGRectGetMidX(visibleRect) - attributes.center.y;
-//            CGFloat normalizedDistance = distance / ACTIVE_DISTANCE;
-//            if (ABS(distance) < ACTIVE_DISTANCE) {
-//                CGFloat zoom = 1 + ZOOM_FACTOR*(1 - ABS(normalizedDistance));
-//                attributes.transform3D = CATransform3DMakeScale(zoom, zoom, 1.0);
-//                attributes.zIndex = 1;
-//            }
-//        }
-//    }
-//    return array;
-//}
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)oldBounds
+{
+    return YES;
+}
+
+-(NSArray*)layoutAttributesForElementsInRect:(CGRect)rect
+{
+    NSArray* array = [super layoutAttributesForElementsInRect:rect];
+    CGRect visibleRect;
+    visibleRect.origin = CGPointMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y + 64);
+    visibleRect.size = self.collectionView.bounds.size;
+    
+    NSLog(NSStringFromCGRect(visibleRect));
+    
+    for (UICollectionViewLayoutAttributes* attributes in array) {
+        if (CGRectIntersectsRect(attributes.frame, CGRectMake(0, 0, 320, 101))) {
+            attributes.size = CGSizeMake(320, 120);
+        }
+    }
+    return array;
+}
 
 //- (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity
 //{

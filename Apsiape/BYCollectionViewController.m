@@ -14,7 +14,7 @@
 #import "InterfaceDefinitions.h"
 #import "BYExpenseCreationViewController.h"
 #import "BYStatsViewController.h"
-#import "PickerFlowLayout.h"
+#import "TableFlowLayout.h"
 #import "BYPopupVCTransitionController.h"
 
 @interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate, BYExpenseCreationViewControllerDelegate, UIViewControllerTransitioningDelegate>
@@ -82,7 +82,7 @@
 - (void)prepareCollectionView
 {
     if (!self.collectionView) {
-        self.flowLayout = [[PickerFlowLayout alloc]init];
+        self.flowLayout = [[TableFlowLayout alloc]init];
         self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, 320, CGRectGetMaxY(self.view.frame)) collectionViewLayout:self.flowLayout];
         self.collectionView.alwaysBounceVertical = YES;
         self.collectionView.dataSource = self;

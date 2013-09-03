@@ -1,5 +1,5 @@
 //
-//  PickerFlowLayout.h
+//  TableFlowLayout.h
 //  Apsiape
 //
 //  Created by Dario Lass on 28.08.13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PickerFlowLayout : UICollectionViewFlowLayout
+@interface TableFlowLayout : UICollectionViewFlowLayout
 
 @end
