@@ -37,9 +37,7 @@
     CGRect visibleRect;
     visibleRect.origin = CGPointMake(self.collectionView.contentOffset.x, self.collectionView.contentOffset.y + 64);
     visibleRect.size = self.collectionView.bounds.size;
-    
-    NSLog(NSStringFromCGRect(visibleRect));
-    
+        
     for (UICollectionViewLayoutAttributes* attributes in array) {
         if (CGRectIntersectsRect(attributes.frame, CGRectMake(0, 0, 320, 101))) {
             attributes.size = CGSizeMake(320, 120);

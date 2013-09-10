@@ -8,20 +8,21 @@
 
 #import <CoreData/CoreData.h>
 #import "BYCollectionViewController.h"
-#import "BYCollectionViewCell.h"
+#import "BYThumbnailCell.h"
 #import "BYStorage.h"
+#import "BYLabelCell.h"
 #import "Expense.h"
 #import "InterfaceDefinitions.h"
 #import "BYExpenseCreationViewController.h"
 #import "BYStatsViewController.h"
-#import "TableFlowLayout.h"
+#import "HorizontalFlowLayout.h"
 #import "BYPopupVCTransitionController.h"
 
-@interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, BYCollectionViewCellDelegate, BYExpenseCreationViewControllerDelegate, UIViewControllerTransitioningDelegate>
+@interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, BYThumbnailCellDelegate, UIViewControllerTransitioningDelegate>
 
 @property (nonatomic, strong) NSMutableArray *collectionViewData;
-@property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
+@property (nonatomic, strong) UICollectionView *thumbnailCollectionView;
+@property (nonatomic, strong) UICollectionView *valueCollectionView;
 @property (nonatomic, strong) BYExpenseCreationViewController *expenseWindow;
 @property (nonatomic) BOOL menuBarIsVisible;
 @property (nonatomic, strong) NSMutableArray *cellStates;
@@ -31,7 +32,7 @@
 @property (nonatomic, readwrite) BOOL draggingEndedWithExceededPullThreshold;
 
 - (void)updateCollectionViewData;
-- (void)prepareCollectionView;
+- (CGPoint)targetOffsetForProposedOffset:(CGPoint)propOffset;
 
 @end
 
@@ -62,49 +63,49 @@
     if (!self.cellStates) self.cellStates = [[NSMutableArray alloc]init];
     [self.cellStates removeAllObjects];
     for (int i = 0; i < self.collectionViewData.count; i++) {
-        [self.cellStates addObject:[NSNumber numberWithInt:BYCollectionViewCellStateDefault]];
+        [self.cellStates addObject:[NSNumber numberWithInt:BYThumbnailCellStateDefault]];
     }
-    [self.collectionView reloadData];
+    [self.thumbnailCollectionView reloadData];
+    [self.valueCollectionView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self prepareCollectionView];
+    [self updateCollectionViewData];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
+    if (!self.thumbnailCollectionView) {
+        HorizontalFlowLayout *xFlowLayout = [[HorizontalFlowLayout alloc]init];
+        xFlowLayout.itemSize = CGSizeMake(90, 90);
+        xFlowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 320 - xFlowLayout.itemSize.width);
+        self.thumbnailCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 64, 320, 100) collectionViewLayout:xFlowLayout];
+        self.thumbnailCollectionView.dataSource = self;
+        self.thumbnailCollectionView.delegate = self;
+        self.thumbnailCollectionView.showsHorizontalScrollIndicator = NO;
+        self.thumbnailCollectionView.backgroundColor = [UIColor clearColor];
+        [self.thumbnailCollectionView registerClass:[BYThumbnailCell class] forCellWithReuseIdentifier:@"CELL_ID_thmbn"];
+        self.thumbnailCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [self.view addSubview:self.thumbnailCollectionView];
+    }
+    if (!self.valueCollectionView) {
+        HorizontalFlowLayout *xFlowLayoutForLabels = [[HorizontalFlowLayout alloc]init];
+        xFlowLayoutForLabels.itemSize = CGSizeMake(320, 90);
+        self.valueCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 164, 320, 90) collectionViewLayout:xFlowLayoutForLabels];
+        self.valueCollectionView.dataSource = self;
+        self.valueCollectionView.delegate = self;
+        self.valueCollectionView.showsHorizontalScrollIndicator = NO;
+        self.valueCollectionView.backgroundColor = [UIColor clearColor];
+        [self.valueCollectionView registerClass:[BYLabelCell class] forCellWithReuseIdentifier:@"CELL_ID_val"];
+        self.valueCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [self.view addSubview:self.valueCollectionView];
+    }
+
     [self updateCollectionViewData];
 }
 
 #pragma mark - Collection View
-
-- (void)prepareCollectionView
-{
-    if (!self.collectionView) {
-        self.flowLayout = [[TableFlowLayout alloc]init];
-        self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, 320, CGRectGetMaxY(self.view.frame)) collectionViewLayout:self.flowLayout];
-        self.collectionView.alwaysBounceVertical = YES;
-        self.collectionView.dataSource = self;
-        self.collectionView.delegate = self;
-        self.collectionView.indicatorStyle = UIScrollViewIndicatorStyleBlack;
-        self.collectionView.backgroundColor = [UIColor colorWithRed:0.9 green:0.95 blue:1 alpha:1];
-        [self.collectionView registerClass:[BYCollectionViewCell class] forCellWithReuseIdentifier:@"CELL_ID"];
-        self.collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        self.collectionView.decelerationRate = UIScrollViewDecelerationRateNormal;
-        [self.view addSubview:self.collectionView];
-        
-        // 'Pull to create' & 'release' label
-        self.pullControlLabel = [UILabel new];
-        self.pullControlLabel.text = @"Create new";
-        self.pullControlLabel.frame = CGRectMake(0, - NAVBAR_HEIGHT, 320, NAVBAR_HEIGHT);
-        self.pullControlLabel.textColor = [UIColor blackColor];
-        self.pullControlLabel.backgroundColor = [UIColor clearColor];
-        self.pullControlLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:30];
-        self.pullControlLabel.textAlignment = NSTextAlignmentCenter;
-        [self.collectionView addSubview:self.pullControlLabel];
-    }
-}
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -113,34 +114,35 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    BYCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID" forIndexPath:indexPath];
     Expense *expense = self.collectionViewData[indexPath.row];
-    cell.title = expense.stringValue;
-    cell.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@thumb-mono.jpg", expense.baseFilePath]]];
-    cell.delegate = self;
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    dateFormatter.timeStyle = NSDateFormatterNoStyle;
-    dateFormatter.dateStyle = NSDateFormatterShortStyle;
-    NSString *dateString = [dateFormatter stringFromDate:expense.date];
-    cell.cellState = [self.cellStates[indexPath.row] intValue];
-    cell.subtitle = [NSString stringWithFormat:@"%@%@ %@", expense.locationString ? expense.locationString : @"", expense.locationString ? @"," : @"", dateString];
-    [cell prepareLayout];
-    return cell;
+    
+    if (collectionView == self.thumbnailCollectionView) {
+        BYThumbnailCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID_thmbn" forIndexPath:indexPath];
+        cell.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@thumb-mono.jpg", expense.baseFilePath]]];
+        [cell prepareLayout];
+        return cell;
+    } else if (collectionView == self.valueCollectionView) {
+        BYLabelCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CELL_ID_val" forIndexPath:indexPath];
+        cell.title = expense.stringValue;
+        return cell;
+    } else {
+        [NSException raise:@"BYCollectionViewControllerException" format:@"collection view from call back does not match either of the expected ones"];
+        return nil;
+    }
 }
 
-- (void)cell:(BYCollectionViewCell *)cell didEnterStateWithAnimation:(BYCollectionViewCellState)state
+- (void)cell:(BYThumbnailCell *)cell didEnterStateWithAnimation:(BYThumbnailCellState)state
 {
-    [self.cellStates replaceObjectAtIndex:[self.collectionView indexPathForCell:cell].row withObject:[NSNumber numberWithInt:state]];
+    [self.cellStates replaceObjectAtIndex:[self.thumbnailCollectionView indexPathForCell:cell].row withObject:[NSNumber numberWithInt:state]];
 }
 
-- (void)cellDidRecieveAction:(BYCollectionViewCell *)cell
+- (void)cellDidRecieveAction:(BYThumbnailCell *)cell
 {
     NSMutableIndexSet *deletionIndexSet = [[NSMutableIndexSet alloc]init];
     NSMutableArray *deletionIndexesForCollectionView = [[NSMutableArray alloc]init];
     for (int i = 0; i < self.cellStates.count; i++) {
-        if ([self.cellStates[i] isEqual:[NSNumber numberWithInt:BYCollectionViewCellStateRightSideRevealed]]) {
+        if ([self.cellStates[i] isEqual:[NSNumber numberWithInt:BYThumbnailCellStateRightSideRevealed]]) {
             Expense *expense = self.collectionViewData[i];
-            //FIXME: deletion must happen in bunches
             [[BYStorage sharedStorage] deleteExpenseObject:expense completion:nil];
             [deletionIndexSet addIndex:i];
             [deletionIndexesForCollectionView addObject:[NSIndexPath indexPathForItem:i inSection:0]];
@@ -148,7 +150,7 @@
     }
     [self.collectionViewData removeObjectsAtIndexes:deletionIndexSet];
     [self.cellStates removeObjectsAtIndexes:deletionIndexSet];
-    [self.collectionView deleteItemsAtIndexPaths:deletionIndexesForCollectionView];
+    [self.thumbnailCollectionView deleteItemsAtIndexPaths:deletionIndexesForCollectionView];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -156,30 +158,31 @@
     [self.navigationController pushViewController:[[BYCollectionViewController alloc]initWithNibName:nil bundle:nil] animated:YES];
 }
 
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    return UIEdgeInsetsMake(0, 0, 5, 0);
-}
+
 
 #pragma mark - Scroll View Delegate
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    if (self.draggingEndedWithExceededPullThreshold) {
-        self.draggingEndedWithExceededPullThreshold = NO;
-        BYExpenseCreationViewController *expenseVC = [[BYExpenseCreationViewController alloc]initWithNibName:nil bundle:nil];
-        expenseVC.transitioningDelegate = self;
-        expenseVC.modalPresentationStyle = UIModalPresentationCustom;
-        [self.navigationController presentViewController:expenseVC animated:YES completion:^{
-            
-        }];
-    }
+    [self.thumbnailCollectionView setContentOffset:[self targetOffsetForProposedOffset:self.thumbnailCollectionView.contentOffset] animated:YES];
+//    if (self.draggingEndedWithExceededPullThreshold) {
+//        self.draggingEndedWithExceededPullThreshold = NO;
+//        BYExpenseCreationViewController *expenseVC = [[BYExpenseCreationViewController alloc]initWithNibName:nil bundle:nil];
+//        expenseVC.transitioningDelegate = self;
+//        expenseVC.modalPresentationStyle = UIModalPresentationCustom;
+//        [self.navigationController presentViewController:expenseVC animated:YES completion:^{
+//            
+//        }];
+//    }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (self.scrollViewOffsetExceedsPullThreshold) {
         self.draggingEndedWithExceededPullThreshold = YES;
+    }
+    if (!decelerate) {
+        [self.thumbnailCollectionView setContentOffset:[self targetOffsetForProposedOffset:self.thumbnailCollectionView.contentOffset] animated:YES];
     }
 }
 
@@ -195,14 +198,13 @@
 - (void)setScrollViewOffsetExceedsPullThreshold:(BOOL)scrollViewOffsetExceedsPullThreshold
 {
     _scrollViewOffsetExceedsPullThreshold = scrollViewOffsetExceedsPullThreshold;
-    NSLog(@"%s", __PRETTY_FUNCTION__);
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (scrollView.contentOffset.y < - 130 && !self.scrollViewOffsetExceedsPullThreshold) {
+    if (scrollView.contentOffset.x < - 130 && !self.scrollViewOffsetExceedsPullThreshold) {
         self.scrollViewOffsetExceedsPullThreshold = YES;
-    } else if (scrollView.contentOffset.y > - 130 && self.scrollViewOffsetExceedsPullThreshold) {
+    } else if (scrollView.contentOffset.x > - 130 && self.scrollViewOffsetExceedsPullThreshold) {
         self.scrollViewOffsetExceedsPullThreshold = NO;
     }
     
@@ -231,13 +233,28 @@
             }];
         }];
     }
+    
+    if (scrollView == self.thumbnailCollectionView) {
+        double factor = scrollView.contentOffset.x/(scrollView.contentSize.width - CGRectGetMaxX(scrollView.frame));
+        [self.valueCollectionView setContentOffset:CGPointMake((self.valueCollectionView.contentSize.width - CGRectGetMaxX(self.valueCollectionView.frame)) *factor, 0)];
+    } else if (scrollView == self.valueCollectionView) {
+        double factor = scrollView.contentOffset.x/(scrollView.contentSize.width - CGRectGetMaxX(scrollView.frame));
+        [self.thumbnailCollectionView setContentOffset:CGPointMake((self.thumbnailCollectionView.contentSize.width - CGRectGetMaxX(self.thumbnailCollectionView.frame)) *factor, 0)];
+    }
 }
 
-#pragma mark - Window Delegate
+#pragma mark Offset adjustements
 
-- (void)windowShouldDisappear:(BYExpenseCreationViewController *)window
+- (CGPoint)targetOffsetForProposedOffset:(CGPoint)propOffset
 {
-    
+    CGFloat itemWidth =[(UICollectionViewFlowLayout*)self.thumbnailCollectionView.collectionViewLayout itemSize].width;
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc]init];
+    numberFormatter.roundingMode = NSNumberFormatterRoundHalfUp;
+    numberFormatter.maximumFractionDigits = 0;
+    CGFloat factor = propOffset.x/itemWidth;
+    CGFloat roundedFactor = [[numberFormatter stringFromNumber:[NSNumber numberWithFloat:factor]]floatValue];
+    NSLog(@"div: %f", roundedFactor);
+    return CGPointMake(roundedFactor*itemWidth, propOffset.y);
 }
 
 @end

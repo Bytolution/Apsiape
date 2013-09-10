@@ -1,5 +1,5 @@
 //
-//  BYCollectionViewCell.m
+//  BYThumbnailCell.m
 //  Apsiape
 //
 //  Created by Dario Lass on 04.03.13.
@@ -7,12 +7,12 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
-#import "BYCollectionViewCell.h"
+#import "BYThumbnailCell.h"
 #import "Expense.h"
 #import "InterfaceDefinitions.h"
 #pragma mark ––– UICollectionViewCellContentView implementation
 
-@interface BYCollectionViewCell () <UIGestureRecognizerDelegate>
+@interface BYThumbnailCell () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) UIImageView *imageView;
@@ -26,12 +26,12 @@
 @property (nonatomic, strong) UILabel *subtitleLabel;
 
 - (void)handlePanGesture:(UIPanGestureRecognizer*)panGestureRecognizer;
-- (void)animateCellContentForState:(BYCollectionViewCellState)state;
+- (void)animateCellContentForState:(BYThumbnailCellState)state;
 - (void)buttonTapped:(UIButton*)sender;
 
 @end
 
-@implementation BYCollectionViewCell
+@implementation BYThumbnailCell
 
 
 - (id)initWithFrame:(CGRect)frame
@@ -56,15 +56,15 @@
         self.backgroundView = [[UIView alloc]initWithFrame:self.bounds];
         
         [self.contentView addSubview:self.imageView];
-        [self.contentView addSubview:self.foregroundImageView];
-        [self.contentView addSubview:self.label];
+//        [self.contentView addSubview:self.foregroundImageView];
+//        [self.contentView addSubview:self.label];
         [self.backgroundView addSubview:self.rightSideActionButton];
         self.backgroundColor = COLOR_ALERT_RED;
         self.contentView.backgroundColor = [UIColor whiteColor];
         
         self.panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
         self.panRecognizer.delegate = self;
-        [self addGestureRecognizer:self.panRecognizer];
+//        [self addGestureRecognizer:self.panRecognizer];
         
         self.panIsElastic = YES;
         self.panElasticityStartingPoint = 80;
@@ -86,7 +86,7 @@
         self.subtitleLabel.backgroundColor = [UIColor clearColor];
         self.subtitleLabel.font = [UIFont fontWithName:@"Helvetica-Light" size:14];
         self.subtitleLabel.textAlignment = NSTextAlignmentRight;
-        [self.contentView addSubview:self.subtitleLabel];
+//        [self.contentView addSubview:self.subtitleLabel];
         
         self.layer.masksToBounds = YES;
     }
@@ -119,31 +119,31 @@
         self.contentView.frame = CGRectOffset(self.contentView.frame, deltaX, 0);
     } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
         if (fabs(CGRectGetMinX(self.contentView.frame)) > THRESHOLD && CGRectGetMinX(self.contentView.frame) < 0) {
-            [self animateCellContentForState:BYCollectionViewCellStateRightSideRevealed];
+            [self animateCellContentForState:BYThumbnailCellStateRightSideRevealed];
         } else if (fabs(CGRectGetMinX(self.contentView.frame)) > THRESHOLD && CGRectGetMinX(self.contentView.frame) > 0) {
-            [self animateCellContentForState:BYCollectionViewCellStateLeftSideRevealed];
+            [self animateCellContentForState:BYThumbnailCellStateLeftSideRevealed];
         } else {
-            [self animateCellContentForState:BYCollectionViewCellStateDefault];
+            [self animateCellContentForState:BYThumbnailCellStateDefault];
         }
         self.lastOffset = 0.0f;
     }
 }
 
-- (void)animateCellContentForState:(BYCollectionViewCellState)state
+- (void)animateCellContentForState:(BYThumbnailCellState)state
 {
     void (^delegateCall) (BOOL) = ^(BOOL finished) {
         [self.delegate cell:self didEnterStateWithAnimation:state];
     };
     
-    if (state == BYCollectionViewCellStateDefault) {
+    if (state == BYThumbnailCellStateDefault) {
         [UIView animateWithDuration:0.2 animations:^{
                 self.contentView.frame = CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
         } completion:delegateCall];
-    } else if (state == BYCollectionViewCellStateLeftSideRevealed) {
+    } else if (state == BYThumbnailCellStateLeftSideRevealed) {
         [UIView animateWithDuration:0.2 animations:^{
                 self.contentView.frame = CGRectMake(THRESHOLD, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
             } completion:delegateCall];
-    } else if (state == BYCollectionViewCellStateRightSideRevealed) {
+    } else if (state == BYThumbnailCellStateRightSideRevealed) {
         [UIView animateWithDuration:0.2 animations:^{
                 self.contentView.frame = CGRectMake(- THRESHOLD, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
             } completion:delegateCall];
@@ -173,9 +173,9 @@
 
 - (void)prepareLayout
 {        
-    if (self.cellState == BYCollectionViewCellStateRightSideRevealed) {
+    if (self.cellState == BYThumbnailCellStateRightSideRevealed) {
         self.contentView.frame = CGRectMake(- THRESHOLD, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
-    } else if (self.cellState == BYCollectionViewCellStateLeftSideRevealed) {
+    } else if (self.cellState == BYThumbnailCellStateLeftSideRevealed) {
         self.contentView.frame = CGRectMake(THRESHOLD, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
     } else {
         self.contentView.frame = CGRectMake(0, 0, self.contentView.frame.size.width, self.contentView.frame.size.height);
