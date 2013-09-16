@@ -17,6 +17,7 @@
 #import "BYStatsViewController.h"
 #import "HorizontalFlowLayout.h"
 #import "BYPopupVCTransitionController.h"
+#import "BYAttributesView.h"
 
 @interface BYCollectionViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, BYThumbnailCellDelegate, UIViewControllerTransitioningDelegate>
 
@@ -27,12 +28,14 @@
 @property (nonatomic) BOOL menuBarIsVisible;
 @property (nonatomic, strong) NSMutableArray *cellStates;
 @property (nonatomic, strong) UILabel *pullControlLabel;
+@property (nonatomic, strong) BYAttributesView *attributesView;
 @property (nonatomic, readwrite) BOOL scrollViewOffsetExceedsPullThreshold;
 @property (nonatomic, readwrite) BOOL pullControlLabelTextChangeAnimationInProgress;
 @property (nonatomic, readwrite) BOOL draggingEndedWithExceededPullThreshold;
 
 - (void)updateCollectionViewData;
 - (CGPoint)targetOffsetForProposedOffset:(CGPoint)propOffset;
+- (void)scrollViewWillSnapToIndex:(NSInteger)index;
 
 @end
 
@@ -43,9 +46,11 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"Overview";
+//        self.title = @"Overview";
         if (!self.collectionViewData) self.collectionViewData = [[NSMutableArray alloc]init];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCollectionViewData) name:@"BYStorageContentChangedNotification" object:nil];
+        self.extendedLayoutIncludesOpaqueBars = NO;
+        self.edgesForExtendedLayout = UIRectEdgeAll;
     }
     return self;
 }
@@ -80,27 +85,35 @@
         HorizontalFlowLayout *xFlowLayout = [[HorizontalFlowLayout alloc]init];
         xFlowLayout.itemSize = CGSizeMake(90, 90);
         xFlowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 320 - xFlowLayout.itemSize.width);
-        self.thumbnailCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 64, 320, 100) collectionViewLayout:xFlowLayout];
+        self.thumbnailCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 20, 320, 100) collectionViewLayout:xFlowLayout];
         self.thumbnailCollectionView.dataSource = self;
         self.thumbnailCollectionView.delegate = self;
         self.thumbnailCollectionView.showsHorizontalScrollIndicator = NO;
-        self.thumbnailCollectionView.backgroundColor = [UIColor clearColor];
+        self.thumbnailCollectionView.backgroundColor = [UIColor colorWithWhite:1 alpha:0];
         [self.thumbnailCollectionView registerClass:[BYThumbnailCell class] forCellWithReuseIdentifier:@"CELL_ID_thmbn"];
         self.thumbnailCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        [self.view addSubview:self.thumbnailCollectionView];
+        [self.navigationController.navigationBar addSubview:self.thumbnailCollectionView];
     }
     if (!self.valueCollectionView) {
         HorizontalFlowLayout *xFlowLayoutForLabels = [[HorizontalFlowLayout alloc]init];
-        xFlowLayoutForLabels.itemSize = CGSizeMake(320, 90);
-        self.valueCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 164, 320, 90) collectionViewLayout:xFlowLayoutForLabels];
+        xFlowLayoutForLabels.itemSize = CGSizeMake(320, 80);
+        self.valueCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 100, 320, 80) collectionViewLayout:xFlowLayoutForLabels];
         self.valueCollectionView.dataSource = self;
         self.valueCollectionView.delegate = self;
+        self.valueCollectionView.pagingEnabled = YES;
         self.valueCollectionView.showsHorizontalScrollIndicator = NO;
-        self.valueCollectionView.backgroundColor = [UIColor clearColor];
+        self.valueCollectionView.backgroundColor = [UIColor colorWithWhite:1 alpha:0];
         [self.valueCollectionView registerClass:[BYLabelCell class] forCellWithReuseIdentifier:@"CELL_ID_val"];
         self.valueCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        [self.view addSubview:self.valueCollectionView];
+        [self.navigationController.navigationBar addSubview:self.valueCollectionView];
     }
+    
+    if (!self.attributesView) self.attributesView = [[BYAttributesView alloc]initWithFrame:self.view.bounds];
+    self.attributesView.contentInset = UIEdgeInsetsZero;
+    [self.view insertSubview:self.attributesView belowSubview:self.thumbnailCollectionView];
+    
+    
+    self.navigationController.navigationBar.frame = CGRectMake(0, 0, 320, CGRectGetHeight(self.thumbnailCollectionView.frame) + CGRectGetHeight(self.valueCollectionView.frame));
 
     [self updateCollectionViewData];
 }
@@ -153,10 +166,10 @@
     [self.thumbnailCollectionView deleteItemsAtIndexPaths:deletionIndexesForCollectionView];
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self.navigationController pushViewController:[[BYCollectionViewController alloc]initWithNibName:nil bundle:nil] animated:YES];
-}
+//- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    [self.navigationController pushViewController:[[BYCollectionViewController alloc]initWithNibName:nil bundle:nil] animated:YES];
+//}
 
 
 
@@ -243,6 +256,12 @@
     }
 }
 
+- (void)scrollViewWillSnapToIndex:(NSInteger)index
+{
+    Expense *expense = [self.collectionViewData objectAtIndex:index];
+    self.attributesView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@screen-mono.jpg", expense.baseFilePath]]];
+}
+
 #pragma mark Offset adjustements
 
 - (CGPoint)targetOffsetForProposedOffset:(CGPoint)propOffset
@@ -253,7 +272,7 @@
     numberFormatter.maximumFractionDigits = 0;
     CGFloat factor = propOffset.x/itemWidth;
     CGFloat roundedFactor = [[numberFormatter stringFromNumber:[NSNumber numberWithFloat:factor]]floatValue];
-    NSLog(@"div: %f", roundedFactor);
+    [self scrollViewWillSnapToIndex:roundedFactor];
     return CGPointMake(roundedFactor*itemWidth, propOffset.y);
 }
 

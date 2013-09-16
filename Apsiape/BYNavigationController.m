@@ -40,6 +40,7 @@
     if (self) {
         
         self.view.backgroundColor = [UIColor whiteColor];
+//        self.navigationBarHidden = YES;
     }
     return self;
 }
@@ -49,18 +50,6 @@
     self.panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panRecognized:)];
     self.panRecognizer.delegate = self;
     [self.view addGestureRecognizer:self.panRecognizer];
-//    UIBarButtonItem *bbi = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(displayMap)];
-//    self.visibleViewController.navigationItem.leftBarButtonItem = bbi;
-}
-
-- (void)displayMap
-{
-    BYMapViewController *mVC = [[BYMapViewController alloc]initWithNibName:nil bundle:nil];
-    mVC.transitioningDelegate = self;
-    mVC.modalPresentationStyle = UIModalPresentationCustom;
-    [self presentViewController:mVC animated:YES completion:^{
-//        NSLog(@"complete");
-    }];
 }
 
 #pragma mark - View Controller Transition delegates

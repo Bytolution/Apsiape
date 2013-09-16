@@ -47,6 +47,8 @@
         self.imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
         self.imageView.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1];
         self.imageView.layer.masksToBounds = YES;
+        self.imageView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+        self.imageView.layer.borderWidth = 0.5;
         
         self.rightSideActionButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.rightSideActionButton.backgroundColor = [UIColor clearColor];
@@ -58,9 +60,9 @@
         [self.contentView addSubview:self.imageView];
 //        [self.contentView addSubview:self.foregroundImageView];
 //        [self.contentView addSubview:self.label];
-        [self.backgroundView addSubview:self.rightSideActionButton];
-        self.backgroundColor = COLOR_ALERT_RED;
-        self.contentView.backgroundColor = [UIColor whiteColor];
+//        [self.backgroundView addSubview:self.rightSideActionButton];
+        self.backgroundColor = [UIColor clearColor];
+        self.contentView.backgroundColor = [UIColor clearColor];
         
         self.panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
         self.panRecognizer.delegate = self;

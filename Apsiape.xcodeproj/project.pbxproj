@@ -18,6 +18,7 @@
 		A307E82716DE8A0D00C9425A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A307E82616DE8A0D00C9425A /* Default@2x.png */; };
 		A307E82916DE8A0D00C9425A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A307E82816DE8A0D00C9425A /* Default-568h@2x.png */; };
 		A310311E16E3E37C00B163DC /* BYCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311C16E3E37C00B163DC /* BYCollectionViewController.m */; };
+		A3190E6617DF72D1000AF1AC /* BYAttributesView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3190E6517DF72D1000AF1AC /* BYAttributesView.m */; };
 		A31CB0CA17D66935005CC1C8 /* HorizontalFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A31CB0C917D66935005CC1C8 /* HorizontalFlowLayout.m */; };
 		A31CB0CE17D68043005CC1C8 /* BYLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A31CB0CD17D68043005CC1C8 /* BYLabelCell.m */; };
 		A337965016E52A4C00C55116 /* BYThumbnailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A337964F16E52A4C00C55116 /* BYThumbnailCell.m */; };
@@ -67,6 +68,8 @@
 		A307E82816DE8A0D00C9425A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A310311B16E3E37C00B163DC /* BYCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionViewController.h; sourceTree = "<group>"; };
 		A310311C16E3E37C00B163DC /* BYCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionViewController.m; sourceTree = "<group>"; };
+		A3190E6417DF72D1000AF1AC /* BYAttributesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYAttributesView.h; sourceTree = "<group>"; };
+		A3190E6517DF72D1000AF1AC /* BYAttributesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYAttributesView.m; sourceTree = "<group>"; };
 		A31CB0C817D66935005CC1C8 /* HorizontalFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalFlowLayout.h; sourceTree = "<group>"; };
 		A31CB0C917D66935005CC1C8 /* HorizontalFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalFlowLayout.m; sourceTree = "<group>"; };
 		A31CB0CC17D68043005CC1C8 /* BYLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYLabelCell.h; sourceTree = "<group>"; };
@@ -273,18 +276,20 @@
 			path = Apsiape;
 			sourceTree = "<group>";
 		};
-		A37526DC16F5201D0079C94A /* CollectionView */ = {
+		A37526DC16F5201D0079C94A /* Main View */ = {
 			isa = PBXGroup;
 			children = (
 				A310311B16E3E37C00B163DC /* BYCollectionViewController.h */,
 				A310311C16E3E37C00B163DC /* BYCollectionViewController.m */,
+				A3190E6417DF72D1000AF1AC /* BYAttributesView.h */,
+				A3190E6517DF72D1000AF1AC /* BYAttributesView.m */,
 				A337964E16E52A4C00C55116 /* BYThumbnailCell.h */,
 				A337964F16E52A4C00C55116 /* BYThumbnailCell.m */,
 				A31CB0CC17D68043005CC1C8 /* BYLabelCell.h */,
 				A31CB0CD17D68043005CC1C8 /* BYLabelCell.m */,
 				A31CB0CB17D669AA005CC1C8 /* Layouts */,
 			);
-			name = CollectionView;
+			name = "Main View";
 			path = Apsiape;
 			sourceTree = "<group>";
 		};
@@ -293,7 +298,7 @@
 			children = (
 				A35FB71D17B0368300447747 /* BYNavigationController.h */,
 				A35FB71E17B0368300447747 /* BYNavigationController.m */,
-				A37526DC16F5201D0079C94A /* CollectionView */,
+				A37526DC16F5201D0079C94A /* Main View */,
 				A35FB72317B036E200447747 /* PreferencesView */,
 				A35FB72417B036F100447747 /* MapView */,
 				A35758E8179338EA007C21AF /* Stats */,
@@ -418,6 +423,7 @@
 				A307E81F16DE8A0D00C9425A /* main.m in Sources */,
 				A307E82316DE8A0D00C9425A /* BYAppDelegate.m in Sources */,
 				A3832F0C16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld in Sources */,
+				A3190E6617DF72D1000AF1AC /* BYAttributesView.m in Sources */,
 				A310311E16E3E37C00B163DC /* BYCollectionViewController.m in Sources */,
 				A31CB0CA17D66935005CC1C8 /* HorizontalFlowLayout.m in Sources */,
 				A3CC160B17C41020002BFD86 /* UIImage+ImageEffects.m in Sources */,
