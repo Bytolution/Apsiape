@@ -69,7 +69,6 @@
     return nil;
 }
 
-
 #pragma mark - Gesture Handling
 
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer*)gestureRecognizer

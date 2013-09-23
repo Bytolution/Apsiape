@@ -59,11 +59,11 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [targetKeyboard performSelector:keyBoardAction withObject:self afterDelay:0];
     self.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0];
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    [targetKeyboard performSelector:keyBoardAction withObject:self afterDelay:0];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
         self.backgroundColor = [UIColor clearColor];
     } completion:nil];

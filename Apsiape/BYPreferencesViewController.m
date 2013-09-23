@@ -30,7 +30,6 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.frame = self.view.bounds;
-    self.tableView.contentInset = UIEdgeInsetsMake(NAVBAR_HEIGHT, 0, 0, 0);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundView = nil;
     [self.view addSubview:self.tableView];
