@@ -15,7 +15,6 @@
 #import "BYExpenseCreationViewController.h"
 #import "BYPopupVCTransitionController.h"
 #import "BYTableViewCell.h"
-#import "BYBlurView.h"
 #import "BYDetailScrollView.h"
 #import "BYGestureTableView.h"
 
