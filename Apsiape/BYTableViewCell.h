@@ -34,7 +34,7 @@ typedef enum {
 @property (nonatomic, strong) UILabel *label;
 
 - (void)prepareForDetailViewWithExpense:(Expense*)expense;
-- (void)prepareForDetailViewDismissal;
+- (void)dismissDetailView;
 
 - (void)moveCellContentForState:(BYTableViewCellState)state animated:(BOOL)animated;
 

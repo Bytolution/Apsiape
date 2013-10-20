@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" id="ZQm-Wy-8bN" customClass="BYDetailScrollView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="640"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="GUX-ea-XJa">
+                    <rect key="frame" x="0.0" y="328" width="320" height="312"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </mapView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zFn-Lh-sQw">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="314"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="314" id="fyC-KQ-epY"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="zFn-Lh-sQw" firstAttribute="leading" secondItem="GUX-ea-XJa" secondAttribute="leading" id="D5P-Ok-d1U"/>
+                <constraint firstAttribute="bottom" secondItem="zFn-Lh-sQw" secondAttribute="bottom" constant="346" id="Ibx-Lp-ezI"/>
+                <constraint firstItem="zFn-Lh-sQw" firstAttribute="centerX" secondItem="ZQm-Wy-8bN" secondAttribute="centerX" id="K2P-hS-sYz"/>
+                <constraint firstItem="GUX-ea-XJa" firstAttribute="top" secondItem="zFn-Lh-sQw" secondAttribute="bottom" constant="14" id="Tgf-41-y1F"/>
+                <constraint firstItem="zFn-Lh-sQw" firstAttribute="top" secondItem="ZQm-Wy-8bN" secondAttribute="top" id="Xdv-1b-jlc"/>
+                <constraint firstItem="zFn-Lh-sQw" firstAttribute="trailing" secondItem="GUX-ea-XJa" secondAttribute="trailing" id="amJ-fU-m2f"/>
+                <constraint firstItem="zFn-Lh-sQw" firstAttribute="leading" secondItem="ZQm-Wy-8bN" secondAttribute="leading" id="bev-uy-T7E"/>
+                <constraint firstAttribute="trailing" secondItem="zFn-Lh-sQw" secondAttribute="trailing" id="rjC-kC-j7a"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <inset key="scrollIndicatorInsets" minX="0.0" minY="100" maxX="0.0" maxY="0.0"/>
+            <userDefinedRuntimeAttributes>
+                <userDefinedRuntimeAttribute type="size" keyPath="contentSize">
+                    <size key="value" width="320" height="640"/>
+                </userDefinedRuntimeAttribute>
+            </userDefinedRuntimeAttributes>
+            <connections>
+                <outlet property="imageView" destination="zFn-Lh-sQw" id="h4T-3C-IXX"/>
+                <outlet property="mapView" destination="GUX-ea-XJa" id="3c7-g2-WD3"/>
+            </connections>
+        </scrollView>
+    </objects>
+</document>

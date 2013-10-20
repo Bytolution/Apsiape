@@ -61,15 +61,12 @@
         self.document = [[UIManagedDocument alloc] initWithFileURL:url];
         if (![[NSFileManager defaultManager]fileExistsAtPath:[self.document.fileURL path]]) {
             [self.document saveToURL:self.document.fileURL forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success) {
-                NSLog(@"File got saved");
-                if (success) [self.document openWithCompletionHandler:^(BOOL success) {
-                    NSLog(@"Document opened %s", success ? "successfully":"unsuccessfully");
+                if (success) [self.document openWithCompletionHandler:^(BOOL successWithOpening) {
                     [[NSNotificationCenter defaultCenter]postNotificationName:@"BYStorageContentChangedNotification" object:nil];
                 }];
             }];
         } else if (self.document.documentState == UIDocumentStateClosed) {
             [self.document openWithCompletionHandler:^(BOOL success) {
-                NSLog(@"Document opened %s", success ? "successfully":"unsuccessfully");
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"BYStorageContentChangedNotification" object:nil];
                 [self startLocationServices];
                 
@@ -77,33 +74,16 @@
         }
     }
 }
+
 - (void)saveDocument {
     [self.managedObjectContext performBlock:^{
         [self.document saveToURL:self.document.fileURL forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success) {
-            if (success) NSLog(@"document was saved successfully");
 //            [[NSNotificationCenter defaultCenter]postNotificationName:@"BYStorageContentChangedNotification" object:nil];
         }];
     }];
 }
-- (void)docStateChanged {
-    switch (self.document.documentState) {
-        case UIDocumentStateNormal:
-            NSLog(@"document state OPEN");
-            break;
-        case UIDocumentStateClosed:
-            NSLog(@"document state CLOSED");
-            break;
-        case UIDocumentStateInConflict:
-            NSLog(@"document state IN CONFLICT");
-            break;
-        case UIDocumentStateEditingDisabled:
-            NSLog(@"document state DISABLED");
-            break;
-        case UIDocumentStateSavingError:
-            NSLog(@"document state SAVING ERROR");
-            break;
-    }
-}
+
+- (void)docStateChanged {}
 
 #pragma mark - Core Data (Expense management)
 

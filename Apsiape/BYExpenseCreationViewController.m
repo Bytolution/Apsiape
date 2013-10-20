@@ -114,7 +114,7 @@
                                                         numberValue:self.expenseValueDecimalNumber
                                                        fullResImage:self.quickShotView.fullResCapturedImage
                                                          completion:^(BOOL success) {
-//                                                             NSLog(@"Expense saving completion handler called");
+                                                             //
                                                          }];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
         [self dismissViewControllerAnimated:NO completion:^{

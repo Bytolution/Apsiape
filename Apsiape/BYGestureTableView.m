@@ -36,6 +36,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    
     if (!self.panRecognizer) self.panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePanGesture:)];
     if (!self.tapRecognizer) self.tapRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(handleTapGesture:)];
     self.panRecognizer.delegate = self;

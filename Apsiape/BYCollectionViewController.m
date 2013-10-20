@@ -31,7 +31,7 @@
 @property (nonatomic, readwrite) BOOL pullControlLabelTextChangeAnimationInProgress;
 @property (nonatomic, readwrite) BOOL draggingEndedWithExceededPullThreshold;
 
-- (void)updatetableViewData;
+- (void)updateTableViewData;
 
 @end
 
@@ -43,7 +43,7 @@
     if (self) {
         self.title = @"Overview";
         if (!self.tableViewData) self.tableViewData = [[NSMutableArray alloc]init];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatetableViewData) name:@"BYStorageContentChangedNotification" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTableViewData) name:@"BYStorageContentChangedNotification" object:nil];
         if (!self.tableView) self.tableView = [[BYGestureTableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
@@ -56,7 +56,7 @@
     return self;
 }
 
-- (void)updatetableViewData
+- (void)updateTableViewData
 {
     [self.tableViewData removeAllObjects];
     NSFetchRequest *fetchR = [NSFetchRequest fetchRequestWithEntityName:@"Expense"];
@@ -77,7 +77,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self updatetableViewData];
+    [self updateTableViewData];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
     if (!self.tableView) self.tableView = [[BYGestureTableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -112,7 +112,7 @@
     }
     Expense *expense = self.tableViewData[indexPath.row];
     cell.label.text = expense.stringValue;
-//    cell.thumbnailView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@thumb.jpg", expense.baseFilePath]]];
+    cell.thumbnailView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@thumb.jpg", expense.baseFilePath]]];
     cell.cellState = [self.cellStates[indexPath.row]intValue];
     return cell;
 }
@@ -207,7 +207,7 @@
     } else if ([self.expandedCellIndexPath isEqual:indexPath]) {
         // cell deselected - detail view dismissal
         self.expandedCellIndexPath = nil;
-        [(BYTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] prepareForDetailViewDismissal];
+        [(BYTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] dismissDetailView];
         self.tableView.scrollEnabled = YES;
         [self.tableView beginUpdates];
         [self.tableView endUpdates];

@@ -14,10 +14,10 @@
 
 @property (nonatomic, readwrite) CGFloat lastOffset;
 @property (nonatomic, strong) UIButton *rightSideActionButton;
+@property (nonatomic, strong) UIView *headerView;
 
 
 @property (nonatomic, strong) BYDetailScrollView *detailScrollView;
-@property (nonatomic, strong) Expense *expense;
 
 @end
 
@@ -30,15 +30,15 @@
         if (!self.label) self.label = [[UILabel alloc]init];
         if (!self.thumbnailView) self.thumbnailView = [[UIImageView alloc]init];
         if (!self.detailScrollView) self.detailScrollView = [[BYDetailScrollView alloc]init];
-        
+        if (!self.headerView) self.headerView = [[UIView alloc]init];
         [self.contentView addSubview:self.detailScrollView];
-        [self.contentView addSubview:self.label];
-        [self.contentView addSubview:self.thumbnailView];
+        [self.contentView addSubview:self.headerView];
+        [self.headerView addSubview:self.label];
+        [self.headerView addSubview:self.thumbnailView];
         
-        self.backgroundColor = [UIColor clearColor];
-        self.contentView.backgroundColor = [UIColor colorWithWhite:1 alpha:0];
-        
-        self.contentView.autoresizesSubviews = NO;
+        self.backgroundColor = [UIColor greenColor];
+        self.contentView.backgroundColor = [UIColor whiteColor];
+        self.headerView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.9];
         
         self.rightSideActionButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.rightSideActionButton.backgroundColor = [UIColor clearColor];
@@ -47,6 +47,7 @@
         [self.backgroundView insertSubview:self.rightSideActionButton atIndex:0];
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
     }
     return self;
 }
@@ -56,7 +57,9 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-        
+    
+    self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 100);
+    
     self.thumbnailView.frame = CGRectMake(10, 10, 80 , 80);
     self.thumbnailView.layer.cornerRadius = CGRectGetHeight(self.thumbnailView.frame)/2;
     self.thumbnailView.clipsToBounds = YES;
@@ -65,7 +68,9 @@
     self.label.font = [UIFont fontWithName:@"Miso" size:44];
     self.label.textAlignment = NSTextAlignmentRight;
     
-    self.detailScrollView.frame = CGRectMake(0, 100, 320, CGRectGetHeight(self.superview.frame) - 100);
+    self.detailScrollView.frame = self.bounds;
+    self.detailScrollView.contentInset = UIEdgeInsetsMake(100, 0, 0, 0);
+    self.detailScrollView.contentOffset = CGPointMake(0, -100);
     
     if (self.cellState == BYTableViewCellStateRightSideRevealed) {
         self.contentView.frame = CGRectOffset(self.contentView.frame, - THRESHOLD, 0);
@@ -101,14 +106,12 @@
 
 - (void)prepareForDetailViewWithExpense:(Expense *)expense
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
-    self.expense = expense;
-    self.detailScrollView.expense = self.expense;
+    self.detailScrollView.expense = expense;
 }
 
-- (void)prepareForDetailViewDismissal
+- (void)dismissDetailView
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    self.detailScrollView.expense = nil;
 }
 
 
