@@ -9,6 +9,7 @@
 #import "BYDetailScrollView.h"
 #import "Expense.h"
 #import <MapKit/MapKit.h>
+#import "BYTableViewCell.h"
 
 @interface BYDetailScrollView () <UIGestureRecognizerDelegate>
 
@@ -24,14 +25,13 @@
 
 @implementation BYDetailScrollView
 
-#define HEADER_LABEL_HEIGHT 100
 #define LABEL_HEIGHT 50
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [[[NSBundle mainBundle] loadNibNamed:@"DetailScrollView" owner:self options:nil]lastObject];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
         
         [[NSBundle mainBundle] loadNibNamed:@"DetailScrollView" owner:self options:nil];
         
@@ -58,8 +58,6 @@
     
 //    self.mapView.frame = CGRectMake(0, CGRectGetHeight(self.imageView.frame) + (2 * LABEL_HEIGHT), CGRectGetWidth(self.frame), 300);
     self.mapView.userInteractionEnabled = NO;
-
-    self.contentOffset = CGPointMake(0, 100);
     
     self.geostringLabel.frame = CGRectMake(0, CGRectGetHeight(self.imageView.frame) + LABEL_HEIGHT, CGRectGetWidth(self.frame) - 10, LABEL_HEIGHT);
     self.geostringLabel.textAlignment = NSTextAlignmentCenter;

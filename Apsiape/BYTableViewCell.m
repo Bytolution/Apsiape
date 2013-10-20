@@ -36,8 +36,8 @@
         [self.headerView addSubview:self.label];
         [self.headerView addSubview:self.thumbnailView];
         
-        self.backgroundColor = [UIColor greenColor];
-        self.contentView.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
+        self.contentView.backgroundColor = [UIColor clearColor];
         self.headerView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.9];
         
         self.rightSideActionButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -58,19 +58,19 @@
 {
     [super layoutSubviews];
     
-    self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 100);
+    self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CELL_HEIGHT);
     
     self.thumbnailView.frame = CGRectMake(10, 10, 80 , 80);
     self.thumbnailView.layer.cornerRadius = CGRectGetHeight(self.thumbnailView.frame)/2;
     self.thumbnailView.clipsToBounds = YES;
     
-    self.label.frame = CGRectMake(CGRectGetWidth(self.thumbnailView.frame) + 20, 0, CGRectGetWidth(self.frame) - (CGRectGetWidth(self.thumbnailView.frame)+ 30), 100);
-    self.label.font = [UIFont fontWithName:@"Miso" size:44];
+    self.label.frame = CGRectMake(CGRectGetWidth(self.thumbnailView.frame) + 20, 0, CGRectGetWidth(self.frame) - (CGRectGetWidth(self.thumbnailView.frame)+ 30), CELL_HEIGHT);
+    self.label.font = [UIFont fontWithName:@"Miso" size:40];
     self.label.textAlignment = NSTextAlignmentRight;
     
     self.detailScrollView.frame = self.bounds;
-    self.detailScrollView.contentInset = UIEdgeInsetsMake(100, 0, 0, 0);
-    self.detailScrollView.contentOffset = CGPointMake(0, -100);
+    self.detailScrollView.contentInset = UIEdgeInsetsMake(CELL_HEIGHT, 0, 0, 0);
+    self.detailScrollView.contentOffset = CGPointMake(0, - CELL_HEIGHT);
     
     if (self.cellState == BYTableViewCellStateRightSideRevealed) {
         self.contentView.frame = CGRectOffset(self.contentView.frame, - THRESHOLD, 0);

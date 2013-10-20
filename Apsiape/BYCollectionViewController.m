@@ -49,9 +49,9 @@
         self.tableView.dataSource = self;
         self.tableView.contentInset = UIEdgeInsetsMake(CELL_INSET_Y, 0, CELL_INSET_Y, 0);
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.tableView.backgroundColor = [UIColor whiteColor];
         self.tableView.backgroundView = [[UIView alloc]init];
         [self.view addSubview:self.tableView];
+        self.view.backgroundColor = [UIColor blackColor];
     }
     return self;
 }
@@ -78,16 +78,15 @@
 {
     [super viewWillAppear:animated];
     [self updateTableViewData];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
     
-    if (!self.tableView) self.tableView = [[BYGestureTableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.tableView.frame = CGRectMake(0, 80, 320, CGRectGetHeight(self.view.frame) - 80);
     
     // Gradient layer background
 //    CAGradientLayer *gradLayer = [CAGradientLayer layer];
 //    gradLayer.colors = @[(id)[UIColor whiteColor].CGColor, (id)[UIColor lightGrayColor].CGColor];
 //    gradLayer.frame = self.tableView.backgroundView.bounds;
-//    gradLayer.startPoint = CGPointMake(0, 0);
-//    gradLayer.endPoint = CGPointMake(0, 1);
+//    gradLayer.startPoint = CGPointMake(0, 1);
+//    gradLayer.endPoint = CGPointMake(0, 0);
 //    [self.tableView.backgroundView.layer addSublayer:gradLayer];
 }
 
@@ -112,7 +111,7 @@
     }
     Expense *expense = self.tableViewData[indexPath.row];
     cell.label.text = expense.stringValue;
-    cell.thumbnailView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@thumb.jpg", expense.baseFilePath]]];
+//    cell.thumbnailView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@thumb.jpg", expense.baseFilePath]]];
     cell.cellState = [self.cellStates[indexPath.row]intValue];
     return cell;
 }
