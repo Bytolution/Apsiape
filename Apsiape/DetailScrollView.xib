@@ -10,27 +10,30 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="640"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="GUX-ea-XJa">
+                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="GUX-ea-XJa">
                     <rect key="frame" x="0.0" y="328" width="320" height="312"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="312" id="g34-G6-5jM"/>
+                    </constraints>
                 </mapView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zFn-Lh-sQw">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="314"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="314" id="fyC-KQ-epY"/>
+                        <constraint firstAttribute="height" constant="314" id="RIU-3c-4td"/>
                     </constraints>
                 </imageView>
             </subviews>
             <constraints>
-                <constraint firstItem="zFn-Lh-sQw" firstAttribute="leading" secondItem="GUX-ea-XJa" secondAttribute="leading" id="D5P-Ok-d1U"/>
-                <constraint firstAttribute="bottom" secondItem="zFn-Lh-sQw" secondAttribute="bottom" constant="346" id="Ibx-Lp-ezI"/>
-                <constraint firstItem="zFn-Lh-sQw" firstAttribute="centerX" secondItem="ZQm-Wy-8bN" secondAttribute="centerX" id="K2P-hS-sYz"/>
-                <constraint firstItem="GUX-ea-XJa" firstAttribute="top" secondItem="zFn-Lh-sQw" secondAttribute="bottom" constant="14" id="Tgf-41-y1F"/>
-                <constraint firstItem="zFn-Lh-sQw" firstAttribute="top" secondItem="ZQm-Wy-8bN" secondAttribute="top" id="Xdv-1b-jlc"/>
-                <constraint firstItem="zFn-Lh-sQw" firstAttribute="trailing" secondItem="GUX-ea-XJa" secondAttribute="trailing" id="amJ-fU-m2f"/>
-                <constraint firstItem="zFn-Lh-sQw" firstAttribute="leading" secondItem="ZQm-Wy-8bN" secondAttribute="leading" id="bev-uy-T7E"/>
-                <constraint firstAttribute="trailing" secondItem="zFn-Lh-sQw" secondAttribute="trailing" id="rjC-kC-j7a"/>
+                <constraint firstAttribute="trailing" secondItem="zFn-Lh-sQw" secondAttribute="trailing" id="6Bf-Ea-0BU"/>
+                <constraint firstItem="zFn-Lh-sQw" firstAttribute="trailing" secondItem="GUX-ea-XJa" secondAttribute="trailing" id="CAp-Sc-BTi"/>
+                <constraint firstItem="GUX-ea-XJa" firstAttribute="leading" secondItem="ZQm-Wy-8bN" secondAttribute="leading" id="Hew-qg-W1e"/>
+                <constraint firstItem="zFn-Lh-sQw" firstAttribute="top" secondItem="ZQm-Wy-8bN" secondAttribute="top" id="WHt-1g-7XI"/>
+                <constraint firstItem="GUX-ea-XJa" firstAttribute="top" secondItem="zFn-Lh-sQw" secondAttribute="bottom" constant="14" id="eWN-Tm-nPK"/>
+                <constraint firstItem="GUX-ea-XJa" firstAttribute="leading" secondItem="zFn-Lh-sQw" secondAttribute="leading" id="egY-yb-liN"/>
+                <constraint firstAttribute="bottom" secondItem="GUX-ea-XJa" secondAttribute="bottom" id="uSz-SF-6tc"/>
+                <constraint firstItem="zFn-Lh-sQw" firstAttribute="centerX" secondItem="ZQm-Wy-8bN" secondAttribute="centerX" id="z9q-sc-rHW"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <inset key="scrollIndicatorInsets" minX="0.0" minY="100" maxX="0.0" maxY="0.0"/>
