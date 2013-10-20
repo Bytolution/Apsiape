@@ -34,7 +34,7 @@
     lightBlurredImageView.frame = containerView.bounds;
     lightBlurredImageView.alpha = 0;
     
-    toView.frame = CGRectOffset(containerView.frame, 0, CGRectGetMaxY(containerView.frame));
+    toView.frame = CGRectOffset(containerView.frame, 0, CGRectGetHeight(containerView.frame));
     toView.clipsToBounds = YES;
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     

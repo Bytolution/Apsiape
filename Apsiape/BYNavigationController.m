@@ -26,8 +26,6 @@
 @property (nonatomic, readwrite) CGFloat lastHorizontalPanPosition;
 @property (nonatomic, readwrite) BYEdgeType panGestureEdge;
 
-- (void)displayMap;
-
 @end
 
 @implementation BYNavigationController
@@ -38,9 +36,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
         self.view.backgroundColor = [UIColor whiteColor];
-//        self.navigationBarHidden = YES;
+        self.navigationBarHidden = YES;
     }
     return self;
 }
@@ -49,7 +46,7 @@
 {
     self.panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panRecognized:)];
     self.panRecognizer.delegate = self;
-    [self.view addGestureRecognizer:self.panRecognizer];
+//    [self.view addGestureRecognizer:self.panRecognizer];
 }
 
 #pragma mark - View Controller Transition delegates

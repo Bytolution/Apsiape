@@ -8,14 +8,34 @@
 
 #import <UIKit/UIKit.h>
 
-#define CELL_HEIGHT 300
+#define CELL_HEIGHT 100
 
-#define TOP_SPACE 100
+#define TOP_SPACE 0
 
-#define CELL_INSET_X 8
+#define CELL_INSET_X 0
 #define CELL_ADD_INSET_X 5
-#define CELL_INSET_Y 5
+#define CELL_INSET_Y 0
+
+typedef enum {
+    BYTableViewCellStateDefault,
+    BYTableViewCellStateLeftSideRevealed,
+    BYTableViewCellStateRightSideRevealed
+}BYTableViewCellState;
+
+@class Expense;
 
 @interface BYTableViewCell : UITableViewCell
+
+@property (nonatomic, readwrite) BYTableViewCellState cellState;
+
+@property (nonatomic, strong) id <UITableViewDelegate> parentTableViewDelegate;
+
+@property (nonatomic, strong) UIImageView *thumbnailView;
+@property (nonatomic, strong) UILabel *label;
+
+- (void)prepareForDetailViewWithExpense:(Expense*)expense;
+- (void)prepareForDetailViewDismissal;
+
+- (void)moveCellContentForState:(BYTableViewCellState)state animated:(BOOL)animated;
 
 @end

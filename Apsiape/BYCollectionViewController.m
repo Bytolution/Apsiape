@@ -7,6 +7,7 @@
 //
 
 #import <CoreData/CoreData.h>
+#import <QuartzCore/QuartzCore.h>
 #import "BYCollectionViewController.h"
 #import "BYStorage.h"
 #import "Expense.h"
@@ -14,24 +15,26 @@
 #import "BYExpenseCreationViewController.h"
 #import "BYPopupVCTransitionController.h"
 #import "BYTableViewCell.h"
+#import "BYBlurView.h"
+#import "BYDetailScrollView.h"
+#import "BYGestureTableView.h"
 
-@interface BYCollectionViewController () <UIScrollViewDelegate, UIViewControllerTransitioningDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface BYCollectionViewController () <UIScrollViewDelegate, UIViewControllerTransitioningDelegate, UITableViewDataSource, BYGestureTableViewDelegate, UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) NSMutableArray *collectionViewData;
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *tableViewData;
+@property (nonatomic, strong) BYGestureTableView *tableView;
 @property (nonatomic, strong) NSMutableArray *cellStates;
 @property (nonatomic, strong) UILabel *pullControlLabel;
+@property (nonatomic, strong) NSIndexPath *expandedCellIndexPath;
 @property (nonatomic, readwrite) CGFloat tableViewCellHeight;
+@property (nonatomic, readwrite) CGPoint preAnimationOffset;
 @property (nonatomic, readwrite) BOOL scrollViewOffsetExceedsPullThreshold;
 @property (nonatomic, readwrite) BOOL pullControlLabelTextChangeAnimationInProgress;
 @property (nonatomic, readwrite) BOOL draggingEndedWithExceededPullThreshold;
 
-- (void)updateCollectionViewData;
-- (CGPoint)targetOffsetForProposedOffset:(CGPoint)propOffset;
-- (void)scrollViewWillSnapToIndex:(NSInteger)index;
+- (void)updatetableViewData;
 
 @end
-
 
 @implementation BYCollectionViewController
 
@@ -40,32 +43,34 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Overview";
-        if (!self.collectionViewData) self.collectionViewData = [[NSMutableArray alloc]init];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCollectionViewData) name:@"BYStorageContentChangedNotification" object:nil];
-        if (!self.tableView) self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        if (!self.tableViewData) self.tableViewData = [[NSMutableArray alloc]init];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatetableViewData) name:@"BYStorageContentChangedNotification" object:nil];
+        if (!self.tableView) self.tableView = [[BYGestureTableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         self.tableView.contentInset = UIEdgeInsetsMake(CELL_INSET_Y, 0, CELL_INSET_Y, 0);
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.tableView.backgroundColor = [UIColor whiteColor];
+        self.tableView.backgroundView = [[UIView alloc]init];
         [self.view addSubview:self.tableView];
     }
     return self;
 }
 
-- (void)updateCollectionViewData
+- (void)updatetableViewData
 {
-    [self.collectionViewData removeAllObjects];
+    [self.tableViewData removeAllObjects];
     NSFetchRequest *fetchR = [NSFetchRequest fetchRequestWithEntityName:@"Expense"];
     NSManagedObjectContext *context = [[BYStorage sharedStorage] managedObjectContext];
     NSError *error;
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"date" ascending:NO];
     fetchR.sortDescriptors = @[sortDescriptor];
     NSArray *fetchDataArray = [[context executeFetchRequest:fetchR error:&error] mutableCopy];
-    self.collectionViewData = [fetchDataArray mutableCopy];
+    self.tableViewData = [fetchDataArray mutableCopy];
     if (!self.cellStates) self.cellStates = [[NSMutableArray alloc]init];
     [self.cellStates removeAllObjects];
-    for (int i = 0; i < self.collectionViewData.count; i++) {
-//        [self.cellStates addObject:[NSNumber numberWithInt:BYThumbnailCellStateDefault]];
+    for (int i = 0; i < self.tableViewData.count; i++) {
+        [self.cellStates addObject:[NSNumber numberWithInt:BYTableViewCellStateDefault]];
     }
     [self.tableView reloadData];
 }
@@ -73,22 +78,30 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self updateCollectionViewData];
-}
-- (void)viewDidAppear:(BOOL)animated
-{
-    if (!self.tableView) self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    [self updatetableViewData];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
+    if (!self.tableView) self.tableView = [[BYGestureTableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    
+    // Gradient layer background
+//    CAGradientLayer *gradLayer = [CAGradientLayer layer];
+//    gradLayer.colors = @[(id)[UIColor whiteColor].CGColor, (id)[UIColor lightGrayColor].CGColor];
+//    gradLayer.frame = self.tableView.backgroundView.bounds;
+//    gradLayer.startPoint = CGPointMake(0, 0);
+//    gradLayer.endPoint = CGPointMake(0, 1);
+//    [self.tableView.backgroundView.layer addSublayer:gradLayer];
 }
 
 #pragma mark - Table View
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.collectionViewData.count;
+    return self.tableViewData.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([indexPath isEqual:self.expandedCellIndexPath]) return CGRectGetHeight(self.tableView.frame);
     return CELL_HEIGHT;
 }
 
@@ -98,23 +111,17 @@
     if (!cell) {
         cell = [[BYTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CELL_ID"];
     }
-    Expense *expense = self.collectionViewData[indexPath.row];
-    cell.textLabel.text = expense.stringValue;
-    cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@screen.jpg", expense.baseFilePath]]];
+    Expense *expense = self.tableViewData[indexPath.row];
+    cell.label.text = expense.stringValue;
+//    cell.thumbnailView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@thumb.jpg", expense.baseFilePath]]];
+    cell.cellState = [self.cellStates[indexPath.row]intValue];
     return cell;
 }
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
 
 #pragma mark - Scroll View Delegate
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-//    [self.thumbnailCollectionView setContentOffset:[self targetOffsetForProposedOffset:self.thumbnailCollectionView.contentOffset] animated:YES];
     if (self.draggingEndedWithExceededPullThreshold) {
         self.draggingEndedWithExceededPullThreshold = NO;
         BYExpenseCreationViewController *expenseVC = [[BYExpenseCreationViewController alloc]initWithNibName:nil bundle:nil];
@@ -132,7 +139,7 @@
         self.draggingEndedWithExceededPullThreshold = YES;
     }
     if (!decelerate) {
-//        [self.thumbnailCollectionView setContentOffset:[self targetOffsetForProposedOffset:self.thumbnailCollectionView.contentOffset] animated:YES];
+
     }
 }
 
@@ -183,32 +190,58 @@
             }];
         }];
     }   
-//    if (scrollView == self.thumbnailCollectionView) {
-//        double factor = scrollView.contentOffset.x/(scrollView.contentSize.width - CGRectGetMaxX(scrollView.frame));
-//        [self.valueCollectionView setContentOffset:CGPointMake((self.valueCollectionView.contentSize.width - CGRectGetMaxX(self.valueCollectionView.frame)) *factor, 0)];
-//    } else if (scrollView == self.valueCollectionView) {
-//        double factor = scrollView.contentOffset.x/(scrollView.contentSize.width - CGRectGetMaxX(scrollView.frame));
-//        [self.thumbnailCollectionView setContentOffset:CGPointMake((self.thumbnailCollectionView.contentSize.width - CGRectGetMaxX(self.thumbnailCollectionView.frame)) *factor, 0)];
-//    }
 }
 
-//- (void)scrollViewWillSnapToIndex:(NSInteger)index
-//{
-//    Expense *expense = [self.collectionViewData objectAtIndex:index];
-//}
+#pragma mark BYGestureTableView Delegate handling
 
-#pragma mark Offset adjustements
-
-- (CGPoint)targetOffsetForProposedOffset:(CGPoint)propOffset
+- (void)tableView:(UITableView *)tableView didRecognizeTapGestureOnCellAtIndexPath:(NSIndexPath *)indexPath
 {
-//    CGFloat itemWidth =[(UICollectionViewFlowLayout*)self.thumbnailCollectionView.collectionViewLayout itemSize].width;
-//    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc]init];
-//    numberFormatter.roundingMode = NSNumberFormatterRoundHalfUp;
-//    numberFormatter.maximumFractionDigits = 0;
-//    CGFloat factor = propOffset.x/itemWidth;
-//    CGFloat roundedFactor = [[numberFormatter stringFromNumber:[NSNumber numberWithFloat:factor]]floatValue];
-//    [self scrollViewWillSnapToIndex:roundedFactor];
-//    return CGPointMake(roundedFactor*itemWidth, propOffset.y);
+    if (self.expandedCellIndexPath == nil) {
+        // cell selected - detail view
+        self.expandedCellIndexPath = indexPath;
+        [(BYTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] prepareForDetailViewWithExpense:self.tableViewData[self.expandedCellIndexPath.row]];
+        self.preAnimationOffset = self.tableView.contentOffset;
+        self.tableView.scrollEnabled = NO;
+        [self.tableView beginUpdates];
+        [self.tableView endUpdates];
+        [self.tableView setContentOffset:[self.tableView cellForRowAtIndexPath:indexPath].frame.origin animated:YES];
+    } else if ([self.expandedCellIndexPath isEqual:indexPath]) {
+        // cell deselected - detail view dismissal
+        self.expandedCellIndexPath = nil;
+        [(BYTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] prepareForDetailViewDismissal];
+        self.tableView.scrollEnabled = YES;
+        [self.tableView beginUpdates];
+        [self.tableView endUpdates];
+        [self.tableView setContentOffset:self.preAnimationOffset animated:YES];
+        self.preAnimationOffset = CGPointZero;
+    } else if (self.expandedCellIndexPath && [self.expandedCellIndexPath isEqual:indexPath]) {
+        // this shouldn't happen I guess
+        return;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView willAnimateCellAfterSwipeAtIndexPath:(NSIndexPath *)indexPath toState:(BYTableViewCellState)cellState
+{
+    [self.cellStates replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithInt:cellState]];
+}
+
+//FIXME: Change method name
+- (void)cellDidRecieveAction:(BYTableViewCell *)cell
+{
+    NSMutableIndexSet *deletionIndexSet = [[NSMutableIndexSet alloc]init];
+    NSMutableArray *deletionIndexesForCollectionView = [[NSMutableArray alloc]init];
+    for (int i = 0; i < self.cellStates.count; i++) {
+        if ([self.cellStates[i] isEqual:[NSNumber numberWithInt:BYTableViewCellStateRightSideRevealed]]) {
+            Expense *expense = self.tableViewData[i];
+            //FIXME: deletion must happen in bunches
+            [[BYStorage sharedStorage] deleteExpenseObject:expense completion:nil];
+            [deletionIndexSet addIndex:i];
+            [deletionIndexesForCollectionView addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+        }
+    }
+    [self.tableViewData removeObjectsAtIndexes:deletionIndexSet];
+    [self.cellStates removeObjectsAtIndexes:deletionIndexSet];
+    [self.tableView deleteRowsAtIndexPaths:deletionIndexesForCollectionView withRowAnimation:UITableViewRowAnimationLeft];
 }
 
 @end

@@ -106,7 +106,7 @@
 {
     if (edge == BYEdgeTypeBottom || edge == BYEdgeTypeLeft) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-        [self dismissViewControllerAnimated:YES completion:^{
+        [self dismissViewControllerAnimated:NO completion:^{
             
         }];
     } else if ((edge == BYEdgeTypeRight || edge == BYEdgeTypeTop) && self.expenseValueRawString.length != 0){
@@ -114,13 +114,30 @@
                                                         numberValue:self.expenseValueDecimalNumber
                                                        fullResImage:self.quickShotView.fullResCapturedImage
                                                          completion:^(BOOL success) {
-                                                             NSLog(@"Expense saving completion handler called");
+//                                                             NSLog(@"Expense saving completion handler called");
                                                          }];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-        [self dismissViewControllerAnimated:YES completion:^{
+        [self dismissViewControllerAnimated:NO completion:^{
             
         }];
     }
+}
+
+#pragma mark Delegation (BYQuickShotView)
+
+- (void)quickShotViewDidFinishPreparation:(BYQuickShotView *)quickShotView
+{
+    
+}
+
+- (void)quickShotView:(BYQuickShotView *)quickShotView didTakeSnapshot:(UIImage *)img
+{
+    
+}
+
+- (void)quickShotViewDidDiscardLastImage:(BYQuickShotView *)quickShotView
+{
+    
 }
 
 @end
