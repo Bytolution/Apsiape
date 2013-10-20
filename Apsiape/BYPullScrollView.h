@@ -11,7 +11,7 @@
 
 @protocol BYPullScrollViewDelegate <NSObject>
 
-- (void)pullScrollView:(UIScrollView*)pullScrollView didScrollToPage:(NSInteger)page;
+//- (void)pullScrollView:(UIScrollView*)pullScrollView didScrollToPage:(NSInteger)page;
 - (void)pullScrollView:(UIScrollView*)pullScrollView didDetectPullingAtEdge:(BYEdgeType)edge;
 
 @end

@@ -1,12 +1,12 @@
 //
-//  BYNewExpenseWindow.m
+//  BYExpenseCreationViewController.m
 //  Apsiape
 //
 //  Created by Dario Lass on 28.05.13.
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
 #import <QuartzCore/QuartzCore.h>
-#import "BYNewExpenseWindow.h"
+#import "BYExpenseCreationViewController.h"
 #import "UIImage+Adjustments.h"
 #import "BYQuickShotView.h"
 #import "BYExpenseKeyboard.h"
@@ -17,7 +17,8 @@
 #import "BYCollectionViewController.h"
 #import "BYLocalizer.h"
 #import "InterfaceDefinitions.h"
-@interface BYNewExpenseWindow () <BYQuickShotViewDelegate, BYExpenseKeyboardDelegate, BYPullScrollViewDelegate>
+
+@interface BYExpenseCreationViewController () <BYQuickShotViewDelegate, BYExpenseKeyboardDelegate, BYPullScrollViewDelegate>
 
 @property (nonatomic, strong) BYQuickShotView *quickShotView;
 @property (nonatomic, strong) NSMutableString *expenseValueRawString;
@@ -28,24 +29,25 @@
 
 @end
 
-@implementation BYNewExpenseWindow
+@implementation BYExpenseCreationViewController
 
 #define KEYBOARD_HEIGHT 240
 
-- (void)layoutSubviews
+- (void)viewWillAppear:(BOOL)animated
 {
-    self.backgroundColor = [UIColor blackColor];
-        
-    BYPullScrollView *pullScrollView = [[BYPullScrollView alloc]initWithFrame:self.bounds];
+    self.view.backgroundColor = [UIColor clearColor];
+    
+    BYPullScrollView *pullScrollView = [[BYPullScrollView alloc]initWithFrame:self.view.bounds];
     pullScrollView.pullScrollViewDelegate = self;
     
-    [self addSubview:pullScrollView];
+    [self.view addSubview:pullScrollView];
     
     self.expenseValueRawString = [[NSMutableString alloc]initWithCapacity:30];
     
-    BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.frame.size.height - KEYBOARD_HEIGHT, 320, KEYBOARD_HEIGHT)];
-    self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 10, 300, 80)];
+    BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - KEYBOARD_HEIGHT, self.view.frame.size.width, KEYBOARD_HEIGHT)];
+    self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 30, self.view.bounds.size.width - 20, 80)];
     self.expenseValueLabel.backgroundColor = [UIColor clearColor];
+    self.expenseValueLabel.textColor = [UIColor whiteColor];
     [pullScrollView.childScrollView addSubview:self.expenseValueLabel];
     keyboard.delegate = self;
     [pullScrollView.childScrollView addSubview:keyboard];
@@ -53,12 +55,12 @@
     CGRect rect = CGRectInset(pullScrollView.bounds, 0, ((pullScrollView.frame.size.height - pullScrollView.frame.size.width) / 2));
     rect.origin.x = (pullScrollView.frame.size.width);
     
-    self.quickShotView = [[BYQuickShotView alloc]initWithFrame:rect];
+    self.quickShotView = [[BYQuickShotView alloc]initWithFrame:CGRectInset(rect, 10, 10)];
     self.quickShotView.delegate = self;
     [pullScrollView.childScrollView addSubview:self.quickShotView];
-    
+    pullScrollView.backgroundColor = [UIColor clearColor];
+    pullScrollView.childScrollView.backgroundColor = [UIColor clearColor];
     rect.origin.x = (pullScrollView.frame.size.width * 2);
-
 }
 
 #pragma mark Text Input Handling
@@ -98,46 +100,42 @@
     self.expenseValueLabel.text = self.expenseValueCurrencyFormattedString;
 }
 
-#pragma mark Cleanup methods
-
-- (void)resignKeyWindow
-{
-    [super resignKeyWindow];
-    [self.quickShotView willMoveToSuperview:nil];
-    self.expenseValueRawString = nil;
-    self.quickShotView = nil;
-}
-
-#pragma mark Delegation (QuickShotView)
-
-- (void)didTakeSnapshot:(UIImage *)img
-{
-    
-}
-- (void)didDiscardLastImage
-{
-    
-}
-- (void)quickShotViewDidFinishPreparation:(BYQuickShotView *)quickShotView
-{
-    
-}
-
 #pragma mark Delegation (PullScrollView)
 
 - (void)pullScrollView:(UIScrollView *)pullScrollView didDetectPullingAtEdge:(BYEdgeType)edge
 {
     if (edge == BYEdgeTypeBottom || edge == BYEdgeTypeLeft) {
-        [self.windowDelegate windowShouldDisappear:self];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+        [self dismissViewControllerAnimated:NO completion:^{
+            
+        }];
     } else if ((edge == BYEdgeTypeRight || edge == BYEdgeTypeTop) && self.expenseValueRawString.length != 0){
         [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString
                                                         numberValue:self.expenseValueDecimalNumber
                                                        fullResImage:self.quickShotView.fullResCapturedImage
-                                                         completion:nil];
-        [self.windowDelegate windowShouldDisappear:self];
+                                                         completion:^(BOOL success) {
+//                                                             NSLog(@"Expense saving completion handler called");
+                                                         }];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+        [self dismissViewControllerAnimated:NO completion:^{
+            
+        }];
     }
 }
-- (void)pullScrollView:(UIScrollView *)pullScrollView didScrollToPage:(NSInteger)page
+
+#pragma mark Delegation (BYQuickShotView)
+
+- (void)quickShotViewDidFinishPreparation:(BYQuickShotView *)quickShotView
+{
+    
+}
+
+- (void)quickShotView:(BYQuickShotView *)quickShotView didTakeSnapshot:(UIImage *)img
+{
+    
+}
+
+- (void)quickShotViewDidDiscardLastImage:(BYQuickShotView *)quickShotView
 {
     
 }

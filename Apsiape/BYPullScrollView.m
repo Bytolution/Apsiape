@@ -42,11 +42,10 @@
     self.childScrollView.showsHorizontalScrollIndicator = NO;
     self.alwaysBounceVertical = YES;
     [self addSubview:self.childScrollView];
-    self.layer.cornerRadius = 10;
     self.layer.masksToBounds = YES;
     
-    UIColor *lightGreen = [UIColor colorWithRed:0.4 green:0.9 blue:0.4 alpha:1];
-    UIColor *lightRed = [UIColor colorWithRed:0.9 green:0.4 blue:0.4 alpha:1];
+    UIColor *lightGreen = [UIColor colorWithRed:0.4 green:0.9 blue:0.4 alpha:.5];
+    UIColor *lightRed = [UIColor colorWithRed:0.9 green:0.4 blue:0.4 alpha:.5];
     
     CGFloat pullViewHeight = 800;
     UIView *topPullView = [[UIView alloc]initWithFrame:CGRectMake(0, - pullViewHeight, self.frame.size.width, pullViewHeight)];

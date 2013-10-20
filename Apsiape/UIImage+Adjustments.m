@@ -56,7 +56,7 @@
 {
     CIImage *beginImage = [CIImage imageWithCGImage:self.CGImage];
     
-    CIImage *output = [CIFilter filterWithName:@"CIColorMonochrome" keysAndValues:kCIInputImageKey, beginImage, @"inputIntensity", [NSNumber numberWithFloat:1.0], @"inputColor", [[CIColor alloc] initWithColor:[UIColor whiteColor]], nil].outputImage;
+    CIImage *output = [CIFilter filterWithName:@"CIColorMonochrome" keysAndValues:kCIInputImageKey, beginImage, @"inputIntensity", [NSNumber numberWithFloat:.5], @"inputColor", [[CIColor alloc] initWithColor:[UIColor whiteColor]], nil].outputImage;
     
     CIContext *context = [CIContext contextWithOptions:nil];
     CGImageRef cgiimage = [context createCGImage:output fromRect:output.extent];

@@ -13,9 +13,8 @@
 @protocol BYQuickShotViewDelegate <NSObject>
 
 - (void)quickShotViewDidFinishPreparation:(BYQuickShotView*)quickShotView;
-
-- (void)didTakeSnapshot:(UIImage*)img;
-- (void)didDiscardLastImage;
+- (void)quickShotView:(BYQuickShotView*)quickShotView didTakeSnapshot:(UIImage*)img;
+- (void)quickShotViewDidDiscardLastImage:(BYQuickShotView*)quickShotView;
 
 @end
 

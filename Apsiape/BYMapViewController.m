@@ -30,6 +30,15 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    
+}
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     self.mapView.frame = self.view.bounds;
 }
 

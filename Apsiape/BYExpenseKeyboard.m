@@ -27,7 +27,8 @@
         _label.textAlignment = NSTextAlignmentCenter;
         _label.font = [UIFont fontWithName:@"Miso" size:30];
         _label.backgroundColor = [UIColor clearColor];
-        self.backgroundColor = [UIColor colorWithWhite:0.98 alpha:1];
+        _label.textColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
         [self addSubview:_label];
     }
     return self;
@@ -58,19 +59,19 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [targetKeyboard performSelector:keyBoardAction withObject:self afterDelay:0];
-    self.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+    self.backgroundColor = [UIColor colorWithWhite:0.9 alpha:0];
 }
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    [targetKeyboard performSelector:keyBoardAction withObject:self afterDelay:0];
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-        self.backgroundColor = [UIColor colorWithWhite:0.98 alpha:1];
+        self.backgroundColor = [UIColor clearColor];
     } completion:nil];
 }
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-        self.backgroundColor = [UIColor colorWithWhite:0.98 alpha:1];
+        self.backgroundColor = [UIColor clearColor];
     } completion:nil];
 }
 
@@ -92,8 +93,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor lightGrayColor];
-        self.fontColor = [UIColor colorWithWhite:0.3 alpha:1];
+        self.backgroundColor = [UIColor colorWithWhite:1 alpha:0.2];
     }
     return self;
 }
@@ -185,6 +185,34 @@
     } else {
         [self.delegate numberKeyTapped:sender.title];
     }
+}
+
+- (void)drawRect:(CGRect)rect
+{
+//    [super drawRect:rect];
+    
+    CGFloat x0 = CGRectGetMinX(rect) + 0.5, x1 = CGRectGetMaxX(rect) * (1.0f/3.0f), x2 = CGRectGetMaxX(rect) * (2.0f/3.0f), x3 = CGRectGetMaxX(rect) * (3.0f/3.0f);
+    CGFloat y0 = CGRectGetMinX(rect) + 0.5, y1 = CGRectGetMaxY(rect) * (1.0f/4.0), y2 = CGRectGetMaxY(rect) * (2.0f/4.0), y3 = CGRectGetMaxY(rect) * (3.0f/4.0), y4 = CGRectGetMaxY(rect) * (4.0f/4.0);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetLineWidth(context, .5);
+    CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
+    
+    CGContextMoveToPoint(context, x1, y0);
+    CGContextAddLineToPoint(context, x1, y4);
+    CGContextStrokePath(context);
+    CGContextMoveToPoint(context, x2, y0);
+    CGContextAddLineToPoint(context, x2, y4);
+    CGContextStrokePath(context);
+    CGContextMoveToPoint(context, x0, y1);
+    CGContextAddLineToPoint(context, x3, y1);
+    CGContextStrokePath(context);
+    CGContextMoveToPoint(context, x0, y2);
+    CGContextAddLineToPoint(context, x3, y2);
+    CGContextStrokePath(context);
+    CGContextMoveToPoint(context, x0, y3);
+    CGContextAddLineToPoint(context, x3, y3);
+    CGContextStrokePath(context);
 }
 
 @end

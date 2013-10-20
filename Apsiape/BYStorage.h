@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class BYNavigationController;
+@class BYNavigationController, Expense ;
 
 @interface BYStorage : NSObject
 
@@ -17,13 +17,12 @@
 - (NSManagedObjectContext*)managedObjectContext;
 
 - (void)saveDocument;
+
 - (void)saveExpenseObjectWithStringValue:(NSString*)stringValue
                              numberValue:(NSNumber*)numberValue
                             fullResImage:(UIImage*)fullResImg
                               completion:(void(^)(BOOL success))completionHandler;
 
-+ (NSString*)appFontName;
-+ (NSString*)secondAppFontName;
-+ (UIFont*)tableViewFont;
+- (void)deleteExpenseObject:(Expense*)expense completion:(void(^)())completionHandler;
 
 @end
