@@ -1,8 +1,8 @@
 //
-//  BYDetailScrollView.h
+//  BYDetailViewController.h
 //  Apsiape
 //
-//  Created by Dario Lass on 26.09.13.
+//  Created by Dario Lass on 26.10.13.
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
 
@@ -10,10 +10,8 @@
 
 @class Expense;
 
-@interface BYDetailScrollView : UIScrollView
+@interface BYDetailViewController : UIViewController
 
 @property (nonatomic, strong) Expense *expense;
-
-
 
 @end

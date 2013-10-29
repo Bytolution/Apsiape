@@ -8,7 +8,6 @@
 
 #import "BYTableViewCell.h"
 #import <QuartzCore/QuartzCore.h>
-#import "BYDetailScrollView.h"
 
 @interface BYTableViewCell () <UIGestureRecognizerDelegate, UITableViewDelegate>
 
@@ -17,7 +16,7 @@
 @property (nonatomic, strong) UIView *headerView;
 
 
-@property (nonatomic, strong) BYDetailScrollView *detailScrollView;
+//@property (nonatomic, strong) BYDetailScrollView *detailScrollView;
 
 @end
 
@@ -29,9 +28,9 @@
     if (self) {
         if (!self.label) self.label = [[UILabel alloc]init];
         if (!self.thumbnailView) self.thumbnailView = [[UIImageView alloc]init];
-        if (!self.detailScrollView) self.detailScrollView = [[BYDetailScrollView alloc]init];
+//        if (!self.detailScrollView) self.detailScrollView = [[BYDetailScrollView alloc]init];
         if (!self.headerView) self.headerView = [[UIView alloc]init];
-        [self.contentView addSubview:self.detailScrollView];
+//        [self.contentView addSubview:self.detailScrollView];
         [self.contentView addSubview:self.headerView];
         [self.headerView addSubview:self.label];
         [self.headerView addSubview:self.thumbnailView];
@@ -46,7 +45,7 @@
         [self.rightSideActionButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [self.backgroundView insertSubview:self.rightSideActionButton atIndex:0];
         
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.selectionStyle = UITableViewCellSelectionStyleDefault;
         
     }
     return self;
@@ -68,9 +67,9 @@
     self.label.font = [UIFont fontWithName:@"Miso" size:40];
     self.label.textAlignment = NSTextAlignmentRight;
     
-    self.detailScrollView.frame = self.bounds;
-    self.detailScrollView.contentInset = UIEdgeInsetsMake(CELL_HEIGHT, 0, 0, 0);
-    self.detailScrollView.contentOffset = CGPointMake(0, - CELL_HEIGHT);
+//    self.detailScrollView.frame = self.bounds;
+//    self.detailScrollView.contentInset = UIEdgeInsetsMake(CELL_HEIGHT, 0, 0, 0);
+//    self.detailScrollView.contentOffset = CGPointMake(0, - CELL_HEIGHT);
     
     if (self.cellState == BYTableViewCellStateRightSideRevealed) {
         self.contentView.frame = CGRectOffset(self.contentView.frame, - THRESHOLD, 0);
@@ -106,12 +105,12 @@
 
 - (void)prepareForDetailViewWithExpense:(Expense *)expense
 {
-    self.detailScrollView.expense = expense;
+//    self.detailScrollView.expense = expense;
 }
 
 - (void)dismissDetailView
 {
-    self.detailScrollView.expense = nil;
+//    self.detailScrollView.expense = nil;
 }
 
 

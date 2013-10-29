@@ -43,7 +43,7 @@
     self.panRecognizer.delegate = self;
     self.tapRecognizer.delegate = self;
     [self addGestureRecognizer:self.panRecognizer];
-    [self addGestureRecognizer:self.tapRecognizer];
+//    [self addGestureRecognizer:self.tapRecognizer];
 }
 
 -(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer

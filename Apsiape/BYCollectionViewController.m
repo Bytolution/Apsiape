@@ -15,7 +15,7 @@
 #import "BYExpenseCreationViewController.h"
 #import "BYPopupVCTransitionController.h"
 #import "BYTableViewCell.h"
-#import "BYDetailScrollView.h"
+#import "BYDetailViewController.h"
 #import "BYGestureTableView.h"
 
 @interface BYCollectionViewController () <UIScrollViewDelegate, UIViewControllerTransitioningDelegate, UITableViewDataSource, BYGestureTableViewDelegate, UIGestureRecognizerDelegate>
@@ -79,7 +79,7 @@
     [super viewWillAppear:animated];
     [self updateTableViewData];
     
-    self.tableView.frame = CGRectMake(0, 80, 320, CGRectGetHeight(self.view.frame) - 80);
+    self.tableView.frame = self.view.bounds;
     
     // Gradient layer background
 //    CAGradientLayer *gradLayer = [CAGradientLayer layer];
@@ -192,30 +192,12 @@
 
 #pragma mark BYGestureTableView Delegate handling
 
-- (void)tableView:(UITableView *)tableView didRecognizeTapGestureOnCellAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.expandedCellIndexPath == nil) {
-        // cell selected - detail view
-        self.expandedCellIndexPath = indexPath;
-        [(BYTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] prepareForDetailViewWithExpense:self.tableViewData[self.expandedCellIndexPath.row]];
-        self.preAnimationOffset = self.tableView.contentOffset;
-        self.tableView.scrollEnabled = NO;
-        [self.tableView beginUpdates];
-        [self.tableView endUpdates];
-        [self.tableView setContentOffset:[self.tableView cellForRowAtIndexPath:indexPath].frame.origin animated:YES];
-    } else if ([self.expandedCellIndexPath isEqual:indexPath]) {
-        // cell deselected - detail view dismissal
-        self.expandedCellIndexPath = nil;
-        [(BYTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath] dismissDetailView];
-        self.tableView.scrollEnabled = YES;
-        [self.tableView beginUpdates];
-        [self.tableView endUpdates];
-        [self.tableView setContentOffset:self.preAnimationOffset animated:YES];
-        self.preAnimationOffset = CGPointZero;
-    } else if (self.expandedCellIndexPath && [self.expandedCellIndexPath isEqual:indexPath]) {
-        // this shouldn't happen I guess
-        return;
-    }
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    BYDetailViewController *detailVC = [[BYDetailViewController alloc]initWithNibName:nil bundle:nil];
+    detailVC.expense = self.tableViewData[indexPath.row];
+    [self.navigationController pushViewController:detailVC animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView willAnimateCellAfterSwipeAtIndexPath:(NSIndexPath *)indexPath toState:(BYTableViewCellState)cellState
