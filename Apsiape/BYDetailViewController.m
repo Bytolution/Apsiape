@@ -71,7 +71,7 @@
     
     self.amountLabel.text = self.expense.stringValue;
     self.amountLabel.textAlignment = NSTextAlignmentRight;
-    self.amountLabel.font = [UIFont fontWithName:@"Miso-Bold" size:46];
+    self.amountLabel.font = [UIFont fontWithName:@"Miso-Light" size:50];
     
     self.amountLabelBackgroundView.frame = CGRectMake(0, 0, 320, 100);
     self.amountLabel.frame = CGRectMake(50, 20, 260, 80);

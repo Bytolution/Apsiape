@@ -59,7 +59,7 @@
     self.thumbnailView.clipsToBounds = YES;
     
     self.label.frame = CGRectMake(CGRectGetWidth(self.thumbnailView.frame) + 20, 0, CGRectGetWidth(self.frame) - (CGRectGetWidth(self.thumbnailView.frame)+ 30), CELL_HEIGHT);
-    self.label.font = [UIFont fontWithName:@"Miso" size:30];
+    self.label.font = [UIFont fontWithName:@"Miso-Light" size:38];
     self.label.textAlignment = NSTextAlignmentRight;
     
     if (self.cellState == BYTableViewCellStateRightSideRevealed) {

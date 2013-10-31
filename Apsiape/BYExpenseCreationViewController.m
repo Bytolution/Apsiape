@@ -53,10 +53,10 @@
     self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 10, self.view.bounds.size.width - 20, 50)];
     self.expenseValueLabel.backgroundColor = [UIColor clearColor];
     self.expenseValueLabel.textColor = [UIColor darkTextColor];
-    self.expenseValueLabel.font = [UIFont fontWithName:@"Miso-Light" size:40];
+    self.expenseValueLabel.font = [UIFont fontWithName:@"Miso-Light" size:46];
     [pullScrollView.childScrollView addSubview:self.expenseValueLabel];
     keyboard.delegate = self;
-    keyboard.font = [UIFont fontWithName:@"Miso" size:20];
+    keyboard.font = [UIFont fontWithName:@"Miso" size:24];
     [pullScrollView.childScrollView addSubview:keyboard];
     
     CGRect rect = CGRectInset(pullScrollView.bounds, 0, ((pullScrollView.frame.size.height - pullScrollView.frame.size.width) / 2));
