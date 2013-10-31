@@ -31,36 +31,48 @@
 
 @implementation BYExpenseCreationViewController
 
-#define KEYBOARD_HEIGHT 240
+#define KEYBOARD_HEIGHT 220
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.view.backgroundColor = [UIColor clearColor];
+    self.view.frame = CGRectMake(20, 40, 280, 488);
+    [super viewWillAppear:animated];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
     
     BYPullScrollView *pullScrollView = [[BYPullScrollView alloc]initWithFrame:self.view.bounds];
     pullScrollView.pullScrollViewDelegate = self;
     
     [self.view addSubview:pullScrollView];
+    self.view.layer.borderColor = [UIColor grayColor].CGColor;
+    self.view.layer.borderWidth = 0.5;
     
     self.expenseValueRawString = [[NSMutableString alloc]initWithCapacity:30];
     
     BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - KEYBOARD_HEIGHT, self.view.frame.size.width, KEYBOARD_HEIGHT)];
-    self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 30, self.view.bounds.size.width - 20, 80)];
+    self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 10, self.view.bounds.size.width - 20, 50)];
     self.expenseValueLabel.backgroundColor = [UIColor clearColor];
-    self.expenseValueLabel.textColor = [UIColor whiteColor];
+    self.expenseValueLabel.textColor = [UIColor darkTextColor];
+    self.expenseValueLabel.font = [UIFont fontWithName:@"Miso-Light" size:40];
     [pullScrollView.childScrollView addSubview:self.expenseValueLabel];
     keyboard.delegate = self;
+    keyboard.font = [UIFont fontWithName:@"Miso" size:20];
     [pullScrollView.childScrollView addSubview:keyboard];
     
     CGRect rect = CGRectInset(pullScrollView.bounds, 0, ((pullScrollView.frame.size.height - pullScrollView.frame.size.width) / 2));
     rect.origin.x = (pullScrollView.frame.size.width);
     
-    self.quickShotView = [[BYQuickShotView alloc]initWithFrame:CGRectInset(rect, 10, 10)];
+    self.quickShotView = [[BYQuickShotView alloc]initWithFrame:CGRectInset(rect, 0, 0)];
     self.quickShotView.delegate = self;
     [pullScrollView.childScrollView addSubview:self.quickShotView];
     pullScrollView.backgroundColor = [UIColor clearColor];
     pullScrollView.childScrollView.backgroundColor = [UIColor clearColor];
     rect.origin.x = (pullScrollView.frame.size.width * 2);
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    
 }
 
 #pragma mark Text Input Handling

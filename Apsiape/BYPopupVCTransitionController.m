@@ -30,25 +30,26 @@
     [fromView drawViewHierarchyInRect:containerView.bounds afterScreenUpdates:NO];
     UIImage *snapshotForBlur = UIGraphicsGetImageFromCurrentImageContext();
     
-    UIImageView *lightBlurredImageView = [[UIImageView alloc]initWithImage:[snapshotForBlur applyDarkEffect]];
-    lightBlurredImageView.frame = containerView.bounds;
+    UIImageView *lightBlurredImageView = [[UIImageView alloc]initWithImage:[snapshotForBlur applyBlurWithRadius:6 tintColor:[UIColor colorWithWhite:0.6 alpha:0.4] saturationDeltaFactor:1.8 maskImage:nil]];
+    lightBlurredImageView.frame = fromView.frame;
     lightBlurredImageView.alpha = 0;
-    
-    toView.frame = CGRectOffset(containerView.frame, 0, CGRectGetHeight(containerView.frame));
-    toView.clipsToBounds = YES;
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-    
+
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     // 1.
     [containerView addSubview:lightBlurredImageView];
     // 2.
     [containerView addSubview:toView];
     
+    toView.frame = CGRectInset(containerView.bounds, 20, 40);
+    toView.frame = CGRectOffset(toView.frame, - 320, 0);
+    
     [UIView animateWithDuration:self.duration delay:0 usingSpringWithDamping:0.7 initialSpringVelocity:1 options:kNilOptions animations:^{
-        toView.frame = containerView.bounds;
+        toView.frame = CGRectInset(containerView.bounds, 20, 40);
         lightBlurredImageView.alpha = 1;
     } completion:^(BOOL finished) {
         [transitionContext completeTransition:YES];
     }];
 }
+
 
 @end

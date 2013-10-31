@@ -19,5 +19,6 @@
 
 @property (nonatomic, strong) id <BYExpenseKeyboardDelegate> delegate;
 @property (nonatomic, strong) UIColor *fontColor;
+@property (nonatomic, strong) UIFont *font;
 
 @end

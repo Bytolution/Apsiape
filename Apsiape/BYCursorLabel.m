@@ -22,9 +22,8 @@
     [super willMoveToSuperview:newSuperview];
     
     self.textAlignment = NSTextAlignmentRight;
-    NSAttributedString *attrString = [[NSAttributedString alloc]initWithString:@"Enter value" attributes:@{NSForegroundColorAttributeName : [UIColor lightTextColor]}];
+    NSAttributedString *attrString = [[NSAttributedString alloc]initWithString:@"Enter value" attributes:@{NSForegroundColorAttributeName : [UIColor darkTextColor]}];
     self.attributedText = attrString;
-    self.font = [UIFont fontWithName:@"Miso-Light" size:60];
     
     CALayer *stripeLayer = [CALayer layer];
     CGSize labelSize = self.bounds.size;

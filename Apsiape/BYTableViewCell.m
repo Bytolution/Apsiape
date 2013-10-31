@@ -15,9 +15,6 @@
 @property (nonatomic, strong) UIButton *rightSideActionButton;
 @property (nonatomic, strong) UIView *headerView;
 
-
-//@property (nonatomic, strong) BYDetailScrollView *detailScrollView;
-
 @end
 
 @implementation BYTableViewCell
@@ -28,9 +25,7 @@
     if (self) {
         if (!self.label) self.label = [[UILabel alloc]init];
         if (!self.thumbnailView) self.thumbnailView = [[UIImageView alloc]init];
-//        if (!self.detailScrollView) self.detailScrollView = [[BYDetailScrollView alloc]init];
         if (!self.headerView) self.headerView = [[UIView alloc]init];
-//        [self.contentView addSubview:self.detailScrollView];
         [self.contentView addSubview:self.headerView];
         [self.headerView addSubview:self.label];
         [self.headerView addSubview:self.thumbnailView];
@@ -64,12 +59,8 @@
     self.thumbnailView.clipsToBounds = YES;
     
     self.label.frame = CGRectMake(CGRectGetWidth(self.thumbnailView.frame) + 20, 0, CGRectGetWidth(self.frame) - (CGRectGetWidth(self.thumbnailView.frame)+ 30), CELL_HEIGHT);
-    self.label.font = [UIFont fontWithName:@"Miso" size:40];
+    self.label.font = [UIFont fontWithName:@"Miso" size:30];
     self.label.textAlignment = NSTextAlignmentRight;
-    
-//    self.detailScrollView.frame = self.bounds;
-//    self.detailScrollView.contentInset = UIEdgeInsetsMake(CELL_HEIGHT, 0, 0, 0);
-//    self.detailScrollView.contentOffset = CGPointMake(0, - CELL_HEIGHT);
     
     if (self.cellState == BYTableViewCellStateRightSideRevealed) {
         self.contentView.frame = CGRectOffset(self.contentView.frame, - THRESHOLD, 0);
@@ -105,12 +96,10 @@
 
 - (void)prepareForDetailViewWithExpense:(Expense *)expense
 {
-//    self.detailScrollView.expense = expense;
 }
 
 - (void)dismissDetailView
 {
-//    self.detailScrollView.expense = nil;
 }
 
 

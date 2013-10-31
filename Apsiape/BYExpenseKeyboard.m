@@ -14,6 +14,7 @@
 }
 
 @property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) UIFont *font;
 
 @end
 
@@ -25,9 +26,8 @@
     if (self) {
         _label = [[UILabel alloc]initWithFrame:CGRectZero];
         _label.textAlignment = NSTextAlignmentCenter;
-        _label.font = [UIFont fontWithName:@"Miso" size:30];
         _label.backgroundColor = [UIColor clearColor];
-        _label.textColor = [UIColor whiteColor];
+        _label.textColor = [UIColor blackColor];
         self.backgroundColor = [UIColor clearColor];
         [self addSubview:_label];
     }
@@ -50,6 +50,7 @@
 {
     _label.frame = self.bounds;
     _label.text = self.title;
+    _label.font = self.font;
 }
 
 - (void)didMoveToSuperview
@@ -93,7 +94,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor colorWithWhite:1 alpha:0.2];
+        self.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.0];
     }
     return self;
 }
@@ -117,7 +118,7 @@
     
     for (int i = 0; i < 12; i++) {
         BYKeyboardButtonView *button = [[BYKeyboardButtonView alloc]init];
-        
+        button.font = self.font;
         CGPoint buttonOrigin = CGPointMake(32, 13);
         switch (i) {
             case 0:
@@ -172,6 +173,7 @@
         buttonOrigin.y += 0.5;
         button.frame = CGRectMake(buttonOrigin.x, buttonOrigin.y, buttonSize.width, buttonSize.height);
         [button addTarget:self action:@selector(buttonPressed:)];
+        button.font = self.font;
         [mButtonArray addObject:button];
     }
     
@@ -196,8 +198,11 @@
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetLineWidth(context, .5);
-    CGContextSetStrokeColorWithColor(context, [UIColor whiteColor].CGColor);
+    CGContextSetStrokeColorWithColor(context, [UIColor grayColor].CGColor);
     
+    CGContextMoveToPoint(context, x0, y0);
+    CGContextAddLineToPoint(context, x3, y0);
+    CGContextStrokePath(context);
     CGContextMoveToPoint(context, x1, y0);
     CGContextAddLineToPoint(context, x1, y4);
     CGContextStrokePath(context);

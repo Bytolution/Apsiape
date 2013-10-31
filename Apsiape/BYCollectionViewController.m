@@ -113,6 +113,7 @@
     cell.label.text = expense.stringValue;
 //    cell.thumbnailView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@thumb.jpg", expense.baseFilePath]]];
     cell.cellState = [self.cellStates[indexPath.row]intValue];
+    
     return cell;
 }
 
@@ -146,7 +147,7 @@
     BYPopupVCTransitionController *animationController = [[BYPopupVCTransitionController alloc]init];
     animationController.presentedVC = presented;
     animationController.presentingVC = presenting;
-    animationController.duration = 0.7;
+    animationController.duration = 0.5;
     return animationController;
 }
 
