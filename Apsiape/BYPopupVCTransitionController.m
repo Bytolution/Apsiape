@@ -30,7 +30,7 @@
     [fromView drawViewHierarchyInRect:containerView.bounds afterScreenUpdates:NO];
     UIImage *snapshotForBlur = UIGraphicsGetImageFromCurrentImageContext();
     
-    UIImageView *lightBlurredImageView = [[UIImageView alloc]initWithImage:[snapshotForBlur applyBlurWithRadius:6 tintColor:[UIColor colorWithWhite:0.6 alpha:0.4] saturationDeltaFactor:1.8 maskImage:nil]];
+    UIImageView *lightBlurredImageView = [[UIImageView alloc]initWithImage:[snapshotForBlur applyBlurWithRadius:6 tintColor:[UIColor colorWithWhite:0.6 alpha:0.6] saturationDeltaFactor:1.8 maskImage:nil]];
     lightBlurredImageView.frame = fromView.frame;
     lightBlurredImageView.alpha = 0;
 

@@ -13,10 +13,14 @@
     [BYStorage sharedStorage];
     
     self.window.rootViewController = [[BYNavigationController alloc]initWithRootViewController:[[BYCollectionViewController alloc]initWithNibName:nil bundle:nil]];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+    [application setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+    [application setStatusBarStyle:UIStatusBarStyleDefault];
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
+    
+    application.applicationIconBadgeNumber = 0;
+    application.applicationSupportsShakeToEdit = YES;
+    
     return YES;
 }
 

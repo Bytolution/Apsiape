@@ -11,7 +11,7 @@
 
 @protocol BYGestureTableViewDelegate <UITableViewDelegate>
 
-@required
+@optional
 
 - (void)tableView:(UITableView *)tableView willAnimateCellAfterSwipeAtIndexPath:(NSIndexPath*)indexPath toState:(BYTableViewCellState)cellState;
 - (void)tableView:(UITableView *)tableView didRecognizeTapGestureOnCellAtIndexPath:(NSIndexPath*)indexPath;

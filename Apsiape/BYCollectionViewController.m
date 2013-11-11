@@ -8,12 +8,10 @@
 
 #import <CoreData/CoreData.h>
 #import <QuartzCore/QuartzCore.h>
+#import "Constants.h"
 #import "BYCollectionViewController.h"
 #import "BYStorage.h"
 #import "Expense.h"
-#import "InterfaceDefinitions.h"
-#import "BYExpenseCreationViewController.h"
-#import "BYPopupVCTransitionController.h"
 #import "BYTableViewCell.h"
 #import "BYDetailViewController.h"
 #import "BYGestureTableView.h"
@@ -90,6 +88,7 @@
 //    [self.tableView.backgroundView.layer addSublayer:gradLayer];
 }
 
+
 #pragma mark - Table View
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -123,12 +122,7 @@
 {
     if (self.draggingEndedWithExceededPullThreshold) {
         self.draggingEndedWithExceededPullThreshold = NO;
-        BYExpenseCreationViewController *expenseVC = [[BYExpenseCreationViewController alloc]initWithNibName:nil bundle:nil];
-        expenseVC.transitioningDelegate = self;
-        expenseVC.modalPresentationStyle = UIModalPresentationCustom;
-        [self.navigationController presentViewController:expenseVC animated:YES completion:^{
-
-        }];
+        [[NSNotificationCenter defaultCenter] postNotificationName:BYNavigationControllerShouldDisplayExpenseCreationVCNotificationName object:nil];
     }
 }
 
@@ -140,15 +134,6 @@
     if (!decelerate) {
 
     }
-}
-
-- (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
-{
-    BYPopupVCTransitionController *animationController = [[BYPopupVCTransitionController alloc]init];
-    animationController.presentedVC = presented;
-    animationController.presentingVC = presenting;
-    animationController.duration = 0.5;
-    return animationController;
 }
 
 - (void)setScrollViewOffsetExceedsPullThreshold:(BOOL)scrollViewOffsetExceedsPullThreshold
@@ -199,6 +184,7 @@
     BYDetailViewController *detailVC = [[BYDetailViewController alloc]initWithNibName:nil bundle:nil];
     detailVC.expense = self.tableViewData[indexPath.row];
     [self.navigationController pushViewController:detailVC animated:YES];
+    
 }
 
 - (void)tableView:(UITableView *)tableView willAnimateCellAfterSwipeAtIndexPath:(NSIndexPath *)indexPath toState:(BYTableViewCellState)cellState

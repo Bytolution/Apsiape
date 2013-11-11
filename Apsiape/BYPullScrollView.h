@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "InterfaceDefinitions.h"
+#import "Constants.h"
 
 @protocol BYPullScrollViewDelegate <NSObject>
 

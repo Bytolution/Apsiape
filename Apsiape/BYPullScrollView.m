@@ -8,7 +8,6 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "BYPullScrollView.h"
-#import "InterfaceDefinitions.h"
 
 @interface BYPullScrollView () <UIScrollViewDelegate>
 

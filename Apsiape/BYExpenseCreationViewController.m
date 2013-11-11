@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
 #import <QuartzCore/QuartzCore.h>
+#import "Constants.h"
 #import "BYExpenseCreationViewController.h"
 #import "UIImage+Adjustments.h"
 #import "BYQuickShotView.h"
@@ -16,7 +17,6 @@
 #import "BYPullScrollView.h"
 #import "BYCollectionViewController.h"
 #import "BYLocalizer.h"
-#import "InterfaceDefinitions.h"
 
 @interface BYExpenseCreationViewController () <BYQuickShotViewDelegate, BYExpenseKeyboardDelegate, BYPullScrollViewDelegate>
 
@@ -118,6 +118,7 @@
 {
     if (edge == BYEdgeTypeBottom || edge == BYEdgeTypeLeft) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+        [[NSNotificationCenter defaultCenter] postNotificationName:BYNavigationControllerShouldDismissExpenseCreationVCNotificationName object:nil];
         [self dismissViewControllerAnimated:NO completion:^{
             
         }];
@@ -128,10 +129,8 @@
                                                          completion:^(BOOL success) {
                                                              //
                                                          }];
+        [[NSNotificationCenter defaultCenter] postNotificationName:BYNavigationControllerShouldDismissExpenseCreationVCNotificationName object:nil];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-        [self dismissViewControllerAnimated:NO completion:^{
-            
-        }];
     }
 }
 

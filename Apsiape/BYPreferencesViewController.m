@@ -5,12 +5,17 @@
 //  Created by Dario Lass on 05.08.13.
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
-#import "InterfaceDefinitions.h"
+
+#import "Constants.h"
 #import "BYPreferencesViewController.h"
 
 @interface BYPreferencesViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
+
+- (void)closeButtonTapped:(UIBarButtonItem*)button;
+
+- (void)createOnLaunchSwitchToggled:(UISwitch*)createOnLaunchSwitch;
 
 @end
 
@@ -24,8 +29,16 @@
     return self;
 }
 
-- (void)viewDidAppear:(BOOL)animated
+
+- (void)viewWillAppear:(BOOL)animated
 {
+    self.view.frame = CGRectMake(20, 40, 280, 488);
+    
+    self.title = @"Settings";
+    
+    UIBarButtonItem *closeButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(closeButtonTapped:)];
+    self.navigationItem.rightBarButtonItem = closeButton;
+    
     if (!self.tableView) self.tableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -33,6 +46,16 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundView = nil;
     [self.view addSubview:self.tableView];
+}
+
+- (void)closeButtonTapped:(UIBarButtonItem *)button
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:BYNavigationControllerShouldDismissPreferencesVCNotificationName object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    
 }
 
 #pragma mark - UITableView implementation
@@ -66,7 +89,39 @@
     }
     cell.textLabel.text = @"UITableViewCell";
     cell.textLabel.backgroundColor = [UIColor clearColor];
+    
+    switch (indexPath.section) {
+        case 0:
+            switch (indexPath.row) {
+                case 0:
+                    cell.textLabel.text = @"Create on launch";
+                    UISwitch *createOnLaunchSwitch = [[UISwitch alloc]init];
+                    [createOnLaunchSwitch addTarget:self action:@selector(createOnLaunchSwitchToggled:) forControlEvents:UIControlEventValueChanged];
+                    cell.accessoryView = createOnLaunchSwitch;
+                    break;
+            }
+            break;
+            
+        default:
+            break;
+    }
+    
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.navigationController pushViewController:[[BYPreferencesViewController alloc]init] animated:YES];
+}
+
+#pragma mark Button state change handling
+
+- (void)createOnLaunchSwitchToggled:(UISwitch *)createOnLaunchSwitch
+{
+    if (createOnLaunchSwitch.on) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:BYApsiapeCreateOnLaunchPreferenceKey];
+    }
 }
 
 @end

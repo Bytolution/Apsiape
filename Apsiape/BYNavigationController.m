@@ -6,25 +6,21 @@
 //  Copyright (c) 2013 Bytolution. All rights reserved.
 //
 
+#import "Constants.h"
 #import "BYNavigationController.h"
-#import "BYCollectionViewController.h"
-#import "BYMapViewController.h"
-#import "BYPreferencesViewController.h"
-#import "InterfaceDefinitions.h"
+#import "BYNavigationContainerController.h"
+#import "BYExpenseCreationViewController.h"
 #import "BYPopupVCTransitionController.h"
 
-@interface BYNavigationController () <UIGestureRecognizerDelegate, UIViewControllerTransitioningDelegate, UINavigationControllerDelegate>
+@interface BYNavigationController () <UIViewControllerTransitioningDelegate>
 
-@property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
-@property (nonatomic, strong) BYCollectionViewController *collectionViewController;
-@property (nonatomic, strong) BYPreferencesViewController *preferencesViewController;
+@property (nonatomic, strong) BYExpenseCreationViewController *expenseCreationVC;
+@property (nonatomic, strong) BYNavigationContainerController *navigationCC;
 
-@property (nonatomic, strong) NSMutableArray *viewControllerStack;
-
-@property (nonatomic, readwrite) BOOL mapViewVisible;
-@property (nonatomic, readwrite) BOOL preferencesViewVisible;
-@property (nonatomic, readwrite) CGFloat lastHorizontalPanPosition;
-@property (nonatomic, readwrite) BYEdgeType panGestureEdge;
+- (void)displayPreferencesViewController;
+- (void)displayExpenseCreationViewController;
+- (void)dismissPreferencesViewController;
+- (void)dismissExpenseCreationViewController;
 
 @end
 
@@ -38,15 +34,75 @@
     if (self) {
         self.view.backgroundColor = [UIColor whiteColor];
         self.navigationBarHidden = YES;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayExpenseCreationViewController) name:BYNavigationControllerShouldDisplayExpenseCreationVCNotificationName object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayPreferencesViewController) name:BYNavigationControllerShouldDisplayPreferenceVCNotificationName object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissExpenseCreationViewController) name:BYNavigationControllerShouldDismissExpenseCreationVCNotificationName object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissPreferencesViewController) name:BYNavigationControllerShouldDismissPreferencesVCNotificationName object:nil];
     }
     return self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panRecognized:)];
-    self.panRecognizer.delegate = self;
-//    [self.view addGestureRecognizer:self.panRecognizer];
+    
+    
+    [self.view becomeFirstResponder];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.view resignFirstResponder];
+}
+
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
+{
+    if (motion == UIEventSubtypeMotionShake)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"BYNavigationControllerShouldDisplayPreferenceVCNotification" object:nil];
+    }
+}
+
+- (void)displayExpenseCreationViewController
+{
+    if (!self.expenseCreationVC) {
+        self.expenseCreationVC = [[BYExpenseCreationViewController alloc]initWithNibName:nil bundle:nil];
+        self.expenseCreationVC.transitioningDelegate = self;
+        self.expenseCreationVC.modalPresentationStyle = UIModalPresentationCustom;
+        [self presentViewController:self.expenseCreationVC animated:YES completion:^{
+            
+        }];
+    }
+}
+
+- (void)displayPreferencesViewController
+{
+    if (!self.navigationCC) {
+        self.navigationCC = [[BYNavigationContainerController alloc]initWithNibName:nil bundle:nil];
+        self.navigationCC.transitioningDelegate = self;
+        self.navigationCC.modalPresentationStyle = UIModalPresentationCustom;
+        [self presentViewController:self.navigationCC animated:YES completion:^{
+            
+        }];
+    }
+}
+
+- (void)dismissExpenseCreationViewController
+{
+    [self.expenseCreationVC dismissViewControllerAnimated:NO completion:^{
+        self.expenseCreationVC = nil;
+    }];
+}
+
+- (void)dismissPreferencesViewController
+{
+    [self.navigationCC dismissViewControllerAnimated:NO completion:^{
+        self.navigationCC = nil;
+    }];
 }
 
 #pragma mark - View Controller Transition delegates
@@ -54,50 +110,14 @@
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
 {
     BYPopupVCTransitionController *tController = [[BYPopupVCTransitionController alloc]init];
-    tController.presentedVC = presented;
-    tController.presentingVC = presenting;
-    tController.parentVC = self;
-    tController.duration = 5;
+    tController.duration = 1;
     return tController;
 }
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+    // BYPopupVCTransitionController isAppearing = NO;
     return nil;
 }
 
-#pragma mark - Gesture Handling
-
-- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer*)gestureRecognizer
-{
-    CGFloat horizontalPanPosition = [gestureRecognizer locationInView:gestureRecognizer.view].x;
-    BOOL panStartedOnLeftEdge = (horizontalPanPosition < 30) ? YES : NO;
-    BOOL panStartedOnRightEdge = (horizontalPanPosition > 290) ? YES : NO;
-    if (panStartedOnLeftEdge) {
-        self.panGestureEdge = BYEdgeTypeLeft;
-        return YES;
-    } else if (panStartedOnRightEdge) {
-        self.panGestureEdge = BYEdgeTypeRight;
-        return YES;
-    } else {
-        self.panGestureEdge = BYEdgeTypeNone;
-        return NO;
-    }
-}
-- (void)panRecognized:(UIPanGestureRecognizer *)pan
-{
-    CGFloat xLocation = [pan locationInView:pan.view].x;
-    
-    // compute the delta value each time the method gets called
-    CGFloat deltaX = 0.0;
-    if (self.lastHorizontalPanPosition != 0) {
-         deltaX = (xLocation - self.lastHorizontalPanPosition);
-    }
-    self.lastHorizontalPanPosition = xLocation;
-}
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-{
-    return NO;
-}
 
 @end

@@ -10,11 +10,8 @@
 
 @interface BYPopupVCTransitionController : NSObject <UIViewControllerAnimatedTransitioning>
 
-@property (nonatomic, strong) UIViewController *presentingVC;
-@property (nonatomic, strong) UIViewController *presentedVC;
-
-@property (nonatomic, strong) UIViewController *parentVC;
-
 @property (nonatomic, readwrite) NSTimeInterval duration;
+
+@property (nonatomic, readwrite) BOOL isAppearing;
 
 @end
