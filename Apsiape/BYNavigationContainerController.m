@@ -10,6 +10,7 @@
 #import "BYNavigationContainerController.h"
 #import "BYPreferencesViewController.h"
 #import "BYPreferencesNavigationController.h"
+#import "Constants.h"
 
 @interface BYNavigationContainerController ()
 
@@ -26,12 +27,18 @@
     if (self) {
         if (!self.embeddedNCRootVC) self.embeddedNCRootVC = [[BYPreferencesViewController alloc]initWithNibName:nil bundle:nil];
         if (!self.embeddedNC) self.embeddedNC = [[BYPreferencesNavigationController alloc]initWithRootViewController:self.embeddedNCRootVC];
-        self.view.clipsToBounds = YES;
-        self.view.backgroundColor = [UIColor whiteColor];
-        [self.view addSubview:self.embeddedNC.view];
-        self.view.layer.cornerRadius = 4;
+        self.view.backgroundColor = [UIColor clearColor];
     }
     return self;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    UIView *embedView = [[UIView alloc]initWithFrame:CGRectInset(self.view.bounds, POPOVER_INSET_X, POPOVER_INSET_Y)];
+    embedView.clipsToBounds = YES;
+    [embedView addSubview:self.embeddedNC.view];
+    self.embeddedNC.view.frame = embedView.bounds;
+    [self.view addSubview:embedView];
 }
 
 @end

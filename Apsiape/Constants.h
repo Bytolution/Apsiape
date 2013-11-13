@@ -19,6 +19,9 @@ FOUNDATION_EXPORT NSString *const BYNavigationControllerShouldDisplayPreferenceV
 FOUNDATION_EXPORT NSString *const BYNavigationControllerShouldDismissExpenseCreationVCNotificationName;
 FOUNDATION_EXPORT NSString *const BYNavigationControllerShouldDismissPreferencesVCNotificationName;
 
+#define POPOVER_INSET_X 20
+#define POPOVER_INSET_Y 40
+
 typedef enum  {
     BYEdgeTypeNone = 0,
     BYEdgeTypeTop,

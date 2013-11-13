@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) BYExpenseCreationViewController *expenseCreationVC;
 @property (nonatomic, strong) BYNavigationContainerController *navigationCC;
+@property (nonatomic, strong) BYPopupVCTransitionController *transitionController;
 
 - (void)displayPreferencesViewController;
 - (void)displayExpenseCreationViewController;
@@ -38,14 +39,15 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayPreferencesViewController) name:BYNavigationControllerShouldDisplayPreferenceVCNotificationName object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissExpenseCreationViewController) name:BYNavigationControllerShouldDismissExpenseCreationVCNotificationName object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissPreferencesViewController) name:BYNavigationControllerShouldDismissPreferencesVCNotificationName object:nil];
+        
+        if (!self.transitionController) self.transitionController = [[BYPopupVCTransitionController alloc]init];
+        self.transitionController.duration = 0.8;
     }
     return self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    
-    
     [self.view becomeFirstResponder];
 }
 
@@ -54,16 +56,15 @@
     [self.view resignFirstResponder];
 }
 
-- (BOOL)canBecomeFirstResponder
-{
-    return YES;
-}
+- (BOOL)canBecomeFirstResponder { return YES; }
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event
 {
-    if (motion == UIEventSubtypeMotionShake)
+    if (motion == UIEventSubtypeMotionShake && !self.navigationCC)
     {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"BYNavigationControllerShouldDisplayPreferenceVCNotification" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:BYNavigationControllerShouldDisplayPreferenceVCNotificationName object:nil];
+    } else if (motion == UIEventSubtypeMotionShake && self.navigationCC) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:BYNavigationControllerShouldDismissPreferencesVCNotificationName object:nil];
     }
 }
 
@@ -93,14 +94,14 @@
 
 - (void)dismissExpenseCreationViewController
 {
-    [self.expenseCreationVC dismissViewControllerAnimated:NO completion:^{
+    [self.expenseCreationVC dismissViewControllerAnimated:YES completion:^{
         self.expenseCreationVC = nil;
     }];
 }
 
 - (void)dismissPreferencesViewController
 {
-    [self.navigationCC dismissViewControllerAnimated:NO completion:^{
+    [self.navigationCC dismissViewControllerAnimated:YES completion:^{
         self.navigationCC = nil;
     }];
 }
@@ -109,14 +110,13 @@
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
 {
-    BYPopupVCTransitionController *tController = [[BYPopupVCTransitionController alloc]init];
-    tController.duration = 1;
-    return tController;
+    self.transitionController.isAppearing = YES;
+    return self.transitionController;
 }
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
 {
-    // BYPopupVCTransitionController isAppearing = NO;
-    return nil;
+    self.transitionController.isAppearing = NO;
+    return self.transitionController;
 }
 
 

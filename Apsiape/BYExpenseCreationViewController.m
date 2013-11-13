@@ -35,22 +35,25 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.view.frame = CGRectMake(20, 40, 280, 488);
     [super viewWillAppear:animated];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor clearColor];
     
-    BYPullScrollView *pullScrollView = [[BYPullScrollView alloc]initWithFrame:self.view.bounds];
+    BYPullScrollView *pullScrollView = [[BYPullScrollView alloc]initWithFrame:CGRectInset(self.view.bounds, POPOVER_INSET_X, POPOVER_INSET_Y)];
     pullScrollView.pullScrollViewDelegate = self;
     
+    pullScrollView.layer.borderColor = [UIColor grayColor].CGColor;
+    pullScrollView.layer.borderWidth = 0.5;
+    
+    pullScrollView.backgroundColor = [UIColor whiteColor];
+    
     [self.view addSubview:pullScrollView];
-    self.view.layer.borderColor = [UIColor grayColor].CGColor;
-    self.view.layer.borderWidth = 0.5;
+    
     
     self.expenseValueRawString = [[NSMutableString alloc]initWithCapacity:30];
     
-    BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.view.frame.size.height - KEYBOARD_HEIGHT, self.view.frame.size.width, KEYBOARD_HEIGHT)];
-    self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 10, self.view.bounds.size.width - 20, 50)];
+    BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, pullScrollView.frame.size.height - KEYBOARD_HEIGHT, pullScrollView.frame.size.width, KEYBOARD_HEIGHT)];
+    self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 10, pullScrollView.bounds.size.width - 20, 50)];
     self.expenseValueLabel.backgroundColor = [UIColor clearColor];
     self.expenseValueLabel.textColor = [UIColor darkTextColor];
     self.expenseValueLabel.font = [UIFont fontWithName:@"Miso-Light" size:46];
@@ -65,7 +68,6 @@
     self.quickShotView = [[BYQuickShotView alloc]initWithFrame:CGRectInset(rect, 0, 0)];
     self.quickShotView.delegate = self;
     [pullScrollView.childScrollView addSubview:self.quickShotView];
-    pullScrollView.backgroundColor = [UIColor clearColor];
     pullScrollView.childScrollView.backgroundColor = [UIColor clearColor];
     rect.origin.x = (pullScrollView.frame.size.width * 2);
 }
@@ -73,6 +75,10 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
 }
 
 #pragma mark Text Input Handling

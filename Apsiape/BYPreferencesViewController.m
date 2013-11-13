@@ -32,8 +32,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.view.frame = CGRectMake(20, 40, 280, 488);
-    
     self.title = @"Settings";
     
     UIBarButtonItem *closeButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(closeButtonTapped:)];
