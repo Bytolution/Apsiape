@@ -8,14 +8,19 @@
 
 #import "BYLocalizer.h"
 #import <CoreLocation/CoreLocation.h>
+#import "Constants.h"
 
 @implementation BYLocalizer
 
 + (NSLocale*)currentAppLocale
 {
-    NSString *currentAppLocaleIdentifier = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentAppLocaleIdentifier"];
-    if (currentAppLocaleIdentifier) {
-        return [[NSLocale alloc]initWithLocaleIdentifier:currentAppLocaleIdentifier];
+    NSString *geoAppLocaleIdentifier = [[NSUserDefaults standardUserDefaults] objectForKey:@"BYApsiapeGeoAppLocaleIdentifier"];
+    NSString *userPreferredAppLocaleIdentifier = [[NSUserDefaults standardUserDefaults] objectForKey:BYApsiapeUserPreferredAppLocaleIdentifier];
+    
+    if (userPreferredAppLocaleIdentifier) {
+        return [[NSLocale alloc]initWithLocaleIdentifier:userPreferredAppLocaleIdentifier];
+    } else if (geoAppLocaleIdentifier) {
+        return [[NSLocale alloc]initWithLocaleIdentifier:geoAppLocaleIdentifier];
     } else {
         return [NSLocale currentLocale];
     }
@@ -28,7 +33,7 @@
         if ([placemarks objectAtIndex:0]) {
             CLPlacemark *placemark = placemarks[0];
             NSLocale *locale = [[NSLocale alloc]initWithLocaleIdentifier:[NSLocale localeIdentifierFromComponents:@{NSLocaleCountryCode : placemark.addressDictionary[@"CountryCode"]}]];
-            [[NSUserDefaults standardUserDefaults] setObject:locale.localeIdentifier forKey:@"currentAppLocaleIdentifier"];
+            [[NSUserDefaults standardUserDefaults] setObject:locale.localeIdentifier forKey:@"BYApsiapeGeoAppLocaleIdentifier"];
         }
     }];
 }
@@ -48,17 +53,6 @@
             NSLog(@"%@", error);
         }
     }];
-}
-
-// UNUSED
-+ (NSLocale*)defaultAppLocale
-{
-    return [[NSUserDefaults standardUserDefaults]objectForKey:@"defaultAppLocaleIdentifier"];
-}
-
-+ (void)setDefaultAppLocale:(NSLocale*)locale
-{
-    [[NSUserDefaults standardUserDefaults] setObject:locale forKey:@"defaultAppLocaleIdentifier"];
 }
 
 @end

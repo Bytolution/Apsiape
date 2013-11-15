@@ -19,6 +19,8 @@ FOUNDATION_EXPORT NSString *const BYNavigationControllerShouldDisplayPreferenceV
 FOUNDATION_EXPORT NSString *const BYNavigationControllerShouldDismissExpenseCreationVCNotificationName;
 FOUNDATION_EXPORT NSString *const BYNavigationControllerShouldDismissPreferencesVCNotificationName;
 
+FOUNDATION_EXPORT NSString *const BYApsiapeUserPreferredAppLocaleIdentifier;
+
 #define POPOVER_INSET_X 20
 #define POPOVER_INSET_Y 40
 

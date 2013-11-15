@@ -3,6 +3,7 @@
 #import "BYNavigationController.h"
 #import "BYCollectionViewController.h"
 #import "BYStorage.h"
+#import "Constants.h"
 
 @implementation BYAppDelegate
 
@@ -24,5 +25,11 @@
     return YES;
 }
 
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    if ([[NSUserDefaults standardUserDefaults]boolForKey:BYApsiapeCreateOnLaunchPreferenceKey]) {
+        [[NSNotificationCenter defaultCenter]postNotificationName:BYNavigationControllerShouldDisplayExpenseCreationVCNotificationName object:nil];
+    }
+}
 
 @end

@@ -8,10 +8,12 @@
 
 #import "Constants.h"
 #import "BYPreferencesViewController.h"
+#import "BYLocalePickerViewController.h"
 
 @interface BYPreferencesViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UISwitch *createOnLaunchSwitch;
 
 - (void)closeButtonTapped:(UIBarButtonItem*)button;
 
@@ -37,6 +39,8 @@
     UIBarButtonItem *closeButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(closeButtonTapped:)];
     self.navigationItem.rightBarButtonItem = closeButton;
     
+    if (!self.createOnLaunchSwitch) self.createOnLaunchSwitch = [[UISwitch alloc]init];
+    
     if (!self.tableView) self.tableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -53,13 +57,13 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    
+    [self.createOnLaunchSwitch setOn:[[NSUserDefaults standardUserDefaults]boolForKey:BYApsiapeCreateOnLaunchPreferenceKey] animated:NO];
 }
 
 #pragma mark - UITableView implementation
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 2;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -68,13 +72,24 @@
             return 1;
             break;
         case 1:
-            return 3;
-            break;
-        case 2:
-            return 2;
+            return 1;
             break;
         default:
             return 1;
+            break;
+    }
+}
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    switch (section) {
+        case 0:
+            return @"Apsiape can present the expense creation view everytime it opens";
+            break;
+        case 1:
+            return @"Apsiape will determine the current locale using location services. You can also set it manually.";
+            break;
+        default:
+            return Nil;
             break;
     }
 }
@@ -93,13 +108,14 @@
             switch (indexPath.row) {
                 case 0:
                     cell.textLabel.text = @"Create on launch";
-                    UISwitch *createOnLaunchSwitch = [[UISwitch alloc]init];
-                    [createOnLaunchSwitch addTarget:self action:@selector(createOnLaunchSwitchToggled:) forControlEvents:UIControlEventValueChanged];
-                    cell.accessoryView = createOnLaunchSwitch;
+                    [self.createOnLaunchSwitch addTarget:self action:@selector(createOnLaunchSwitchToggled:) forControlEvents:UIControlEventValueChanged];
+                    cell.accessoryView = self.createOnLaunchSwitch;
                     break;
             }
             break;
-            
+        case 1:
+            cell.textLabel.text = @"Preferred Currency";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         default:
             break;
     }
@@ -109,17 +125,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.navigationController pushViewController:[[BYPreferencesViewController alloc]init] animated:YES];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+    [self.navigationController pushViewController:[[BYLocalePickerViewController alloc]init] animated:YES];
 }
 
 #pragma mark Button state change handling
 
 - (void)createOnLaunchSwitchToggled:(UISwitch *)createOnLaunchSwitch
 {
-    if (createOnLaunchSwitch.on) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:BYApsiapeCreateOnLaunchPreferenceKey];
-    }
+    [[NSUserDefaults standardUserDefaults] setBool:createOnLaunchSwitch.on forKey:BYApsiapeCreateOnLaunchPreferenceKey];
 }
 
 @end

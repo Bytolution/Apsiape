@@ -35,7 +35,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+//    [super viewWillAppear:animated];
     
     self.view.backgroundColor = [UIColor clearColor];
     
@@ -70,15 +70,6 @@
     [pullScrollView.childScrollView addSubview:self.quickShotView];
     pullScrollView.childScrollView.backgroundColor = [UIColor clearColor];
     rect.origin.x = (pullScrollView.frame.size.width * 2);
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
 }
 
 #pragma mark Text Input Handling
@@ -125,9 +116,6 @@
     if (edge == BYEdgeTypeBottom || edge == BYEdgeTypeLeft) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
         [[NSNotificationCenter defaultCenter] postNotificationName:BYNavigationControllerShouldDismissExpenseCreationVCNotificationName object:nil];
-        [self dismissViewControllerAnimated:NO completion:^{
-            
-        }];
     } else if ((edge == BYEdgeTypeRight || edge == BYEdgeTypeTop) && self.expenseValueRawString.length != 0){
         [[BYStorage sharedStorage] saveExpenseObjectWithStringValue:self.expenseValueCurrencyFormattedString
                                                         numberValue:self.expenseValueDecimalNumber

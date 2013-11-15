@@ -12,7 +12,7 @@
 #import "BYExpenseCreationViewController.h"
 #import "BYPopupVCTransitionController.h"
 
-@interface BYNavigationController () <UIViewControllerTransitioningDelegate>
+@interface BYNavigationController () <UIViewControllerTransitioningDelegate, UIApplicationDelegate>
 
 @property (nonatomic, strong) BYExpenseCreationViewController *expenseCreationVC;
 @property (nonatomic, strong) BYNavigationContainerController *navigationCC;
@@ -48,12 +48,19 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [self.view becomeFirstResponder];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
     [self.view resignFirstResponder];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 }
 
 - (BOOL)canBecomeFirstResponder { return YES; }
@@ -70,7 +77,7 @@
 
 - (void)displayExpenseCreationViewController
 {
-    if (!self.expenseCreationVC) {
+    if (!self.presentedViewController) {
         self.expenseCreationVC = [[BYExpenseCreationViewController alloc]initWithNibName:nil bundle:nil];
         self.expenseCreationVC.transitioningDelegate = self;
         self.expenseCreationVC.modalPresentationStyle = UIModalPresentationCustom;
@@ -82,7 +89,7 @@
 
 - (void)displayPreferencesViewController
 {
-    if (!self.navigationCC) {
+    if (!self.presentedViewController) {
         self.navigationCC = [[BYNavigationContainerController alloc]initWithNibName:nil bundle:nil];
         self.navigationCC.transitioningDelegate = self;
         self.navigationCC.modalPresentationStyle = UIModalPresentationCustom;
@@ -94,14 +101,16 @@
 
 - (void)dismissExpenseCreationViewController
 {
-    [self.expenseCreationVC dismissViewControllerAnimated:YES completion:^{
-        self.expenseCreationVC = nil;
-    }];
+//    if (![self.expenseCreationVC isBeingDismissed]) {
+        [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
+            self.expenseCreationVC = nil;
+        }];
+//    }
 }
 
 - (void)dismissPreferencesViewController
 {
-    [self.navigationCC dismissViewControllerAnimated:YES completion:^{
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
         self.navigationCC = nil;
     }];
 }

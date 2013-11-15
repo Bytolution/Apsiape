@@ -15,6 +15,5 @@
 + (void)determineCurrentLocaleWithLocation:(CLLocation*)location;
 + (void)geocodeInfoStringForLocation:(CLLocation*)location completion:(void(^)(NSString *infoString))completionHandler;
 + (NSLocale*)currentAppLocale;
-+ (NSLocale*)defaultAppLocale;
 
 @end

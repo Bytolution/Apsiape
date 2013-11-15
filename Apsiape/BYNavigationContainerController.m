@@ -34,6 +34,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     UIView *embedView = [[UIView alloc]initWithFrame:CGRectInset(self.view.bounds, POPOVER_INSET_X, POPOVER_INSET_Y)];
     embedView.clipsToBounds = YES;
     [embedView addSubview:self.embeddedNC.view];
