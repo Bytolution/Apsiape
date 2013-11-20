@@ -7,6 +7,7 @@
 //
 
 #import "BYTableViewCell.h"
+#import "Constants.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface BYTableViewCell () <UIGestureRecognizerDelegate, UITableViewDelegate>
@@ -14,6 +15,8 @@
 @property (nonatomic, readwrite) CGFloat lastOffset;
 @property (nonatomic, strong) UIButton *rightSideActionButton;
 @property (nonatomic, strong) UIView *headerView;
+@property (nonatomic, strong) CALayer *seperatorLayer;
+
 
 @end
 
@@ -26,13 +29,16 @@
         if (!self.label) self.label = [[UILabel alloc]init];
         if (!self.thumbnailView) self.thumbnailView = [[UIImageView alloc]init];
         if (!self.headerView) self.headerView = [[UIView alloc]init];
+        if (!self.seperatorLayer) self.seperatorLayer = [CALayer layer];
         [self.contentView addSubview:self.headerView];
         [self.headerView addSubview:self.label];
         [self.headerView addSubview:self.thumbnailView];
+        [self.headerView.layer addSublayer:self.seperatorLayer];
         
         self.backgroundColor = [UIColor clearColor];
         self.contentView.backgroundColor = [UIColor clearColor];
-        self.headerView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.9];
+        self.headerView.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
+        self.seperatorLayer.backgroundColor = [UIColor colorWithWhite:0 alpha:0.15].CGColor;
         
         self.rightSideActionButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.rightSideActionButton.backgroundColor = [UIColor clearColor];
@@ -53,6 +59,7 @@
     [super layoutSubviews];
     
     self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CELL_HEIGHT);
+    self.seperatorLayer.frame = CGRectMake(CELL_SEPERATOR_INSET, CGRectGetHeight(self.headerView.frame) - 0.5, CGRectGetWidth(self.headerView.frame) - (2*CELL_SEPERATOR_INSET), 0.5);
     
     self.thumbnailView.frame = CGRectMake(10, 10, 80 , 80);
     self.thumbnailView.layer.cornerRadius = CGRectGetHeight(self.thumbnailView.frame)/2;

@@ -14,9 +14,9 @@
     [BYStorage sharedStorage];
     
     self.window.rootViewController = [[BYNavigationController alloc]initWithRootViewController:[[BYCollectionViewController alloc]initWithNibName:nil bundle:nil]];
-    [application setStatusBarHidden:NO withAnimation:UIStatusBarAnimationNone];
+    [application setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
     [application setStatusBarStyle:UIStatusBarStyleDefault];
-    self.window.backgroundColor = [UIColor blackColor];
+    self.window.backgroundColor = [UIColor darkGrayColor];
     [self.window makeKeyAndVisible];
     
     application.applicationIconBadgeNumber = 0;

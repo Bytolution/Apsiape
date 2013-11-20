@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define CELL_HEIGHT 80
+#define CELL_HEIGHT 70
 
 #define TOP_SPACE 0
 

@@ -10,6 +10,8 @@
 #import <MapKit/MapKit.h>
 #import "BYDetailViewController.h"
 #import "Expense.h"
+#import "BYMapViewController.h"
+#import "BYStorage.h"
 
 @interface BYDetailViewController ()
 
@@ -25,6 +27,8 @@
 @property (nonatomic, strong) UIButton *deleteButton;
 
 - (void)swipeRecognized:(UISwipeGestureRecognizer*)swipeGestureRecognizer;
+- (void)tapGestureRecognized:(UITapGestureRecognizer*)tapGestureRecognizer;
+- (void)deleteButtonTapped:(UIButton*)button;
 
 @end
 
@@ -39,6 +43,7 @@
         if (!self.amountLabel) self.amountLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         if (!self.amountLabelBackgroundView) self.amountLabelBackgroundView = [[UIView alloc]initWithFrame:CGRectZero];
         if (!self.swipeGestureRecognizer) self.swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeRecognized:)];
+        if (!self.tapGestureRecognizer) self.tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGestureRecognized:)];
         if (!self.imageView) self.imageView = [[UIImageView alloc]initWithFrame:CGRectZero];
         if (!self.mapView) self.mapView = [[MKMapView alloc]initWithFrame:CGRectZero];
         if (!self.locationLabel) self.locationLabel = [[UILabel alloc]initWithFrame:CGRectZero];
@@ -54,10 +59,8 @@
         [self.scrollView addSubview:self.locationLabel];
         [self.scrollView addSubview:self.deleteButton];
         [self.view addGestureRecognizer:self.swipeGestureRecognizer];
+        [self.scrollView addGestureRecognizer:self.tapGestureRecognizer];
         //Misc
-        self.view.backgroundColor = [UIColor whiteColor];
-        self.edgesForExtendedLayout = UIRectEdgeNone;
-        self.extendedLayoutIncludesOpaqueBars = NO;
     }
     return self;
 }
@@ -67,20 +70,26 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    self.view.backgroundColor = [UIColor colorWithWhite:0.92 alpha:1];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.extendedLayoutIncludesOpaqueBars = NO;
+    
+    self.navigationController.navigationBarHidden = YES;
+    
     self.swipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
     
     self.amountLabel.text = self.expense.stringValue;
     self.amountLabel.textAlignment = NSTextAlignmentRight;
     self.amountLabel.font = [UIFont fontWithName:@"Miso-Light" size:50];
     
-    self.amountLabelBackgroundView.frame = CGRectMake(0, 0, 320, 100);
-    self.amountLabel.frame = CGRectMake(50, 20, 260, 80);
+    self.amountLabelBackgroundView.frame = CGRectMake(0, 0, 320, 80);
+    self.amountLabel.frame = CGRectMake(50, 0, 260, 80);
     self.amountLabel.backgroundColor = [UIColor clearColor];
     self.amountLabelBackgroundView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.9];
     
     CALayer *strokeLayer = [CALayer layer];
     strokeLayer.backgroundColor = [UIColor colorWithWhite:0.6 alpha:0.2].CGColor;
-    strokeLayer.frame = CGRectMake(0, 99, 320, 1);
+    strokeLayer.frame = CGRectMake(0, CGRectGetHeight(self.amountLabelBackgroundView.frame)-1, CGRectGetWidth(self.amountLabelBackgroundView.frame), 1);
     [self.amountLabelBackgroundView.layer addSublayer:strokeLayer];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
@@ -115,13 +124,33 @@
     [self.deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
     self.deleteButton.backgroundColor = [UIColor colorWithRed:1 green:0.4 blue:0.35 alpha:1];
     self.deleteButton.layer.cornerRadius = 4;
+    [self.deleteButton addTarget:self action:@selector(deleteButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.scrollView setContentOffset:CGPointMake(0, - self.scrollView.contentInset.top) animated:NO];
+}
+
+- (void)tapGestureRecognized:(UITapGestureRecognizer *)tapGestureRecognizer
+{
+    CGPoint tapPoint = [tapGestureRecognizer locationInView:tapGestureRecognizer.view];
+    if (tapGestureRecognizer.state == UIGestureRecognizerStateEnded && CGRectContainsPoint(self.mapView.frame, tapPoint)) {
+        BYMapViewController *mapVC = [[BYMapViewController alloc]initWithNibName:nil bundle:nil];
+        mapVC.expense = self.expense;
+        [self.navigationController pushViewController:mapVC animated:YES];
+    }
+}
+
+- (void)deleteButtonTapped:(UIButton *)button
+{
+    
+    [[BYStorage sharedStorage] deleteExpenseObject:self.expense completion:^{
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
 }
 
 - (void)swipeRecognized:(UISwipeGestureRecognizer *)swipeGestureRecognizer
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 @end

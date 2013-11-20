@@ -33,8 +33,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.view.backgroundColor = [UIColor whiteColor];
-        self.navigationBarHidden = YES;
+        self.view.backgroundColor = [UIColor clearColor];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayExpenseCreationViewController) name:BYNavigationControllerShouldDisplayExpenseCreationVCNotificationName object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayPreferencesViewController) name:BYNavigationControllerShouldDisplayPreferenceVCNotificationName object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissExpenseCreationViewController) name:BYNavigationControllerShouldDismissExpenseCreationVCNotificationName object:nil];
@@ -50,6 +49,7 @@
 {
     [super viewWillAppear:animated];
     [self.view becomeFirstResponder];
+    self.view.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -101,11 +101,9 @@
 
 - (void)dismissExpenseCreationViewController
 {
-//    if (![self.expenseCreationVC isBeingDismissed]) {
-        [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
-            self.expenseCreationVC = nil;
-        }];
-//    }
+    [self.presentedViewController dismissViewControllerAnimated:YES completion:^{
+        self.expenseCreationVC = nil;
+    }];
 }
 
 - (void)dismissPreferencesViewController

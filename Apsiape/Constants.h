@@ -10,6 +10,7 @@
 
 #define CELL_IMAGE_PADDING 10
 #define CELL_PADDING 0
+#define CELL_SEPERATOR_INSET 10
 #define ROW_PADDING 1
 
 FOUNDATION_EXPORT NSString *const BYApsiapeCreateOnLaunchPreferenceKey;

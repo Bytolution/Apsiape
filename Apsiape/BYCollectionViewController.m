@@ -46,10 +46,13 @@
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         self.tableView.contentInset = UIEdgeInsetsMake(CELL_INSET_Y, 0, CELL_INSET_Y, 0);
+        self.tableView.separatorColor = [UIColor darkGrayColor];
+        self.tableView.separatorInset = UIEdgeInsetsMake(0, CELL_SEPERATOR_INSET, 0, CELL_SEPERATOR_INSET);
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.tableView.backgroundView = [[UIView alloc]init];
         [self.view addSubview:self.tableView];
-        self.view.backgroundColor = [UIColor blackColor];
+        self.view.backgroundColor = [UIColor clearColor];
+        self.tableView.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
@@ -79,12 +82,14 @@
     
     self.tableView.frame = self.view.bounds;
     
+    self.navigationController.navigationBarHidden = YES;
+    
     // Gradient layer background
 //    CAGradientLayer *gradLayer = [CAGradientLayer layer];
-//    gradLayer.colors = @[(id)[UIColor whiteColor].CGColor, (id)[UIColor lightGrayColor].CGColor];
+//    gradLayer.colors = @[(id)[UIColor colorWithWhite:0.85 alpha:1].CGColor, (id)[UIColor darkGrayColor].CGColor];
 //    gradLayer.frame = self.tableView.backgroundView.bounds;
-//    gradLayer.startPoint = CGPointMake(0, 1);
-//    gradLayer.endPoint = CGPointMake(0, 0);
+//    gradLayer.startPoint = CGPointMake(0, 0);
+//    gradLayer.endPoint = CGPointMake(0, 1);
 //    [self.tableView.backgroundView.layer addSublayer:gradLayer];
 }
 
@@ -98,7 +103,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([indexPath isEqual:self.expandedCellIndexPath]) return CGRectGetHeight(self.tableView.frame);
     return CELL_HEIGHT;
 }
 

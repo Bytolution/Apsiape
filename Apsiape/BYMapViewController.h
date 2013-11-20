@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @class MKMapView;
+@class Expense;
 
 @interface BYMapViewController : UIViewController
 
 @property (nonatomic, strong) MKMapView *mapView;
+
+@property (nonatomic, strong) Expense *expense;
 
 @end

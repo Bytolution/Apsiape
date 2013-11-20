@@ -8,10 +8,13 @@
 
 #import "BYMapViewController.h"
 #import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
+#import <QuartzCore/QuartzCore.h>
+#import "Expense.h"
 
-@interface BYMapViewController ()
+@interface BYMapViewController () <MKAnnotation>
 
-
+- (void)backButtonTapped:(UIButton*)button;
 
 @end
 
@@ -30,16 +33,53 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     
 }
-- (UIStatusBarStyle)preferredStatusBarStyle
+- (void)viewWillDisappear:(BOOL)animated
 {
-    return UIStatusBarStyleLightContent;
+    [super viewWillDisappear:animated];
+    self.mapView = nil;
+}
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    self.mapView = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(10, 10, 50, 50);
+    button.backgroundColor = [UIColor colorWithWhite:1 alpha:0.9];
+    [button setTitle:@"X" forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:30];
+    button.titleLabel.textColor = [UIColor blackColor];
+    button.layer.cornerRadius = CGRectGetWidth(button.frame)/2;
+    [button addTarget:self action:@selector(backButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:button];
+    
+    [self.mapView addAnnotation:self];
+    
+    self.navigationController.navigationBarHidden = YES;
     self.mapView.frame = self.view.bounds;
+}
+
+- (void)backButtonTapped:(UIButton *)button
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (CLLocationCoordinate2D)coordinate
+{
+    CLLocation *location = [NSKeyedUnarchiver unarchiveObjectWithData:self.expense.location];
+    return location.coordinate;
+}
+- (NSString *)title
+{
+    return @"Test";
 }
 
 @end
