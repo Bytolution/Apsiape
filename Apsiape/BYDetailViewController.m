@@ -12,6 +12,7 @@
 #import "Expense.h"
 #import "BYMapViewController.h"
 #import "BYStorage.h"
+#import "BYMapAnnotation.h"
 
 @interface BYDetailViewController ()
 
@@ -93,8 +94,8 @@
     [self.amountLabelBackgroundView.layer addSublayer:strokeLayer];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    dateFormatter.timeStyle = NSDateFormatterNoStyle;
-    dateFormatter.dateStyle = NSDateFormatterFullStyle;
+    dateFormatter.timeStyle = NSDateFormatterShortStyle;
+    dateFormatter.dateStyle = NSDateFormatterLongStyle;
     NSString *dateString = [dateFormatter stringFromDate:self.expense.date];
     
     self.timeLabel.frame = CGRectMake(INSET_Label, 10, 320 - (2*INSET_Label), 30);
@@ -127,6 +128,19 @@
     [self.deleteButton addTarget:self action:@selector(deleteButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.scrollView setContentOffset:CGPointMake(0, - self.scrollView.contentInset.top) animated:NO];
+    
+    // Map stuff
+    
+    CLLocation *location = [NSKeyedUnarchiver unarchiveObjectWithData:self.expense.location];
+    
+    BYMapAnnotation *annotation = [[BYMapAnnotation alloc]init];
+    annotation.coordinates = location.coordinate;
+    
+    [self.mapView addAnnotation:annotation];
+    
+    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, 500, 500);
+    MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:viewRegion];
+    [self.mapView setRegion:adjustedRegion animated:NO];
 }
 
 - (void)tapGestureRecognized:(UITapGestureRecognizer *)tapGestureRecognizer

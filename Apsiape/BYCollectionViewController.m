@@ -65,8 +65,7 @@
     NSError *error;
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc]initWithKey:@"date" ascending:NO];
     fetchR.sortDescriptors = @[sortDescriptor];
-    NSArray *fetchDataArray = [[context executeFetchRequest:fetchR error:&error] mutableCopy];
-    self.tableViewData = [fetchDataArray mutableCopy];
+    self.tableViewData = [[context executeFetchRequest:fetchR error:&error] mutableCopy];
     if (!self.cellStates) self.cellStates = [[NSMutableArray alloc]init];
     [self.cellStates removeAllObjects];
     for (int i = 0; i < self.tableViewData.count; i++) {

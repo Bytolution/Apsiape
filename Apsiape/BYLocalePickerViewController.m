@@ -12,7 +12,9 @@
 @interface BYLocalePickerViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray *localeIdentifiers;
+@property (nonatomic, strong) NSArray *commonCurrencyCodes;
+@property (nonatomic, strong) NSString *preferredCurrencyCode;
+@property (nonatomic, strong) NSIndexPath *checkmarkIndexPath;
 
 @end
 
@@ -23,7 +25,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         if (!self.tableView) self.tableView = [[UITableView alloc]initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-        self.localeIdentifiers = [NSLocale commonISOCurrencyCodes];
+        self.commonCurrencyCodes = [NSLocale commonISOCurrencyCodes];
         
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
@@ -36,8 +38,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     self.tableView.frame = self.view.bounds;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -52,7 +58,7 @@
             return 1;
             break;
         case 1:
-            return [self.localeIdentifiers count];
+            return [self.commonCurrencyCodes count];
             break;
         default:
             return 1;
@@ -68,8 +74,8 @@
     if (indexPath.section == 0) {
         cell.textLabel.text = @"None";
     } else {
-        NSString *localeName = [[NSLocale currentLocale] displayNameForKey:NSLocaleCurrencyCode value:self.localeIdentifiers[indexPath.row]];
-        cell.textLabel.text = localeName;
+        NSString *currencyName = [[NSLocale currentLocale] displayNameForKey:NSLocaleCurrencyCode value:self.commonCurrencyCodes[indexPath.row]];
+        cell.textLabel.text = currencyName;
     }
     return cell;
 }
@@ -80,8 +86,7 @@
     if (indexPath.section == 0) {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:BYApsiapeUserPreferredAppLocaleIdentifier];
     } else {
-//        NSLocale *selectedLocale = [NSLocale localeWithLocaleIdentifier:];
-        [[NSUserDefaults standardUserDefaults] setObject:[NSLocale localeIdentifierFromComponents:@{NSLocaleCurrencyCode: self.localeIdentifiers[indexPath.row]}] forKey:BYApsiapeUserPreferredAppLocaleIdentifier];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSLocale localeIdentifierFromComponents:@{NSLocaleCurrencyCode: self.commonCurrencyCodes[indexPath.row]}] forKey:BYApsiapeUserPreferredAppLocaleIdentifier];
     }
 }
 

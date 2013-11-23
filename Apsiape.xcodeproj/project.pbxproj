@@ -51,6 +51,7 @@
 		A3D620B717BED88F00A82655 /* Expense.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D620B617BED88F00A82655 /* Expense.m */; };
 		A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DAA96416F778CC00C22671 /* BYStorage.m */; };
 		A3E7570216E295F400AE2AF7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3E7570116E295F400AE2AF7 /* CoreData.framework */; };
+		A3F459DF183FAA4300142F15 /* BYMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F459DE183FAA4300142F15 /* BYMapAnnotation.m */; };
 		A3F5C9321826DEC600E3B12F /* BYNavigationContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F5C9311826DEC600E3B12F /* BYNavigationContainerController.m */; };
 		A3F5C9351826E06400E3B12F /* BYPreferencesNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F5C9341826E06400E3B12F /* BYPreferencesNavigationController.m */; };
 		A3F7FAC716FA36D1002F58AA /* BYExpenseKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F7FAC616FA36D1002F58AA /* BYExpenseKeyboard.m */; };
@@ -129,6 +130,8 @@
 		A3DAA96316F778CC00C22671 /* BYStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYStorage.h; sourceTree = "<group>"; };
 		A3DAA96416F778CC00C22671 /* BYStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYStorage.m; sourceTree = "<group>"; };
 		A3E7570116E295F400AE2AF7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		A3F459DD183FAA4300142F15 /* BYMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYMapAnnotation.h; sourceTree = "<group>"; };
+		A3F459DE183FAA4300142F15 /* BYMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYMapAnnotation.m; sourceTree = "<group>"; };
 		A3F5C9301826DEC600E3B12F /* BYNavigationContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYNavigationContainerController.h; sourceTree = "<group>"; };
 		A3F5C9311826DEC600E3B12F /* BYNavigationContainerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYNavigationContainerController.m; sourceTree = "<group>"; };
 		A3F5C9331826E06400E3B12F /* BYPreferencesNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYPreferencesNavigationController.h; sourceTree = "<group>"; };
@@ -272,6 +275,8 @@
 			children = (
 				A35FB72117B036D100447747 /* BYMapViewController.h */,
 				A35FB72217B036D100447747 /* BYMapViewController.m */,
+				A3F459DD183FAA4300142F15 /* BYMapAnnotation.h */,
+				A3F459DE183FAA4300142F15 /* BYMapAnnotation.m */,
 			);
 			name = MapView;
 			path = Apsiape;
@@ -483,6 +488,7 @@
 				A353B08D1733FE5300C5D868 /* UIImage+ImageFromView.m in Sources */,
 				A312B17B181C341800C6ABC6 /* BYDetailViewController.m in Sources */,
 				A390843F1755518F0076168C /* BYExpenseCreationViewController.m in Sources */,
+				A3F459DF183FAA4300142F15 /* BYMapAnnotation.m in Sources */,
 				A3602A22179CB58B00FADA48 /* UIImage+Adjustments.m in Sources */,
 				A3AA81D017C2A94B0035E69C /* BYPopupVCTransitionController.m in Sources */,
 				A3D60C78177FA1DC004D5A54 /* BYCursorLabel.m in Sources */,

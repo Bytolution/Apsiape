@@ -84,7 +84,9 @@
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc]init];
     [formatter setLocale:[BYLocalizer currentAppLocale]];
     formatter.numberStyle = NSNumberFormatterCurrencyStyle;
-    return [formatter stringFromNumber:[NSNumber numberWithFloat:self.expenseValueRawString.floatValue]];
+    formatter.currencySymbol = @"";
+    NSString *string = [NSString stringWithFormat:@"%@ %@", [formatter stringFromNumber:[NSNumber numberWithFloat:self.expenseValueRawString.floatValue]], [[BYLocalizer currentAppLocale] objectForKey:NSLocaleCurrencySymbol]];
+    return string;
 }
 
 - (void)numberKeyTapped:(NSString *)numberString
