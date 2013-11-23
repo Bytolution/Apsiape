@@ -14,7 +14,6 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *commonCurrencyCodes;
 @property (nonatomic, strong) NSString *preferredCurrencyCode;
-@property (nonatomic, strong) NSIndexPath *checkmarkIndexPath;
 
 @end
 
@@ -38,6 +37,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     self.tableView.frame = self.view.bounds;
 }
 
@@ -48,6 +48,9 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    NSString *userpreferredAppLocaleIdentifier = [[NSUserDefaults standardUserDefaults] objectForKey:BYApsiapeUserPreferredAppLocaleIdentifier];
+    self.preferredCurrencyCode = [[NSLocale localeWithLocaleIdentifier:userpreferredAppLocaleIdentifier] objectForKey:NSLocaleCurrencyCode];
+
     return 2;
 }
 
@@ -77,11 +80,22 @@
         NSString *currencyName = [[NSLocale currentLocale] displayNameForKey:NSLocaleCurrencyCode value:self.commonCurrencyCodes[indexPath.row]];
         cell.textLabel.text = currencyName;
     }
+    
+    if ([self.preferredCurrencyCode isEqualToString:self.commonCurrencyCodes[indexPath.row]] && self.preferredCurrencyCode) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    [tableView reloadData];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     if (indexPath.section == 0) {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:BYApsiapeUserPreferredAppLocaleIdentifier];
