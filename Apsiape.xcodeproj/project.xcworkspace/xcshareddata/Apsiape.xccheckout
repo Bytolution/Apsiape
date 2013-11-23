@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>9CFACF7C-0833-4B1E-8FC9-C31E44A178B8</string>
+	<string>F80903D7-893A-4B4B-A046-4114B517F7DA</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Apsiape</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>4A631E46-F72D-46A7-AE70-419455C936C1</key>
-		<string>https://github.com/Bytolution/Apsiape.git</string>
+		<key>6E10D072-8039-4B21-B843-E3A0BA7F4596</key>
+		<string>https://github.com/patrickmagen/Apsiape.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Apsiape.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>4A631E46-F72D-46A7-AE70-419455C936C1</key>
+		<key>6E10D072-8039-4B21-B843-E3A0BA7F4596</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/Bytolution/Apsiape.git</string>
+	<string>https://github.com/patrickmagen/Apsiape.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>4A631E46-F72D-46A7-AE70-419455C936C1</string>
+	<string>6E10D072-8039-4B21-B843-E3A0BA7F4596</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>4A631E46-F72D-46A7-AE70-419455C936C1</string>
+			<string>6E10D072-8039-4B21-B843-E3A0BA7F4596</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Apsiape</string>
 		</dict>
