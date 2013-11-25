@@ -43,7 +43,7 @@
     self.panRecognizer.delegate = self;
     self.tapRecognizer.delegate = self;
     [self addGestureRecognizer:self.panRecognizer];
-//    [self addGestureRecognizer:self.tapRecognizer];
+    [self addGestureRecognizer:self.tapRecognizer];
 }
 
 -(BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
@@ -66,34 +66,47 @@
 #define THRESHOLD 80
 
 -(void)handlePanGesture:(UIPanGestureRecognizer *)panGestureRecognizer {
-    if (!self.panningCell) self.panningCell = (BYTableViewCell*)[self cellForLocationInTableView:[panGestureRecognizer locationInView:panGestureRecognizer.view]];
-    if (panGestureRecognizer.state == UIGestureRecognizerStateBegan || panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
-        CGPoint translation = [panGestureRecognizer translationInView:panGestureRecognizer.view];
-        CGFloat deltaX;
-        if (fabs(self.panningCell.contentView.frame.origin.x) > 80) {
-            deltaX = (translation.x - self.lastPanOffset) * .1;
-        } else {
-            deltaX = (translation.x - self.lastPanOffset) * .8;
+    self.panningCell = (BYTableViewCell*)[self cellForLocationInTableView:[panGestureRecognizer locationInView:panGestureRecognizer.view]];
+    if (self.panningCell) {
+        if (panGestureRecognizer.state == UIGestureRecognizerStateBegan || panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
+            CGPoint translation = [panGestureRecognizer translationInView:panGestureRecognizer.view];
+            CGFloat deltaX;
+            if (fabs(self.panningCell.contentView.frame.origin.x) > 80) {
+                deltaX = (translation.x - self.lastPanOffset) * .1;
+            } else {
+                deltaX = (translation.x - self.lastPanOffset) * .8;
+            }
+            self.lastPanOffset = translation.x;
+            
+            self.panningCell.contentView.frame = CGRectOffset(self.panningCell.contentView.frame, deltaX, 0);
+            
+        } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
+            if (fabs(CGRectGetMinX(self.panningCell.contentView.frame)) > THRESHOLD && CGRectGetMinX(self.panningCell.contentView.frame) < 0) {
+                [self.panningCell moveCellContentForState:BYTableViewCellStateRightSideRevealed animated:YES];
+                [self.delegate tableView:self willAnimateCellAfterSwipeAtIndexPath:[self indexPathForCell:self.panningCell] toState:BYTableViewCellStateRightSideRevealed];
+            } else if (fabs(CGRectGetMinX(self.panningCell.contentView.frame)) > THRESHOLD && CGRectGetMinX(self.panningCell.contentView.frame) > 0) {
+                // this disables the ability to select the other state
+    //            [self.panningCell moveCellContentForState:BYTableViewCellStateLeftSideRevealed animated:YES];
+    //            [self.delegate tableView:self willAnimateCellAfterSwipeAtIndexPath:[self indexPathForCell:self.panningCell] toState:BYTableViewCellStateLeftSideRevealed];
+                [self.panningCell moveCellContentForState:BYTableViewCellStateDefault animated:YES];
+                [self.delegate tableView:self willAnimateCellAfterSwipeAtIndexPath:[self indexPathForCell:self.panningCell] toState:BYTableViewCellStateDefault];
+            } else {
+                [self.panningCell moveCellContentForState:BYTableViewCellStateDefault animated:YES];
+                [self.delegate tableView:self willAnimateCellAfterSwipeAtIndexPath:[self indexPathForCell:self.panningCell] toState:BYTableViewCellStateDefault];
+            }
+            self.lastPanOffset = 0.0f;
+            self.panningCell = Nil;
         }
-        self.lastPanOffset = translation.x;
-        self.panningCell.contentView.frame = CGRectOffset(self.panningCell.contentView.frame, deltaX, 0);
-    } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        if (fabs(CGRectGetMinX(self.panningCell.contentView.frame)) > THRESHOLD && CGRectGetMinX(self.panningCell.contentView.frame) < 0) {
-            [self.panningCell moveCellContentForState:BYTableViewCellStateRightSideRevealed animated:YES];
-        } else if (fabs(CGRectGetMinX(self.panningCell.contentView.frame)) > THRESHOLD && CGRectGetMinX(self.panningCell.contentView.frame) > 0) {
-            [self.panningCell moveCellContentForState:BYTableViewCellStateLeftSideRevealed animated:YES];
-        } else {
-            [self.panningCell moveCellContentForState:BYTableViewCellStateDefault animated:YES];
-        }
-        self.lastPanOffset = 0.0f;
-        self.panningCell = Nil;
     }
 }
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer
 {
-    if ([self.delegate respondsToSelector:@selector(tableView:didRecognizeTapGestureOnCellAtIndexPath:)]) {
-        [self.delegate tableView:self didRecognizeTapGestureOnCellAtIndexPath:[self indexPathForCell:[self cellForLocationInTableView:[tapGestureRecognizer locationInView:tapGestureRecognizer.view]]]];
+    BYTableViewCell *cell = (BYTableViewCell*)[self cellForLocationInTableView:[tapGestureRecognizer locationInView:tapGestureRecognizer.view]];
+    if (cell) {
+        if ([self.delegate respondsToSelector:@selector(tableView:didRecognizeTapGestureOnCellAtIndexPath:)]) {
+            [self.delegate tableView:self didRecognizeTapGestureOnCellAtIndexPath:[self indexPathForCell:cell]];
+        }
     }
 }
 

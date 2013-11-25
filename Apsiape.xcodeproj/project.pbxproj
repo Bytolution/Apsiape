@@ -18,9 +18,14 @@
 		A307E82716DE8A0D00C9425A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A307E82616DE8A0D00C9425A /* Default@2x.png */; };
 		A307E82916DE8A0D00C9425A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A307E82816DE8A0D00C9425A /* Default-568h@2x.png */; };
 		A30D358E1812DC2B007354CF /* BYGestureTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A30D358D1812DC2B007354CF /* BYGestureTableView.m */; };
+		A30D4A4F1843F9C800E414DA /* Apsiape Shapes_AddSymbol.png in Resources */ = {isa = PBXBuildFile; fileRef = A30D4A4E1843F9C800E414DA /* Apsiape Shapes_AddSymbol.png */; };
 		A310311E16E3E37C00B163DC /* BYCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311C16E3E37C00B163DC /* BYCollectionViewController.m */; };
 		A312B17B181C341800C6ABC6 /* BYDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A312B179181C341800C6ABC6 /* BYDetailViewController.m */; };
 		A314EF491821820F00830E3B /* UIColor+Colours.m in Sources */ = {isa = PBXBuildFile; fileRef = A314EF481821820F00830E3B /* UIColor+Colours.m */; };
+		A32884011843B83800F92A84 /* Apsiape Shapes-03.png in Resources */ = {isa = PBXBuildFile; fileRef = A32883FD1843B83800F92A84 /* Apsiape Shapes-03.png */; };
+		A32884021843B83800F92A84 /* Apsiape Shapes-01.png in Resources */ = {isa = PBXBuildFile; fileRef = A32883FE1843B83800F92A84 /* Apsiape Shapes-01.png */; };
+		A32884031843B83800F92A84 /* Apsiape Shapes-02.png in Resources */ = {isa = PBXBuildFile; fileRef = A32883FF1843B83800F92A84 /* Apsiape Shapes-02.png */; };
+		A32884041843B83800F92A84 /* Apsiape Shapes-04.png in Resources */ = {isa = PBXBuildFile; fileRef = A32884001843B83800F92A84 /* Apsiape Shapes-04.png */; };
 		A34BCDC218282C2A006B92AB /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = A34BCDC118282C2A006B92AB /* Constants.m */; };
 		A353B08D1733FE5300C5D868 /* UIImage+ImageFromView.m in Sources */ = {isa = PBXBuildFile; fileRef = A353B08C1733FE5300C5D868 /* UIImage+ImageFromView.m */; };
 		A35758EB17934DAA007C21AF /* BYStatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35758EA17934DAA007C21AF /* BYStatsViewController.m */; };
@@ -74,6 +79,7 @@
 		A307E82816DE8A0D00C9425A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A30D358C1812DC2B007354CF /* BYGestureTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYGestureTableView.h; sourceTree = "<group>"; };
 		A30D358D1812DC2B007354CF /* BYGestureTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYGestureTableView.m; sourceTree = "<group>"; };
+		A30D4A4E1843F9C800E414DA /* Apsiape Shapes_AddSymbol.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Apsiape Shapes_AddSymbol.png"; sourceTree = "<group>"; };
 		A310311B16E3E37C00B163DC /* BYCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionViewController.h; sourceTree = "<group>"; };
 		A310311C16E3E37C00B163DC /* BYCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionViewController.m; sourceTree = "<group>"; };
 		A312B178181C341800C6ABC6 /* BYDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYDetailViewController.h; sourceTree = "<group>"; };
@@ -81,6 +87,10 @@
 		A314EF471821820F00830E3B /* UIColor+Colours.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Colours.h"; sourceTree = "<group>"; };
 		A314EF481821820F00830E3B /* UIColor+Colours.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Colours.m"; sourceTree = "<group>"; };
 		A327271F17B3E3270091A846 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		A32883FD1843B83800F92A84 /* Apsiape Shapes-03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Apsiape Shapes-03.png"; sourceTree = "<group>"; };
+		A32883FE1843B83800F92A84 /* Apsiape Shapes-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Apsiape Shapes-01.png"; sourceTree = "<group>"; };
+		A32883FF1843B83800F92A84 /* Apsiape Shapes-02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Apsiape Shapes-02.png"; sourceTree = "<group>"; };
+		A32884001843B83800F92A84 /* Apsiape Shapes-04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Apsiape Shapes-04.png"; sourceTree = "<group>"; };
 		A34BCDC018282C2A006B92AB /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		A34BCDC118282C2A006B92AB /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		A353B08B1733FE5300C5D868 /* UIImage+ImageFromView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageFromView.h"; sourceTree = "<group>"; };
@@ -209,6 +219,11 @@
 		A307E81916DE8A0D00C9425A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A32883FD1843B83800F92A84 /* Apsiape Shapes-03.png */,
+				A32883FE1843B83800F92A84 /* Apsiape Shapes-01.png */,
+				A32883FF1843B83800F92A84 /* Apsiape Shapes-02.png */,
+				A32884001843B83800F92A84 /* Apsiape Shapes-04.png */,
+				A30D4A4E1843F9C800E414DA /* Apsiape Shapes_AddSymbol.png */,
 				A3D2E2261821AE1500EDAC2D /* miso-bold.ttf */,
 				A3D2E2271821AE1500EDAC2D /* miso-regular.ttf */,
 				A302945416FB554F009BBF6D /* miso-light.ttf */,
@@ -451,11 +466,16 @@
 				A37349AA18227671002B91DF /* miso-regular.ttf in Resources */,
 				A307E81D16DE8A0D00C9425A /* InfoPlist.strings in Resources */,
 				A307E82516DE8A0D00C9425A /* Default.png in Resources */,
+				A32884031843B83800F92A84 /* Apsiape Shapes-02.png in Resources */,
 				A307E82716DE8A0D00C9425A /* Default@2x.png in Resources */,
 				A35FB72917B03B7D00447747 /* SimulatedLocation.gpx in Resources */,
+				A30D4A4F1843F9C800E414DA /* Apsiape Shapes_AddSymbol.png in Resources */,
+				A32884011843B83800F92A84 /* Apsiape Shapes-03.png in Resources */,
 				A307E82916DE8A0D00C9425A /* Default-568h@2x.png in Resources */,
+				A32884041843B83800F92A84 /* Apsiape Shapes-04.png in Resources */,
 				A302945516FB554F009BBF6D /* miso-light.ttf in Resources */,
 				A37349AB18227675002B91DF /* miso-bold.ttf in Resources */,
+				A32884021843B83800F92A84 /* Apsiape Shapes-01.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

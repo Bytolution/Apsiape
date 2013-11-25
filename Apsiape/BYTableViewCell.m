@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UIButton *rightSideActionButton;
 @property (nonatomic, strong) UIView *headerView;
 @property (nonatomic, strong) CALayer *seperatorLayer;
+@property (nonatomic, strong) UIImageView *deleteIndicatorView;
 
 
 @end
@@ -30,6 +31,7 @@
         if (!self.thumbnailView) self.thumbnailView = [[UIImageView alloc]init];
         if (!self.headerView) self.headerView = [[UIView alloc]init];
         if (!self.seperatorLayer) self.seperatorLayer = [CALayer layer];
+        if (!self.deleteIndicatorView) self.deleteIndicatorView = [[UIImageView alloc]init];
         [self.contentView addSubview:self.headerView];
         [self.headerView addSubview:self.label];
         [self.headerView addSubview:self.thumbnailView];
@@ -46,7 +48,7 @@
         [self.rightSideActionButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [self.backgroundView insertSubview:self.rightSideActionButton atIndex:0];
         
-        self.selectionStyle = UITableViewCellSelectionStyleDefault;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         
     }
     return self;

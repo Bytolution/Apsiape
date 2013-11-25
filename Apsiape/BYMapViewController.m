@@ -14,7 +14,7 @@
 #import "BYStorage.h"
 #import "BYMapAnnotation.h"
 
-@interface BYMapViewController () <MKAnnotation>
+@interface BYMapViewController ()
 
 @property (nonatomic, strong) MKMapView *mapView;
 @property (nonatomic, strong) NSArray *mapAnnotations;

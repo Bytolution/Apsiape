@@ -12,6 +12,7 @@
 #define CELL_PADDING 0
 #define CELL_SEPERATOR_INSET 10
 #define ROW_PADDING 1
+#define PULL_THRESHOLD 100
 
 FOUNDATION_EXPORT NSString *const BYApsiapeCreateOnLaunchPreferenceKey;
 
