@@ -49,7 +49,7 @@
 {
     [super viewWillAppear:animated];
     [self.view becomeFirstResponder];
-    self.view.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1];
+    self.view.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

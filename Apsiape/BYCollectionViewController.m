@@ -95,7 +95,7 @@
     self.pullIndicatorView.frame = CGRectMake(0, - PULL_THRESHOLD + 20, 320, PULL_THRESHOLD - 40);
     self.pullIndicatorView.alpha = 0.6;
     self.pullIndicatorView.tintColor = [UIColor whiteColor];
-    self.pullIndicatorView.image = [[UIImage imageNamed:@"Apsiape Shapes_04.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.pullIndicatorView.image = [[UIImage imageNamed:@"Apsiape Shapes-04.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     self.pullIndicatorView.contentMode = UIViewContentModeScaleAspectFit;
     
     // Gradient layer background
@@ -158,7 +158,7 @@
 - (void)setScrollViewOffsetExceedsPullThreshold:(BOOL)scrollViewOffsetExceedsPullThreshold
 {
     _scrollViewOffsetExceedsPullThreshold = scrollViewOffsetExceedsPullThreshold;
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         if (_scrollViewOffsetExceedsPullThreshold) {
             self.pullIndicatorView.alpha = 1;
         } else {
