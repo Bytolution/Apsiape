@@ -35,6 +35,7 @@
         [self.contentView addSubview:self.headerView];
         [self.headerView addSubview:self.label];
         [self.headerView addSubview:self.thumbnailView];
+        [self.headerView addSubview:self.deleteIndicatorView];
         [self.headerView.layer addSublayer:self.seperatorLayer];
         
         self.backgroundColor = [UIColor clearColor];
@@ -63,13 +64,26 @@
     self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CELL_HEIGHT);
     self.seperatorLayer.frame = CGRectMake(CELL_SEPERATOR_INSET, CGRectGetHeight(self.headerView.frame) - 0.5, CGRectGetWidth(self.headerView.frame) - (2*CELL_SEPERATOR_INSET), 0.5);
     
-    self.thumbnailView.frame = CGRectMake(10, 10, 80 , 80);
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(15, 25, 20 , 20)];
+    imageView.image = [UIImage imageNamed:@"Apsiape Shapes_LocationArrow"];
+    imageView.alpha = 0.6;
+    [self.headerView addSubview:imageView];
+    
+    self.thumbnailView.frame = CGRectInset(CGRectMake(40, 0, 70 , 70), 8, 8);
     self.thumbnailView.layer.cornerRadius = CGRectGetHeight(self.thumbnailView.frame)/2;
+//    self.thumbnailView.layer.cornerRadius = 10;
     self.thumbnailView.clipsToBounds = YES;
+    self.thumbnailView.alpha = 0.8;
     
     self.label.frame = CGRectMake(CGRectGetWidth(self.thumbnailView.frame) + 20, 0, CGRectGetWidth(self.frame) - (CGRectGetWidth(self.thumbnailView.frame)+ 30), CELL_HEIGHT);
     self.label.font = [UIFont fontWithName:@"Miso-Light" size:38];
     self.label.textAlignment = NSTextAlignmentRight;
+    
+    self.deleteIndicatorView.frame = CGRectInset(CGRectMake(320, 0, THRESHOLD, CGRectGetHeight(self.frame)), 15, 15);
+    self.deleteIndicatorView.backgroundColor = [UIColor clearColor];
+    self.deleteIndicatorView.tintColor = [UIColor blackColor];
+    self.deleteIndicatorView.contentMode = UIViewContentModeScaleAspectFit;
+    self.deleteIndicatorView.image = [[UIImage imageNamed:@"Apsiape Shapes_NoName.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     
     if (self.cellState == BYTableViewCellStateRightSideRevealed) {
         self.contentView.frame = CGRectOffset(self.contentView.frame, - THRESHOLD, 0);

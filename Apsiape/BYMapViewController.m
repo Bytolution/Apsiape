@@ -47,7 +47,7 @@
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(10, 10, 50, 50);
     button.backgroundColor = [UIColor colorWithWhite:1 alpha:0.9];
-    [button setTitle:@"X" forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"Apsiape Shapes_NoName"] forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:30];
     button.titleLabel.textColor = [UIColor blackColor];
     button.layer.cornerRadius = CGRectGetWidth(button.frame)/2;

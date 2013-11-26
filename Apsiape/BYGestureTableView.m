@@ -66,7 +66,7 @@
 #define THRESHOLD 80
 
 -(void)handlePanGesture:(UIPanGestureRecognizer *)panGestureRecognizer {
-    self.panningCell = (BYTableViewCell*)[self cellForLocationInTableView:[panGestureRecognizer locationInView:panGestureRecognizer.view]];
+    if (!self.panningCell) self.panningCell = (BYTableViewCell*)[self cellForLocationInTableView:[panGestureRecognizer locationInView:panGestureRecognizer.view]];
     if (self.panningCell) {
         if (panGestureRecognizer.state == UIGestureRecognizerStateBegan || panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
             CGPoint translation = [panGestureRecognizer translationInView:panGestureRecognizer.view];
@@ -80,7 +80,7 @@
             
             self.panningCell.contentView.frame = CGRectOffset(self.panningCell.contentView.frame, deltaX, 0);
             
-        } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        } else if (panGestureRecognizer.state == UIGestureRecognizerStateEnded || panGestureRecognizer.state == UIGestureRecognizerStateCancelled || panGestureRecognizer.state == UIGestureRecognizerStateFailed) {
             if (fabs(CGRectGetMinX(self.panningCell.contentView.frame)) > THRESHOLD && CGRectGetMinX(self.panningCell.contentView.frame) < 0) {
                 [self.panningCell moveCellContentForState:BYTableViewCellStateRightSideRevealed animated:YES];
                 [self.delegate tableView:self willAnimateCellAfterSwipeAtIndexPath:[self indexPathForCell:self.panningCell] toState:BYTableViewCellStateRightSideRevealed];

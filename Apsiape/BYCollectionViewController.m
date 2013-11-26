@@ -93,9 +93,8 @@
     [self.deleteButton addTarget:self action:@selector(deleteButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     self.pullIndicatorView.frame = CGRectMake(0, - PULL_THRESHOLD + 20, 320, PULL_THRESHOLD - 40);
-    self.pullIndicatorView.alpha = 0.6;
-    self.pullIndicatorView.tintColor = [UIColor whiteColor];
-    self.pullIndicatorView.image = [[UIImage imageNamed:@"Apsiape Shapes-04.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.pullIndicatorView.alpha = 0.2;
+    self.pullIndicatorView.image = [UIImage imageNamed:@"Apsiape Shapes_CloseSymbol"];
     self.pullIndicatorView.contentMode = UIViewContentModeScaleAspectFit;
     
     // Gradient layer background
@@ -128,7 +127,8 @@
     }
     Expense *expense = self.tableViewData[indexPath.row];
     cell.label.text = expense.stringValue;
-    cell.thumbnailView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@thumb.jpg", expense.baseFilePath]]];
+    UIImage *image31415 = [UIImage imageWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@thumb-mono.jpg", expense.baseFilePath]]];
+    cell.thumbnailView.image = image31415;
     cell.cellState = [self.cellStates[indexPath.row]intValue];
     
     return cell;
@@ -160,9 +160,9 @@
     _scrollViewOffsetExceedsPullThreshold = scrollViewOffsetExceedsPullThreshold;
     [UIView animateWithDuration:0.3 animations:^{
         if (_scrollViewOffsetExceedsPullThreshold) {
-            self.pullIndicatorView.alpha = 1;
-        } else {
             self.pullIndicatorView.alpha = 0.6;
+        } else {
+            self.pullIndicatorView.alpha = 0.2;
         }
     }];
 }
@@ -181,12 +181,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
 }
 
 - (void)tableView:(UITableView *)tableView willAnimateCellAfterSwipeAtIndexPath:(NSIndexPath *)indexPath toState:(BYTableViewCellState)cellState
 {
-    if (self.cellStates.count >= indexPath.length) [self.cellStates replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithInt:cellState]];
+    if (self.cellStates.count <= indexPath.length) [self.cellStates replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithInt:cellState]];
     
     if ([self.cellStates containsObject:[NSNumber numberWithInt:BYTableViewCellStateRightSideRevealed]]) {
         [self updateDeleteButtonStateToVisible:YES];
@@ -223,7 +222,7 @@
     for (int i = 0; i < self.cellStates.count; i++) {
         if ([self.cellStates[i] isEqual:[NSNumber numberWithInt:BYTableViewCellStateRightSideRevealed]]) {
             Expense *expense = self.tableViewData[i];
-            //FIXME: deletion must happen in bunches
+            //FIXME: deletion must happen in bunches (next V)
             [[BYStorage sharedStorage] deleteExpenseObject:expense completion:nil];
             [deletionIndexSet addIndex:i];
             [deletionIndexesForCollectionView addObject:[NSIndexPath indexPathForItem:i inSection:0]];
