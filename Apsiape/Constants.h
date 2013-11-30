@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UIColor+Colours.h"
 
 #define CELL_IMAGE_PADDING 10
 #define CELL_PADDING 0
 #define CELL_SEPERATOR_INSET 10
 #define ROW_PADDING 1
-#define PULL_THRESHOLD 100
+#define PULL_THRESHOLD 80
 
 FOUNDATION_EXPORT NSString *const BYApsiapeCreateOnLaunchPreferenceKey;
 
@@ -22,6 +23,12 @@ FOUNDATION_EXPORT NSString *const BYNavigationControllerShouldDismissExpenseCrea
 FOUNDATION_EXPORT NSString *const BYNavigationControllerShouldDismissPreferencesVCNotificationName;
 
 FOUNDATION_EXPORT NSString *const BYApsiapeUserPreferredAppLocaleIdentifier;
+
+FOUNDATION_EXPORT NSString *const BYApsiapeArrowImageName;
+FOUNDATION_EXPORT NSString *const BYApsiapeCameraImageName;
+FOUNDATION_EXPORT NSString *const BYApsiapeCrossImageName;
+FOUNDATION_EXPORT NSString *const BYApsiapePlusImageName;
+FOUNDATION_EXPORT NSString *const BYApsiapeCheckmarkImageName;
 
 #define POPOVER_INSET_X 20
 #define POPOVER_INSET_Y 40

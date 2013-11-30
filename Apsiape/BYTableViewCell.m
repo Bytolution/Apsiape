@@ -63,17 +63,12 @@
     
     self.headerView.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), CELL_HEIGHT);
     self.seperatorLayer.frame = CGRectMake(CELL_SEPERATOR_INSET, CGRectGetHeight(self.headerView.frame) - 0.5, CGRectGetWidth(self.headerView.frame) - (2*CELL_SEPERATOR_INSET), 0.5);
-    
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(15, 25, 20 , 20)];
-    imageView.image = [UIImage imageNamed:@"Apsiape Shapes_LocationArrow"];
-    imageView.alpha = 0.6;
-    [self.headerView addSubview:imageView];
-    
-    self.thumbnailView.frame = CGRectInset(CGRectMake(40, 0, 70 , 70), 8, 8);
+       
+    self.thumbnailView.frame = CGRectInset(CGRectMake(0, 0, 70 , 70), 8, 8);
     self.thumbnailView.layer.cornerRadius = CGRectGetHeight(self.thumbnailView.frame)/2;
 //    self.thumbnailView.layer.cornerRadius = 10;
     self.thumbnailView.clipsToBounds = YES;
-    self.thumbnailView.alpha = 0.8;
+    self.thumbnailView.alpha = 1;
     
     self.label.frame = CGRectMake(CGRectGetWidth(self.thumbnailView.frame) + 20, 0, CGRectGetWidth(self.frame) - (CGRectGetWidth(self.thumbnailView.frame)+ 30), CELL_HEIGHT);
     self.label.font = [UIFont fontWithName:@"Miso-Light" size:38];
@@ -83,7 +78,7 @@
     self.deleteIndicatorView.backgroundColor = [UIColor clearColor];
     self.deleteIndicatorView.tintColor = [UIColor blackColor];
     self.deleteIndicatorView.contentMode = UIViewContentModeScaleAspectFit;
-    self.deleteIndicatorView.image = [[UIImage imageNamed:@"Apsiape Shapes_NoName.png"]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    self.deleteIndicatorView.image = [[UIImage imageNamed:BYApsiapeCrossImageName]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     
     if (self.cellState == BYTableViewCellStateRightSideRevealed) {
         self.contentView.frame = CGRectOffset(self.contentView.frame, - THRESHOLD, 0);
@@ -113,6 +108,19 @@
             self.contentView.frame = CGRectMake(- THRESHOLD, CELL_INSET_Y, self.contentView.frame.size.width, self.contentView.frame.size.height);
         } completion:delegateCall];
     }
+}
+
+- (void)changeIndicatorForCellState:(BYTableViewCellState)state
+{
+    [UIView animateWithDuration:0.2 animations:^{
+        if (state == BYTableViewCellStateRightSideRevealed) {
+            self.deleteIndicatorView.alpha = 0.9;
+        } else if (state == BYTableViewCellStateDefault){
+            self.deleteIndicatorView.alpha = 0.2;
+        } else {
+            return;
+        }
+    }];
 }
 
 #pragma mark - Resizing

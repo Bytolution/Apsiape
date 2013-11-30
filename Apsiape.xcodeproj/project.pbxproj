@@ -21,12 +21,7 @@
 		A310311E16E3E37C00B163DC /* BYCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311C16E3E37C00B163DC /* BYCollectionViewController.m */; };
 		A312B17B181C341800C6ABC6 /* BYDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A312B179181C341800C6ABC6 /* BYDetailViewController.m */; };
 		A314EF491821820F00830E3B /* UIColor+Colours.m in Sources */ = {isa = PBXBuildFile; fileRef = A314EF481821820F00830E3B /* UIColor+Colours.m */; };
-		A3449A4B1844FAF300D3B23B /* Apsiape Shapes_AddSymbol.png in Resources */ = {isa = PBXBuildFile; fileRef = A3449A451844FAF300D3B23B /* Apsiape Shapes_AddSymbol.png */; };
-		A3449A4C1844FAF300D3B23B /* Apsiape Shapes_CameraIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = A3449A461844FAF300D3B23B /* Apsiape Shapes_CameraIcon.png */; };
-		A3449A4D1844FAF300D3B23B /* Apsiape Shapes_Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = A3449A471844FAF300D3B23B /* Apsiape Shapes_Checkmark.png */; };
-		A3449A4E1844FAF300D3B23B /* Apsiape Shapes_CloseSymbol.png in Resources */ = {isa = PBXBuildFile; fileRef = A3449A481844FAF300D3B23B /* Apsiape Shapes_CloseSymbol.png */; };
-		A3449A4F1844FAF300D3B23B /* Apsiape Shapes_LocationArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = A3449A491844FAF300D3B23B /* Apsiape Shapes_LocationArrow.png */; };
-		A3449A501844FAF300D3B23B /* Apsiape Shapes_NoName.png in Resources */ = {isa = PBXBuildFile; fileRef = A3449A4A1844FAF300D3B23B /* Apsiape Shapes_NoName.png */; };
+		A31AD5D51849506F00FF1F82 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A31AD5D41849506F00FF1F82 /* Images.xcassets */; };
 		A34BCDC218282C2A006B92AB /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = A34BCDC118282C2A006B92AB /* Constants.m */; };
 		A353B08D1733FE5300C5D868 /* UIImage+ImageFromView.m in Sources */ = {isa = PBXBuildFile; fileRef = A353B08C1733FE5300C5D868 /* UIImage+ImageFromView.m */; };
 		A35758EB17934DAA007C21AF /* BYStatsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35758EA17934DAA007C21AF /* BYStatsViewController.m */; };
@@ -57,6 +52,12 @@
 		A3D620B717BED88F00A82655 /* Expense.m in Sources */ = {isa = PBXBuildFile; fileRef = A3D620B617BED88F00A82655 /* Expense.m */; };
 		A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = A3DAA96416F778CC00C22671 /* BYStorage.m */; };
 		A3E7570216E295F400AE2AF7 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3E7570116E295F400AE2AF7 /* CoreData.framework */; };
+		A3F2D69E1846391B00CB9A78 /* ApsiapeArt_Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = A3F2D6991846391B00CB9A78 /* ApsiapeArt_Arrow.png */; };
+		A3F2D69F1846391B00CB9A78 /* ApsiapeArt_Camera.png in Resources */ = {isa = PBXBuildFile; fileRef = A3F2D69A1846391B00CB9A78 /* ApsiapeArt_Camera.png */; };
+		A3F2D6A01846391B00CB9A78 /* ApsiapeArt_Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = A3F2D69B1846391B00CB9A78 /* ApsiapeArt_Checkmark.png */; };
+		A3F2D6A11846391B00CB9A78 /* ApsiapeArt_Cross.png in Resources */ = {isa = PBXBuildFile; fileRef = A3F2D69C1846391B00CB9A78 /* ApsiapeArt_Cross.png */; };
+		A3F2D6A21846391B00CB9A78 /* ApsiapeArt_Plus.png in Resources */ = {isa = PBXBuildFile; fileRef = A3F2D69D1846391B00CB9A78 /* ApsiapeArt_Plus.png */; };
+		A3F2D6A41846A0DA00CB9A78 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A3F2D6A31846A0DA00CB9A78 /* Icon.png */; };
 		A3F459DF183FAA4300142F15 /* BYMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F459DE183FAA4300142F15 /* BYMapAnnotation.m */; };
 		A3F5C9321826DEC600E3B12F /* BYNavigationContainerController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F5C9311826DEC600E3B12F /* BYNavigationContainerController.m */; };
 		A3F5C9351826E06400E3B12F /* BYPreferencesNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3F5C9341826E06400E3B12F /* BYPreferencesNavigationController.m */; };
@@ -86,13 +87,8 @@
 		A312B179181C341800C6ABC6 /* BYDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYDetailViewController.m; sourceTree = "<group>"; };
 		A314EF471821820F00830E3B /* UIColor+Colours.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Colours.h"; sourceTree = "<group>"; };
 		A314EF481821820F00830E3B /* UIColor+Colours.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Colours.m"; sourceTree = "<group>"; };
+		A31AD5D41849506F00FF1F82 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A327271F17B3E3270091A846 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		A3449A451844FAF300D3B23B /* Apsiape Shapes_AddSymbol.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Apsiape Shapes_AddSymbol.png"; sourceTree = "<group>"; };
-		A3449A461844FAF300D3B23B /* Apsiape Shapes_CameraIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Apsiape Shapes_CameraIcon.png"; sourceTree = "<group>"; };
-		A3449A471844FAF300D3B23B /* Apsiape Shapes_Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Apsiape Shapes_Checkmark.png"; sourceTree = "<group>"; };
-		A3449A481844FAF300D3B23B /* Apsiape Shapes_CloseSymbol.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Apsiape Shapes_CloseSymbol.png"; sourceTree = "<group>"; };
-		A3449A491844FAF300D3B23B /* Apsiape Shapes_LocationArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Apsiape Shapes_LocationArrow.png"; sourceTree = "<group>"; };
-		A3449A4A1844FAF300D3B23B /* Apsiape Shapes_NoName.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Apsiape Shapes_NoName.png"; sourceTree = "<group>"; };
 		A34BCDC018282C2A006B92AB /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		A34BCDC118282C2A006B92AB /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		A353B08B1733FE5300C5D868 /* UIImage+ImageFromView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageFromView.h"; sourceTree = "<group>"; };
@@ -142,6 +138,12 @@
 		A3DAA96316F778CC00C22671 /* BYStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYStorage.h; sourceTree = "<group>"; };
 		A3DAA96416F778CC00C22671 /* BYStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYStorage.m; sourceTree = "<group>"; };
 		A3E7570116E295F400AE2AF7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		A3F2D6991846391B00CB9A78 /* ApsiapeArt_Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ApsiapeArt_Arrow.png; sourceTree = "<group>"; };
+		A3F2D69A1846391B00CB9A78 /* ApsiapeArt_Camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ApsiapeArt_Camera.png; sourceTree = "<group>"; };
+		A3F2D69B1846391B00CB9A78 /* ApsiapeArt_Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ApsiapeArt_Checkmark.png; sourceTree = "<group>"; };
+		A3F2D69C1846391B00CB9A78 /* ApsiapeArt_Cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ApsiapeArt_Cross.png; sourceTree = "<group>"; };
+		A3F2D69D1846391B00CB9A78 /* ApsiapeArt_Plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ApsiapeArt_Plus.png; sourceTree = "<group>"; };
+		A3F2D6A31846A0DA00CB9A78 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		A3F459DD183FAA4300142F15 /* BYMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYMapAnnotation.h; sourceTree = "<group>"; };
 		A3F459DE183FAA4300142F15 /* BYMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYMapAnnotation.m; sourceTree = "<group>"; };
 		A3F5C9301826DEC600E3B12F /* BYNavigationContainerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYNavigationContainerController.h; sourceTree = "<group>"; };
@@ -221,12 +223,13 @@
 		A307E81916DE8A0D00C9425A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				A3449A451844FAF300D3B23B /* Apsiape Shapes_AddSymbol.png */,
-				A3449A461844FAF300D3B23B /* Apsiape Shapes_CameraIcon.png */,
-				A3449A471844FAF300D3B23B /* Apsiape Shapes_Checkmark.png */,
-				A3449A481844FAF300D3B23B /* Apsiape Shapes_CloseSymbol.png */,
-				A3449A491844FAF300D3B23B /* Apsiape Shapes_LocationArrow.png */,
-				A3449A4A1844FAF300D3B23B /* Apsiape Shapes_NoName.png */,
+				A31AD5D41849506F00FF1F82 /* Images.xcassets */,
+				A3F2D6A31846A0DA00CB9A78 /* Icon.png */,
+				A3F2D6991846391B00CB9A78 /* ApsiapeArt_Arrow.png */,
+				A3F2D69A1846391B00CB9A78 /* ApsiapeArt_Camera.png */,
+				A3F2D69B1846391B00CB9A78 /* ApsiapeArt_Checkmark.png */,
+				A3F2D69C1846391B00CB9A78 /* ApsiapeArt_Cross.png */,
+				A3F2D69D1846391B00CB9A78 /* ApsiapeArt_Plus.png */,
 				A3D2E2261821AE1500EDAC2D /* miso-bold.ttf */,
 				A3D2E2271821AE1500EDAC2D /* miso-regular.ttf */,
 				A302945416FB554F009BBF6D /* miso-light.ttf */,
@@ -466,19 +469,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3F2D69E1846391B00CB9A78 /* ApsiapeArt_Arrow.png in Resources */,
 				A37349AA18227671002B91DF /* miso-regular.ttf in Resources */,
-				A3449A4F1844FAF300D3B23B /* Apsiape Shapes_LocationArrow.png in Resources */,
+				A3F2D6A11846391B00CB9A78 /* ApsiapeArt_Cross.png in Resources */,
 				A307E81D16DE8A0D00C9425A /* InfoPlist.strings in Resources */,
-				A3449A4D1844FAF300D3B23B /* Apsiape Shapes_Checkmark.png in Resources */,
-				A3449A501844FAF300D3B23B /* Apsiape Shapes_NoName.png in Resources */,
-				A3449A4E1844FAF300D3B23B /* Apsiape Shapes_CloseSymbol.png in Resources */,
 				A307E82516DE8A0D00C9425A /* Default.png in Resources */,
+				A3F2D69F1846391B00CB9A78 /* ApsiapeArt_Camera.png in Resources */,
+				A31AD5D51849506F00FF1F82 /* Images.xcassets in Resources */,
+				A3F2D6A01846391B00CB9A78 /* ApsiapeArt_Checkmark.png in Resources */,
+				A3F2D6A21846391B00CB9A78 /* ApsiapeArt_Plus.png in Resources */,
 				A307E82716DE8A0D00C9425A /* Default@2x.png in Resources */,
 				A35FB72917B03B7D00447747 /* SimulatedLocation.gpx in Resources */,
-				A3449A4B1844FAF300D3B23B /* Apsiape Shapes_AddSymbol.png in Resources */,
-				A3449A4C1844FAF300D3B23B /* Apsiape Shapes_CameraIcon.png in Resources */,
 				A307E82916DE8A0D00C9425A /* Default-568h@2x.png in Resources */,
 				A302945516FB554F009BBF6D /* miso-light.ttf in Resources */,
+				A3F2D6A41846A0DA00CB9A78 /* Icon.png in Resources */,
 				A37349AB18227675002B91DF /* miso-bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -596,6 +600,8 @@
 		A307E83316DE8A0D00C9425A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -618,6 +624,8 @@
 		A307E83416DE8A0D00C9425A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

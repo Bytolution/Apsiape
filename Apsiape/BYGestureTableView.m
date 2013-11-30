@@ -60,7 +60,7 @@
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-    return NO;
+    return YES;
 }
 
 #define THRESHOLD 80
@@ -72,9 +72,11 @@
             CGPoint translation = [panGestureRecognizer translationInView:panGestureRecognizer.view];
             CGFloat deltaX;
             if (fabs(self.panningCell.contentView.frame.origin.x) > 80) {
-                deltaX = (translation.x - self.lastPanOffset) * .1;
+                deltaX = (translation.x - self.lastPanOffset) * .2;
+                [self.panningCell changeIndicatorForCellState:BYTableViewCellStateRightSideRevealed];
             } else {
                 deltaX = (translation.x - self.lastPanOffset) * .8;
+                [self.panningCell changeIndicatorForCellState:BYTableViewCellStateDefault];
             }
             self.lastPanOffset = translation.x;
             

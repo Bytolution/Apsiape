@@ -42,7 +42,7 @@
     BYPullScrollView *pullScrollView = [[BYPullScrollView alloc]initWithFrame:CGRectInset(self.view.bounds, POPOVER_INSET_X, POPOVER_INSET_Y)];
     pullScrollView.pullScrollViewDelegate = self;
     
-    pullScrollView.layer.borderColor = [UIColor grayColor].CGColor;
+    pullScrollView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     pullScrollView.layer.borderWidth = 0.5;
     
     pullScrollView.backgroundColor = [UIColor whiteColor];

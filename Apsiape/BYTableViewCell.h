@@ -38,4 +38,6 @@ typedef enum {
 
 - (void)moveCellContentForState:(BYTableViewCellState)state animated:(BOOL)animated;
 
+- (void)changeIndicatorForCellState:(BYTableViewCellState)state;
+
 @end

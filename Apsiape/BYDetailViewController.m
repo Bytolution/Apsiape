@@ -12,6 +12,7 @@
 #import "Expense.h"
 #import "BYMapViewController.h"
 #import "BYStorage.h"
+#import "UIColor+Colours.h"
 #import "BYMapAnnotation.h"
 
 @interface BYDetailViewController ()
@@ -71,7 +72,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.view.backgroundColor = [UIColor colorWithWhite:0.92 alpha:1];
+    self.view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.extendedLayoutIncludesOpaqueBars = NO;
     
@@ -123,7 +124,7 @@
     self.deleteButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Light" size:30];
     self.deleteButton.frame = CGRectMake(10, 600, 320 - (2*10), 70);
     [self.deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
-    self.deleteButton.backgroundColor = [UIColor colorWithRed:1 green:0.4 blue:0.35 alpha:1];
+    self.deleteButton.backgroundColor = [UIColor salmonColor];
     self.deleteButton.layer.cornerRadius = 4;
     [self.deleteButton addTarget:self action:@selector(deleteButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -136,11 +137,16 @@
     BYMapAnnotation *annotation = [[BYMapAnnotation alloc]init];
     annotation.coordinates = location.coordinate;
     
-    [self.mapView addAnnotation:annotation];
-    
-    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, 500, 500);
-    MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:viewRegion];
-    [self.mapView setRegion:adjustedRegion animated:NO];
+    if (location.coordinate.longitude != 0.0 && location.coordinate.latitude != 0.0) {
+        [self.mapView addAnnotation:annotation];
+        
+        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, 500, 500);
+        MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:viewRegion];
+        [self.mapView setRegion:adjustedRegion animated:NO];
+    } else {
+        self.mapView.alpha = 0.2;
+        self.tapGestureRecognizer.enabled = NO;
+    }
 }
 
 - (void)tapGestureRecognized:(UITapGestureRecognizer *)tapGestureRecognizer

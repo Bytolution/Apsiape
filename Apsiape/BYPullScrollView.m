@@ -7,11 +7,17 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
+#import "Constants.h"
 #import "BYPullScrollView.h"
 
 @interface BYPullScrollView () <UIScrollViewDelegate>
 
 @property (nonatomic, readwrite) BYEdgeType currentPullingEdge;
+
+@property (nonatomic, strong) UIView *topPullView;
+@property (nonatomic, strong) UIView *bottomPullView;
+@property (nonatomic, strong) UIView *leftPullView;
+@property (nonatomic, strong) UIView *rightPullView;
 
 - (void)handleVerticalPullWithOffset:(CGFloat)offset;
 - (void)handleHorizontalPullWithOffset:(CGFloat)offset;
@@ -22,7 +28,6 @@
 @implementation BYPullScrollView
 
 #define NUMBER_OF_PAGES 2.0f
-#define MIN_PULL_VALUE 80
 
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
@@ -42,35 +47,32 @@
     [self addSubview:self.childScrollView];
     self.layer.masksToBounds = YES;
     
-    UIColor *lightGreen = [UIColor colorWithRed:0.4 green:0.9 blue:0.4 alpha:.5];
-    UIColor *lightRed = [UIColor colorWithRed:0.9 green:0.4 blue:0.4 alpha:.5];
-    
     CGFloat pullViewHeight = 800;
-    UIView *topPullView = [[UIView alloc]initWithFrame:CGRectMake(0, - pullViewHeight, self.frame.size.width, pullViewHeight)];
-    topPullView.backgroundColor = lightGreen;
-    CALayer *checkmarkLayer = [CALayer layer];
-    checkmarkLayer.frame = CGRectMake(130, 720, 60, 60);
-//    checkmarkLayer.contents = (__bridge id)([[UIImage imageNamed:@"add.png"] CGImage]);
-    CABasicAnimation *rotationAnimation;
-    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0];
-    rotationAnimation.duration = 1;
-    rotationAnimation.cumulative = YES;
-    rotationAnimation.repeatCount = HUGE_VALF;
-    rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-    [checkmarkLayer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    self.topPullView = [[UIView alloc]initWithFrame:CGRectMake(0, - pullViewHeight, self.frame.size.width, pullViewHeight)];
+    self.topPullView.backgroundColor = [UIColor seafoamColor];
+    [self addSubview:self.topPullView];
     
-    [topPullView.layer addSublayer:checkmarkLayer];
-    [self addSubview:topPullView];
-    UIView *bottomPullView = [[UIView alloc]initWithFrame:CGRectMake(0, self.contentSize.height, self.frame.size.width, pullViewHeight)];
-    bottomPullView.backgroundColor = lightRed;
-    [self addSubview:bottomPullView];
-    UIView *rightPullView = [[UIView alloc]initWithFrame:CGRectMake(self.childScrollView.contentSize.width, 0, pullViewHeight, self.childScrollView.contentSize.height)];
-    rightPullView.backgroundColor = lightGreen;
-    [self.childScrollView addSubview:rightPullView];
-    UIView *leftPullView = [[UIView alloc]initWithFrame:CGRectMake(- pullViewHeight, 0, pullViewHeight, self.childScrollView.contentSize.height)];
-    leftPullView.backgroundColor = lightRed;
-    [self.childScrollView addSubview:leftPullView];
+    self.bottomPullView = [[UIView alloc]initWithFrame:CGRectMake(0, self.contentSize.height, self.frame.size.width, pullViewHeight)];
+    self.bottomPullView.backgroundColor = [UIColor salmonColor];
+    [self addSubview:self.bottomPullView];
+    
+    self.rightPullView = [[UIView alloc]initWithFrame:CGRectMake(self.childScrollView.contentSize.width, 0, pullViewHeight, self.childScrollView.contentSize.height)];
+    self.rightPullView.backgroundColor = [UIColor seafoamColor];
+    [self.childScrollView addSubview:self.rightPullView];
+    
+    self.leftPullView = [[UIView alloc]initWithFrame:CGRectMake(- pullViewHeight, 0, pullViewHeight, self.childScrollView.contentSize.height)];
+    self.leftPullView.backgroundColor = [UIColor salmonColor];
+    [self.childScrollView addSubview:self.leftPullView];
+    
+    UIImageView *checkmarkView = [[UIImageView alloc]initWithFrame:CGRectInset(CGRectMake(0, pullViewHeight - PULL_THRESHOLD, CGRectGetWidth(self.frame), PULL_THRESHOLD), 15, 15)];
+    checkmarkView.image = [UIImage imageNamed:BYApsiapeCheckmarkImageName];
+    checkmarkView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.topPullView addSubview:checkmarkView];
+    
+    UIImageView *crossView = [[UIImageView alloc]initWithFrame:CGRectInset(CGRectMake(0, 0, CGRectGetWidth(self.frame), PULL_THRESHOLD), 15, 15)];
+    crossView.image = [UIImage imageNamed:BYApsiapeCrossImageName];
+    crossView.contentMode = UIViewContentModeScaleAspectFit;
+    [self.bottomPullView addSubview:crossView];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -98,15 +100,15 @@
 
 - (void)handleVerticalPullWithOffset:(CGFloat)offset
 {
-    if (offset < - MIN_PULL_VALUE) {
+    if (offset < - PULL_THRESHOLD) {
         if (self.currentPullingEdge == BYEdgeTypeNone) {
             self.currentPullingEdge = BYEdgeTypeTop;
         }
-    } else if (offset > MIN_PULL_VALUE) {
+    } else if (offset > PULL_THRESHOLD) {
         if (self.currentPullingEdge == BYEdgeTypeNone) {
             self.currentPullingEdge = BYEdgeTypeBottom;
         }
-    } else if ((offset < - MIN_PULL_VALUE || offset < MIN_PULL_VALUE)){
+    } else if ((offset < - PULL_THRESHOLD || offset < PULL_THRESHOLD)){
         self.currentPullingEdge = BYEdgeTypeNone;
     }
 }
@@ -115,15 +117,15 @@
 {
     CGFloat lastPageOffset = self.childScrollView.contentSize.width * ((NUMBER_OF_PAGES - 1)/(NUMBER_OF_PAGES));
     
-    if (offset < - MIN_PULL_VALUE) {
+    if (offset < - PULL_THRESHOLD) {
         if (self.currentPullingEdge == BYEdgeTypeNone) {
             self.currentPullingEdge = BYEdgeTypeLeft;
         }
-    } else if (offset > MIN_PULL_VALUE + lastPageOffset) {
+    } else if (offset > PULL_THRESHOLD + lastPageOffset) {
         if (self.currentPullingEdge == BYEdgeTypeNone) {
             self.currentPullingEdge = BYEdgeTypeRight;
         }
-    } else if (offset < -MIN_PULL_VALUE || offset < (MIN_PULL_VALUE + lastPageOffset)){
+    } else if (offset < -PULL_THRESHOLD || offset < (PULL_THRESHOLD + lastPageOffset)){
         self.currentPullingEdge = BYEdgeTypeNone;
     }
 }

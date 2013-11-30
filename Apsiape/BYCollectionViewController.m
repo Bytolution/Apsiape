@@ -92,9 +92,9 @@
     self.deleteButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Light" size:28];
     [self.deleteButton addTarget:self action:@selector(deleteButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
-    self.pullIndicatorView.frame = CGRectMake(0, - PULL_THRESHOLD + 20, 320, PULL_THRESHOLD - 40);
+    self.pullIndicatorView.frame = CGRectMake(0, - PULL_THRESHOLD + 10, 320, PULL_THRESHOLD - 20);
     self.pullIndicatorView.alpha = 0.2;
-    self.pullIndicatorView.image = [UIImage imageNamed:@"Apsiape Shapes_CloseSymbol"];
+    self.pullIndicatorView.image = [UIImage imageNamed:BYApsiapePlusImageName];
     self.pullIndicatorView.contentMode = UIViewContentModeScaleAspectFit;
     
     // Gradient layer background
@@ -141,17 +141,16 @@
 {
     if (self.draggingEndedWithExceededPullThreshold) {
         self.draggingEndedWithExceededPullThreshold = NO;
-        [[NSNotificationCenter defaultCenter] postNotificationName:BYNavigationControllerShouldDisplayExpenseCreationVCNotificationName object:nil];
     }
 }
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
+-(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
     if (self.scrollViewOffsetExceedsPullThreshold) {
+        [UIView animateWithDuration:0.15 animations:^{
+            [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+        } completion:^(BOOL finished) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:BYNavigationControllerShouldDisplayExpenseCreationVCNotificationName object:nil];
+        }];
         self.draggingEndedWithExceededPullThreshold = YES;
-    }
-    if (!decelerate) {
-
     }
 }
 
@@ -185,7 +184,7 @@
 
 - (void)tableView:(UITableView *)tableView willAnimateCellAfterSwipeAtIndexPath:(NSIndexPath *)indexPath toState:(BYTableViewCellState)cellState
 {
-    if (self.cellStates.count <= indexPath.length) [self.cellStates replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithInt:cellState]];
+    if (self.cellStates.count != 0) [self.cellStates replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithInt:cellState]];
     
     if ([self.cellStates containsObject:[NSNumber numberWithInt:BYTableViewCellStateRightSideRevealed]]) {
         [self updateDeleteButtonStateToVisible:YES];
