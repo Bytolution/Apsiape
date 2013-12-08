@@ -25,6 +25,7 @@ FOUNDATION_EXPORT NSString *const BYNavigationControllerShouldDismissPreferences
 FOUNDATION_EXPORT NSString *const BYApsiapeUserPreferredAppLocaleIdentifier;
 
 FOUNDATION_EXPORT NSString *const BYApsiapeArrowImageName;
+FOUNDATION_EXPORT NSString *const BYApsiapeLeftArrowImageName;
 FOUNDATION_EXPORT NSString *const BYApsiapeCameraImageName;
 FOUNDATION_EXPORT NSString *const BYApsiapeCrossImageName;
 FOUNDATION_EXPORT NSString *const BYApsiapePlusImageName;

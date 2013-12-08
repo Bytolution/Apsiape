@@ -44,6 +44,7 @@
     self.childScrollView.contentSize = CGSizeMake(self.frame.size.width * NUMBER_OF_PAGES, self.frame.size.height);
     self.childScrollView.showsHorizontalScrollIndicator = NO;
     self.alwaysBounceVertical = YES;
+    self.childScrollView.bounces = NO;
     [self addSubview:self.childScrollView];
     self.layer.masksToBounds = YES;
     
@@ -65,13 +66,15 @@
     [self.childScrollView addSubview:self.leftPullView];
     
     UIImageView *checkmarkView = [[UIImageView alloc]initWithFrame:CGRectInset(CGRectMake(0, pullViewHeight - PULL_THRESHOLD, CGRectGetWidth(self.frame), PULL_THRESHOLD), 15, 15)];
-    checkmarkView.image = [UIImage imageNamed:BYApsiapeCheckmarkImageName];
+    checkmarkView.image = [[UIImage imageNamed:BYApsiapeCheckmarkImageName]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     checkmarkView.contentMode = UIViewContentModeScaleAspectFit;
+    checkmarkView.tintColor = [UIColor whiteColor];
     [self.topPullView addSubview:checkmarkView];
     
     UIImageView *crossView = [[UIImageView alloc]initWithFrame:CGRectInset(CGRectMake(0, 0, CGRectGetWidth(self.frame), PULL_THRESHOLD), 15, 15)];
-    crossView.image = [UIImage imageNamed:BYApsiapeCrossImageName];
+    crossView.image = [[UIImage imageNamed:BYApsiapeCrossImageName]imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     crossView.contentMode = UIViewContentModeScaleAspectFit;
+    crossView.tintColor = [UIColor whiteColor];
     [self.bottomPullView addSubview:crossView];
 }
 

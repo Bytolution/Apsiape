@@ -66,7 +66,9 @@
        
     self.thumbnailView.frame = CGRectInset(CGRectMake(0, 0, 70 , 70), 8, 8);
     self.thumbnailView.layer.cornerRadius = CGRectGetHeight(self.thumbnailView.frame)/2;
-//    self.thumbnailView.layer.cornerRadius = 10;
+    self.thumbnailView.backgroundColor = [UIColor colorWithWhite:0.6 alpha:0.1];
+    self.thumbnailView.layer.borderColor = [UIColor darkGrayColor].CGColor;
+    self.thumbnailView.layer.borderWidth = 0.5;
     self.thumbnailView.clipsToBounds = YES;
     self.thumbnailView.alpha = 1;
     

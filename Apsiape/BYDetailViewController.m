@@ -14,6 +14,7 @@
 #import "BYStorage.h"
 #import "UIColor+Colours.h"
 #import "BYMapAnnotation.h"
+#import "Constants.h"
 
 @interface BYDetailViewController ()
 
@@ -27,10 +28,12 @@
 @property (nonatomic, strong) UILabel *locationLabel;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
 @property (nonatomic, strong) UIButton *deleteButton;
+@property (nonatomic, strong) UIButton *backButton;
 
 - (void)swipeRecognized:(UISwipeGestureRecognizer*)swipeGestureRecognizer;
 - (void)tapGestureRecognized:(UITapGestureRecognizer*)tapGestureRecognizer;
 - (void)deleteButtonTapped:(UIButton*)button;
+- (void)backButtonTapped:(UIButton*)button;
 
 @end
 
@@ -51,9 +54,11 @@
         if (!self.locationLabel) self.locationLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         if (!self.timeLabel) self.timeLabel = [[UILabel alloc]initWithFrame:CGRectZero];
         if (!self.deleteButton) self.deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        if (!self.backButton) self.backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         //Add subviews + gesture recognizers
         [self.view addSubview:self.amountLabelBackgroundView];
         [self.amountLabelBackgroundView addSubview:self.amountLabel];
+        [self.amountLabelBackgroundView addSubview:self.backButton];
         [self.view insertSubview:self.scrollView belowSubview:self.amountLabelBackgroundView];
         [self.scrollView addSubview:self.imageView];
         [self.scrollView addSubview:self.mapView];
@@ -109,14 +114,19 @@
     self.locationLabel.font = [UIFont fontWithName:@"Helvetica-Oblique" size:16];
     self.locationLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1];
     self.locationLabel.textAlignment = NSTextAlignmentRight;
-    self.locationLabel.text = self.expense.locationString;
+    if (self.expense.locationString) {
+        self.locationLabel.text = self.expense.locationString;
+    } else {
+        self.locationLabel.text = @"- - -";
+    }
     
     self.scrollView.frame = self.view.bounds;
     self.scrollView.contentSize = CGSizeMake(320, 680);
     self.scrollView.contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.amountLabelBackgroundView.frame), 0, 0, 0);
     self.imageView.frame = CGRectMake(INSET_IMAGES, 80, 320 - (2*INSET_IMAGES), 300);
     self.mapView.frame = CGRectMake(INSET_IMAGES, 390, 320 - (2*INSET_IMAGES), 200);
-    self.mapView.userInteractionEnabled = NO;
+    self.mapView.scrollEnabled = NO;
+    self.mapView.zoomEnabled = NO;
     
     self.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@screen.jpg", self.expense.baseFilePath]]];
     self.imageView.backgroundColor = [UIColor lightGrayColor];
@@ -127,6 +137,10 @@
     self.deleteButton.backgroundColor = [UIColor salmonColor];
     self.deleteButton.layer.cornerRadius = 4;
     [self.deleteButton addTarget:self action:@selector(deleteButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.backButton.frame = CGRectMake(10, 20, 40, 40);
+    [self.backButton setImage:[UIImage imageNamed:BYApsiapeLeftArrowImageName] forState:UIControlStateNormal];
+    [self.backButton addTarget:self action:@selector(backButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.scrollView setContentOffset:CGPointMake(0, - self.scrollView.contentInset.top) animated:NO];
     
@@ -144,7 +158,6 @@
         MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:viewRegion];
         [self.mapView setRegion:adjustedRegion animated:NO];
     } else {
-        self.mapView.alpha = 0.2;
         self.tapGestureRecognizer.enabled = NO;
     }
 }
@@ -165,6 +178,11 @@
     [[BYStorage sharedStorage] deleteExpenseObject:self.expense completion:^{
         [self.navigationController popViewControllerAnimated:YES];
     }];
+}
+
+- (void)backButtonTapped:(UIButton *)button
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)swipeRecognized:(UISwipeGestureRecognizer *)swipeGestureRecognizer

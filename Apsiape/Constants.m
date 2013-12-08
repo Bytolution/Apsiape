@@ -18,6 +18,7 @@ NSString *const BYNavigationControllerShouldDismissPreferencesVCNotificationName
 NSString *const BYApsiapeUserPreferredAppLocaleIdentifier = @"BYApsiapeUserPreferredAppLocaleIdentifier";
 
 NSString *const BYApsiapeArrowImageName = @"ApsiapeArt_Arrow.png";
+NSString *const BYApsiapeLeftArrowImageName = @"ApsiapeArt_ArrowLeft.png";
 NSString *const BYApsiapeCameraImageName = @"ApsiapeArt_Camera.png";
 NSString *const BYApsiapeCrossImageName = @"ApsiapeArt_Cross.png";
 NSString *const BYApsiapePlusImageName = @"ApsiapeArt_Plus.png";
