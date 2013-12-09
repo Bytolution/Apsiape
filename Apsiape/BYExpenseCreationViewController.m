@@ -23,6 +23,8 @@
 @property (nonatomic, strong) BYQuickShotView *quickShotView;
 @property (nonatomic, strong) NSMutableString *expenseValueRawString;
 @property (nonatomic, strong) BYCursorLabel *expenseValueLabel;
+@property (nonatomic, strong) UILabel *photoLabel;
+@property (nonatomic, strong) BYPullScrollView *pullScrollView;
 
 - (NSString*)expenseValueCurrencyFormattedString;
 - (NSNumber*)expenseValueDecimalNumber;
@@ -39,37 +41,43 @@
     
     self.view.backgroundColor = [UIColor clearColor];
     
-    BYPullScrollView *pullScrollView = [[BYPullScrollView alloc]initWithFrame:CGRectInset(self.view.bounds, POPOVER_INSET_X, POPOVER_INSET_Y)];
-    pullScrollView.pullScrollViewDelegate = self;
+    self.pullScrollView = [[BYPullScrollView alloc]initWithFrame:CGRectInset(self.view.bounds, POPOVER_INSET_X, POPOVER_INSET_Y)];
+    self.pullScrollView.pullScrollViewDelegate = self;
     
-    pullScrollView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    pullScrollView.layer.borderWidth = 0.5;
+    self.pullScrollView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.pullScrollView.layer.borderWidth = 0.5;
     
-    pullScrollView.backgroundColor = [UIColor whiteColor];
+    self.pullScrollView.backgroundColor = [UIColor whiteColor];
     
-    [self.view addSubview:pullScrollView];
+    [self.view addSubview:self.pullScrollView];
     
     
     self.expenseValueRawString = [[NSMutableString alloc]initWithCapacity:30];
     
-    BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, pullScrollView.frame.size.height - KEYBOARD_HEIGHT, pullScrollView.frame.size.width, KEYBOARD_HEIGHT)];
-    self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 10, pullScrollView.bounds.size.width - 20, 50)];
+    BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.pullScrollView.frame.size.height - KEYBOARD_HEIGHT, self.pullScrollView.frame.size.width, KEYBOARD_HEIGHT)];
+    self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 20, self.pullScrollView.bounds.size.width - 20, 50)];
     self.expenseValueLabel.backgroundColor = [UIColor clearColor];
     self.expenseValueLabel.textColor = [UIColor darkTextColor];
     self.expenseValueLabel.font = [UIFont fontWithName:@"Miso-Light" size:46];
-    [pullScrollView.childScrollView addSubview:self.expenseValueLabel];
+    [self.pullScrollView.childScrollView addSubview:self.expenseValueLabel];
     keyboard.delegate = self;
     keyboard.font = [UIFont fontWithName:@"Miso" size:24];
-    [pullScrollView.childScrollView addSubview:keyboard];
+    [self.pullScrollView.childScrollView addSubview:keyboard];
     
-    CGRect rect = CGRectInset(pullScrollView.bounds, 0, ((pullScrollView.frame.size.height - pullScrollView.frame.size.width) / 2));
-    rect.origin.x = (pullScrollView.frame.size.width);
+    CGRect rect = CGRectInset(self.pullScrollView.bounds, 0, ((self.pullScrollView.frame.size.height - self.pullScrollView.frame.size.width) / 2));
+    rect.origin.x = (self.pullScrollView.frame.size.width);
+    
+    self.photoLabel = [[UILabel alloc]initWithFrame:CGRectMake(10 + CGRectGetWidth(self.pullScrollView.frame), 20, (CGRectGetWidth(self.pullScrollView.frame)) - 20, 50)];
+    self.photoLabel.font = [UIFont fontWithName:@"Miso-Light" size:46];
+    self.photoLabel.text = @"Tap to add photo";
+    self.photoLabel.textAlignment = NSTextAlignmentCenter;
+    [self.pullScrollView.childScrollView addSubview:self.photoLabel];
     
     self.quickShotView = [[BYQuickShotView alloc]initWithFrame:CGRectInset(rect, 0, 0)];
     self.quickShotView.delegate = self;
-    [pullScrollView.childScrollView addSubview:self.quickShotView];
-    pullScrollView.childScrollView.backgroundColor = [UIColor clearColor];
-    rect.origin.x = (pullScrollView.frame.size.width * 2);
+    [self.pullScrollView.childScrollView addSubview:self.quickShotView];
+    self.pullScrollView.childScrollView.backgroundColor = [UIColor clearColor];
+    rect.origin.x = (self.pullScrollView.frame.size.width * 2);
 }
 
 #pragma mark Text Input Handling
@@ -139,12 +147,12 @@
 
 - (void)quickShotView:(BYQuickShotView *)quickShotView didTakeSnapshot:(UIImage *)img
 {
-    
+    self.photoLabel.text = @"Tap to retake";
 }
 
 - (void)quickShotViewDidDiscardLastImage:(BYQuickShotView *)quickShotView
 {
-    
+    self.photoLabel.text = @"Tap to add photo";
 }
 
 @end
