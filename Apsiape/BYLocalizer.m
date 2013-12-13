@@ -50,7 +50,7 @@
                 completionHandler(addressPlacemark.addressDictionary[@"Country"]);
             }
         } else {
-            NSLog(@"%@", error);
+//            NSLog(@"%@", error);
         }
     }];
 }

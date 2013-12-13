@@ -48,6 +48,8 @@
     CGContextRelease(bitmap);
     CGImageRelease(newImageRef);
     CGImageRelease(imageRef);
+    UIGraphicsEndImageContext();
+    
     
     return newImage;
 }

@@ -55,10 +55,10 @@
     self.expenseValueRawString = [[NSMutableString alloc]initWithCapacity:30];
     
     BYExpenseKeyboard *keyboard = [[BYExpenseKeyboard alloc]initWithFrame:CGRectMake(0, self.pullScrollView.frame.size.height - KEYBOARD_HEIGHT, self.pullScrollView.frame.size.width, KEYBOARD_HEIGHT)];
-    self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 20, self.pullScrollView.bounds.size.width - 20, 50)];
+    self.expenseValueLabel = [[BYCursorLabel alloc]initWithFrame:CGRectMake(10, 10, self.pullScrollView.bounds.size.width - 20, 50)];
     self.expenseValueLabel.backgroundColor = [UIColor clearColor];
     self.expenseValueLabel.textColor = [UIColor darkTextColor];
-    self.expenseValueLabel.font = [UIFont fontWithName:@"Miso-Light" size:46];
+    self.expenseValueLabel.font = [UIFont fontWithName:@"Miso-Light" size:40];
     [self.pullScrollView.childScrollView addSubview:self.expenseValueLabel];
     keyboard.delegate = self;
     keyboard.font = [UIFont fontWithName:@"Miso" size:24];
@@ -67,8 +67,8 @@
     CGRect rect = CGRectInset(self.pullScrollView.bounds, 0, ((self.pullScrollView.frame.size.height - self.pullScrollView.frame.size.width) / 2));
     rect.origin.x = (self.pullScrollView.frame.size.width);
     
-    self.photoLabel = [[UILabel alloc]initWithFrame:CGRectMake(10 + CGRectGetWidth(self.pullScrollView.frame), 20, (CGRectGetWidth(self.pullScrollView.frame)) - 20, 50)];
-    self.photoLabel.font = [UIFont fontWithName:@"Miso-Light" size:46];
+    self.photoLabel = [[UILabel alloc]initWithFrame:CGRectMake(10 + CGRectGetWidth(self.pullScrollView.frame), 10, (CGRectGetWidth(self.pullScrollView.frame)) - 20, 50)];
+    self.photoLabel.font = [UIFont fontWithName:@"Miso-Light" size:40];
     self.photoLabel.text = @"Tap to add photo";
     self.photoLabel.textAlignment = NSTextAlignmentCenter;
     [self.pullScrollView.childScrollView addSubview:self.photoLabel];

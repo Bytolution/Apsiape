@@ -142,7 +142,7 @@
                }
                [self animateFlash];
            } else if (error) {
-               NSLog(@"%@", error.description);
+//               NSLog(@"%@", error.description);
            }
        }];
     }
@@ -163,7 +163,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"%s", __PRETTY_FUNCTION__);
+//    NSLog(@"%s", __PRETTY_FUNCTION__);
     self.imagePreView = nil;
     self.fullResCapturedImage = nil;
 }

@@ -19,6 +19,8 @@
 
 - (void)createOnLaunchSwitchToggled:(UISwitch*)createOnLaunchSwitch;
 
+- (void)openMailApp;
+
 @end
 
 @implementation BYPreferencesViewController
@@ -63,7 +65,7 @@
 #pragma mark - UITableView implementation
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 3;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -88,6 +90,8 @@
         case 1:
             return @"Apsiape will determine the current locale using location services. You can also set it manually.";
             break;
+        case 2:
+            return @"Apsiape is open-source and availible on GitHub";
         default:
             return Nil;
             break;
@@ -95,11 +99,24 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellIdentifier = @"CELL_ID";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    NSString *cellIdentifier = @"CELL_ID";
+    
+    if (indexPath.section == 2) {
+        cellIdentifier = @"CELL_ID_ACTION";
+    } else {
+        cellIdentifier = @"CELL_ID_SELECTION";
     }
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    if (!cell) {
+        if (indexPath.section == 2) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        } else {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        }
+    }
+    
     cell.textLabel.text = @"UITableViewCell";
     cell.textLabel.backgroundColor = [UIColor clearColor];
     
@@ -111,11 +128,31 @@
                     [self.createOnLaunchSwitch addTarget:self action:@selector(createOnLaunchSwitchToggled:) forControlEvents:UIControlEventValueChanged];
                     cell.accessoryView = self.createOnLaunchSwitch;
                     break;
+                default:
+                    break;
             }
             break;
         case 1:
-            cell.textLabel.text = @"Preferred Currency";
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            switch (indexPath.row) {
+                case 0:
+                    cell.textLabel.text = @"Preferred Currency";
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case 2:
+            switch (indexPath.row) {
+                case 0:
+                    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+                    cell.textLabel.text = @"Contact Support";
+                    cell.backgroundColor = [UIColor robinEggColor];
+                    break;
+                default:
+                    break;
+            }
+            break;
         default:
             break;
     }
@@ -125,8 +162,39 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-    [self.navigationController pushViewController:[[BYLocalePickerViewController alloc]init] animated:YES];
+    switch (indexPath.section) {
+        case 0:
+            switch (indexPath.row) {
+                case 0:
+                    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case 1:
+            switch (indexPath.row) {
+                case 0:
+                    [self.navigationController pushViewController:[[BYLocalePickerViewController alloc]init] animated:YES];
+                    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+                    break;
+                default:
+                    break;
+            }
+            break;
+        case 2:
+            switch (indexPath.row) {
+                case 0:
+                    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+                    [self openMailApp];
+                    break;
+                default:
+                    break;
+            }
+            break;
+        default:
+            break;
+    }
 }
 
 #pragma mark Button state change handling
@@ -134,6 +202,25 @@
 - (void)createOnLaunchSwitchToggled:(UISwitch *)createOnLaunchSwitch
 {
     [[NSUserDefaults standardUserDefaults] setBool:createOnLaunchSwitch.on forKey:BYApsiapeCreateOnLaunchPreferenceKey];
+}
+
+#pragma mark Open Mail App
+
+- (void)openMailApp
+{
+    /* create mail subject */
+    NSString *subject = [NSString stringWithFormat:@"Support Request"];
+    
+    /* define email address */
+    NSString *mail = [NSString stringWithFormat:@"support@bytolution.com"];
+    
+    /* create the URL */
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"mailto:?to=%@&subject=%@",
+                                                [mail stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+                                                [subject stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]]];
+    
+    /* load the URL */
+    [[UIApplication sharedApplication] openURL:url];
 }
 
 @end

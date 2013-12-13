@@ -23,12 +23,14 @@
 @property (nonatomic, strong) NSMutableArray *cellStates;
 @property (nonatomic, strong) UIButton *deleteButton;
 @property (nonatomic, strong) UIImageView *pullIndicatorView;
+@property (nonatomic, strong) UILabel *infoLabel;
 @property (nonatomic, readwrite) BOOL scrollViewOffsetExceedsPullThreshold;
 @property (nonatomic, readwrite) BOOL draggingEndedWithExceededPullThreshold;
 
 - (void)updateTableViewData;
 - (void)updateDeleteButtonStateToVisible:(BOOL)visible;
 - (void)deleteButtonTapped:(UIButton*)button;
+- (void)checkForInfoLabelState;
 
 @end
 
@@ -51,7 +53,6 @@
         self.tableView.separatorColor = [UIColor darkGrayColor];
         self.tableView.separatorInset = UIEdgeInsetsMake(0, CELL_SEPERATOR_INSET, 0, CELL_SEPERATOR_INSET);
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.tableView.backgroundView = [[UIView alloc]init];
         [self.view addSubview:self.tableView];
         [self.view addSubview:self.deleteButton];
         [self.tableView addSubview:self.pullIndicatorView];
@@ -75,6 +76,9 @@
     for (int i = 0; i < self.tableViewData.count; i++) {
         [self.cellStates addObject:[NSNumber numberWithInt:BYTableViewCellStateDefault]];
     }
+    
+    [self checkForInfoLabelState];
+    
     [self.tableView reloadData];
 }
 
@@ -86,6 +90,15 @@
     self.tableView.frame = self.view.bounds;
     
     self.navigationController.navigationBarHidden = YES;
+    
+    if (!self.infoLabel.superview) {
+        self.infoLabel = [[UILabel alloc]initWithFrame:self.view.bounds];
+        self.infoLabel.text = [NSString stringWithFormat:@"Pull to create \n Shake to access settings"];
+        self.infoLabel.numberOfLines = 2;
+        self.infoLabel.font = [UIFont fontWithName:@"Avenir-Light" size:24];
+        self.infoLabel.textAlignment = NSTextAlignmentCenter;
+        [self.view addSubview:self.infoLabel];
+    }
     
     self.deleteButton.frame = CGRectMake(0, CGRectGetHeight(self.view.frame), CGRectGetWidth(self.view.frame), 60);
     [self.deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
@@ -106,6 +119,14 @@
 //    [self.tableView.backgroundView.layer addSublayer:gradLayer];
 }
 
+- (void)checkForInfoLabelState
+{
+    if (self.tableViewData.count == 0) {
+        self.infoLabel.alpha = 1;
+    } else {
+        self.infoLabel.alpha = 0;
+    }
+}
 
 #pragma mark - Table View
 
@@ -230,6 +251,7 @@
     [self.tableViewData removeObjectsAtIndexes:deletionIndexSet];
     [self.cellStates removeObjectsAtIndexes:deletionIndexSet];
     [self.tableView deleteRowsAtIndexPaths:deletionIndexesForCollectionView withRowAnimation:UITableViewRowAnimationLeft];
+    [self checkForInfoLabelState];
     [[BYStorage sharedStorage] saveDocument];
     [self updateDeleteButtonStateToVisible:NO];
 }

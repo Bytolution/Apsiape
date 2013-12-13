@@ -115,10 +115,10 @@
     
     if (fullResImg) {
         [self writeImageToDisk:fullResImg forBasePath:basePath completion:^(BOOL success){
-            NSLog(@"Files %@saved to disk", success ? @"" : @"not ");
+//            NSLog(@"Files %@saved to disk", success ? @"" : @"not ");
             filesSaved = YES;
             [[NSNotificationCenter defaultCenter]postNotificationName:@"BYStorageContentChangedNotification" object:nil];
-            NSLog(@"images");
+//            NSLog(@"images");
             if (locationStringDetermined) {
                 completionHandler(YES);
                 [self saveDocument];
@@ -131,7 +131,7 @@
                 newExpense.locationString = infoString;
                 locationStringDetermined = YES;
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"BYStorageContentChangedNotification" object:nil];
-                NSLog(@"location");
+//                NSLog(@"location");
                 if (filesSaved) {
                     completionHandler(YES);
                     [self saveDocument];

@@ -32,6 +32,7 @@
         UIGraphicsBeginImageContextWithOptions(fromView.bounds.size, YES, 0);
         [fromView drawViewHierarchyInRect:containerView.bounds afterScreenUpdates:NO];
         UIImage *snapshotForBlur = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
         
         self.blurBGView = [[UIImageView alloc]initWithImage:[snapshotForBlur applyBlurWithRadius:6 tintColor:[UIColor colorWithWhite:0.6 alpha:0.6] saturationDeltaFactor:1.8 maskImage:nil]];
         self.blurBGView.frame = fromView.frame;
