@@ -276,7 +276,7 @@
 		A35FB72317B036E200447747 /* PreferencesView */ = {
 			isa = PBXGroup;
 			children = (
-				A3F5C9361826E5DB00E3B12F /* Helpers (don' touch) */,
+				A3F5C9361826E5DB00E3B12F /* Helpers (don't touch) */,
 				A35FB71F17B036AC00447747 /* BYPreferencesViewController.h */,
 				A35FB72017B036AC00447747 /* BYPreferencesViewController.m */,
 				A3A47B881834EF0A000516DF /* BYLocalePickerViewController.h */,
@@ -396,7 +396,7 @@
 			path = Apsiape;
 			sourceTree = "<group>";
 		};
-		A3F5C9361826E5DB00E3B12F /* Helpers (don' touch) */ = {
+		A3F5C9361826E5DB00E3B12F /* Helpers (don't touch) */ = {
 			isa = PBXGroup;
 			children = (
 				A3F5C9301826DEC600E3B12F /* BYNavigationContainerController.h */,
@@ -404,7 +404,7 @@
 				A3F5C9331826E06400E3B12F /* BYPreferencesNavigationController.h */,
 				A3F5C9341826E06400E3B12F /* BYPreferencesNavigationController.m */,
 			);
-			name = "Helpers (don' touch)";
+			name = "Helpers (don't touch)";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

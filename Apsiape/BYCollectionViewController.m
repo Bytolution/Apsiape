@@ -46,7 +46,6 @@
         if (!self.tableView) self.tableView = [[BYGestureTableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
         if (!self.deleteButton) self.deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
         if (!self.pullIndicatorView) self.pullIndicatorView = [[UIImageView alloc]init];
-        self.deleteButton.backgroundColor = [UIColor colorWithRed:1 green:0.4 blue:0.35 alpha:1];
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         self.tableView.contentInset = UIEdgeInsetsMake(CELL_INSET_Y, 0, CELL_INSET_Y, 0);
@@ -104,6 +103,7 @@
     [self.deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
     self.deleteButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Light" size:28];
     [self.deleteButton addTarget:self action:@selector(deleteButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    self.deleteButton.backgroundColor = [UIColor salmonColor];
     
     self.pullIndicatorView.frame = CGRectMake(0, - PULL_THRESHOLD + 10, 320, PULL_THRESHOLD - 20);
     self.pullIndicatorView.alpha = 0.2;
