@@ -14,9 +14,6 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *tableViewData;
 
-- (NSString*)preferredCurrencyCode;
-- (void)setPreferredCurrencyCode:(NSString*)preferredCurrencyCode;
-
 - (void)reloadTableView;
 
 @end
