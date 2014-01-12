@@ -18,7 +18,7 @@
 		A307E82716DE8A0D00C9425A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A307E82616DE8A0D00C9425A /* Default@2x.png */; };
 		A307E82916DE8A0D00C9425A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A307E82816DE8A0D00C9425A /* Default-568h@2x.png */; };
 		A30D358E1812DC2B007354CF /* BYGestureTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A30D358D1812DC2B007354CF /* BYGestureTableView.m */; };
-		A310311E16E3E37C00B163DC /* BYCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311C16E3E37C00B163DC /* BYCollectionViewController.m */; };
+		A310311E16E3E37C00B163DC /* BYTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A310311C16E3E37C00B163DC /* BYTableViewController.m */; };
 		A312B17B181C341800C6ABC6 /* BYDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A312B179181C341800C6ABC6 /* BYDetailViewController.m */; };
 		A314EF491821820F00830E3B /* UIColor+Colours.m in Sources */ = {isa = PBXBuildFile; fileRef = A314EF481821820F00830E3B /* UIColor+Colours.m */; };
 		A31AD5D51849506F00FF1F82 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A31AD5D41849506F00FF1F82 /* Images.xcassets */; };
@@ -80,8 +80,8 @@
 		A307E82816DE8A0D00C9425A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		A30D358C1812DC2B007354CF /* BYGestureTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYGestureTableView.h; sourceTree = "<group>"; };
 		A30D358D1812DC2B007354CF /* BYGestureTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYGestureTableView.m; sourceTree = "<group>"; };
-		A310311B16E3E37C00B163DC /* BYCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYCollectionViewController.h; sourceTree = "<group>"; };
-		A310311C16E3E37C00B163DC /* BYCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYCollectionViewController.m; sourceTree = "<group>"; };
+		A310311B16E3E37C00B163DC /* BYTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYTableViewController.h; sourceTree = "<group>"; };
+		A310311C16E3E37C00B163DC /* BYTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYTableViewController.m; sourceTree = "<group>"; };
 		A312B178181C341800C6ABC6 /* BYDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BYDetailViewController.h; sourceTree = "<group>"; };
 		A312B179181C341800C6ABC6 /* BYDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BYDetailViewController.m; sourceTree = "<group>"; };
 		A314EF471821820F00830E3B /* UIColor+Colours.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Colours.h"; sourceTree = "<group>"; };
@@ -312,8 +312,8 @@
 		A37526DC16F5201D0079C94A /* Main View */ = {
 			isa = PBXGroup;
 			children = (
-				A310311B16E3E37C00B163DC /* BYCollectionViewController.h */,
-				A310311C16E3E37C00B163DC /* BYCollectionViewController.m */,
+				A310311B16E3E37C00B163DC /* BYTableViewController.h */,
+				A310311C16E3E37C00B163DC /* BYTableViewController.m */,
 				A33BB700181F0AD800D7CB9E /* tableView */,
 			);
 			name = "Main View";
@@ -499,7 +499,7 @@
 				A3832F0C16E0F6F800D64DC1 /* ApsiapeDataModel.xcdatamodeld in Sources */,
 				A30D358E1812DC2B007354CF /* BYGestureTableView.m in Sources */,
 				A3A47B8A1834EF0A000516DF /* BYLocalePickerViewController.m in Sources */,
-				A310311E16E3E37C00B163DC /* BYCollectionViewController.m in Sources */,
+				A310311E16E3E37C00B163DC /* BYTableViewController.m in Sources */,
 				A3CC160B17C41020002BFD86 /* UIImage+ImageEffects.m in Sources */,
 				A34BCDC218282C2A006B92AB /* Constants.m in Sources */,
 				A3DAA96516F778CC00C22671 /* BYStorage.m in Sources */,

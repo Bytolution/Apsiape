@@ -1,5 +1,5 @@
 //
-//  BYCollectionViewController.h
+//  BYTableViewController.h
 //  Apsiape
 //
 //  Created by Dario Lass on 03.03.13.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BYCollectionViewController : UIViewController
+@interface BYTableViewController : UIViewController
 
 
 

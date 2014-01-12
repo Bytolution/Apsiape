@@ -1,7 +1,7 @@
 
 #import "BYAppDelegate.h"
 #import "BYNavigationController.h"
-#import "BYCollectionViewController.h"
+#import "BYTableViewController.h"
 #import "BYStorage.h"
 #import "Constants.h"
 
@@ -13,7 +13,7 @@
     // Override point for customization after application launch.
     [BYStorage sharedStorage];
     
-    self.window.rootViewController = [[BYNavigationController alloc]initWithRootViewController:[[BYCollectionViewController alloc]initWithNibName:nil bundle:nil]];
+    self.window.rootViewController = [[BYNavigationController alloc]initWithRootViewController:[[BYTableViewController alloc]initWithNibName:nil bundle:nil]];
     [application setStatusBarHidden:YES withAnimation:UIStatusBarAnimationNone];
     [application setStatusBarStyle:UIStatusBarStyleDefault];
     self.window.backgroundColor = [UIColor darkGrayColor];

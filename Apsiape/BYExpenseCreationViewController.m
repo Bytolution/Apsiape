@@ -15,7 +15,7 @@
 #import "BYStorage.h"
 #import "BYCursorLabel.h"
 #import "BYPullScrollView.h"
-#import "BYCollectionViewController.h"
+#import "BYTableViewController.h"
 #import "BYLocalizer.h"
 
 @interface BYExpenseCreationViewController () <BYQuickShotViewDelegate, BYExpenseKeyboardDelegate, BYPullScrollViewDelegate>

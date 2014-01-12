@@ -1,5 +1,5 @@
 //
-//  BYCollectionViewController.m
+//  BYTableViewController.m
 //  Apsiape
 //
 //  Created by Dario Lass on 03.03.13.
@@ -9,14 +9,14 @@
 #import <CoreData/CoreData.h>
 #import <QuartzCore/QuartzCore.h>
 #import "Constants.h"
-#import "BYCollectionViewController.h"
+#import "BYTableViewController.h"
 #import "BYStorage.h"
 #import "Expense.h"
 #import "BYTableViewCell.h"
 #import "BYDetailViewController.h"
 #import "BYGestureTableView.h"
 
-@interface BYCollectionViewController () <UIScrollViewDelegate, UIViewControllerTransitioningDelegate, UITableViewDataSource, BYGestureTableViewDelegate, UIGestureRecognizerDelegate>
+@interface BYTableViewController () <UIScrollViewDelegate, UIViewControllerTransitioningDelegate, UITableViewDataSource, BYGestureTableViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *tableViewData;
 @property (nonatomic, strong) BYGestureTableView *tableView;
@@ -34,7 +34,7 @@
 
 @end
 
-@implementation BYCollectionViewController
+@implementation BYTableViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
